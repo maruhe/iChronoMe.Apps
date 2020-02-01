@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?> 
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <!-- color of spaces not covered by the image -->
+    <color android:color="#FFFFFFFF" />
+  </item>
+  <item>
+    <!-- place the image in the center of the screen -->
+    <text android:text="wo is die Sonne?" android:gravity="center" android:layout_gravity="center" />
+  </item>
+</layer-list>

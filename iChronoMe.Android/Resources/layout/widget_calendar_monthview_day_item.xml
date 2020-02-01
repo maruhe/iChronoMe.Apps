@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_layout"   
+    android:layout_width="0.0dip" 
+    android:layout_height="fill_parent" 
+    android:layout_weight="1.0" 
+    android:contentDescription="@null">
+
+    <ImageView 
+        android:id="@+id/background_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/event_icons"
+        android:gravity="center"        
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+    <LinearLayout
+        android:id="@+id/event_icons_right"
+        android:gravity="center_vertical|right"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:paddingRight="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/event_icons_vert"
+        android:gravity="center"        
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+
+    <TextView
+        android:id="@+id/item_event1"
+        android:text="TestEvent1"
+        android:maxLines="1"
+        android:ellipsize="none"
+        android:layout_marginLeft="2dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_alignParentBottom="true"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_event2"
+        android:text="ggTestEvent2"
+        android:maxLines="1"
+        android:ellipsize="none"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_above="@id/item_event1"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_event3"
+        android:text="TestEvent3"
+        android:maxLines="1"
+        android:ellipsize="none"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_above="@id/item_event2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_event4"
+        android:text="TestEvent4"
+        android:maxLines="1"
+        android:ellipsize="none"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_above="@id/item_event3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_event5"
+        android:text="TestEvent5"
+        android:maxLines="1"
+        android:ellipsize="none"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_above="@id/item_event4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_event6"
+        android:text="TestEvent6"
+        android:maxLines="1"
+        android:ellipsize="none"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_above="@id/item_event5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_day_nr"
+        android:text="88"
+        android:maxLines="1"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="-2dp"
+        android:paddingTop="2dp"
+        android:layout_alignParentLeft="true"      
+        android:layout_alignParentTop="true"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_day_nr_topcenter"
+        android:text="88"
+        android:maxLines="1"
+        android:layout_marginTop="-2dp"
+        android:paddingTop="2dp"
+        android:layout_alignParentTop="true"      
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_day_nr_center"
+        android:text="88"
+        android:maxLines="1"
+        android:layout_marginTop="-2dp"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/item_day_info"
+        android:text=" "
+        android:maxLines="1"
+        android:textSize="10dp"
+        android:layout_marginRight ="2dp"
+        android:layout_marginTop="-2dp"
+        android:paddingTop="2dp"
+        android:layout_alignParentRight="true"      
+        android:layout_alignParentTop="true"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_event_info"
+        android:text=" "
+        android:maxLines="1"
+        android:textSize="10dp"
+        android:layout_marginRight ="2dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"      
+        android:layout_alignParentTop="true"      
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

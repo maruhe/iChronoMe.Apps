@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dip"
+    android:minHeight="110dip"
+    android:minResizeWidth="10dp"
+    android:minResizeHeight="10dp"
+    android:updatePeriodMillis="1800000"
+    android:resizeMode="horizontal|vertical"
+    android:configure="me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"
+    android:initialLayout="@layout/widget_clock_init"
+    android:previewImage="@drawable/widgetprev_clock_analog" />

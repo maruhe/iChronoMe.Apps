@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <shortcut
+    android:shortcutId="create_calender_event"
+    android:enabled="true"
+    android:icon="@drawable/icons8_calendar_plus"
+    android:shortcutShortLabel="@string/shortcut_create_calender_event"
+    android:shortcutLongLabel="@string/shortcut_create_calender_event_long"
+    android:shortcutDisabledMessage="@string/shortcut_create_calender_event_disabled">
+    <intent
+      android:action="android.intent.action.VIEW"
+      android:targetPackage="me.ichrono.droid"
+      android:targetClass="me.ichrono.droid.ShortCutActivity">
+
+        <extra android:name="shortcut" android:value="create_calender_event" />
+      </intent>
+    <categories android:name="timeToTimeTools" />
+  </shortcut>
+
+  <shortcut
+    android:shortcutId="create_alarm"
+    android:enabled="true"
+    android:icon="@drawable/icons8_alarm_clock"
+    android:shortcutShortLabel="@string/shortcut_create_alarm"
+    android:shortcutLongLabel="@string/shortcut_create_alarm_long"
+    android:shortcutDisabledMessage="@string/shortcut_create_alarm_disabled">
+    <intent
+      android:action="android.intent.action.VIEW"
+      android:targetPackage="me.ichrono.droid"
+      android:targetClass="me.ichrono.droid.ShortCutActivity">
+      <extra android:name="shortcut" android:value="create_alarm" />
+    </intent>
+    <categories android:name="timeToTimeTools" />
+  </shortcut>
+
+</shortcuts>

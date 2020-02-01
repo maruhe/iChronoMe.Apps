@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="100dp"
+    android:minHeight="40dp"
+    android:minResizeWidth="10dp"
+    android:minResizeHeight="10dp"
+    android:updatePeriodMillis="1800000"
+    android:resizeMode="horizontal|vertical"    
+    android:configure="me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity"
+    android:initialLayout="@layout/widget_lifetime"
+    android:previewImage="@drawable/widgetprev_lifetime" />
