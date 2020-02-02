@@ -186,25 +186,25 @@ namespace iChronoMe.Droid.GUI.Calendar
             item.SetOnMenuItemClickListener(this);
 
             var sub = menu.AddSubMenu(0, 0, 100, "TimeType");
-            sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, calEvents.locationTimeHolder));
+            sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance));
             sub.Item.SetShowAsAction(ShowAsAction.Always);
 
             if (calEvents.timeType != TimeType.RealSunTime)
             {
                 item = sub.Add(0, menu_typetype_RealSunTime, 0, "RealSunTime");
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, calEvents.locationTimeHolder));
+                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
             if (calEvents.timeType != TimeType.MiddleSunTime)
             {
                 item = sub.Add(0, menu_typetype_MiddleSunTime, 0, "MiddleSunTime");
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, calEvents.locationTimeHolder));
+                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
             if (calEvents.timeType != TimeType.TimeZoneTime)
             {
                 item = sub.Add(0, menu_typetype_TimeZoneTime, 0, "TimeZoneTime");
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, calEvents.locationTimeHolder));
+                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
 #if DEBUG

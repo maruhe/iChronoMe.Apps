@@ -19,11 +19,9 @@ namespace iChronoMe.Droid.Adapters
     {
         List<SimpleObject> items;
         Activity context;
-        LocationTimeHolder lth;
 
         public TimeTypeAdapter(Activity context) : base()
         {
-            lth = new LocationTimeHolder(0, 0, false);
             this.items = new List<SimpleObject>();
             this.items.Add(new SimpleObject() { Tag = TimeType.RealSunTime, Title1 = context.Resources.GetString(Resource.String.TimeType_RealSunTime), Description1 = context.Resources.GetString(Resource.String.TimeType_RealSunTime_Desc) });
             this.items.Add(new SimpleObject() { Tag = TimeType.MiddleSunTime, Title1 = context.Resources.GetString(Resource.String.TimeType_MiddleSunTime), Description1 = context.Resources.GetString(Resource.String.TimeType_MiddleSunTime_Desc) });
@@ -64,7 +62,7 @@ namespace iChronoMe.Droid.Adapters
                 convertView = context.LayoutInflater.Inflate(Resource.Layout.listitem_title_detail, null);
             }
 
-            convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag, lth));
+            convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
             convertView.FindViewById<TextView>(Resource.Id.description).Text = item.Description1;
 

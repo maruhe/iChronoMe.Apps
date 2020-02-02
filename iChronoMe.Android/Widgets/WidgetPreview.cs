@@ -448,7 +448,7 @@ namespace iChronoMe.Droid.Widgets
                     {
                         WidgetView_ClockAnalog wv = new WidgetView_ClockAnalog();
                         wv.ReadConfig((WidgetCfg_ClockAnalog)cfg);
-                        bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Now, iWidthPx, iHeightPx));
+                        bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx));
                     }
                 }
                 else if (cfg is WidgetCfg_Calendar)

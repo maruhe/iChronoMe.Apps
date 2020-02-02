@@ -209,28 +209,25 @@ namespace iChronoMe.Droid.Widgets.Calendar
                             if (extEvent.GotCorrectPosition)
                             {
                                 clPosInfo = cfg.ColorEventLocationOffsetText.ToAndroid();
-                                TimeSpan tsDiff = LocationTimeHolder.GetUTCGeoLngDiff(extEvent.Longitude - myEvents.locationTimeHolder.Longitude);
+                                TimeSpan tsDiff = LocationTimeHolder.GetUTCGeoLngDiff(extEvent.Longitude - sys.lastUserLocation.Longitude);
                                 string cDiffDirection = tsDiff.TotalMilliseconds > 0 ? "+" : "-";
                                 if (tsDiff.TotalMilliseconds < 0)
                                     tsDiff = TimeSpan.FromMilliseconds(tsDiff.TotalMilliseconds * -1);
 
-                                if (tsDiff.TotalSeconds < 5)
-                                    cPosInfo = "Du bist hier :-) ";
-                                else if (tsDiff.TotalSeconds < 15)
-                                    cPosInfo = "Deine Zeit ist praktisch hier :-) ";
-                                else
-                                {
-                                    cPosInfo = cDiffDirection;
-                                    if (tsDiff.TotalMilliseconds < 0)
-                                        tsDiff = TimeSpan.FromMilliseconds(tsDiff.TotalMilliseconds * -1);
+                                cPosInfo = cDiffDirection;
+                                if (tsDiff.TotalMilliseconds < 0)
+                                    tsDiff = TimeSpan.FromMilliseconds(tsDiff.TotalMilliseconds * -1);
 
-                                    if (tsDiff.TotalHours > 1)
-                                        cPosInfo += ((int)tsDiff.TotalHours).ToString() + ":" + tsDiff.Minutes.ToString("00") + "h";
-                                    else
-                                        cPosInfo += ((int)tsDiff.TotalMinutes).ToString() + ":" + tsDiff.Seconds.ToString("00") + "min";
-                                    cPosInfo = cPosInfo.Trim();
-                                    cPosInfo += ", ";
-                                }
+                                if (tsDiff.TotalHours > 1)
+                                    cPosInfo += ((int)tsDiff.TotalHours).ToString() + ":" + tsDiff.Minutes.ToString("00") + "h";
+                                else if (tsDiff.TotalMinutes > 1)
+                                    cPosInfo += ((int)tsDiff.TotalHours).ToString() + ":" + tsDiff.Minutes.ToString("00") + "h";
+                                else if (tsDiff.TotalSeconds > 3)
+                                    cPosInfo += tsDiff.Seconds.ToString("00") + "sec";
+                                else
+                                    cPosInfo += ":-)";
+                                cPosInfo = cPosInfo.Trim();
+                                cPosInfo += ", ";
 
                                 if (IsRealWidget)
                                 {
@@ -459,9 +456,10 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                 Location mLoc = null;
                 try { mLoc = Geolocation.GetLastKnownLocationAsync().Result; } catch { }
-                if (mLoc == null)
-                    mLoc = new Location(0, 0);
-                myEvents.locationTimeHolder.ChangePosition(mLoc.Latitude, mLoc.Longitude);
+                if (mLoc != null)
+                    sys.lastUserLocation = mLoc;
+                else
+                    mLoc = sys.lastUserLocation;
 
                 string cCalendarFilter = "";
                 if (!cfg.ShowAllCalendars)
@@ -474,7 +472,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                 myEvents.DoLoadCalendarEventsGrouped(DateTime.Now, DateTime.Today.AddDays(cfg.MaxFutureDays+1)).Wait();
 
-                if (myEvents.locationTimeHolder.Latitude == 0 && myEvents.locationTimeHolder.Longitude == 0)
+                if (mLoc.Latitude == 0 && mLoc.Longitude == 0)
                     myEvents.AllDatesAndEvents.Insert(0, "aktuelle Position unbekannt!");
                 else if (mLoc.Timestamp.AddHours(1) < DateTime.Now)
                     myEvents.AllDatesAndEvents.Insert(0, "aktuelle Position veraltet!");

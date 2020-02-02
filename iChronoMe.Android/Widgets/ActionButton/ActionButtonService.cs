@@ -50,7 +50,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
         }
 
         static Dictionary<int, Thread> RunningTaskS = new Dictionary<int, Thread>();
-        public static LocationTimeHolder lth = new LocationTimeHolder(0, 0);
+        public static LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
 
         protected override void OnHandleWork(Intent intent)
         {
@@ -63,12 +63,6 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             int[] appWidgetIDs = intent.GetIntArrayExtra("appWidgetIds");
             if (appWidgetIDs == null || appWidgetIDs.Length < 1)
                 appWidgetIDs = appWidgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
-
-            Location mLoc = null;
-            try { mLoc = Geolocation.GetLastKnownLocationAsync().Result; } catch { }
-            if (mLoc == null)
-                mLoc = new Location(0, 0);
-            lth.ChangePosition(mLoc.Latitude, mLoc.Longitude, false);
 
             foreach (int iWidgetId in appWidgetIDs)
             {

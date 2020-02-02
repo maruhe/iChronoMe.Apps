@@ -53,11 +53,6 @@ namespace iChronoMe.Droid.Widgets.Calendar
         {
             if (myEvents == null)
                 myEvents = new EventCollection();
-            Location mLoc = null;
-            try { mLoc = Geolocation.GetLastKnownLocationAsync().Result; } catch { }
-            if (mLoc == null)
-                mLoc = new Location(0, 0);
-            myEvents.locationTimeHolder.ChangePosition(mLoc.Latitude, mLoc.Longitude, false);
         }
 
         static Dictionary<int, Thread> RunningTaskS = new Dictionary<int, Thread>();
@@ -123,12 +118,6 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                 //lock (calendarsImpl)
                 {
-                    Location mLoc = null;
-                    try { mLoc = Geolocation.GetLastKnownLocationAsync().Result; } catch { }
-                    if (mLoc == null)
-                        mLoc = new Location(0, 0);
-                    myEvents.locationTimeHolder.ChangePosition(mLoc.Latitude, mLoc.Longitude, false);
-
                     foreach (int iWidgetId in appWidgetIDs)
                     {
                         try
@@ -375,17 +364,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 {
                     rv.SetViewVisibility(Resource.Id.time_switcher, ViewStates.Visible);
 
-                    LocationTimeHolder lth = null;
-                    if (cfg.ShowTimeType == TimeType.TimeZoneTime)
-                    {
-                        Location mLoc = null;
-                        try { mLoc = Geolocation.GetLastKnownLocationAsync().Result; } catch { }
-                        if (mLoc == null)
-                            mLoc = new Location(0, 0);
-                        lth = new LocationTimeHolder(mLoc.Latitude, mLoc.Longitude, false);
-                    }
-
-                    rv.SetImageViewResource(Resource.Id.time_switcher, MainWidgetBase.GetTimeTypeIcon(cfg.ShowTimeType, lth));
+                    rv.SetImageViewResource(Resource.Id.time_switcher, MainWidgetBase.GetTimeTypeIcon(cfg.ShowTimeType, LocationTimeHolder.LocalInstance));
 
                     if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
                     {
@@ -1065,7 +1044,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             paint.Color = Color.Black;
             //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle / 3, paint);
 
-            float hourangle = 360.0F / 24 * myEvents.locationTimeHolder.GetTime(cfg.ShowTimeType).Hour + 90;
+            float hourangle = 360.0F / 24 * LocationTimeHolder.LocalInstance.GetTime(cfg.ShowTimeType).Hour + 90;
             float hourX = (float)(iImgCX + nOuterCircle / 6 * Math.Cos((hourangle) * Math.PI / 180));
             float hourY = (float)(iImgCY + nOuterCircle / 6 * Math.Sin((hourangle) * Math.PI / 180));
 

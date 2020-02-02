@@ -289,10 +289,12 @@ namespace iChronoMe.Droid.Widgets
             return new Point(iWidth, iHeigth);
         }
 
-        public static int GetTimeTypeIcon(TimeType tType, LocationTimeHolder lth)
+        public static int GetTimeTypeIcon(TimeType tType, LocationTimeHolder lth = null)
         {
             try
             {
+                if (lth == null)
+                    lth = LocationTimeHolder.LocalInstance;
                 string cTimeSwitcher = null;
                 switch (tType)
                 {

@@ -179,16 +179,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     if (wallpaperDrawable == null)
                         wallpaperDrawable = Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, Theme);
 
-                    Location mLoc = null;
-                    try { mLoc = await Geolocation.GetLastKnownLocationAsync(); } catch { }
-                    if (mLoc == null)
-                        mLoc = new Location(0, 0);
-
                     myEventsMonth = new EventCollection();
-                    myEventsMonth.locationTimeHolder.ChangePosition(mLoc.Latitude, mLoc.Longitude, false);
 
                     myEventsList = new EventCollection();
-                    myEventsList.locationTimeHolder.ChangePosition(mLoc.Latitude, mLoc.Longitude, false);
 
                     CalendarModel = new CalendarModelCfgHolder().GetDefaultModelCfg();
 

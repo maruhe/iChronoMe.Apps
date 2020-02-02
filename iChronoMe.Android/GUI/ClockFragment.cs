@@ -38,8 +38,9 @@ namespace iChronoMe.Droid.GUI
         private DrawerLayout Drawer;
         NavigationView navigationView;
         private CoordinatorLayout coordinator;
-        private TextView lTitle, lTime;
+        private TextView lTitle, lGeoPos, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3;
         private SKCanvasView skiaView;
+        private WidgetView_ClockAnalog vClock;
         private AppCompatActivity mContext = null;
         private LocationTimeHolder lth;
         private FloatingActionButton fabTimeType;
@@ -58,7 +59,13 @@ namespace iChronoMe.Droid.GUI
             Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
-            lTime = RootView.FindViewById<TextView>(Resource.Id.text_clock_time);
+            lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
+            lTime1 = RootView.FindViewById<TextView>(Resource.Id.text_time1);
+            lTime2 = RootView.FindViewById<TextView>(Resource.Id.text_time2);
+            lTime3 = RootView.FindViewById<TextView>(Resource.Id.text_time3);
+            lTimeInfo1 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo1);
+            lTimeInfo2 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo2);
+            lTimeInfo3 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo3);
 
             fabTimeType = RootView.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
             fabTimeType.Click += Fab_Click;
@@ -83,7 +90,6 @@ namespace iChronoMe.Droid.GUI
         }
 
         List<FloatingActionButton> fabs;
-        private Point wSize;
 
         private void showFABMenu()
         {
@@ -139,15 +145,48 @@ namespace iChronoMe.Droid.GUI
             }            
         }
 
-        private void Lth_TimeChanged()
+        DateTime tClockTime = DateTime.MinValue;
+        private void Lth_TimeChanged(object sender, TimeChangedEventArgs e)
         {
             mContext.RunOnUiThread(() =>
             {
-                lTime.Text = lth.GetTime(this.TimeType).ToLongTimeString() + " (" + this.TimeType.ToString() + ")";
-                skiaView.Invalidate();
+                DateTime tCurrent = lth.GetTime(this.TimeType);
+                DateTime tReal = lth.GetTime(TimeType.RealSunTime);
+                DateTime tMiddle = lth.GetTime(TimeType.MiddleSunTime);
+                DateTime tZone = lth.GetTime(TimeType.TimeZoneTime);
+                if (lth.Latitude == 0 && lth.Longitude == 0)
+                    lGeoPos.Text = "unknown position";
+                else
+                {
+                    lGeoPos.Text = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) + "\nGMT " + lth.TimeZoneOffsetGmt.ToString("+#;-#;0");
+                    if (lth.TimeZoneOffset != lth.TimeZoneOffsetGmt)
+                        lGeoPos.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
+                }
+
+                lTime1.Text = TimeType.RealSunTime.ToString()+":";
+                lTimeInfo1.Text = tReal.ToLongTimeString();
+                if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tReal))
+                    lTimeInfo1.Text += "\t(" + (tCurrent > tReal ? "-" : "+") + (tReal - tCurrent).ToString(@"mm\:ss") + ")";
+
+                lTime2.Text = TimeType.MiddleSunTime.ToString() + ":";
+                lTimeInfo2.Text = tMiddle.ToLongTimeString();
+                if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tMiddle))
+                    lTimeInfo2.Text += "\t(" + (tCurrent > tMiddle ? "-" : "+") + (tMiddle - tCurrent).ToString(@"mm\:ss") + ")";
+
+                lTime3.Text = TimeType.TimeZoneTime.ToString() + ":";
+                lTimeInfo3.Text = tZone.ToLongTimeString();
+                if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tZone))
+                    lTimeInfo3.Text += "\t(" + (tCurrent > tZone ? "-" : "+") + (tZone - tCurrent).ToString(@"mm\:ss") + ")";
+
+                tCurrent = sys.GetTimeWithoutMilliSeconds(tCurrent);
+                if (tClockTime != tCurrent)
+                {
+                    skiaView.Invalidate();
+                    tClockTime = tCurrent;
+                }
             });
         }
-        private void Lth_AreaChanged()
+        private void Lth_AreaChanged(object sender, AreaChangedEventArgs e)
         {
             mContext.RunOnUiThread(() => lTitle.Text = lth.AreaName + ", " + lth.CountryName);
         }
@@ -157,8 +196,9 @@ namespace iChronoMe.Droid.GUI
             this.TimeType = tt;
             fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth));
             lth.Stop();
-            Lth_TimeChanged();
-            lth.Start(this.TimeType == TimeType.RealSunTime, this.TimeType == TimeType.MiddleSunTime, this.TimeType == TimeType.TimeZoneTime || this.TimeType == TimeType.UtcTime);
+            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+            Lth_TimeChanged(this, new TimeChangedEventArgs(TimeChangedFlag.TimeSourceUpdate));
+            lth.Start(true, true, true);// this.TimeType == TimeType.RealSunTime, this.TimeType == TimeType.MiddleSunTime, this.TimeType == TimeType.TimeZoneTime || this.TimeType == TimeType.UtcTime);
         }
 
         private void BtnMaps_Click(object sender, EventArgs e)
@@ -170,13 +210,16 @@ namespace iChronoMe.Droid.GUI
         {
             base.OnResume();
 
-            lth = new LocationTimeHolder(0, 0);
+            vClock = new WidgetView_ClockAnalog();
+            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+
+            lth = LocationTimeHolder.LocalInstance;
             fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth));
             skiaView.PaintSurface += OnPaintSurface;
 
             lth.TimeChanged += Lth_TimeChanged;
             lth.AreaChanged += Lth_AreaChanged;
-            lth.Start(this.TimeType == TimeType.RealSunTime, this.TimeType == TimeType.MiddleSunTime, this.TimeType == TimeType.TimeZoneTime || this.TimeType == TimeType.UtcTime);
+            lth.Start(true, true, true);// this.TimeType == TimeType.RealSunTime, this.TimeType == TimeType.MiddleSunTime, this.TimeType == TimeType.TimeZoneTime || this.TimeType == TimeType.UtcTime);
             Task.Factory.StartNew(() =>
             {
                 var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
@@ -186,7 +229,7 @@ namespace iChronoMe.Droid.GUI
                     lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
                 if (lastLocation != null)
-                    lth.ChangePosition(lastLocation.Latitude, lastLocation.Longitude, true);                    
+                    lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, true);
             });
         }
 
@@ -200,14 +243,11 @@ namespace iChronoMe.Droid.GUI
             lth.Stop();
         }
 
-        public override void Refresh()
-        {
-            base.Refresh();
-        }
         public override void Reinit()
         {
             base.Reinit();
             SetTimeType(AppConfigHolder.MainConfig.DefaultTimeType);
+            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -281,6 +321,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
                         AppConfigHolder.SaveMainConfig();
+                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
                     }
                 });
             }
@@ -294,6 +335,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
                         AppConfigHolder.SaveMainConfig();
+                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
                     }
                 });
             }
@@ -301,6 +343,7 @@ namespace iChronoMe.Droid.GUI
             Drawer.CloseDrawer((int)GravityFlags.Right);
             return true;
         }
+
         private void unCheckAllMenuItems(IMenu menu)
         {
             int size = menu.Size();
@@ -321,13 +364,7 @@ namespace iChronoMe.Droid.GUI
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            WidgetView_ClockAnalog v = new WidgetView_ClockAnalog();
-            v.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-            var canvas = e.Surface.Canvas;
-            var scale = Resources.DisplayMetrics.Density;
-            var scaledSize = new SKSize(e.Info.Width / scale, e.Info.Height / scale);
-            //canvas.Scale(scale);
-            v.DrawCanvas(canvas, lth.GetTime(this.TimeType), (int)e.Info.Width, (int)e.Info.Height, true);
+            vClock.DrawCanvas(e.Surface.Canvas, lth.GetTime(this.TimeType), (int)e.Info.Width, (int)e.Info.Height, true);
         }
     }
 }
