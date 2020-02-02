@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Widgets;
 
@@ -65,7 +62,7 @@ namespace iChronoMe.Droid.Widgets.Clock
             {
                 var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId);
                 var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this);
-                Task.Factory.StartNew(async() =>
+                Task.Factory.StartNew(async () =>
                 {
                     try
                     {
@@ -82,8 +79,8 @@ namespace iChronoMe.Droid.Widgets.Clock
                             UpdateWidget();
                         }
                     }
-                    catch (Exception ex) 
-                    { 
+                    catch (Exception ex)
+                    {
                         ex.ToString();
                         Toast.MakeText(this, ex.Message, ToastLength.Long).Show();
                     }

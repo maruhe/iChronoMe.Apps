@@ -1,15 +1,14 @@
-﻿using Android.App;
+﻿using System;
+
+using Android;
+using Android.App;
+using Android.Content;
+using Android.Content.PM;
 using Android.OS;
-using Android.Support.V7.App;
-using Android.Views;
-using Android.Widget;
-using System.Threading.Tasks;
 using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Content;
-using Android;
-using System;
-using Android.Content.PM;
+using Android.Widget;
+
 using iChronoMe.Droid.Widgets.Calendar;
 
 namespace iChronoMe.Droid.Widgets
@@ -66,7 +65,8 @@ namespace iChronoMe.Droid.Widgets
                     StartActivity(iCommand);
                 }
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Toast.MakeText(this, ex.Message, ToastLength.Long).Show();
             }

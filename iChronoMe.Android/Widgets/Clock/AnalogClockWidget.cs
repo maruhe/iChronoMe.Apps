@@ -1,13 +1,15 @@
 ﻿
+using System;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Util;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Widgets;
-using System;
 
 namespace iChronoMe.Droid.Widgets.Clock
 {

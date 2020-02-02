@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
+using Android;
+using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Views;
+using Android.Support.Design.Widget;
+using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
-using iChronoMe.Core.Classes;
-using Android.Support.Design.Widget;
-using Android.Content.PM;
-using iChronoMe.Droid.GUI;
-using System.Threading.Tasks;
-using iChronoMe.Droid.Adapters;
-using Android.App;
+
 using iChronoMe.Core;
-using Android;
-using Android.Support.V4.App;
+using iChronoMe.Core.Classes;
+using iChronoMe.Droid.Adapters;
+using iChronoMe.Droid.GUI;
 
 namespace iChronoMe.Droid
 {
@@ -35,7 +33,7 @@ namespace iChronoMe.Droid
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);            
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
         }
 
         protected override void OnResume()

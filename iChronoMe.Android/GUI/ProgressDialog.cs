@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI
@@ -47,12 +41,12 @@ namespace iChronoMe.Droid.GUI
             LinearLayout ll = new LinearLayout(Context) { Orientation = Orientation.Vertical };
             ll.AddView(progress);
             ll.AddView(message, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent));
-            
+
             AlertDialog.Builder alert = new AlertDialog.Builder(Activity);
             alert.SetTitle(Arguments.GetString("Title", "just a moment..."));
             alert.SetView(ll);
             alert.SetCancelable(false);
-            
+
             return alert.Create();
         }
 

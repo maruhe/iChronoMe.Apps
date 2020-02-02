@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Support.V4.App;
-using Android.Support.V4.Graphics;
 using Android.Text;
 using Android.Text.Style;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using FFImageLoading;
-using FFImageLoading.Svg.Platform;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
-using iChronoMe.Droid.Widgets;
-using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets.ActionButton
 {
@@ -197,7 +193,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             {
                 Intent itClick = null;
 
-                switch (cfg.ClickAction) {
+                switch (cfg.ClickAction)
+                {
                     case ActionButton_ClickAction.OpenApp:
                         itClick = new Intent(context, typeof(MainActivity));
                         itClick.AddCategory(Intent.CategoryLauncher);

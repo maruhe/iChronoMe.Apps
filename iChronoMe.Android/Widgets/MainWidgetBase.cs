@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 //using System.Drawing;
 using System.Threading.Tasks;
-using Android;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
@@ -11,7 +10,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Util;
-using Android.Views;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 
@@ -60,7 +59,8 @@ namespace iChronoMe.Droid.Widgets
                         var cfg = cfgHolder.GetWidgetCfg<WidgetCfg>(appWidgetId);
                         cfg.WidgetId = iArchivId;
                         cfgHolderArc.SetWidgetCfg(cfg);
-                    } catch { }
+                    }
+                    catch { }
 
                     cfgHolder.DeleteWidget(appWidgetId);
                 }
@@ -92,7 +92,7 @@ namespace iChronoMe.Droid.Widgets
                     catch (Exception e)
                     {
                         e.ToString();
-                    }                 
+                    }
                 }
                 else if (ActionChangeTimeType.Equals(intent.Action))
                 {
@@ -142,7 +142,8 @@ namespace iChronoMe.Droid.Widgets
                 return;
             }
 
-            delayCfgStorer = Task.Factory.StartNew(() => {
+            delayCfgStorer = Task.Factory.StartNew(() =>
+            {
                 try
                 {
                     Task.Delay(iDelay).Wait();
@@ -189,7 +190,8 @@ namespace iChronoMe.Droid.Widgets
 
                     if (mNewSize != null)
                         StoreNewWidgetSize(-1, typeof(int), -1, -1);
-                } catch { }
+                }
+                catch { }
             });
         }
 
@@ -221,7 +223,7 @@ namespace iChronoMe.Droid.Widgets
         }
 
         public static (int x, int y, float n) GetMaxXY(double x, double y, int max = 1000)
-            => GetMaxXY((int) x, (int) y, max);
+            => GetMaxXY((int)x, (int)y, max);
 
         public static (int x, int y, float n) GetMaxXY(int x, int y, int max = 1000)
         {
@@ -312,7 +314,7 @@ namespace iChronoMe.Droid.Widgets
                         break;
                 }
                 return (int)typeof(Resource.Drawable).GetField(cTimeSwitcher).GetValue(null);
-            } 
+            }
             catch
             {
                 return -1;

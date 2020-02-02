@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
@@ -62,7 +58,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                 c += iYears.ToString() + " sun's," + (mini ? "\n" : " ") + tsLifeTimeRest.Days.ToString() + "d, " + tsLifeTimeRest.Hours + "h";
 
                 rv.SetTextViewText(Resource.Id.widget_text, c);
-                rv.SetTextColor(Resource.Id.widget_text, cfg.ColorLifetimeText.ToAndroid());         
+                rv.SetTextColor(Resource.Id.widget_text, cfg.ColorLifetimeText.ToAndroid());
 
                 rv.SetViewVisibility(Resource.Id.background_image, ViewStates.Gone);
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)

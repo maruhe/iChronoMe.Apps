@@ -1,34 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 using Android.Content;
+using Android.Locations;
 using Android.OS;
 using Android.Runtime;
-using Android.Util;
+using Android.Support.Design.Widget;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
-using SkiaSharp.Views.Android;
-using System.Threading;
-using SkiaSharp;
-using Android.Support.V7.App;
-using iChronoMe.Widgets;
-using iChronoMe.Droid.GUI.Dialogs;
+
 using iChronoMe.Core;
-using System.Threading.Tasks;
-using Android.Locations;
-using Android.Support.Design.Widget;
-using iChronoMe.Droid.Widgets;
 using iChronoMe.Core.Classes;
-using Android.Support.V4.Widget;
 using iChronoMe.Droid.Adapters;
-using iChronoMe.Core.DynamicCalendar;
-using System.IO;
-using Xamarin.Essentials;
-using iChronoMe.Core.Types;
-using System.Net;
-using System.Drawing;
+using iChronoMe.Droid.GUI.Dialogs;
+using iChronoMe.Droid.Widgets;
+using iChronoMe.Widgets;
+
+using SkiaSharp.Views.Android;
 
 namespace iChronoMe.Droid.GUI
 {
@@ -101,7 +92,7 @@ namespace iChronoMe.Droid.GUI
             var lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.WrapContent, CoordinatorLayout.LayoutParams.WrapContent);
             lp.Gravity = (int)(GravityFlags.Bottom | GravityFlags.End);
             lp.SetMargins(margin, margin, margin, margin);
-            
+
             float fAnimate = Resources.GetDimension(Resource.Dimension.standard_60);
 
             fabs = new List<FloatingActionButton>();
@@ -139,10 +130,10 @@ namespace iChronoMe.Droid.GUI
             isFABOpen = false;
             if (fabs == null)
                 return;
-            foreach(var fab in fabs)
+            foreach (var fab in fabs)
             {
                 fab.Animate().TranslationY(0).WithEndAction(new Java.Lang.Runnable(() => { coordinator.RemoveView(fab); }));
-            }            
+            }
         }
 
         DateTime tClockTime = DateTime.MinValue;
@@ -163,7 +154,7 @@ namespace iChronoMe.Droid.GUI
                         lGeoPos.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
                 }
 
-                lTime1.Text = TimeType.RealSunTime.ToString()+":";
+                lTime1.Text = TimeType.RealSunTime.ToString() + ":";
                 lTimeInfo1.Text = tReal.ToLongTimeString();
                 if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tReal))
                     lTimeInfo1.Text += "\t(" + (tCurrent > tReal ? "-" : "+") + (tReal - tCurrent).ToString(@"mm\:ss") + ")";
@@ -203,7 +194,7 @@ namespace iChronoMe.Droid.GUI
 
         private void BtnMaps_Click(object sender, EventArgs e)
         {
-            LocationPickerDialog.NewInstance(null).Show(ChildFragmentManager, "lala");            
+            LocationPickerDialog.NewInstance(null).Show(ChildFragmentManager, "lala");
         }
 
         public override void OnResume()
@@ -255,7 +246,8 @@ namespace iChronoMe.Droid.GUI
             try
             {
                 SetTimeType(this.TimeType);
-            } catch { }
+            }
+            catch { }
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
@@ -315,7 +307,8 @@ namespace iChronoMe.Droid.GUI
             {
                 var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext);
 
-                Task.Factory.StartNew(async () => {
+                Task.Factory.StartNew(async () =>
+                {
                     var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandColorType), AppConfigHolder.MainConfig.MainClock);
                     if (cfg != null)
                     {
@@ -329,8 +322,9 @@ namespace iChronoMe.Droid.GUI
             {
                 var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext);
 
-                Task.Factory.StartNew(async () => {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_HandColorType)}));
+                Task.Factory.StartNew(async () =>
+                {
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_HandColorType) }));
                     if (cfg != null)
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();

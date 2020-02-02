@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Graphics.Drawables.Shapes;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.Graphics;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.DeviceCalendar;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets.Calendar
@@ -127,8 +124,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                             cTitle += " (" + cDay + ".)";
                         rv.SetTextViewText(Resource.Id.item_title, cTitle);
                         rv.SetTextColor(Resource.Id.item_title, cfg.ColorSeparatorText.ToAndroid());
-                    } catch { }
-                    
+                    }
+                    catch { }
+
                     rv.SetViewVisibility(Resource.Id.top_separator, ViewStates.Gone);
 
                     if (IsRealWidget)
@@ -138,7 +136,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         fillInIntent.SetData(Android.Net.Uri.Parse("content://com.android.calendar/time/"));
                         rv.SetOnClickFillInIntent(Resource.Id.item_layout, fillInIntent);
                     }
-                    
+
                     return rv;
                 }
                 else if (data is CalendarEvent)
@@ -411,7 +409,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 cfg = new WidgetConfigHolder().GetWidgetCfg<WidgetCfg_CalendarTimetable>(iMyWidgetId);
                 myEvents.timeType = cfg.ShowTimeType;
                 calendarModel = new CalendarModelCfgHolder().GetModelCfg(cfg.CalendarModelId);
-                
+
                 wSize = MainWidgetBase.GetWidgetSize(iMyWidgetId, cfg, AppWidgetManager.GetInstance(mContext));
 
                 //sichtbares Widget leeren und wieder füllen
@@ -470,13 +468,13 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 }
                 myEvents.CalendarFilter = cCalendarFilter;
 
-                myEvents.DoLoadCalendarEventsGrouped(DateTime.Now, DateTime.Today.AddDays(cfg.MaxFutureDays+1)).Wait();
+                myEvents.DoLoadCalendarEventsGrouped(DateTime.Now, DateTime.Today.AddDays(cfg.MaxFutureDays + 1)).Wait();
 
                 if (mLoc.Latitude == 0 && mLoc.Longitude == 0)
                     myEvents.AllDatesAndEvents.Insert(0, "aktuelle Position unbekannt!");
                 else if (mLoc.Timestamp.AddHours(1) < DateTime.Now)
                     myEvents.AllDatesAndEvents.Insert(0, "aktuelle Position veraltet!");
-                
+
                 iLastCount = Count;
 
 #if DEBUG
@@ -484,7 +482,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 //myEvents.AllDatesAndEvents.Insert(0, DateTime.Now.ToString("HH:mm:ss") + " loadet " + iLastCount.ToString() + " in " + (DateTime.Now - swLoadStart).TotalMilliseconds.ToString() + "ms");
 #endif
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 myEvents = new EventCollection();
                 myEvents.AllDatesAndEvents.Add(ex.Message);

@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Threading;
+
 using Android;
 using Android.App;
+using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
-using Android.Support.V7.App;
 using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
-using iChronoMe.Core.Classes;
-using Android.Content;
-using Android.Content.PM;
-using Android.Support.V4.App;
+
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
@@ -86,7 +85,7 @@ namespace iChronoMe.Droid
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if(drawer.IsDrawerOpen(GravityCompat.Start))
+            if (drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
             }
@@ -116,7 +115,7 @@ namespace iChronoMe.Droid
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            View view = (View) sender;
+            View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
         }
@@ -198,7 +197,7 @@ namespace iChronoMe.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-        
+
         protected override void OnDestroy()
         {
             base.OnDestroy();

@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
-using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
+
 using Net.ArcanaStudio.ColorPicker;
-using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets.ActionButton
 {
@@ -229,7 +228,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
         public void ShowWidgeRoundCountSelector(WidgetCfg_ActionButton cfgTemplate)
         {
             var strings = new List<string>();
-            for (int i = 1; i <= (int)(cfgTemplate.AnimationDuriation*3); i++)
+            for (int i = 1; i <= (int)(cfgTemplate.AnimationDuriation * 3); i++)
                 strings.Add(i + " Umdrehungen");
 
             var dlg = new AlertDialog.Builder(this)
@@ -335,7 +334,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             var dlg = new AlertDialog.Builder(this)
                 .SetTitle("Hintergrundtyp")
                 .SetSingleChoiceItems(listAdapter, -1, new WidgetBackgroundTypeOnClickListener(this, appWidgetId, listAdapter))
-                .SetPositiveButton("custom", async (d, w) => {
+                .SetPositiveButton("custom", async (d, w) =>
+                {
                     var clrDlg = ColorPickerDialog.NewBuilder()
                         .SetDialogType(ColorPickerDialog.DialogType.Preset)
                         .SetAllowCustom(true)
@@ -406,7 +406,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 var dlg = new AlertDialog.Builder(this)
                     .SetTitle("Hintergrundfarbe")
                     .SetSingleChoiceItems(listAdapter, -1, new WidgetBackgroundColorOnClickListener(this, appWidgetId, listAdapter))
-                    .SetPositiveButton("custom", async (d, w) => {
+                    .SetPositiveButton("custom", async (d, w) =>
+                    {
                         var clrDlg = ColorPickerDialog.NewBuilder()
                             .SetDialogType(ColorPickerDialog.DialogType.Preset)
                             .SetAllowCustom(true)
@@ -489,7 +490,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             var dlg = new AlertDialog.Builder(this)
                 .SetTitle("Symbol-Farbe")
                 .SetSingleChoiceItems(listAdapter, -1, new WidgetIconColorOnClickListener(this, appWidgetId, listAdapter))
-                .SetPositiveButton("custom", async (d, w) => {
+                .SetPositiveButton("custom", async (d, w) =>
+                {
                     var clrDlg = ColorPickerDialog.NewBuilder()
                         .SetDialogType(ColorPickerDialog.DialogType.Preset)
                         .SetAllowCustom(true)
@@ -572,7 +574,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             var dlg = new AlertDialog.Builder(this)
                 .SetTitle("Text-Farbe")
                 .SetSingleChoiceItems(listAdapter, -1, new WidgetTextColorOnClickListener(this, appWidgetId, listAdapter))
-                .SetPositiveButton("custom", async (d, w) => {
+                .SetPositiveButton("custom", async (d, w) =>
+                {
                     var clrDlg = ColorPickerDialog.NewBuilder()
                         .SetDialogType(ColorPickerDialog.DialogType.Preset)
                         .SetAllowCustom(true)

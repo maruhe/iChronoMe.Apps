@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.Content;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
-using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Interfaces;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Widgets;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
@@ -50,7 +47,7 @@ namespace iChronoMe.Droid.Widgets
         {
             var assiType = widgetConfigAssistantType;
             var sample = baseSample;
-            while (assiType != null && (stopAt == null || ! stopAt.Contains(assiType)))
+            while (assiType != null && (stopAt == null || !stopAt.Contains(assiType)))
             {
                 sample = await PerformOne(assiType, sample);
                 if (sample == null)
@@ -82,7 +79,7 @@ namespace iChronoMe.Droid.Widgets
                 {
                     listAdapter.Items.Add(sample.Title, sample.WidgetConfig);
                 }
-                
+
                 tcsUI = new TaskCompletionSource<bool>();
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
@@ -107,7 +104,7 @@ namespace iChronoMe.Droid.Widgets
             else
                 return null;
         }
-       
+
         public void TriggerSingleChoiceClicked(int which)
         {
             CurrentSample = currentAssi.Samples[which];
@@ -165,7 +162,7 @@ namespace iChronoMe.Droid.Widgets
     {
         WidgetConfigAssistantManager<T> mManager;
         WidgetPreviewListAdapter ListItems;
-            
+
         public SingleChoiceClickListener(WidgetConfigAssistantManager<T> manager, WidgetPreviewListAdapter items)
         {
             mManager = manager;

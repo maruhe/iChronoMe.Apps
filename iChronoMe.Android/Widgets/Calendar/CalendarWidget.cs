@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
-using Android.Graphics;
-using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.V4.Graphics;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets.Calendar
@@ -22,7 +15,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_calendar")]
     public class CalendarWidget : MainWidgetBase
-    {       
+    {
         public override void OnReceive(Context context, Intent intent)
         {
             base.OnReceive(context, intent);
@@ -30,7 +23,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
             //manual Refresh via Widget-Button
             if (ActionManualRefresh.Equals(intent.Action))
             {
-                Task.Factory.StartNew(() => {
+                Task.Factory.StartNew(() =>
+                {
                     CalendarWidgetService.ResetData = true;
                     int appWidgetId = intent.Extras.GetInt(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
 
@@ -38,7 +32,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     itUpdate.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
                     int[] ids = new int[] { appWidgetId };
                     itUpdate.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
-                    context.SendBroadcast(itUpdate);                    
+                    context.SendBroadcast(itUpdate);
                 });
             }
         }
@@ -63,9 +57,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_unconfigured);
 
                         var itConfig = new Intent(context, typeof(CalendarWidgetConfigActivity));
-                        itConfig.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);                        
+                        itConfig.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
                         rv.SetOnClickPendingIntent(Resource.Id.widget, PendingIntent.GetActivity(context, appWidgetId, itConfig, PendingIntentFlags.CancelCurrent));
-                        
+
                         appWidgetManager.UpdateAppWidget(appWidgetId, rv);
                     }
                     if (loadWidgetIdS.Count > 0)
@@ -74,7 +68,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, loadWidgetIdS.ToArray());
                         CalendarWidgetService.EnqueueWork(context, intent);
                     }
-                } catch { }
+                }
+                catch { }
             }
 
             base.OnUpdate(context, appWidgetManager, appWidgetIds);

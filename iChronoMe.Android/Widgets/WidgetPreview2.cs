@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
-using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Extentions;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
+
 using Java.IO;
 
 namespace iChronoMe.Droid.xxxxx.Widgets.xxx
@@ -268,7 +266,7 @@ namespace iChronoMe.Droid.xxxxx.Widgets.xxx
                         viewHolder.preview.SetImageBitmap(bmp);
                         viewHolder.title.Text = cTitle + ", " + Times[position] + "ms";
                         //if (sys.Debugmode)
-                          //  viewHolder.title.Text = byteArray.Length.ToString("N0") + " : " + bmp.AllocationByteCount.ToString("N0") + ", " + Times[position] + "ms";
+                        //  viewHolder.title.Text = byteArray.Length.ToString("N0") + " : " + bmp.AllocationByteCount.ToString("N0") + ", " + Times[position] + "ms";
                     }
                     else
                     {
@@ -542,7 +540,7 @@ namespace iChronoMe.Droid.xxxxx.Widgets.xxx
                         swStart = DateTime.Now;
                     }
                 }
-                if (bmp != null) 
+                if (bmp != null)
                 {
                     try
                     {

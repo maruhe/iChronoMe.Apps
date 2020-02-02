@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
 using Android.Appwidget;
@@ -9,15 +10,14 @@ using Android.Content;
 using Android.Content.PM;
 using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
-using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
+
 using Net.ArcanaStudio.ColorPicker;
-using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets.Calendar
 {
@@ -286,7 +286,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             cfg.FirstDayType = FirstDayType.MonthStart;
             cfg.TimeUnit = TimeUnit.Month;
             cfg.TimeUnitCount = 1;
-            listAdapter.Items.Add("1 Monat", cfg );
+            listAdapter.Items.Add("1 Monat", cfg);
 
             cfg = (WidgetCfg_CalendarCircleWave)cfgTemplate.Clone();
             cfg.FirstDayType = FirstDayType.MonthStart;
@@ -320,7 +320,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 .Create();
             dlg.Show();
         }
-        
+
         public void ShowCircleWidgetDayColorTypeSelector(WidgetCfg_CalendarCircleWave cfgTemplate)
         {
             var listAdapter = new WidgetPreviewListAdapter(this, wSize, CalendarModel, myEventsMonth, myEventsList, wallpaperDrawable);
@@ -449,12 +449,13 @@ namespace iChronoMe.Droid.Widgets.Calendar
         public void ShowCircleWidgetCustomDayColorsSelector(WidgetCfg_CalendarCircleWave cfgTemplate)
         {
             var dlg = new AlertDialog.Builder(this)
-                .SetTitle("Tagesfarben")    
+                .SetTitle("Tagesfarben")
                 .SetMessage("Es erscheinen nun Fenster zur Farbauswahl\njede gewählte Farbe wird dem Farbverlauf hinzugefügt\nwenn du genug Farben beisammen hast klick einfach außerhalb des Fensters oder auf 'Zurück'")
-                .SetPositiveButton("let's go", async (d, w) => {
+                .SetPositiveButton("let's go", async (d, w) =>
+                {
                     List<xColor> xclrs = new List<xColor>();
                     int iClr = 0;
-                    while(true)
+                    while (true)
                     {
                         iClr++;
                         var clrDlg = ColorPickerDialog.NewBuilder()
@@ -463,7 +464,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                             .SetShowColorShades(true)
                             .SetColorShape(ColorShape.Circle)
                             .SetShowAlphaSlider(false)
-                            .SetDialogTitle("Farbe "+iClr);
+                            .SetDialogTitle("Farbe " + iClr);
 
                         var clr = await clrDlg.ShowAsyncNullable(this);
 
@@ -547,7 +548,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
             var dlg = new AlertDialog.Builder(this)
                 .SetTitle("Heute hervorheben")
                 .SetSingleChoiceItems(listAdapter, -1, new CircleTodayColorsOnClickListener(this, appWidgetId, listAdapter))
-                .SetPositiveButton("custom", async (d, w) => {
+                .SetPositiveButton("custom", async (d, w) =>
+                {
                     var clrDlg = ColorPickerDialog.NewBuilder()
                         .SetDialogType(ColorPickerDialog.DialogType.Preset)
                         .SetAllowCustom(true)
@@ -617,8 +619,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
         }
 
         public void ShowCircleWidgetDayNumbersColorsSelector(WidgetCfg_CalendarCircleWave cfgTemplate)
-            {
-                FinishAndRemoveTask();
+        {
+            FinishAndRemoveTask();
             return;
 
             var listAdapter = new WidgetPreviewListAdapter(this, wSize, CalendarModel, myEventsMonth, myEventsList, wallpaperDrawable);
@@ -685,7 +687,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             int[] ids = new int[] { appWidgetId };
             updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
             SendBroadcast(updateIntent);
-        }        
+        }
     }
 
     public class WidgetTypeOnClickListener : Java.Lang.Object, IDialogInterfaceOnClickListener
@@ -815,7 +817,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 dialog.Dismiss();
             if (cfg is WidgetCfg_CalendarCircleWave)
                 myActivity.ShowCircleWidgetLengthSelector(cfg as WidgetCfg_CalendarCircleWave);
-            else 
+            else
                 myActivity.FinishAndRemoveTask();
         }
     }
@@ -857,7 +859,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             myActivity.ShowCircleWidgetDayColorTypeSelector(cfg as WidgetCfg_CalendarCircleWave);
         }
     }
-    
+
     public class CircleDayColorTypeOnClickListener : Java.Lang.Object, IDialogInterfaceOnClickListener
     {
         CalendarWidgetConfigActivity myActivity;
@@ -1074,5 +1076,5 @@ namespace iChronoMe.Droid.Widgets.Calendar
             myActivity.ShowCircleWidgetDayColorTypeSelector(Cfg);
         }
     }
-    
+
 }

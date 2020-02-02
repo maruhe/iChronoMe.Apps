@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
+
 using Android.App;
-using Android.OS;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
-using Android.Content;
 using Android.Appwidget;
+using Android.Content;
+using Android.OS;
 using Android.Runtime;
-using AlertDialog = Android.Support.V7.App.AlertDialog;
-using Android.Widget;
 using Android.Views.InputMethods;
-using iChronoMe.Core.DataModels;
+using Android.Widget;
+
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.DataModels;
+
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
 {
@@ -36,7 +36,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                 appWidgetId = extras.GetInt(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
                 Intent cancelResultValue = new Intent();
                 cancelResultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-                SetResult(Result.Canceled, cancelResultValue);                
+                SetResult(Result.Canceled, cancelResultValue);
             }
             else
             {
@@ -82,8 +82,8 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                     RunOnUiThread(() =>
                     {
 
-                    //gespeicherte Wesen vorschlagen
-                    var cache = db.dbConfig.Query<Creature>("select * from Creature", new object[0]);
+                        //gespeicherte Wesen vorschlagen
+                        var cache = db.dbConfig.Query<Creature>("select * from Creature", new object[0]);
                         if (cache.Count > 0)
                         {
                             var list = new List<string>();
@@ -148,8 +148,8 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                         {
                             DateTime tDate = dateInput.DateTime;
 
-                                    //und die Uhrzeit
-                                    var timeDialog = new AlertDialog.Builder(this);
+                            //und die Uhrzeit
+                            var timeDialog = new AlertDialog.Builder(this);
                             var timeInput = new Android.Widget.TimePicker(this);
                             timeInput.SetIs24HourView(Java.Lang.Boolean.True);
                             timeInput.Hour = cfg.LifeStartTime != DateTime.MinValue ? cfg.LifeStartTime.Hour : 12;
@@ -242,7 +242,8 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 
         private void ShowKeyboard(EditText userInput)
         {
-            try {
+            try
+            {
                 userInput.RequestFocus();
                 InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
                 imm.ToggleSoftInput(ShowFlags.Forced, 0);
@@ -256,7 +257,8 @@ namespace iChronoMe.Droid.Widgets.Lifetime
             {
                 InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
                 imm.HideSoftInputFromWindow(userInput.WindowToken, 0);
-            } catch { }
+            }
+            catch { }
         }
 
         protected override void OnStop()
@@ -278,7 +280,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
         Activity myActivity;
         int myWidgetId;
         List<Creature> myCreatures;
-        
+
         public MyDialogInterfaceOnClickListener(Activity activity, int iWidgetId, List<Creature> creatures)
         {
             myActivity = activity;
@@ -328,7 +330,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
     public class myCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
     {
         Activity myActivity;
-        
+
         public myCancelListener(Activity activity)
         {
             myActivity = activity;

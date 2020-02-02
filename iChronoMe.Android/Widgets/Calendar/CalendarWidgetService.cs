@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Support.V4.App;
-using Android.Support.V4.Graphics;
 using Android.Text;
 using Android.Text.Style;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Xamarin.Essentials;
+
+using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
-using iChronoMe.Droid.Widgets;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
-using iChronoMe.Core;
 
 namespace iChronoMe.Droid.Widgets.Calendar
-{ 
+{
     [Service(Label = "Kalender-Widget Update-Service", Permission = "android.permission.BIND_JOB_SERVICE", Exported = true)]
     public class CalendarWidgetService : JobIntentService
     {
@@ -233,12 +232,12 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                                     Log.Debug("CalendarWidgetService", "Update Widget done: " + iWidgetId);
                                 }
-                                catch(ThreadAbortException) { }
+                                catch (ThreadAbortException) { }
                                 catch (Exception ex)
                                 {
                                     Log.Error("CalendarWidgetService", ex.Message, "Update Widget Error: " + iWidgetId);
                                     RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
-                                    rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message+"\n"+ex.StackTrace);
+                                    rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message + "\n" + ex.StackTrace);
                                     rv.SetTextColor(Resource.Id.message, Color.IndianRed);
                                     appWidgetManager.UpdateAppWidget(iWidgetId, rv);
                                 }
@@ -557,7 +556,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     }
                 }
             }
-            
+
             Log.Debug("CalendarWidgetService", "GenerateWidgetMonthView: ItemSize: " + nItemWidth + "x" + nItemHeigth + ", ShowEvents:" + iShowEvents + (bShowEventsIcon ? " asIcon" : " asText"));
 
             bool bShowVertLines = nItemWidth > 20;
@@ -1154,7 +1153,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     {
                         string cText = dDate.DayNumber.ToString();
                         string cText2 = "";
-                        if (dDate == dToday && iHeaderHeight < 40) {
+                        if (dDate == dToday && iHeaderHeight < 40)
+                        {
                             if (cfg.DayNumberStyle == DayNumberStyle.Gregorian || cfg.DayNumberStyle == DayNumberStyle.GregorianAndCalendarModell)
                                 cText2 = dDate.UtcDate.ToString("ddd.");
                             else
@@ -1279,7 +1279,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 ResetData = false;
                 int iMs = (int)((DateTime.Now - swStart).TotalMilliseconds);
                 if (iMs < 500)
-                    Task.Delay(500-iMs).Wait();
+                    Task.Delay(500 - iMs).Wait();
             }
 
             TimeSpan tsEvents = DateTime.Now - swStart;

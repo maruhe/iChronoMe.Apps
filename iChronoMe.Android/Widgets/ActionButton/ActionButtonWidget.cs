@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.V4.Graphics;
 using Android.Util;
-using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 
@@ -24,7 +16,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_action_button")]
     public class ActionButtonWidget : MainWidgetBase
-    {       
+    {
         public override void OnReceive(Context context, Intent intent)
         {
             base.OnReceive(context, intent);
@@ -32,7 +24,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             //manual Refresh via Widget-Button
             if (ActionManualRefresh.Equals(intent.Action))
             {
-                Task.Factory.StartNew(() => {
+                Task.Factory.StartNew(() =>
+                {
                     ActionButtonService.ResetData = true;
                     int appWidgetId = intent.Extras.GetInt(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
 
@@ -40,7 +33,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     itUpdate.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
                     int[] ids = new int[] { appWidgetId };
                     itUpdate.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
-                    context.SendBroadcast(itUpdate);                    
+                    context.SendBroadcast(itUpdate);
                 });
             }
         }
@@ -97,7 +90,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             Intent intent = new Intent(context.ApplicationContext, typeof(ActionButtonWidget));
             intent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
             AppWidgetManager widgetManager = AppWidgetManager.GetInstance(context);
-                int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
+            int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
             intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
             context.SendBroadcast(intent);
         }

@@ -2,7 +2,6 @@
 
 using Android.App;
 using Android.Content;
-using Android.Util;
 
 namespace iChronoMe.Droid.Widgets.Clock
 {
@@ -12,7 +11,7 @@ namespace iChronoMe.Droid.Widgets.Clock
     {
         public const string intentFilter = "me.ichrono.droid.Widgets.Clock.ClockUpdateBroadcast";
         public const string command = "command";
-        public const string baseaction = "baseaction"; 
+        public const string baseaction = "baseaction";
         public const string cmdStopUpdates = "cmd_stop_updates";
         public const string cmdRestartUpdates = "cmd_restart_update";
 

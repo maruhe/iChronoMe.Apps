@@ -1,7 +1,5 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Util;
-using System;
 
 namespace iChronoMe.Droid.Receivers
 {
@@ -11,7 +9,7 @@ namespace iChronoMe.Droid.Receivers
     {
         public TimeChangeReceiver()
         {
-            
+
         }
 
         public override void OnReceive(Context context, Intent intent)

@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.Content;
-using Android.Gms.Maps;
-using Android.OS;
-using Android.Runtime;
+﻿using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Android.Views;
 using Android.Widget;
 
 namespace iChronoMe.Droid.GUI.Dialogs
 {
-    class LocationPickerDialog : DialogFragment {
+    class LocationPickerDialog : DialogFragment
+    {
 
         public static LocationPickerDialog NewInstance(Bundle bundle)
         {
@@ -31,11 +24,13 @@ namespace iChronoMe.Droid.GUI.Dialogs
             AlertDialog.Builder alert = new AlertDialog.Builder(Activity);
             alert.SetTitle("Choose Location");
             alert.SetView(map);
-            alert.SetPositiveButton("Select", (senderAlert, args) => {
+            alert.SetPositiveButton("Select", (senderAlert, args) =>
+            {
                 Toast.MakeText(Activity, "Selected :-)", ToastLength.Short).Show();
             });
 
-            alert.SetNegativeButton("Cancel", (senderAlert, args) => {
+            alert.SetNegativeButton("Cancel", (senderAlert, args) =>
+            {
                 Toast.MakeText(Activity, "Cancelled!", ToastLength.Short).Show();
             });
 

@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
-using iChronoMe.Droid.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Moon
 {
@@ -83,7 +76,7 @@ namespace iChronoMe.Droid.Widgets.Moon
                     }
                     y = (int)(radius * Math.Sin(Math.PI / 180.0 * phi));
                     paint = new Paint();
-                    paint.StrokeWidth = (int)((92-phi)/2);
+                    paint.StrokeWidth = (int)((92 - phi) / 2);
                     paint.Color = Color.Green;
                     c.DrawLine(
                         x1 + (int)(radius + rand), (int)(y + radius + rand),

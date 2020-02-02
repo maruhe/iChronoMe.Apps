@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
-using Android.App;
-using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Util;
+using Android.Support.Design.Widget;
+using Android.Support.V4.App;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+
 using Com.Syncfusion.Schedule;
-using Android.Support.V7.App;
-using iChronoMe.DeviceCalendar;
-using Android.Content.PM;
-using Android.Support.V4.App;
 using Com.Syncfusion.Schedule.Enums;
-using iChronoMe.Core.Classes;
-using Android.Support.V4.Widget;
-using Android.Support.Design.Widget;
-using iChronoMe.Core.DynamicCalendar;
-using System.Threading.Tasks;
-using iChronoMe.Core.Types;
+
 using iChronoMe.Core;
+using iChronoMe.Core.Classes;
+using iChronoMe.Core.DynamicCalendar;
+using iChronoMe.Core.Types;
+using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Widgets;
 
 namespace iChronoMe.Droid.GUI.Calendar
@@ -45,11 +43,11 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-            
+
             mContext = (AppCompatActivity)container.Context;
 
             if (mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Permission.Granted)
-            {                
+            {
                 ActivityCompat.RequestPermissions(mContext, new string[] { Android.Manifest.Permission.ReadCalendar, Android.Manifest.Permission.WriteCalendar }, 1);
             }
 
@@ -62,7 +60,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             SetViewType(ScheduleView.WeekView);
             //schedule.Locale. = new Locale("de");
             schedule.AppointmentMapping = new AppointmentMapping() { Subject = "Name", StartTime = "javaDisplayStart", EndTime = "javaDisplayEnd", IsAllDay = "AllDay", Location = "Location", Notes = "Description", Color = "javaColor" };
-            
+
             schedule.DayViewSettings.DayLabelSettings.TimeFormat = "HH";
             schedule.WeekViewSettings.WeekLabelSettings.TimeFormat = "HH";
             schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
@@ -90,16 +88,17 @@ namespace iChronoMe.Droid.GUI.Calendar
                 mContext.Title = "";
                 spinner.Visibility = ViewStates.Visible;
                 spinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, new string[] { "Timeline", "Tag", "Woche", "Arbeit", "Monat" });
-                Task.Factory.StartNew(() => { 
-                    Task.Delay(2500).Wait(); 
-                    spinner.ItemSelected += ViewSpinner_ItemSelected; 
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(2500).Wait();
+                    spinner.ItemSelected += ViewSpinner_ItemSelected;
                 });
             }
         }
 
         private void ViewSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            switch(e.Position)
+            switch (e.Position)
             {
                 case 0:
                     SetViewType(ScheduleView.Timeline);
@@ -151,7 +150,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
             if (tVon != null)
-            { 
+            {
                 tFirstVisible = (DateTime)tVon;
                 tLastVisible = (DateTime)tBis;
                 if (tLastVisible <= tFirstVisible)
@@ -263,7 +262,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private async void deleteAllEvents()
         {
             //if (!(await DisplayAlert("löschen?", "alle löschen?", "löschen!", "abbrechen")))
-              //  return;
+            //  return;
 
             DateTime calStart = new DateTime(2019, 01, 01);
             DateTime calEnd = calStart.AddDays(1000);

@@ -1,14 +1,5 @@
 ﻿using Android.App;
 using Android.OS;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
-using Android.Content;
-using Android.Appwidget;
-using System.Threading.Tasks;
-using System.Threading;
-using Android.Runtime;
-using AlertDialog = Android.Support.V7.App.AlertDialog;
-using Android.Widget;
 
 namespace iChronoMe.Droid.Widgets.Calendar
 {
