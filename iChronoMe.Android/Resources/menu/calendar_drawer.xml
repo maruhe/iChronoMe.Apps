@@ -6,32 +6,19 @@
     <group android:checkableBehavior="single">
       <item
           android:id="@+id/view_Timeline"
-          android:title="Timeline" />
+          android:title="@string/calendar_viewtype_Timeline" />
       <item
           android:id="@+id/view_DayView"
-          android:title="DayView" />
+          android:title="@string/calendar_viewtype_DayView" />
       <item
           android:id="@+id/view_WeekView"
-          android:title="WeekView" />
+          android:title="@string/calendar_viewtype_WeekView" />
       <item
           android:id="@+id/view_WorkWeekView"
-          android:title="WorkWeekView" />
+          android:title="@string/calendar_viewtype_WorkWeek" />
       <item
           android:id="@+id/view_MonthView"
-          android:title="MonthView" />
+          android:title="@string/calendar_viewtype_MonthView" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>

@@ -1,38 +1,58 @@
 <resources>
   <string name="app_name">iChronoMe</string>
+  <string name="app_slogan">time is dynamic</string>
   <string name="navigation_drawer_open">Open navigation drawer</string>
   <string name="navigation_drawer_close">Close navigation drawer</string>
   <string name="action_settings">Settings</string>
+  <string name="action_options">Options</string>
 
   <string name="widget_loading">time is just illusion\u2026</string>
-  <string name="widget_unconfigured">Klick here to Widget konfigurieren bitte!</string>
-  <string name="widget_permission_error">ich brauche some Berechtigungen, klick here please</string>
-  <string name="text_ServiceInfo">warum der Dienst laufen muss? warum es ihn braucht und was man daraus machen kann:</string>
+  <string name="widget_unconfigured">click here to configure the widget</string>
+  <string name="widget_permission_error">I need some permissions, click here please</string>
+  <string name="text_ServiceInfo">if you see this text please tell me:</string>
 
-  <string name="calendar_widget_loading">Termine werden geladen...</string>
+  <string name="calendar_widget_loading">loading events...</string>
 
-  <string name="shortcut_create_calender_event">Termin erstellen</string>
-  <string name="shortcut_create_calender_event_long">einen Termin nach Sonnenzeit anlegen.. oder anders versetzt</string>
-  <string name="shortcut_create_calender_event_disabled">geht nit? warum nit?</string>
+  <string name="shortcut_create_calender_event">create event</string>
+  <string name="shortcut_create_calender_event_long">long description...</string>  
+  <string name="shortcut_create_calender_event_disabled">not working? why not?</string>
 
-  <string name="shortcut_create_alarm">Wecker stellen</string>
-  <string name="shortcut_create_alarm_long">einen Wecker nach Sonnenzeit stellen.. oder anders versetzt</string>
-  <string name="shortcut_create_alarm_disabled">geht nit? warum nit?</string>
+  <string name="shortcut_create_alarm">add alarm</string>
+  <string name="shortcut_create_alarm_long">long description...</string>
+  <string name="shortcut_create_alarm_disabled">not working? why not?</string>
 
   <string name="widget_lifetime_loading">one "tropical year" is:\n365 d 5 h 48 min and 45,261 s</string>
 
   <string name="loading">loading...</string>
+  <string name="stop_alarm">thanks</string>
+  <string name="action_continue">continue</string>
+  <string name="action_back">back</string>
+  <string name="action_ok">ok</string>
+  <string name="action_yes">yes</string>
+  <string name="action_no">no</string>
+  <string name="action_colors">colors</string>
+  <string name="action_background">background</string>
+  <string name="dont_ask_again">"don't ask again"</string>
+  <string name="just_a_moment">just a moment...</string>
 
-  <string name="stop_alarm">danke</string>
+  <string name="menu_clock">Clock</string>
+  <string name="menu_calendar">Calendar</string>
+  <string name="menu_tools">Tools</string>
+  <string name="menu_share">Share</string>
 
+  <string name="widget_title_actionbutton">action button</string>
+  <string name="widget_title_calendar">solar time calendar widget</string>
+  <string name="widget_title_clock_analog">analog solar clock</string>
+  <string name="widget_title_lifetime">lifetime</string>
 
+  <string name="TimeType">time-type</string>
   <string name="firststart_welcome">
-    "welcome to iChronoMe
-time is dynamic!"
+"welcome to iChronoMe!
+please select your default Time-Type:"
   </string>
   <string name="TimeType_RealSunTime">real sun time</string>
   <string name="TimeType_RealSunTime_Desc">
-"the time, by the real position of the sun where the highest point of the sun is 12 o'clock
+"the time, by the real position of the sun where the highest point of the sun means 12 o'clock
 this means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is
 the offset to timezone-time is changing every day"
   </string>
@@ -60,5 +80,18 @@ may this is far far away from the real time on your location"
   <string name="assistant_permission_storage">
     "and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"
   </string>
+
+  <string name="assistant_privacy_question">you may mind about data privacy?</string>
+  <string name="assistant_privacy_title">data privacy information:</string>
+  <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
+  <string name="assistant_privacy_accept">accept</string>
+  <string name="assistant_privacy_ignore">ignore</string>
+  <string name="assistant_privacy_decline">decline</string>
+
+  <string name="calendar_viewtype_Timeline">timeline</string>
+  <string name="calendar_viewtype_DayView">day-view</string>
+  <string name="calendar_viewtype_WeekView">week-view</string>
+  <string name="calendar_viewtype_WorkWeek">work-week</string>
+  <string name="calendar_viewtype_MonthView">month-view</string>
 
 </resources>

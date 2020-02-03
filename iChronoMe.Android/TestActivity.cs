@@ -101,7 +101,7 @@ namespace iChronoMe.Droid
                 {
                     Toast.MakeText(this, "icon " + i, ToastLength.Short).Show();
                     Bitmap bmp = ActionButtonService.GetIChronoEye(48, 48, 48, 24, 24, 15, -1, 366);
-                    var sdCardPath = System.IO.Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures).AbsolutePath, "aRealDateTime");
+                    var sdCardPath = System.IO.Path.Combine(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures).AbsolutePath, "iChronoMe");
                     Directory.CreateDirectory(sdCardPath);
                     var filePath = System.IO.Path.Combine(sdCardPath, "icon_" + DateTime.Now.TimeOfDay.TotalMilliseconds + ".png");
                     var stream = new FileStream(filePath, FileMode.OpenOrCreate);

@@ -13,7 +13,7 @@ using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Clock
 {
-    [BroadcastReceiver(Label = "Analoge Uhr")]
+    [BroadcastReceiver(Label = "@string/widget_title_clock_analog", Name = "me.ichrono.droid.Clock.AnalogClockWidget")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_analogclock")]
     public class AnalogClockWidget : MainWidgetBase

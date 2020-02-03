@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
@@ -14,6 +13,7 @@ using Android.Widget;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.Types;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Widgets;
@@ -136,15 +136,11 @@ namespace iChronoMe.Droid.GUI
             }
         }
 
-        DateTime tClockTime = DateTime.MinValue;
-        private void Lth_TimeChanged(object sender, TimeChangedEventArgs e)
+        private void Lth_AreaChanged(object sender, AreaChangedEventArgs e)
         {
             mContext.RunOnUiThread(() =>
             {
-                DateTime tCurrent = lth.GetTime(this.TimeType);
-                DateTime tReal = lth.GetTime(TimeType.RealSunTime);
-                DateTime tMiddle = lth.GetTime(TimeType.MiddleSunTime);
-                DateTime tZone = lth.GetTime(TimeType.TimeZoneTime);
+                lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
                 if (lth.Latitude == 0 && lth.Longitude == 0)
                     lGeoPos.Text = "unknown position";
                 else
@@ -153,43 +149,14 @@ namespace iChronoMe.Droid.GUI
                     if (lth.TimeZoneOffset != lth.TimeZoneOffsetGmt)
                         lGeoPos.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
                 }
-
-                lTime1.Text = TimeType.RealSunTime.ToString() + ":";
-                lTimeInfo1.Text = tReal.ToLongTimeString();
-                if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tReal))
-                    lTimeInfo1.Text += "\t(" + (tCurrent > tReal ? "-" : "+") + (tReal - tCurrent).ToString(@"mm\:ss") + ")";
-
-                lTime2.Text = TimeType.MiddleSunTime.ToString() + ":";
-                lTimeInfo2.Text = tMiddle.ToLongTimeString();
-                if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tMiddle))
-                    lTimeInfo2.Text += "\t(" + (tCurrent > tMiddle ? "-" : "+") + (tMiddle - tCurrent).ToString(@"mm\:ss") + ")";
-
-                lTime3.Text = TimeType.TimeZoneTime.ToString() + ":";
-                lTimeInfo3.Text = tZone.ToLongTimeString();
-                if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tZone))
-                    lTimeInfo3.Text += "\t(" + (tCurrent > tZone ? "-" : "+") + (tZone - tCurrent).ToString(@"mm\:ss") + ")";
-
-                tCurrent = sys.GetTimeWithoutMilliSeconds(tCurrent);
-                if (tClockTime != tCurrent)
-                {
-                    skiaView.Invalidate();
-                    tClockTime = tCurrent;
-                }
             });
-        }
-        private void Lth_AreaChanged(object sender, AreaChangedEventArgs e)
-        {
-            mContext.RunOnUiThread(() => lTitle.Text = lth.AreaName + ", " + lth.CountryName);
         }
 
         public void SetTimeType(TimeType tt)
         {
+            StopClockUpdates();
             this.TimeType = tt;
-            fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth));
-            lth.Stop();
-            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-            Lth_TimeChanged(this, new TimeChangedEventArgs(TimeChangedFlag.TimeSourceUpdate));
-            lth.Start(true, true, true);// this.TimeType == TimeType.RealSunTime, this.TimeType == TimeType.MiddleSunTime, this.TimeType == TimeType.TimeZoneTime || this.TimeType == TimeType.UtcTime);
+            StartClockUpdates();
         }
 
         private void BtnMaps_Click(object sender, EventArgs e)
@@ -201,16 +168,7 @@ namespace iChronoMe.Droid.GUI
         {
             base.OnResume();
 
-            vClock = new WidgetView_ClockAnalog();
-            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-
-            lth = LocationTimeHolder.LocalInstance;
-            fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth));
-            skiaView.PaintSurface += OnPaintSurface;
-
-            lth.TimeChanged += Lth_TimeChanged;
-            lth.AreaChanged += Lth_AreaChanged;
-            lth.Start(true, true, true);// this.TimeType == TimeType.RealSunTime, this.TimeType == TimeType.MiddleSunTime, this.TimeType == TimeType.TimeZoneTime || this.TimeType == TimeType.UtcTime);
+            StartClockUpdates();
             Task.Factory.StartNew(() =>
             {
                 var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
@@ -220,44 +178,98 @@ namespace iChronoMe.Droid.GUI
                     lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
                 if (lastLocation != null)
-                    lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, true);
+                    lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
             });
         }
 
         public override void OnPause()
         {
             base.OnPause();
-
-            skiaView.PaintSurface -= OnPaintSurface;
-            lth.TimeChanged -= Lth_TimeChanged;
-            lth.AreaChanged -= Lth_AreaChanged;
-            lth.Stop();
+            StopClockUpdates();
         }
 
-        public override void Reinit()
-        {
-            base.Reinit();
-            SetTimeType(AppConfigHolder.MainConfig.DefaultTimeType);
-            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-        }
-
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        private void StartClockUpdates()
         {
             try
             {
-                SetTimeType(this.TimeType);
+                if (vClock == null)
+                    vClock = new WidgetView_ClockAnalog();
+                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+
+                lth = LocationTimeHolder.LocalInstance;
+                skiaView.PaintSurface += OnPaintSurface;
+
+                lth.AreaChanged += Lth_AreaChanged;
+                Lth_AreaChanged(null, null);
+
+                mContext.RunOnUiThread(() => fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth)));
+
+                lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
+                {
+                    mContext.RunOnUiThread(() =>
+                    {
+                        DateTime tCurrent = lth.GetTime(this.TimeType);
+                        DateTime tInfo = lth.GetTime(TimeType.RealSunTime);
+                        lTime1.Text = TimeType.RealSunTime.ToString() + ":";
+                        lTimeInfo1.Text = tInfo.ToLongTimeString();
+                        if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
+                            lTimeInfo1.Text += "\t(" + (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToShortString() + ")";
+                    });
+                });
+                lth.StartTimeChangedHandler(this, TimeType.MiddleSunTime, (s, e) =>
+                {
+                    mContext.RunOnUiThread(() =>
+                    {
+                        DateTime tCurrent = lth.GetTime(this.TimeType);
+                        DateTime tInfo = lth.GetTime(TimeType.MiddleSunTime);
+                        lTime2.Text = TimeType.MiddleSunTime.ToString() + ":";
+                        lTimeInfo2.Text = tInfo.ToLongTimeString();
+                        if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
+                            lTimeInfo2.Text += "\t(" + (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToShortString() + ")";
+                    });
+                });
+                lth.StartTimeChangedHandler(this, TimeType.TimeZoneTime, (s, e) =>
+                {
+                    mContext.RunOnUiThread(() =>
+                    {
+                        DateTime tCurrent = lth.GetTime(this.TimeType);
+                        DateTime tInfo = lth.GetTime(TimeType.TimeZoneTime);
+                        lTime3.Text = TimeType.TimeZoneTime.ToString() + ":";
+                        lTimeInfo3.Text = tInfo.ToLongTimeString();
+                        if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
+                            lTimeInfo3.Text += "\t(" + (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToShortString() + ")";
+                    });
+                });
+
+                lth.StartTimeChangedHandler(skiaView, this.TimeType, (s, e) =>
+                {
+                    mContext.RunOnUiThread(() =>
+                    {
+                        skiaView.Invalidate();
+                    });
+                });
             }
-            catch { }
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
 
+        private void StopClockUpdates()
+        {
+            skiaView.PaintSurface -= OnPaintSurface;
+            lth.AreaChanged -= Lth_AreaChanged;
+            lth.StopTimeChangedHandler(this);
+            lth.StopTimeChangedHandler(skiaView);
+        }
+        
         const int menu_options = 1001;
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
             base.OnCreateOptionsMenu(menu, inflater);
 
-            var item = menu.Add(0, menu_options, 1, "Options");
+            var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
             item.SetIcon(Resource.Drawable.icons8_services);
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
@@ -358,7 +370,14 @@ namespace iChronoMe.Droid.GUI
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            vClock.DrawCanvas(e.Surface.Canvas, lth.GetTime(this.TimeType), (int)e.Info.Width, (int)e.Info.Height, true);
+            try
+            {
+                vClock.DrawCanvas(e.Surface.Canvas, lth.GetTime(this.TimeType), (int)e.Info.Width, (int)e.Info.Height, true);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
     }
 }

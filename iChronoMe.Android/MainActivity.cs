@@ -146,27 +146,7 @@ namespace iChronoMe.Droid
                 fr = frCalendar;
 
             }
-            else if (id == Resource.Id.nav_camera)
-            {
-                // Handle the camera action
-            }
-            else if (id == Resource.Id.nav_gallery)
-            {
-
-            }
-            else if (id == Resource.Id.nav_slideshow)
-            {
-
-            }
-            else if (id == Resource.Id.nav_manage)
-            {
-
-            }
             else if (id == Resource.Id.nav_share)
-            {
-
-            }
-            else if (id == Resource.Id.nav_send)
             {
 
             }

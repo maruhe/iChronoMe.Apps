@@ -1,0 +1,96 @@
+<resources>
+  <string name="app_name">iChronoMe</string>
+  <string name="app_slogan">Zeit ist dynamisch</string>
+  <string name="navigation_drawer_open">Navigation öffnen</string>
+  <string name="navigation_drawer_close">Navigation schließen</string>
+  <string name="action_settings">Einstellungen</string>
+  <string name="action_options">Optionen</string>
+
+  <string name="widget_loading">Zeit ist nur Illusion\u2026</string>
+  <string name="widget_unconfigured">hier klicken um das Widget zu konfigurieren!</string>
+  <string name="widget_permission_error">ich brauche mehr Berechtigungen, klick here bitte</string>
+  <string name="text_ServiceInfo">warum der Dienst laufen muss? warum es ihn braucht und was man daraus machen kann:</string>
+
+  <string name="calendar_widget_loading">Termine werden geladen...</string>
+
+  <string name="shortcut_create_calender_event">Termin erstellen</string>
+  <string name="shortcut_create_calender_event_long">long description...</string>
+  <string name="shortcut_create_calender_event_disabled">geht nit? warum nit?</string>
+
+  <string name="shortcut_create_alarm">Wecker stellen</string>
+  <string name="shortcut_create_alarm_long">long description...</string>
+  <string name="shortcut_create_alarm_disabled">geht nit? warum nit?</string>
+
+  <string name="widget_lifetime_loading">ein "tropisches Jahr" dauert:\n365 d 5 h 48 min and 45,261 s</string>
+
+  <string name="loading">lade...</string>
+  <string name="stop_alarm">danke</string>
+  <string name="action_continue">weiter</string>
+  <string name="action_back">zurück</string>
+  <string name="action_ok">ok</string>
+  <string name="action_yes">ja</string>
+  <string name="action_no">nein</string>
+  <string name="action_colors">Farben</string>
+  <string name="action_background">Hintergrund</string>
+  <string name="dont_ask_again">nicht mehr fragen</string>
+  <string name="just_a_moment">einen Moment bitte...</string>
+
+  <string name="menu_clock">Uhr</string>
+  <string name="menu_calendar">Kalender</string>
+  <string name="menu_tools">Werkzeuge</string>
+  <string name="menu_share">Teilen</string>
+
+  <string name="widget_title_actionbutton">Aktions-Knopf</string>
+  <string name="widget_title_calendar">Kalender Widget in Sonnenzeit</string>
+  <string name="widget_title_clock_analog">Sonnenzeit analog</string>
+  <string name="widget_title_lifetime">Lebenszeit</string>
+
+  <string name="TimeType">Zeit-Typ</string>
+  <string name="firststart_welcome">
+"willkommen bei iChronoMe!
+bitte wähle einen Zeit-Typ als Standard:"
+  </string>
+  <string name="TimeType_RealSunTime">wahre Ortszeit</string>
+  <string name="TimeType_RealSunTime_Desc">
+"die Uhrzeit gemessen an der echten Position der Sonne, wobei der Tageshöchststand der Sonne 12 Uhr bedeutet
+dadurch sind manche Tage etwas kürzer und manche Tage etwas länger als 24 Stunden, wie die Natur nunmal
+die Abweichtung der Zeitzonen-Zeit ändert sich konstant"
+  </string>
+  <string name="TimeType_MiddleSunTime">mittlere Ortzzeit</string>
+  <string name="TimeType_MiddleSunTime_Desc">
+"die Uhrzeit basierend auf dem Längengrad deines Standortes und einer 'mittleren Sonnenposition'
+im Laufe eines Jahres kann die Abweichung zur 'wahren Ortszeit' bis zu 18 Minuten betragen
+jeder Tag ist exakt 24 Stunden lang und die Abweichung der Zeitzonen-Zeit bleibt konstant"
+  </string>
+  <string name="TimeType_TimeZoneTime">Zeitzonen Zeit</string>
+  <string name="TimeType_TimeZoneTime_Desc">
+"diese Zeit basiert unter anderem auf den vermeidlichen Ländergrenzen und Gesetzten des Landes, das du gerade genießt
+oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"
+  </string>
+
+  <string name="assistant_permission_welcome">
+    "ein paar Berechtigungen wünsche ich mir:"
+  </string>
+  <string name="assistant_permission_location">
+    der Zugriff auf den Standort ist wichtig um die Sonnenzeit berechnen zu können"
+  </string>
+  <string name="assistant_permission_calendar">
+    "um deine Termine in Sonnenzeit anzeigen zu können wird der Zugriff aud deinen Kalender benötigt"
+  </string>
+  <string name="assistant_permission_storage">
+    "und solltes du auch den Zugriff auf den Gerätespeicher zulassen kann die Voschau von Widges auch gleich mit deinem Hintergrundbild angezeigt werden"
+  </string>
+  <string name="assistant_privacy_question">you may mind about data privacy?</string>
+  <string name="assistant_privacy_title">data privacy information:</string>
+  <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
+  <string name="assistant_privacy_accept">accept</string>
+  <string name="assistant_privacy_ignore">ignore</string>
+  <string name="assistant_privacy_decline">decline</string>
+
+  <string name="calendar_viewtype_Timeline">Zeitlinie</string>
+  <string name="calendar_viewtype_DayView">Tagesansicht</string>
+  <string name="calendar_viewtype_WeekView">Wochenansicht</string>
+  <string name="calendar_viewtype_WorkWeek">Arbeitswoche</string>
+  <string name="calendar_viewtype_MonthView">Monatsansicht</string>
+
+</resources>

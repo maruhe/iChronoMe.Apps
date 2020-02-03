@@ -13,7 +13,7 @@ using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
 {
-    [BroadcastReceiver(Label = "Lebenszeit")]
+    [BroadcastReceiver(Label = "@string/widget_title_lifetime", Name = "me.ichrono.droid.Lifetime.LifetimeWidget")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_lifetime")]
     public class LifetimeWidget : MainWidgetBase

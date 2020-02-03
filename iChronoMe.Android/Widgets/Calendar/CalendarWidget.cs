@@ -11,7 +11,7 @@ using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets.Calendar
 {
-    [BroadcastReceiver(Label = "Kalender", Name = "me.ichrono.droid.Widgets.Calendar.CalendarWidget")]
+    [BroadcastReceiver(Label = "@string/widget_title_calendar", Name = "me.ichrono.droid.Widgets.Calendar.CalendarWidget")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_calendar")]
     public class CalendarWidget : MainWidgetBase

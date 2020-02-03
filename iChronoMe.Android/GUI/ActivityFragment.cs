@@ -7,15 +7,5 @@ namespace iChronoMe.Droid.GUI
     public abstract class ActivityFragment : Fragment
     {
         public ViewGroup RootView { get; protected set; }
-
-        public virtual void Refresh()
-        {
-
-        }
-
-        public virtual void Reinit()
-        {
-
-        }
     }
 }

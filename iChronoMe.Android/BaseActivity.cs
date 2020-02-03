@@ -58,19 +58,29 @@ namespace iChronoMe.Droid
             tcsRP?.TrySetResult(res);
         }
 
+        const float nStartAssistantMaxStep = 1.4F;
         public bool NeedsStartAssistant()
         {
-            return AppConfigHolder.MainConfig.WelcomeScreenDone < 1;
+            return AppConfigHolder.MainConfig.WelcomeScreenDone < nStartAssistantMaxStep;
         }
         public void ShowStartAssistant()
         {
-            ShowFirstStartAssistant();
+            if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.1F)
+                ShowFirstStartAssistant();
+            else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.2F)
+                ShowPermissionsAssistant();
+            else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.3F)
+                ShowPrivacyAssistant();
+            else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.4F)
+                ShowPrivacyNotice();
+            else
+                SetAssistantDone();
         }
 
         public void ShowFirstStartAssistant()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle("Welcome to iChronoMe!\nPlease select your default Time-Type:")
+                .SetTitle(Resources.GetString(Resource.String.firststart_welcome))
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
                 {
                     var tt = TimeType.RealSunTime;
@@ -84,10 +94,11 @@ namespace iChronoMe.Droid
                             break;
                     }
                     AppConfigHolder.MainConfig.DefaultTimeType = tt;
+                    AppConfigHolder.MainConfig.WelcomeScreenDone = 1.1F;
                     AppConfigHolder.SaveMainConfig();
                     ShowPermissionsAssistant();
                 })
-                .SetOnCancelListener(new myDialogCancelListener(this))
+                .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
         }
 
@@ -102,7 +113,7 @@ namespace iChronoMe.Droid
                 {
                     checks[e.Which] = e.IsChecked;
                 })
-                .SetPositiveButton("Continue", (s, e) =>
+                .SetPositiveButton(Resources.GetString(Resource.String.action_continue), (s, e) =>
                 {
 
                     var req = new List<string>();
@@ -131,7 +142,9 @@ namespace iChronoMe.Droid
 
                         if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
                         {
-                            SetAssistantDone();
+                            AppConfigHolder.MainConfig.WelcomeScreenDone = 1.2F;
+                            AppConfigHolder.SaveMainConfig();
+                            ShowPrivacyAssistant();
                         }
                         else
                         {
@@ -139,16 +152,60 @@ namespace iChronoMe.Droid
                         }
                     });
                 })
-                .SetOnCancelListener(new myDialogCancelListener(this))
+                .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
+        }
+
+        public void ShowPrivacyAssistant()
+        {
+            new Android.Support.V7.App.AlertDialog.Builder(this)
+                .SetTitle(Resources.GetString(Resource.String.assistant_privacy_question))
+                .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
+                {
+                    AppConfigHolder.MainConfig.WelcomeScreenDone = 1.3F;
+                    AppConfigHolder.SaveMainConfig();
+                    ShowPrivacyNotice();
+                })
+                .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
+                {
+                    AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
+                    AppConfigHolder.SaveMainConfig();
+                    SetAssistantDone();
+                })
+                .SetOnCancelListener(new QuitOnCancelListener(this))
+                .Create().Show();
+        }
+
+        public void ShowPrivacyNotice()
+        {
+            new Android.Support.V7.App.AlertDialog.Builder(this)
+                        .SetTitle(Resources.GetString(Resource.String.assistant_privacy_title))
+                        .SetMessage(Resources.GetString(Resource.String.assistant_privacy_message))
+                        .SetPositiveButton(Resources.GetString(Resource.String.assistant_privacy_accept), (s2, e2) =>
+                        {
+                            AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
+                            AppConfigHolder.SaveMainConfig();
+                            SetAssistantDone();
+                        })
+                        .SetNeutralButton(Resources.GetString(Resource.String.assistant_privacy_ignore), (s3, e3) =>
+                        {
+                            AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
+                            AppConfigHolder.SaveMainConfig();
+                            SetAssistantDone();
+                        })
+                        .SetNegativeButton(Resources.GetString(Resource.String.assistant_privacy_decline), (s3, e3) =>
+                        {
+                            FinishAndRemoveTask();
+                        })
+                        .SetOnCancelListener(new QuitOnCancelListener(this))
+                    .Create().Show();
         }
 
         public void SetAssistantDone()
         {
-            AppConfigHolder.MainConfig.WelcomeScreenDone = 1;
+            AppConfigHolder.MainConfig.WelcomeScreenDone = nStartAssistantMaxStep;
             AppConfigHolder.SaveMainConfig();
-
-            ActiveFragment?.Reinit();
+            OnResume();
         }
 
         public Task<bool> RequestPermissionsTask { get { return tcsRP == null ? Task.FromResult(false) : tcsRP.Task; } }
@@ -164,11 +221,11 @@ namespace iChronoMe.Droid
         }
     }
 
-    public class myDialogCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
+    public class QuitOnCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
     {
         BaseActivity mContext;
 
-        public myDialogCancelListener(BaseActivity context)
+        public QuitOnCancelListener(BaseActivity context)
         {
             mContext = context;
         }

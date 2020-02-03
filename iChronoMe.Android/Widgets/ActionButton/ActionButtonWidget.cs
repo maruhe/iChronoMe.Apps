@@ -12,7 +12,7 @@ using iChronoMe.Core.DynamicCalendar;
 
 namespace iChronoMe.Droid.Widgets.ActionButton
 {
-    [BroadcastReceiver(Label = "ActionButton")]
+    [BroadcastReceiver(Label = "@string/widget_title_actionbutton", Name = "me.ichrono.droid.Widgets.ActionButton.ActionButtonWidget")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_action_button")]
     public class ActionButtonWidget : MainWidgetBase

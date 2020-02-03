@@ -150,9 +150,13 @@ namespace iChronoMe.Droid.Widgets
         {
             if (pDlg != null)
                 pDlg.SetProgressDone();
-            MainThread.BeginInvokeOnMainThread(() =>
+            Task.Factory.StartNew(() =>
             {
-                new AlertDialog.Builder(mContext).SetTitle("Error").SetMessage(cMessage).Create().Show();
+                Task.Delay(250).Wait();
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    new AlertDialog.Builder(mContext).SetTitle("Error").SetMessage(cMessage).Create().Show();
+                });
             });
         }
     }

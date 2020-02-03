@@ -126,7 +126,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 spinner.Visibility = ViewStates.Gone;
                 spinner.ItemSelected -= ViewSpinner_ItemSelected;
-                mContext.Title = "iChronoMe";
+                mContext.Title = Resources.GetString(Resource.String.app_name);
             }
         }
 
@@ -179,30 +179,30 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             base.OnCreateOptionsMenu(menu, inflater);
 
-            var item = menu.Add(0, menu_options, 1000, "Options");
+            var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
             item.SetIcon(Resource.Drawable.icons8_view_quilt);
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
 
-            var sub = menu.AddSubMenu(0, 0, 100, "TimeType");
+            var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
             sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance));
             sub.Item.SetShowAsAction(ShowAsAction.Always);
 
             if (calEvents.timeType != TimeType.RealSunTime)
             {
-                item = sub.Add(0, menu_typetype_RealSunTime, 0, "RealSunTime");
+                item = sub.Add(0, menu_typetype_RealSunTime, 0, Resources.GetString(Resource.String.TimeType_RealSunTime));
                 item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
             if (calEvents.timeType != TimeType.MiddleSunTime)
             {
-                item = sub.Add(0, menu_typetype_MiddleSunTime, 0, "MiddleSunTime");
+                item = sub.Add(0, menu_typetype_MiddleSunTime, 0, Resources.GetString(Resource.String.TimeType_MiddleSunTime));
                 item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
             if (calEvents.timeType != TimeType.TimeZoneTime)
             {
-                item = sub.Add(0, menu_typetype_TimeZoneTime, 0, "TimeZoneTime");
+                item = sub.Add(0, menu_typetype_TimeZoneTime, 0, Resources.GetString(Resource.String.TimeType_TimeZoneTime));
                 item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }

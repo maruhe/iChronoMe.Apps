@@ -4,7 +4,7 @@ using Android.Support.V7.App;
 
 namespace iChronoMe.Droid
 {
-    [Activity(Label = "ShortCutActivity", Name = "mobi.jonny.RealDateTime.ShortCutActivity", Theme = "@style/TransparentTheme", NoHistory = true)]
+    [Activity(Label = "ShortCutActivity", Name = "me.ichrono.droid.ShortCutActivity", Theme = "@style/TransparentTheme", NoHistory = true)]
     public class ShortCutActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

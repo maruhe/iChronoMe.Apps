@@ -43,7 +43,7 @@ namespace iChronoMe.Droid.GUI
             ll.AddView(message, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent));
 
             AlertDialog.Builder alert = new AlertDialog.Builder(Activity);
-            alert.SetTitle(Arguments.GetString("Title", "just a moment..."));
+            alert.SetTitle(Arguments.GetString("Title", Resources.GetString(Resource.String.just_a_moment)));
             alert.SetView(ll);
             alert.SetCancelable(false);
 
