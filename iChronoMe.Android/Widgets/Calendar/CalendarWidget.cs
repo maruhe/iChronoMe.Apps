@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
-using Android.Util;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
@@ -39,7 +38,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            Log.Debug("CalendarWidget", "OnUpdate");
+            xLog.Verbose("start");
 
             var holder = new WidgetConfigHolder();
 

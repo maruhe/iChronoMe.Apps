@@ -70,7 +70,6 @@
     <Compile Include="Adapters\SimpleObject.cs" />
     <Compile Include="Adapters\TimeTypeAdapter.cs" />
     <Compile Include="BaseActivity.cs" />
-    <Compile Include="ExceptionExtention.cs" />
     <Compile Include="GUI\ActivityFragment.cs" />
     <Compile Include="GUI\Calendar\CalendarFragment.cs" />
     <Compile Include="GUI\Calendar\EventEditFragment.cs" />

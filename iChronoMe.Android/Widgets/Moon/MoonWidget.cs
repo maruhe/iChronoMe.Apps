@@ -4,7 +4,6 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.Util;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
@@ -18,7 +17,7 @@ namespace iChronoMe.Droid.Widgets.Moon
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            Log.Debug("MoonWidget", "OnUpdate");
+            xLog.Verbose("start");
 
             var cfgHolder = new WidgetConfigHolder();
 

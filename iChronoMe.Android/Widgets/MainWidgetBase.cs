@@ -9,7 +9,6 @@ using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Util;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
@@ -26,14 +25,14 @@ namespace iChronoMe.Droid.Widgets
         {
             base.OnAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
 
-            Log.Debug(this.GetType().Name, "OnAppWidgetOptionsChanged: " + appWidgetId.ToString());
+            xLog.Debug("OnAppWidgetOptionsChanged: " + appWidgetId.ToString());
         }
 
         public override void OnDeleted(Context context, int[] appWidgetIds)
         {
             base.OnDeleted(context, appWidgetIds);
 
-            Log.Debug(this.GetType().Name, "OnDeleted: " + appWidgetIds.ToString());
+            xLog.Debug("OnDeleted: " + appWidgetIds.ToString());
         }
 
         public override void OnReceive(Context context, Intent intent)
@@ -42,7 +41,7 @@ namespace iChronoMe.Droid.Widgets
             {
                 base.OnReceive(context, intent);
 
-                Log.Debug(this.GetType().Name, "OnReceive: " + intent.Action);
+                xLog.Debug("OnReceive: " + intent.Action);
                 AppWidgetManager mgr = AppWidgetManager.GetInstance(context);
 
                 if (AppWidgetManager.ActionAppwidgetDeleted.Equals(intent.Action))
@@ -73,7 +72,7 @@ namespace iChronoMe.Droid.Widgets
                         if (options != null)
                         {
                             foreach (var x in options.KeySet())
-                                Log.Warn("MainWidgetBase", "OptionsChanged: " + x + " \t" + options.Get(x).ToString());
+                                xLog.Warn("OptionsChanged: " + x + " \t" + options.Get(x).ToString());
 
                             var metrics = context.Resources.DisplayMetrics;
 
@@ -123,7 +122,7 @@ namespace iChronoMe.Droid.Widgets
             }
             catch (Exception e)
             {
-                Log.Error(this.GetType().Name, e.Message);
+                xLog.Error(e);
             }
         }
 
@@ -164,7 +163,7 @@ namespace iChronoMe.Droid.Widgets
                                 cfg.WidgetWidth = storeCfg.Width;
                                 cfg.WidgetHeight = storeCfg.Heigth;
                                 cfgHolder.SetWidgetCfg(cfg);
-                                Log.Warn("WidgetSizeChanged", storeCfg.Type.Name + " " + storeCfg.WidgetId + ": " + storeCfg.Width.ToString() + "x" + storeCfg.Heigth.ToString() + "dp => " + (storeCfg.Width * sys.DisplayDensity).ToString() + "x" + (storeCfg.Heigth * sys.DisplayDensity).ToString() + "px");
+                                xLog.Warn(storeCfg.Type.Name + " " + storeCfg.WidgetId + ": " + storeCfg.Width.ToString() + "x" + storeCfg.Heigth.ToString() + "dp => " + (storeCfg.Width * sys.DisplayDensity).ToString() + "x" + (storeCfg.Heigth * sys.DisplayDensity).ToString() + "px");
 
                                 Task.Delay(50).Wait();
                                 try
@@ -178,7 +177,7 @@ namespace iChronoMe.Droid.Widgets
                                 }
                                 catch (Exception ex)
                                 {
-                                    Log.Error("Send UpdateToWidgetError after Resze", ex.Message);
+                                    xLog.Error(ex, "Send UpdateToWidgetError after Resze");
                                 }
                             }
                             Task.Delay(250).Wait();

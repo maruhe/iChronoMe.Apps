@@ -95,13 +95,6 @@ namespace iChronoMe.Droid
             }
         }
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            ActiveFragment?.OnCreateOptionsMenu(menu, MenuInflater);
-            //MenuInflater.Inflate(Resource.Menu.menu_main, menu);
-            return true;
-        }
-
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             int id = item.ItemId;
@@ -155,10 +148,10 @@ namespace iChronoMe.Droid
 
             if (fr != null)
             {
+                ActiveFragment = fr;
                 SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.main_frame, fr)
                 .Commit();
-                ActiveFragment = fr;
             }
 
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);

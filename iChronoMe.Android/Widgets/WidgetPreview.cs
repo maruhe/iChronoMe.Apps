@@ -8,14 +8,12 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
-using iChronoMe.Droid.Extentions;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
@@ -138,7 +136,7 @@ namespace iChronoMe.Droid.Widgets
 
         public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
-            Log.Debug("WidgetPreviewListAdapter", "GetView Widget " + position);
+            xLog.Debug("GetView Widget " + position);
             ViewHolder viewHolder = null;
             if (convertView == null)
             {
@@ -281,7 +279,7 @@ namespace iChronoMe.Droid.Widgets
 
                     if (!ViewsToLoad.Contains(position) && !ViewsInLoading.Contains(position))
                     {
-                        Log.Debug("WidgetPreviewListAdapter", "Add generate Widget " + position);
+                        xLog.Debug("Add generate Widget " + position);
                         lock (ViewsToLoad)
                         {
                             ViewsToLoad.Add(position, viewHolder);
@@ -293,7 +291,7 @@ namespace iChronoMe.Droid.Widgets
             }
             catch (Exception ex)
             {
-                Log.Error("WidgetPreviewListAdapter", ex.AsTr(), "GetView " + position);
+                xLog.Error(ex, "GetView " + position);
             }
             return convertView;
         }
@@ -331,9 +329,9 @@ namespace iChronoMe.Droid.Widgets
 
                             var tsk = new Thread(() =>
                             {
-                                Log.Debug("WidgetPreviewListAdapter", "thread load Widget Preview " + iPos);
+                                xLog.Debug("thread load Widget Preview " + iPos);
                                 var vWidget = GetWidgetView(iPos);
-                                Log.Debug("WidgetPreviewListAdapter", "thread load Widget Preview done " + iPos);
+                                xLog.Debug("thread load Widget Preview done " + iPos);
                                 if (mContext == null)
                                     return;
                                 lock (ViewsInLoading)
@@ -372,7 +370,7 @@ namespace iChronoMe.Droid.Widgets
                                     }
                                     catch (Exception ex)
                                     {
-                                        Log.Debug("WidgetPreviewListAdapter", ex.AsTr(), "push generated Widget " + iPos);
+                                        xLog.Debug(ex, "push generated Widget " + iPos);
                                     }
                                 });
                             });
@@ -411,7 +409,7 @@ namespace iChronoMe.Droid.Widgets
             var swGenerateStart = swStart;
             try
             {
-                Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position);
+                xLog.Debug("Generate new Widget Preview " + position);
 
                 var cfg = new List<WidgetCfg>(Items.Values)[position];
                 if (cfg == null) //gelöschte Widgets anzeigen, schönere Lösung anstreben
@@ -437,7 +435,7 @@ namespace iChronoMe.Droid.Widgets
                     float nHour = (float)DateTime.Now.TimeOfDay.TotalHours;
 
                     rv = ActionButtonService.DrawButton(mContext, cfg as WidgetCfg_ActionButton, wSize, null, -1, nHour, iDay, iDayCount, true);
-                    Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " RVActionButton " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    xLog.Debug("Generate new Widget Preview " + position + " RVActionButton " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                     swStart = DateTime.Now;
                 }
                 else if (cfg is WidgetCfg_Clock)
@@ -456,9 +454,9 @@ namespace iChronoMe.Droid.Widgets
                         (cfg as WidgetCfg_CalendarTimetable).ShowLocationSunOffset = false;
                     }
                     rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_calendar_universal);
-                    Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " Start RVCalendarHeader");
+                    xLog.Debug("Generate new Widget Preview " + position + " Start RVCalendarHeader");
                     CalendarWidgetService.GenerateWidgetTitle(mContext, rv, cfg as WidgetCfg_Calendar, wSize, CalendarModel);
-                    Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " RVCalendarHeader " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    xLog.Debug("Generate new Widget Preview " + position + " RVCalendarHeader " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                     swStart = DateTime.Now;
                     if (cfg is WidgetCfg_CalendarTimetable)
                     {
@@ -469,13 +467,13 @@ namespace iChronoMe.Droid.Widgets
                         rv.SetViewVisibility(Resource.Id.header_layout, ViewStates.Visible);
                         rv.SetViewVisibility(Resource.Id.list_layout, ViewStates.Visible);
                         CalendarWidgetService.GenerateWidgetMonthView(mContext, rv, cfg as WidgetCfg_CalendarMonthView, wSize, 42, CalendarModel, null, myEventsMonth);
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " RVMonthView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " RVMonthView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
                     }
                     else if (cfg is WidgetCfg_CalendarCircleWave)
                     {
                         CalendarWidgetService.GenerateCircleWaveView(mContext, null, rv, cfg as WidgetCfg_CalendarCircleWave, wSize, 42, CalendarModel, null, myEventsMonth);
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " RVCircleWave " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " RVCircleWave " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
                     }
                 }
@@ -488,7 +486,7 @@ namespace iChronoMe.Droid.Widgets
                         rv.Dispose();
 
                         rv = null;
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " RvToView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " RvToView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
 
                         if (cfg is WidgetCfg_CalendarTimetable)
@@ -510,7 +508,7 @@ namespace iChronoMe.Droid.Widgets
                                     list.AddView(v);
                                 }
                                 */
-                                Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " TimeTableData " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                                xLog.Debug("Generate new Widget Preview " + position + " TimeTableData " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                                 swStart = DateTime.Now;
                                 vWidget.FindViewById(Resource.Id.empty_view).Visibility = ViewStates.Gone;
                                 vWidget.FindViewById(Resource.Id.event_list).Visibility = ViewStates.Visible;
@@ -524,7 +522,7 @@ namespace iChronoMe.Droid.Widgets
                         vWidget.Measure(View.MeasureSpec.MakeMeasureSpec(View.MeasureSpec.GetSize(iWidthPx), MeasureSpecMode.Exactly), View.MeasureSpec.MakeMeasureSpec(View.MeasureSpec.GetSize(iHeightPx), MeasureSpecMode.Exactly));
                         vWidget.Layout(0, 0, iWidthPx, iHeightPx);
 
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " MeasureView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " MeasureView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
 
 
@@ -534,10 +532,10 @@ namespace iChronoMe.Droid.Widgets
                         vWidget.Dispose();
                         vWidget = null;
 
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " DrawView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " DrawView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
                         GC.Collect();
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " GC.Collect " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " GC.Collect " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
                     }
                 }
@@ -568,14 +566,14 @@ namespace iChronoMe.Droid.Widgets
                             //    PreviewCache.RemoveAt(8);
                         }
 
-                        Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " SaveCache " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                        xLog.Debug("Generate new Widget Preview " + position + " SaveCache " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                         swStart = DateTime.Now;
 
                         return scale;
                     }
                     catch (IOException e)
                     {
-                        Log.Error("WidgetPreviewListAdapter", e, "save Widget Preview Cache " + position);
+                        xLog.Error(e, "save Widget Preview Cache " + position);
 
                         lock (PreviewCache)
                         {
@@ -590,7 +588,7 @@ namespace iChronoMe.Droid.Widgets
             }
             catch (Exception ex)
             {
-                Log.Error("WidgetPreviewListAdapter", ex.AsTr(), "Generate new Widget Preview " + position);
+                xLog.Error(ex, "Generate new Widget Preview " + position);
                 lock (PreviewCache)
                 {
                     PreviewCache.Clear();
@@ -599,7 +597,7 @@ namespace iChronoMe.Droid.Widgets
             }
             finally
             {
-                Log.Debug("WidgetPreviewListAdapter", "Generate new Widget Preview " + position + " took " + (int)((DateTime.Now - swGenerateStart).TotalMilliseconds) + "ms");
+                xLog.Debug("Generate new Widget Preview " + position + " took " + (int)((DateTime.Now - swGenerateStart).TotalMilliseconds) + "ms");
             }
             return null;
         }

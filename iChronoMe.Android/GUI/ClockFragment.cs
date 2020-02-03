@@ -262,12 +262,12 @@ namespace iChronoMe.Droid.GUI
             lth.StopTimeChangedHandler(this);
             lth.StopTimeChangedHandler(skiaView);
         }
-        
+
         const int menu_options = 1001;
 
-        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        public override void OnPrepareOptionsMenu(IMenu menu)
         {
-            base.OnCreateOptionsMenu(menu, inflater);
+            base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
             item.SetIcon(Resource.Drawable.icons8_services);

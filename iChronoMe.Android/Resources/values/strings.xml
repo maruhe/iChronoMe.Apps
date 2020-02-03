@@ -88,10 +88,19 @@ may this is far far away from the real time on your location"
   <string name="assistant_privacy_ignore">ignore</string>
   <string name="assistant_privacy_decline">decline</string>
 
+  <!-- calendar view-->
+
   <string name="calendar_viewtype_Timeline">timeline</string>
   <string name="calendar_viewtype_DayView">day-view</string>
   <string name="calendar_viewtype_WeekView">week-view</string>
   <string name="calendar_viewtype_WorkWeek">work-week</string>
   <string name="calendar_viewtype_MonthView">month-view</string>
+  <string name="calendar_monthview_appointmentviewtypes_title">show appointments:</string>
+
+    <string-array name="calendar_monthview_appointmentviewtypes">
+    <item>inline</item>
+    <item>agenda</item>
+    <item>hidden</item>
+  </string-array>
 
 </resources>

@@ -5,7 +5,6 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.Util;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
@@ -40,7 +39,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            Log.Debug("ActionButtonWidget", "OnUpdate");
+            xLog.Verbose("start");
 
             var cfgHolder = new WidgetConfigHolder();
             foreach (int iWidgetId in appWidgetIds)

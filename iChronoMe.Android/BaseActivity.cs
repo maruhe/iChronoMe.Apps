@@ -13,6 +13,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
+using Android.Views;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
@@ -32,8 +33,23 @@ namespace iChronoMe.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
+        }
+
+        private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
+        {
+            var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
+            sys.LogException(newExc);
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            var newExc = new Exception("CurrentDomainOnUnhandledException", unhandledExceptionEventArgs.ExceptionObject as Exception);
+            sys.LogException(newExc);
         }
 
         protected override void OnResume()
@@ -58,6 +74,36 @@ namespace iChronoMe.Droid
             tcsRP?.TrySetResult(res);
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            try
+            {
+                ActiveFragment?.OnCreateOptionsMenu(menu, MenuInflater);
+            }
+            catch { }
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+            try
+            {
+                ActiveFragment?.OnPrepareOptionsMenu(menu);
+            }
+            catch { }
+            return base.OnPrepareOptionsMenu(menu);
+        }
+
+        public override void OnOptionsMenuClosed(IMenu menu)
+        {
+            base.OnOptionsMenuClosed(menu);
+            try
+            {
+                ActiveFragment?.OnOptionsMenuClosed(menu);
+            }
+            catch { }
+        }
+
         const float nStartAssistantMaxStep = 1.4F;
         public bool NeedsStartAssistant()
         {
@@ -80,7 +126,7 @@ namespace iChronoMe.Droid
         public void ShowFirstStartAssistant()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle(Resources.GetString(Resource.String.firststart_welcome))
+                .SetTitle(base.Resources.GetString(Resource.String.firststart_welcome))
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
                 {
                     var tt = TimeType.RealSunTime;
@@ -108,7 +154,7 @@ namespace iChronoMe.Droid
             bool[] checks = new bool[] { true, true, true };
 
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle(Resources.GetString(Resource.String.assistant_permission_welcome))
+                .SetTitle(base.Resources.GetString(Resource.String.assistant_permission_welcome))
                 .SetMultiChoiceItems(items, checks, (s, e) =>
                 {
                     checks[e.Which] = e.IsChecked;
@@ -159,7 +205,7 @@ namespace iChronoMe.Droid
         public void ShowPrivacyAssistant()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle(Resources.GetString(Resource.String.assistant_privacy_question))
+                .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_question))
                 .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
                 {
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.3F;
@@ -179,7 +225,7 @@ namespace iChronoMe.Droid
         public void ShowPrivacyNotice()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                        .SetTitle(Resources.GetString(Resource.String.assistant_privacy_title))
+                        .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_title))
                         .SetMessage(Resources.GetString(Resource.String.assistant_privacy_message))
                         .SetPositiveButton(Resources.GetString(Resource.String.assistant_privacy_accept), (s2, e2) =>
                         {

@@ -5,7 +5,6 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -20,7 +19,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            Log.Debug("LifetimeWidget", "OnUpdate");
+            xLog.Verbose("start");
 
             var cfgHolder = new WidgetConfigHolder();
 

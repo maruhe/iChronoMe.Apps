@@ -44,7 +44,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             }
             catch (Exception ex)
             {
-                Log.Debug("CalendarWidgetService", Java.Lang.Throwable.FromException(ex), "Exception: {0}");
+                xLog.Debug(ex, "Exception: {0}");
             }
         }
 
@@ -60,7 +60,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
         protected override void OnHandleWork(Intent intent)
         {
-            Log.Debug("CalendarWidgetService", "OnHandleWork");
+            xLog.Debug("OnHandleWork");
 
             var cfgHolder = new WidgetConfigHolder();
 
@@ -71,7 +71,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
             if (!bHasPermissions)
             {
-                Log.Debug("CalendarWidgetService", "PermissionCheck");
+                xLog.Debug("PermissionCheck");
                 try
                 {
                     bool bPermissionError = false;
@@ -88,7 +88,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                 if (!bHasPermissions)
                 {
-                    Log.Debug("CalendarWidgetService", "Missing Permissions!");
+                    xLog.Debug("Missing Permissions!");
                     foreach (int iWidgetId in appWidgetIDs)
                     {
                         RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_permission_error);
@@ -111,7 +111,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
             new Thread(() =>
             {
-                Log.Debug("CalendarWidgetService", "Start update " + appWidgetIDs.Length + " Widgets");
+                xLog.Debug("Start update " + appWidgetIDs.Length + " Widgets");
                 if (myEvents == null)
                     InitEvents();
 
@@ -136,14 +136,14 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                 }
                             }
 
-                            Log.Debug("CalendarWidgetService", "Start update Widget " + iWidgetId);
+                            xLog.Debug("Start update Widget " + iWidgetId);
                             var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_Calendar>(iWidgetId, false);
                             if (cfg == null)
                                 continue;
 
                             if (ResetData && cfg is WidgetCfg_CalendarTimetable)
                             {
-                                Log.Debug("CalendarWidgetService", "Send ResetData to ListService: " + cfg.GetType().Name);
+                                xLog.Debug("Send ResetData to ListService: " + cfg.GetType().Name);
                                 CalendarEventListService.ResetData = true;
                                 appWidgetManager.NotifyAppWidgetViewDataChanged(iWidgetId, Resource.Id.event_list);
                                 ResetData = false;
@@ -157,7 +157,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                                     Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
 
-                                    Log.Debug("CalendarWidgetService", "Widget Type: " + cfg.GetType().Name + ", Size: " + wSize.X + "x" + wSize.Y);
+                                    xLog.Debug("Widget Type: " + cfg.GetType().Name + ", Size: " + wSize.X + "x" + wSize.Y);
 
                                     RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_calendar_universal);
 
@@ -230,12 +230,12 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                     if (cfg is WidgetCfg_CalendarTimetable)
                                         appWidgetManager.NotifyAppWidgetViewDataChanged(iWidgetId, Resource.Id.event_list);
 
-                                    Log.Debug("CalendarWidgetService", "Update Widget done: " + iWidgetId);
+                                    xLog.Debug("Update Widget done: " + iWidgetId);
                                 }
                                 catch (ThreadAbortException) { }
                                 catch (Exception ex)
                                 {
-                                    Log.Error("CalendarWidgetService", ex.Message, "Update Widget Error: " + iWidgetId);
+                                    xLog.Error(ex.Message, "Update Widget Error: " + iWidgetId);
                                     RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
                                     rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message + "\n" + ex.StackTrace);
                                     rv.SetTextColor(Resource.Id.message, Color.IndianRed);
@@ -263,7 +263,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
         public static (bool bAllDone, int iHeaderHeight) GenerateWidgetTitle(Context context, RemoteViews rv, WidgetCfg_Calendar cfg, Point wSize, DynamicCalendarModel calendarModel, DynamicDate? dCurrent = null)
         {
-            Log.Debug("CalendarWidgetService", "GenerateWidgetTitle: Start: " + wSize.X + "x" + wSize.Y);
+            xLog.Debug("GenerateWidgetTitle: Start: " + wSize.X + "x" + wSize.Y);
 
             int iWidgetId = cfg.WidgetId;
 
@@ -445,14 +445,14 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     rv.SetViewVisibility(Resource.Id.background_image_header, ViewStates.Gone);
                 }
             }
-            Log.Debug("CalendarWidgetService", "GenerateWidgetTitle: done");
+            xLog.Debug("GenerateWidgetTitle: done");
 
             return (true, iHeaderHeight);
         }
 
         public static void GenerateWidgetMonthView(Context context, RemoteViews rv, WidgetCfg_CalendarMonthView cfg, Point wSize, int iHeaderHeight, DynamicCalendarModel calendarModel, DynamicDate? dXCurrent = null, EventCollection widgetEvents = null)
         {
-            Log.Debug("CalendarWidgetService", "GenerateWidgetMonthView: start " + wSize.X + "x" + wSize.Y);
+            xLog.Debug("GenerateWidgetMonthView: start " + wSize.X + "x" + wSize.Y);
 
             myEvents.Clear();
             myEvents.timeType = cfg.ShowTimeType;
@@ -494,10 +494,10 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
             if (widgetEvents == null)
             {
-                Log.Debug("CalendarMonthViewService", "start load events");
+                xLog.Debug("start load events");
                 myEvents.DoLoadCalendarEventsGrouped(dFirst.UtcDate, dLast.UtcDate.AddDays(1)).Wait();
                 widgetEvents = myEvents;
-                Log.Debug("CalendarMonthViewService", "Loadet events: " + widgetEvents.AllEvents.Count);
+                xLog.Debug("Loadet events: " + widgetEvents.AllEvents.Count);
             }
 
             var myDates = new List<DynamicDate>();
@@ -557,7 +557,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 }
             }
 
-            Log.Debug("CalendarWidgetService", "GenerateWidgetMonthView: ItemSize: " + nItemWidth + "x" + nItemHeigth + ", ShowEvents:" + iShowEvents + (bShowEventsIcon ? " asIcon" : " asText"));
+            xLog.Debug("GenerateWidgetMonthView: ItemSize: " + nItemWidth + "x" + nItemHeigth + ", ShowEvents:" + iShowEvents + (bShowEventsIcon ? " asIcon" : " asText"));
 
             bool bShowVertLines = nItemWidth > 20;
             bool bShowHorzLines = nItemHeigth > 25;
@@ -640,7 +640,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     }
 
                     RemoteViews rvItem = new RemoteViews(context.PackageName, Resource.Layout.widget_calendar_monthview_day_item);
-                    //Log.Debug("CalendarMonthViewService", "AddItem: " + iRow + " * " + iCol + " => " + iDay);
+                    //xLog.Verbose("AddItem: " + iRow + " * " + iCol + " => " + iDay);
                     try
                     {
                         DynamicDate dDate = myDates[iDay];
@@ -831,7 +831,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("CalendarMonthViewService", Java.Lang.Throwable.FromException(ex), "OnGetItemLayout");
+                        xLog.Error(ex, "OnGetItemLayout");
                         rvItem = new RemoteViews(context.PackageName, Resource.Layout.item_error);
                         rvItem.SetTextViewText(Resource.Id.error_text, ex.Message);
 
@@ -843,7 +843,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     iDay++;
                 }
                 rv.AddView(Resource.Id.list_layout, rvRow);
-                Log.Debug("CalendarWidgetService", "GenerateWidgetMonthView: done");
+                xLog.Debug("GenerateWidgetMonthView: done");
             }
 
             void DrawIconPlus(Bitmap bitmap)
@@ -862,7 +862,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
         public static void GenerateCircleWaveView(Context context, AppWidgetManager appWidgetManager, RemoteViews rv, WidgetCfg_CalendarCircleWave cfg, Point wSize, int iHeaderHeight, DynamicCalendarModel calendarModel, DynamicDate? dXCurrent = null, EventCollection widgetEvents = null)
         {
-            Log.Debug("CalendarWidgetService", "GenerateCircleWaveView: Start: " + wSize.X + "x" + wSize.Y);
+            xLog.Debug("GenerateCircleWaveView: Start: " + wSize.X + "x" + wSize.Y);
             DateTime swStart = DateTime.Now;
 
             int iWidgetId = cfg.WidgetId;
@@ -1268,10 +1268,10 @@ namespace iChronoMe.Droid.Widgets.Calendar
             swStart = DateTime.Now;
             if (widgetEvents == null)
             {
-                Log.Debug("CalendarCircleWaveService", "start load events");
+                xLog.Debug("start load events");
                 myEvents.DoLoadCalendarEventsGrouped(dFirst.UtcDate, dLast.UtcDate.AddDays(1)).Wait();
                 widgetEvents = myEvents;
-                Log.Debug("CalendarCircleWaveService", "Loadet events: " + widgetEvents.AllEvents.Count);
+                xLog.Debug("Loadet events: " + widgetEvents.AllEvents.Count);
             }
 
             if (ResetData)
@@ -1332,7 +1332,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
             rv.SetImageViewBitmap(Resource.Id.circle_image, bmp);
             //rv.SetTextViewText(Resource.Id.debug_text, cDebugInfo);
-            Log.Debug("CalendarWidgetService", "GenerateCircleWaveView: Done");
+            xLog.Debug("GenerateCircleWaveView: Done");
         }
 
         public static void AddDummyListEvents(Context mContext, RemoteViews rv, WidgetCfg_CalendarTimetable cfg, Android.Graphics.Point wSize, DynamicCalendarModel CalendarModel, EventCollection myEventsList)

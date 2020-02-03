@@ -8,7 +8,6 @@ using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Graphics;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -402,7 +401,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             try
             {
                 DateTime swLoadStart = DateTime.Now;
-                Log.Debug("CalendarTimetableService", "OnDataSetChanged");
+                xLog.Verbose("start");
                 if (myEvents == null)
                     myEvents = new EventCollection();
 

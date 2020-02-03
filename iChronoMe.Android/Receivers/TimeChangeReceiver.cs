@@ -28,7 +28,7 @@ namespace iChronoMe.Droid.Receivers
                 TimeHolder.Resync();
             } catch (Exception ex)
             {
-                Log.Error("TimeChangeReceiver", ex.Message);
+                xLog.Error(ex);
             }
             */
         }

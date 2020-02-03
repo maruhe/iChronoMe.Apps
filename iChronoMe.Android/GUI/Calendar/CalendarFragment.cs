@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +30,7 @@ namespace iChronoMe.Droid.GUI.Calendar
     {
         private DrawerLayout Drawer;
         private SfSchedule schedule;
+        private Spinner ViewTypeSpinner;
         private AppCompatActivity mContext = null;
         private EventCollection calEvents = null;
 
@@ -57,43 +59,66 @@ namespace iChronoMe.Droid.GUI.Calendar
             schedule = view.FindViewById<SfSchedule>(Resource.Id.calendar_schedule);
 
             schedule.ItemsSource = calEvents.ListedDates;
-            SetViewType(ScheduleView.WeekView);
             //schedule.Locale. = new Locale("de");
             schedule.AppointmentMapping = new AppointmentMapping() { Subject = "Name", StartTime = "javaDisplayStart", EndTime = "javaDisplayEnd", IsAllDay = "AllDay", Location = "Location", Notes = "Description", Color = "javaColor" };
 
-            schedule.DayViewSettings.DayLabelSettings.TimeFormat = "HH";
-            schedule.WeekViewSettings.WeekLabelSettings.TimeFormat = "HH";
-            schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
-            schedule.MonthViewSettings.AgendaViewStyle.TimeTextFormat = "HH:mm";
+            if (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"))
+            {
+                schedule.TimelineViewSettings.LabelSettings.TimeFormat = "HH";
+                schedule.DayViewSettings.DayLabelSettings.TimeFormat = "HH";
+                schedule.WeekViewSettings.WeekLabelSettings.TimeFormat = "HH";
+                schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
+                schedule.MonthViewSettings.AgendaViewStyle.TimeTextFormat = "HH:mm";
+            }
 
-            schedule.MonthViewSettings.AppointmentDisplayMode = AppointmentDisplayMode.Indicator;
-            schedule.MonthViewSettings.AppointmentIndicatorCount = 4;
-            schedule.MonthViewSettings.ShowAgendaView = true;
+            try
+            {
+                var cfg = AppConfigHolder.CalendarViewConfig;
 
-            schedule.ScheduleViewChanged += Schedule_ScheduleViewChanged;
-            schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
+                schedule.TimelineViewSettings.StartHour = 6;
+                schedule.TimelineViewSettings.EndHour = 22;
 
-            NavigationView navigationView = view.FindViewById<NavigationView>(Resource.Id.nav_view);
-            navigationView.SetNavigationItemSelectedListener(this);
+                schedule.MonthViewSettings.ShowAppointmentsInline = cfg.ShowInlineEvents;
+                schedule.MonthViewSettings.ShowAgendaView = !schedule.MonthViewSettings.ShowAppointmentsInline;
+                schedule.MonthViewSettings.AppointmentDisplayMode = (AppointmentDisplayMode)Enum.ToObject(typeof(AppointmentDisplayMode), cfg.AppointmentDisplayMode);
+                schedule.MonthViewSettings.AppointmentIndicatorCount = cfg.AppointmentIndicatorCount;
+
+                schedule.ScheduleViewChanged += Schedule_ScheduleViewChanged;
+                schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
+
+                ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
+                if (ViewTypeSpinner != null)
+                {
+                    mContext.Title = "";
+                    ViewTypeSpinner.Visibility = ViewStates.Visible;
+                    ViewTypeSpinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, new string[] { "Timeline", "Tag", "Woche", "Arbeit", "Monat" });
+                    Task.Factory.StartNew(() =>
+                    {
+                        Task.Delay(2500).Wait();
+                        ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
+                    });
+                }
+                if (cfg.DefaultViewType < 0)
+                    SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.LastViewType));
+                else
+                    SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.DefaultViewType));
+                throw new Exception("laal");
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
+            //NavigationView navigationView = view.FindViewById<NavigationView>(Resource.Id.nav_view);
+            //navigationView.SetNavigationItemSelectedListener(this);
 
             return view;
         }
 
+        bool bPermissionCheckOk = false;
         public override void OnResume()
         {
             base.OnResume();
-            var spinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
-            if (spinner != null)
-            {
-                mContext.Title = "";
-                spinner.Visibility = ViewStates.Visible;
-                spinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, new string[] { "Timeline", "Tag", "Woche", "Arbeit", "Monat" });
-                Task.Factory.StartNew(() =>
-                {
-                    Task.Delay(2500).Wait();
-                    spinner.ItemSelected += ViewSpinner_ItemSelected;
-                });
-            }
+            bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
         }
 
         private void ViewSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -149,6 +174,8 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
+            if (!bPermissionCheckOk)
+                return;
             if (tVon != null)
             {
                 tFirstVisible = (DateTime)tVon;
@@ -175,9 +202,9 @@ namespace iChronoMe.Droid.GUI.Calendar
         const int menu_debug_create_events = 1208;
         const int menu_debug_delete_events = 1209;
 
-        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        public override void OnPrepareOptionsMenu(IMenu menu)
         {
-            base.OnCreateOptionsMenu(menu, inflater);
+            base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
             item.SetIcon(Resource.Drawable.icons8_view_quilt);
@@ -223,26 +250,32 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         public bool OnMenuItemClick(IMenuItem item)
         {
-            if (item.ItemId == menu_options)
+            try
             {
-                if (Drawer.IsDrawerOpen((int)GravityFlags.Right))
-                    Drawer.CloseDrawer((int)GravityFlags.Right);
-                else
-                    Drawer.OpenDrawer((int)GravityFlags.Right);
-            }
+                if (item.ItemId == menu_options)
+                {
+                    if (Drawer.IsDrawerOpen((int)GravityFlags.End))
+                        Drawer.CloseDrawer((int)GravityFlags.End);
+                    else
+                        Drawer.OpenDrawer((int)GravityFlags.End);
+                }
 #if DEBUG
-            else if (item.ItemId == menu_debug_create_events)
-                createTestEvents();
-            else if (item.ItemId == menu_debug_delete_events)
-                deleteAllEvents();
+                else if (item.ItemId == menu_debug_create_events)
+                    createTestEvents();
+                else if (item.ItemId == menu_debug_delete_events)
+                    deleteAllEvents();
 #endif
-            else if (item.ItemId == menu_typetype_RealSunTime)
-                SetTimeType(TimeType.RealSunTime);
-            else if (item.ItemId == menu_typetype_MiddleSunTime)
-                SetTimeType(TimeType.MiddleSunTime);
-            else if (item.ItemId == menu_typetype_TimeZoneTime)
-                SetTimeType(TimeType.TimeZoneTime);
-
+                else if (item.ItemId == menu_typetype_RealSunTime)
+                    SetTimeType(TimeType.RealSunTime);
+                else if (item.ItemId == menu_typetype_MiddleSunTime)
+                    SetTimeType(TimeType.MiddleSunTime);
+                else if (item.ItemId == menu_typetype_TimeZoneTime)
+                    SetTimeType(TimeType.TimeZoneTime);
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
             return true;
         }
 
@@ -281,6 +314,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private async Task GenerateEvents(int count, string name)
         {
+            var xDate = schedule.SelectedDate != null ? sys.DateTimeFromJava(schedule.SelectedDate) : sys.DateTimeFromJava(schedule.VisibleDates.First());
             string[] cLocations = new string[] { "Hyderabad, Pakistan", "Oran, Algeria", "Mexico City, Mexico", "Cairo, Egypt", "Barranquilla, Colombia", "Philadelphia, United States", "Tashkent, Uzbekistan", "Changchun, China", "Lima, Peru", "Brazzaville, Congo Republic", "Shiraz, Iran", "Los Angeles, United States", "Lagos, Nigeria", "Vienna, Austria", "Manila, Philippines", "Ankara, Turkey", "Hamburg, Germany", "Peshawar, Pakistan", "Kwangju,Korea, South", "Curitiba, Brazil", "Bengaluru, India", "Pune, India", "Patna, India", "Wenzhou, China", "Bandung, Indonesia", "Taichung, Taiwan", "Wuhan, China", "Davao City, Philippines", "Tijuana, Mexico", "Rosario, Argentina", "Lanzhou, China", "Barcelona, Spain", "Alexandria, Egypt", "Harare, Zimbabwe", "Singapore, Singapore", "Medan, Indonesia", "Saitama, Japan", "New York City, United States", "Bhopal, India", "Yerevan, Armenia", "Karachi, Pakistan", "Moscow, Russia", "Bulawayo, Zimbabwe", "Beijing, China", "Chennai, India", "Fukuoka, Japan", "Havana, Cuba", "Omsk, Russia", "Kolkata, India", "Kyoto, Japan", "Rome, Italy", "Surat, India", "Dhaka, Bangladesh", "Shijiazhuang, China", "Pyongyang, North", "Quanzhou, China", "Suzhou, China", "Cologne, Germany", "Cali, Colombia", "Harbin, China", "Shenzhen, China", "Ho Chi Minh City, Vietnam", "Shanghai, China", "Córdoba, Argentina", "Zhengzhou, China", "Recife, Brazil", "Vijayawada, India", "Surabaya, Indonesia", "Rio de Janeiro, Brazil", "Monterrey, Mexico", "Warsaw, Poland", "Santiago, Chile", "Kinshasa, DR Congo", "Jeddah, Saudi Arabia", "San Diego, United States", "Palembang, Indonesia", "Melbourne, Australia", "Fortaleza, Brazil", "Porto Alegre, Brazil", "Nanjing, China", "Ulsan, South", "Hyderabad, India", "Xi'an, China", "Kuala Lumpur, Malaysia", "Belo Horizonte, Brazil", "Kharkiv, Ukraine", "Seoul, Korea,South", "Yokohama, Japan", "Astana, Kazakhstan", "Ningbo, China", "Mandalay, Myanmar", "Phoenix, United States", "New Taipei City, Taiwan", "Birmingham, United Kingdom", "Kiev, Ukraine", "Xiamen, China", "Johannesburg, South Africa", "Tabriz, Iran", "Ekurhuleni, South Africa", "Rawalpindi, Pakistan", "Quezon City, Philippines", "Kanpur, India", "Hong Kong, China", "Khartoum, Sudan", "Rostov-on-Don, Russia", "Maputo, Mozambique", "Milan, Italy", "Busan, Korea,South", "Prague, Czech Republic", "Yekaterinburg, Russia", "Visakhapatnam, India", "Daejeon, South", "Kabul, Afghanistan", "Quito, Ecuador", "Kano, Nigeria", "Tripoli, Libya", "Munich, Germany", "Giza, Egypt", "São Paulo, Brazil", "Novosibirsk, Russia", "Foshan, China", "Dongguan, China", "Kampala, Uganda", "Yaoundé, Cameroon", "Ibadan, Nigeria", "Nagpur, India", "Hiroshima, Japan", "Fez, Morocco", "Sapporo, Japan", "Cape Town, South Africa", "Luanda, Angola", "Hangzhou, China", "Tianjin, China", "Douala, Cameroon", "Delhi, India", "Faisalabad, Pakistan", "Incheon, South", "Sana'a, Yemen", "Ahmedabad, India", "Accra, Ghana", "Basra, Iraq", "Kobe, Japan", "Tokyo, Japan", "London, United Kingdom", "Addis Ababa, Ethiopia", "Buenos Aires, Argentina", "Medellin, Colombia", "Jaipur, India", "Riyadh, Saudi Arabia", "Chongqing, China", "Isfahan, Iran", "Caracas, Venezuela", "Brisbane, Australia", "Bangkok, Thailand", "Caloocan, Philippines", "Guadalajara, Mexico", "Phnom Penh, Cambodia", "Daegu, South", "Santa Cruz de la Sierra, Bolivia", "Almaty, Kazakhstan", "Dalian, China", "Paris, France", "Hanoi, Vietnam", "Gujranwala, Pakistan", "Auckland, New Zealand", "Abuja, Nigeria", "Algiers, Algeria", "Guatemala City, Guatemala", "Semarang, Indonesia", "Kawasaki, Japan", "Brasília, Brazil", "Dakar, Senegal", "İzmir, Turkey", "Shantou, China", "Changsha, China", "Sofia, Bulgaria", "Tunis, Tunisia", "Ouagadougou, Burkina Faso", "Madrid, Spain", "Istanbul, Turkey", "Tehran, Iran", "Tainan, Taiwan", "Qingdao, China", "Saint Petersburg, Russia", "Montreal, Canada", "Abidjan, Ivory Coast", "Casablanca, Morocco", "Baku, Azerbaijan", "Baghdad, Iraq", "Jinan, China", "Mumbai, India", "Calgary, Canada", "Chittagong, Bangladesh", "Chaozhou, China", "Budapest, Hungary", "Suwon, South Korea", "Mashhad, Iran", "Lucknow, India", "Montevideo, Uruguay", "Karaj, Iran", "Tangshan, China", "Qom, Iran", "Sydney, Australia", "Guangzhou, China", "Zhongshan, China", "Taipei, Taiwan", "Nairobi, Kenya", "Dubai, United Arab Emirates", "Guayaquil, Ecuador", "Makassar, Indonesia", "Jakarta, Indonesia", "Toronto, Canada", "Houston, UnitedStates", "Dar es Salaam, Tanzania", "Shenyang, China", "Zunyi, China", "Chengdu, China", "Dallas, United States", "Osaka, Japan", "Belgrade, Serbia", "T'bilisi, Georgia", "Minsk, Belarus", "Berlin, Germany", "Nizhny Novgorod, Russia", "Kaohsiung, Taiwan", "Nagoya, Japan", "Campinas, Brazil", "Chicago, UnitedStates", "Fuzhou, China", "Islamabad, Pakistan", "Bucharest, Romania", "Managua, Nicaragua", "Lahore, Pakistan", "Hefei, China", "Yangon, Myanmar", "Durban, South Africa", "Abu Dhabi, United Arab Emirates", "Salvador, Brazil", "San Antonio, United States", "Ahvaz, Iran", "Lusaka, Zambia", "Bogotá, Colombia", "Kathmandu, Nepal", "Maracaibo, Venezuela" };
             var cal = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
             for (int i = 0; i < count; i++)
@@ -294,7 +328,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 {
                     Name = $"{name} event {i}",
                     Description = $"This is {name} event{i}'s description!",
-                    Start = sys.DateTimeFromJava(schedule.SelectedDate).Date.AddDays(new Random(DateTime.Now.Millisecond * DateTime.Now.Second).Next(80) - 50).AddHours(new Random().Next(8) + 10)
+                    Start = xDate.Date.AddDays(new Random(DateTime.Now.Millisecond * DateTime.Now.Second).Next(80) - 50).AddHours(new Random().Next(8) + 10)
                 };
                 e.End = e.Start.AddHours(new Random().Next(5) + 1);
                 e.Location = cLocations[rnd.Next(cLocations.Length - 1)];//(nLat + dDec / 2).ToString("#.000000", CultureInfo.InvariantCulture) + ", " + (nLng + dDec).ToString("#.000000", CultureInfo.InvariantCulture);
@@ -335,19 +369,34 @@ namespace iChronoMe.Droid.GUI.Calendar
             //pViewType.SelectedItem = vType;
             //HeaderEndLayout.Children.Clear();
 
+            int iSel = 0;
             switch (vType)
             {
-                case ScheduleView.MonthView:
-                    break;
-
-                case ScheduleView.WeekView:
-                    break;
-
-                case ScheduleView.WorkWeekView:
+                case ScheduleView.Timeline:
+                    iSel = 0;
                     break;
 
                 case ScheduleView.DayView:
+                    iSel = 1;
                     break;
+
+                case ScheduleView.WeekView:
+                    iSel = 2;
+                    break;
+
+                case ScheduleView.WorkWeekView:
+                    iSel = 3;
+                    break;
+
+                case ScheduleView.MonthView:
+                    iSel = 4;
+                    break;
+            }
+            if (ViewTypeSpinner != null)
+            {
+                ViewTypeSpinner.ItemSelected -= ViewSpinner_ItemSelected;
+                ViewTypeSpinner.SetSelection(iSel, true);
+                ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
             }
         }
 
@@ -378,7 +427,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 SetViewType(ScheduleView.Timeline);
             }
-            Drawer.CloseDrawer((int)GravityFlags.Right);
+            Drawer.CloseDrawer((int)GravityFlags.End);
             return true;
         }
     }

@@ -5,7 +5,6 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-using Android.Util;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
@@ -23,7 +22,7 @@ namespace iChronoMe.Droid.Widgets.Clock
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
             //BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetUpdate);
 
-            Log.Debug("LifetimeWidget", "OnUpdate");
+            xLog.Verbose("start");
 
             var cfgHolder = new WidgetConfigHolder();
 

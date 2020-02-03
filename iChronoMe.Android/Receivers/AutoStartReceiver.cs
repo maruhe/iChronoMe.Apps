@@ -36,7 +36,7 @@ namespace iChronoMe.Droid.Receivers
             }
             catch (Exception e)
             {
-                Log.Error("AutoStartReceiver", e.Message);
+                xLog.Error(e);
             }
             */
         }

@@ -10,7 +10,6 @@ using Android.Graphics.Drawables;
 using Android.Support.V4.App;
 using Android.Text;
 using Android.Text.Style;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -41,7 +40,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             }
             catch (Exception ex)
             {
-                Log.Debug("ActionButtonService", Java.Lang.Throwable.FromException(ex), "Exception: {0}");
+                xLog.Debug(ex, "Exception: {0}");
             }
         }
 
@@ -50,7 +49,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 
         protected override void OnHandleWork(Intent intent)
         {
-            Log.Debug("ActionButtonService", "OnUpdate");
+            xLog.Debug("OnUpdate");
             DateTime swStart = DateTime.Now;
 
             var cfgHolder = new WidgetConfigHolder();
@@ -80,7 +79,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 
                 var tr = new Thread(() =>
                 {
-                    Log.Debug("ActionButtonService", "UpdateWidget: " + iWidgetId);
+                    xLog.Debug("UpdateWidget: " + iWidgetId);
                     try
                     {
                         LastWorkStart = DateTime.Now;
@@ -129,7 +128,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     catch (ThreadAbortException) { }
                     catch (Exception ex)
                     {
-                        Log.Error("ActionButtonService", ex.Message, "Update Widget Error: " + iWidgetId);
+                        xLog.Error(ex, "Update Widget Error: " + iWidgetId);
                         RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
                         rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message);
                         rv.SetTextColor(Resource.Id.message, Color.IndianRed);
@@ -140,7 +139,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                         if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
                             RunningTaskS.Remove(iWidgetId);
                     }
-                    Log.Debug("ActionButtonService", "UpdateDone: " + iWidgetId);
+                    xLog.Debug("UpdateDone: " + iWidgetId);
                 });
                 tr.IsBackground = true;
                 RunningTaskS.Add(iWidgetId, tr);
@@ -259,7 +258,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 }
                 catch (Exception ex)
                 {
-                    xLog.Error("ActionButtonService", ex, "SetImageViewBitmap: " + cfg.IconName);
+                    xLog.Error(ex, "SetImageViewBitmap: " + cfg.IconName);
                     rv.SetImageViewResource(Resource.Id.circle_image, iIconRes);
                 }
             }
