@@ -30,6 +30,11 @@
   <string name="action_ok">ok</string>
   <string name="action_yes">yes</string>
   <string name="action_no">no</string>
+  <string name="action_accept">accept</string>
+  <string name="action_ignore">ignore</string>
+  <string name="action_decline">decline</string>
+  <string name="action_block">block</string>
+
   <string name="action_colors">colors</string>
   <string name="action_background">background</string>
   <string name="dont_ask_again">"don't ask again"</string>
@@ -84,9 +89,6 @@ may this is far far away from the real time on your location"
   <string name="assistant_privacy_question">you may mind about data privacy?</string>
   <string name="assistant_privacy_title">data privacy information:</string>
   <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
-  <string name="assistant_privacy_accept">accept</string>
-  <string name="assistant_privacy_ignore">ignore</string>
-  <string name="assistant_privacy_decline">decline</string>
 
   <!-- calendar view-->
 
@@ -97,10 +99,39 @@ may this is far far away from the real time on your location"
   <string name="calendar_viewtype_MonthView">month-view</string>
   <string name="calendar_monthview_appointmentviewtypes_title">show appointments:</string>
 
-    <string-array name="calendar_monthview_appointmentviewtypes">
+  <string-array name="calendar_monthview_appointmentviewtypes">
     <item>inline</item>
     <item>agenda</item>
     <item>hidden</item>
   </string-array>
 
+  <!-- backgroundservice -->
+
+  <string name="backgroundservice_info_why">why do I see a clock in notification area?</string>
+  <string name="backgroundservice_info_explenation">
+"to show a clock as widget that does show a custom time a service needs to be running in background
+since android 7 it is needet to show a notification while a background-service is running
+you can customize this notification or disable it in system-settings
+  </string>
+
+  <string name="action_backgroundservice_showalways">always show clock in notifocation area</string>
+
+  <string name="action_location_type_promt">choose a location-type</string>
+  <string name="action_location_type_live">current Location</string>
+  <string name="action_location_type_static">static Location</string>
+  <string name="action_select_location">select location</string>
+  <string name="label_title">title</string>
+  <string-array name="label_locationtypes">
+    <item>@string/action_location_type_live</item>
+    <item>@string/action_location_type_static</item>
+  </string-array>
+
+  <string name="action_notification_click_action">on notification click</string>
+  <string-array name="label_notification_click_actions">
+    <item>show this window</item>
+    <item>start iChronoMe</item>
+    <item>open "clock"</item>
+    <item>open "app-calendar"</item>
+    <item>do nothing</item>
+  </string-array>
 </resources>

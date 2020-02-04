@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Android.Widget;
+
 using iChronoMe.Core.Classes;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI.Dialogs
@@ -77,7 +79,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
                 mMapView.OnCreate(dialog.OnSaveInstanceState());
                 mMapView.OnResume();// needed to get the map to display immediately
                 mMapView.GetMapAsync(this);
-                
+
                 return dialog;
             }
             catch (Exception ex)
@@ -117,7 +119,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
             var passchendaeleMarker = new MarkerOptions();
             passchendaeleMarker.SetPosition(e.Point);
             mGoogleMap.AddMarker(passchendaeleMarker);
-            
+
             var cameraUpdate = CameraUpdateFactory.NewLatLngZoom(e.Point, 15);
             //mGoogleMap.MoveCamera(cameraUpdate);
         }

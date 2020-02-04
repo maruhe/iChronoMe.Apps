@@ -227,19 +227,19 @@ namespace iChronoMe.Droid
             new Android.Support.V7.App.AlertDialog.Builder(this)
                         .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_title))
                         .SetMessage(Resources.GetString(Resource.String.assistant_privacy_message))
-                        .SetPositiveButton(Resources.GetString(Resource.String.assistant_privacy_accept), (s2, e2) =>
+                        .SetPositiveButton(Resources.GetString(Resource.String.action_accept), (s2, e2) =>
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                             AppConfigHolder.SaveMainConfig();
                             SetAssistantDone();
                         })
-                        .SetNeutralButton(Resources.GetString(Resource.String.assistant_privacy_ignore), (s3, e3) =>
+                        .SetNeutralButton(Resources.GetString(Resource.String.action_ignore), (s3, e3) =>
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                             AppConfigHolder.SaveMainConfig();
                             SetAssistantDone();
                         })
-                        .SetNegativeButton(Resources.GetString(Resource.String.assistant_privacy_decline), (s3, e3) =>
+                        .SetNegativeButton(Resources.GetString(Resource.String.action_decline), (s3, e3) =>
                         {
                             FinishAndRemoveTask();
                         })

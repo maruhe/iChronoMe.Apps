@@ -30,6 +30,11 @@
   <string name="action_ok">ok</string>
   <string name="action_yes">ja</string>
   <string name="action_no">nein</string>
+  <string name="action_accept">akzeptieren</string>
+  <string name="action_ignore">ignorieren</string>
+  <string name="action_decline">ablehnen</string>
+  <string name="action_block">blockieren</string>
+
   <string name="action_colors">Farben</string>
   <string name="action_background">Hintergrund</string>
   <string name="dont_ask_again">nicht mehr fragen</string>
@@ -83,14 +88,47 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"
   <string name="assistant_privacy_question">you may mind about data privacy?</string>
   <string name="assistant_privacy_title">data privacy information:</string>
   <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
-  <string name="assistant_privacy_accept">accept</string>
-  <string name="assistant_privacy_ignore">ignore</string>
-  <string name="assistant_privacy_decline">decline</string>
 
   <string name="calendar_viewtype_Timeline">Zeitlinie</string>
   <string name="calendar_viewtype_DayView">Tagesansicht</string>
   <string name="calendar_viewtype_WeekView">Wochenansicht</string>
   <string name="calendar_viewtype_WorkWeek">Arbeitswoche</string>
   <string name="calendar_viewtype_MonthView">Monatsansicht</string>
+  <string name="calendar_monthview_appointmentviewtypes_title">Termine anzeigen:</string>
 
+  <string-array name="calendar_monthview_appointmentviewtypes">
+    <item>inline</item>
+    <item>agenda</item>
+    <item>ausgeblendet</item>
+  </string-array>
+
+  <!-- backgroundservice -->
+
+  <string name="backgroundservice_info_why">warum sehe ich diese Uhr im Benachrichtigunsbereich?</string>
+  <string name="backgroundservice_info_explenation">
+"um ein Uhr-Widget mit benutzerdefinierter Zeit anzeigen zu können, muss ein Dienst im Hintergund laufen
+seit Android 7 ist es notwendig eine Benachrichtigung anzuzeigen solange im Hintergrund Aktionen ausgeführt werden
+du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellungen blockieren
+  </string>
+
+  <string name="action_backgroundservice_showalways">Uhr immer im Benachrichtigunsbereich anzeigen</string>
+
+  <string name="action_location_type_promt">Wählen einen Standort:</string>
+  <string name="action_location_type_live">aktueller Standort</string>
+  <string name="action_location_type_static">feste Position</string>
+  <string name="action_select_location">Position erwählen</string>
+  <string name="label_title">Titel</string>
+  <string-array name="label_locationtypes">
+    <item>@string/action_location_type_live</item>
+    <item>@string/action_location_type_static</item>
+  </string-array>
+
+  <string name="action_notification_click_action">beim Klick auf die Benachrichtigung</string>
+  <string-array name="label_notification_click_actions">
+    <item>dieses Fenster öffnen</item>
+    <item>iChronoMe starten</item>
+    <item>öffne "Uhr"</item>
+    <item>öffne "Kalender"</item>
+    <item>nichts unternehmen</item>
+  </string-array>
 </resources>

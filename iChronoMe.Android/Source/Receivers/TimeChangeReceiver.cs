@@ -1,5 +1,9 @@
-﻿using Android.App;
+﻿using System;
+
+using Android.App;
 using Android.Content;
+
+using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Receivers
 {
@@ -14,11 +18,10 @@ namespace iChronoMe.Droid.Receivers
 
         public override void OnReceive(Context context, Intent intent)
         {
-            /*
-            if (BackgroundService.currentService == null && !Xamarin.Forms.Forms.IsInitialized)
+            if (!BackgroundService.IsServiceRunning(context, typeof(BackgroundService)))
                 return;
 
-            Console.WriteLine("Timezone or Device-Time Changed");
+            xLog.Warn("Timezone or Device-Time Changed");
             //var srv = Service;
             string cAction = intent.Action;
             cAction.ToString();
@@ -26,11 +29,11 @@ namespace iChronoMe.Droid.Receivers
             try
             {
                 TimeHolder.Resync();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 xLog.Error(ex);
             }
-            */
         }
     }
 }

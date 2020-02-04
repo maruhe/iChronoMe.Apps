@@ -195,7 +195,7 @@ namespace iChronoMe.Droid
             {
                 //warum auf zu??
                 //if (Build.VERSION.SdkInt >= BuildVersionCodes.O && !bIsForeGround)
-                  //  RegisterForegroundService();
+                //  RegisterForegroundService();
                 if (bIsForeGround)
                 {
                     StopForeground(true);
@@ -278,6 +278,11 @@ namespace iChronoMe.Droid
             }
             if (!running)
             {
+                int[] appWidgetIDs = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+
+                if (appWidgetIDs.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                    return;
+
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
                 {
                     context.StartForegroundService(new Intent(context, typeof(BackgroundService)));
@@ -369,7 +374,8 @@ namespace iChronoMe.Droid
                 if (AppConfigHolder.MainConfig.AlwaysShowForegroundNotification || iS.Count > 0)
                 {
                     iS.Add(-101); //Uhrzeit in Notification anzeigen
-                    if (!cfgHolder.WidgetExists<WidgetCfg_ClockAnalog>(-101)) {
+                    if (!cfgHolder.WidgetExists<WidgetCfg_ClockAnalog>(-101))
+                    {
                         var tmp = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
                         tmp.PositionType = WidgetCfgPositionType.LivePosition;
                         cfgHolder.SetWidgetCfg(tmp);

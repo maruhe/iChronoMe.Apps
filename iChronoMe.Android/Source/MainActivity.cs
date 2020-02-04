@@ -3,8 +3,10 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
+using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
@@ -14,6 +16,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
@@ -37,9 +40,6 @@ namespace iChronoMe.Droid
             Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(Toolbar);
 
-            //FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-            //fab.Click += FabOnClick;
-
             Drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
             Drawer.AddDrawerListener(toggle);
@@ -53,10 +53,13 @@ namespace iChronoMe.Droid
                 iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
             }
 
-            Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() =>
+            {
                 Task.Delay(2500).Wait();
                 CheckErrorLog();
             });
+
+            BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
         }
 
         protected override void OnResume()
@@ -212,7 +215,7 @@ namespace iChronoMe.Droid
                             return;
                         }
 
-                        new Thread(async() =>
+                        new Thread(async () =>
                         {
                             string cUrl = "http://apps.jonny.mobi/bugs/upload.php?os=" + sys.OsType.ToString();
 #if DEBUG

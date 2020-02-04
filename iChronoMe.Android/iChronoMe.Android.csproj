@@ -80,6 +80,7 @@
     <Compile Include="Source\GUI\ClockFragment.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
     <Compile Include="Source\GUI\ProgressDialog.cs" />
+    <Compile Include="Source\GUI\Settings\BackgroundServiceSettingsFragment.cs" />
     <Compile Include="Source\MainActivity.cs" />
     <Compile Include="Source\MapsView.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
@@ -674,6 +675,16 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values-de\strings.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_dummy_frame.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_backgroundservice_setting.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -1,6 +1,10 @@
 ﻿
+using System;
+
 using Android.App;
 using Android.Content;
+
+using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Receivers
 {
@@ -11,7 +15,6 @@ namespace iChronoMe.Droid.Receivers
         static bool bDone = false;
         public override void OnReceive(Context context, Intent intent)
         {
-            /*
             try
             {
                 Console.WriteLine("Received AutoStartReceiver intent!.");
@@ -20,25 +23,15 @@ namespace iChronoMe.Droid.Receivers
                     return;
                 bDone = true;
 
-                global::Xamarin.Forms.Forms.Init(context, null);
-
                 if (AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
                 {
-                    if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
-                    {
-                        context.StartForegroundService(new Intent(context, typeof(BackgroundService)));
-                    }
-                    else
-                    {
-                        context.StartService(new Intent(context, typeof(BackgroundService)));
-                    }
+                    BackgroundService.RestartService(context, Intent.ActionBootCompleted);
                 }
             }
             catch (Exception e)
             {
                 xLog.Error(e);
             }
-            */
         }
     }
 }
