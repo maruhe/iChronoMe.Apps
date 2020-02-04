@@ -11,13 +11,14 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Interfaces;
 using iChronoMe.Droid.GUI;
+using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
 
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
 {
-    public class WidgetConfigAssistantManager<T> : IProgressChangedHandler
+    public class WidgetConfigAssistantManager<T> : IUserIO
         where T : WidgetCfg
     {
         AppCompatActivity mContext;
@@ -74,6 +75,11 @@ namespace iChronoMe.Droid.Widgets
             {
                 currentAssi.PerformPreperation(this);
 
+                if (currentAssi.Samples.Count == 0)
+                {
+                    return;
+                }
+
                 var listAdapter = new WidgetPreviewListAdapter(mContext, wSize, CalendarModel, myEventsMonth, myEventsList, null);
                 foreach (var sample in currentAssi.Samples)
                 {
@@ -123,6 +129,11 @@ namespace iChronoMe.Droid.Widgets
         public void TriggerDialogCanceled()
         {
             tcsUI?.TrySetResult(false);
+        }
+
+        public Task<SelectPositionResult> TriggerSelectMapsLocation()
+        {
+            return LocationPickerDialog.SelectLocation(mContext);
         }
 
         ProgressDialog pDlg = null;

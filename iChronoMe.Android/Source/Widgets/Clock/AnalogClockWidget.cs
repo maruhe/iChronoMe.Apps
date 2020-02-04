@@ -20,7 +20,8 @@ namespace iChronoMe.Droid.Widgets.Clock
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
-            //BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetUpdate);
+            BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetUpdate);
+            return;
 
             xLog.Verbose("start");
 
@@ -46,7 +47,7 @@ namespace iChronoMe.Droid.Widgets.Clock
         public override void OnDeleted(Context context, int[] appWidgetIds)
         {
             base.OnDeleted(context, appWidgetIds);
-            //BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetDeleted);
+            BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetDeleted);
         }
     }
 }

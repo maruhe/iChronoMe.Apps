@@ -190,7 +190,7 @@ namespace iChronoMe.Droid
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.2F;
                             AppConfigHolder.SaveMainConfig();
-                            ShowPrivacyAssistant();
+                            RunOnUiThread(() => ShowPrivacyAssistant());
                         }
                         else
                         {

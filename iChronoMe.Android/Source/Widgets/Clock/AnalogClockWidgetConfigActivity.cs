@@ -69,6 +69,16 @@ namespace iChronoMe.Droid.Widgets.Clock
                         var result = await manager.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_Start), cfg);
                         if (result != null)
                         {
+                            if (!holder.WidgetExists<WidgetCfg_ClockAnalog>(-101) || AppWidgetManager.GetInstance(this).GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name)).Length == 1)
+                            {
+                                var tmp = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+                                tmp.PositionType = result.WidgetConfig.PositionType;
+                                tmp.WidgetTitle = result.WidgetConfig.WidgetTitle;
+                                tmp.Latitude = result.WidgetConfig.Latitude;
+                                tmp.Longitude = result.WidgetConfig.Longitude;
+                                holder.SetWidgetCfg(tmp, false);
+                            }
+
                             holder.SetWidgetCfg(result.WidgetConfig);
 
                             Intent resultValue = new Intent();

@@ -102,7 +102,6 @@ namespace iChronoMe.Droid.GUI.Calendar
                     SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.LastViewType));
                 else
                     SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.DefaultViewType));
-                throw new Exception("laal");
             }
             catch (Exception ex)
             {

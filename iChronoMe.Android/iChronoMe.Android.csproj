@@ -67,45 +67,48 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\SimpleObject.cs" />
-    <Compile Include="Adapters\TimeTypeAdapter.cs" />
-    <Compile Include="BaseActivity.cs" />
-    <Compile Include="GUI\ActivityFragment.cs" />
-    <Compile Include="GUI\Calendar\CalendarFragment.cs" />
-    <Compile Include="GUI\Calendar\EventEditFragment.cs" />
-    <Compile Include="GUI\ClockFragment.cs" />
-    <Compile Include="GUI\Dialogs\LocationPickerDialog.cs" />
-    <Compile Include="GUI\ProgressDialog.cs" />
-    <Compile Include="MainActivity.cs" />
-    <Compile Include="MapsView.cs" />
-    <Compile Include="Receivers\AutoStartReceiver.cs" />
-    <Compile Include="Receivers\CalendarChangedReceiver.cs" />
-    <Compile Include="Receivers\TimeChangeReceiver.cs" />
+    <Compile Include="Source\Adapters\SimpleObject.cs" />
+    <Compile Include="Source\Adapters\TimeTypeAdapter.cs" />
+    <Compile Include="Source\BackgroundService.cs" />
+    <Compile Include="Source\BackgroundServiceInfoActivity.cs" />
+    <Compile Include="Source\BaseActivity.cs" />
+    <Compile Include="Source\GUI\ActivityFragment.cs" />
+    <Compile Include="Source\GUI\Calendar\CalendarFragment.cs" />
+    <Compile Include="Source\GUI\Calendar\EventEditFragment.cs" />
+    <Compile Include="Source\GUI\Class1.cs" />
+    <Compile Include="Source\GUI\ClockFragment.cs" />
+    <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
+    <Compile Include="Source\GUI\ProgressDialog.cs" />
+    <Compile Include="Source\MainActivity.cs" />
+    <Compile Include="Source\MapsView.cs" />
+    <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
+    <Compile Include="Source\Receivers\CalendarChangedReceiver.cs" />
+    <Compile Include="Source\Receivers\TimeChangeReceiver.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShortCutActivity.cs" />
-    <Compile Include="svg.cs" />
-    <Compile Include="TestActivity.cs" />
-    <Compile Include="Widgets\ActionButton\ActionButtonService.cs" />
-    <Compile Include="Widgets\ActionButton\ActionButtonWidget.cs" />
-    <Compile Include="Widgets\ActionButton\ActionButtonWidgetConfigActivity.cs" />
-    <Compile Include="Widgets\BaseWidgetActivity.cs" />
-    <Compile Include="Widgets\Calendar\CalendarEventListService.cs" />
-    <Compile Include="Widgets\Calendar\CalendarWidget.cs" />
-    <Compile Include="Widgets\Calendar\CalendarWidgetConfigActivity.cs" />
-    <Compile Include="Widgets\Calendar\CalendarWidgetConfigActivityAdvanced.cs" />
-    <Compile Include="Widgets\Calendar\CalendarWidgetService.cs" />
-    <Compile Include="Widgets\Clock\AnalogClockWidget.cs" />
-    <Compile Include="Widgets\Clock\AnalogClockWidgetConfigActivity.cs" />
-    <Compile Include="Widgets\Clock\ClockUpdateBroadcastReceiver.cs" />
-    <Compile Include="Widgets\Lifetime\LifetimeWidget.cs" />
-    <Compile Include="Widgets\Lifetime\LifetimeWidgetConfigActivity.cs" />
-    <Compile Include="Widgets\MainWidgetBase.cs" />
-    <Compile Include="Widgets\Moon\MoonWidget.cs" />
-    <Compile Include="Widgets\WidgetConfigAssistantManager.cs" />
-    <Compile Include="Widgets\WidgetItemClickActivity.cs" />
-    <Compile Include="Widgets\WidgetPreview.cs" />
-    <Compile Include="Widgets\WidgetPreview2.cs" />
+    <Compile Include="Source\ShortCutActivity.cs" />
+    <Compile Include="Source\svg.cs" />
+    <Compile Include="Source\TestActivity.cs" />
+    <Compile Include="Source\Widgets\ActionButton\ActionButtonService.cs" />
+    <Compile Include="Source\Widgets\ActionButton\ActionButtonWidget.cs" />
+    <Compile Include="Source\Widgets\ActionButton\ActionButtonWidgetConfigActivity.cs" />
+    <Compile Include="Source\Widgets\BaseWidgetActivity.cs" />
+    <Compile Include="Source\Widgets\Calendar\CalendarEventListService.cs" />
+    <Compile Include="Source\Widgets\Calendar\CalendarWidget.cs" />
+    <Compile Include="Source\Widgets\Calendar\CalendarWidgetConfigActivity.cs" />
+    <Compile Include="Source\Widgets\Calendar\CalendarWidgetConfigActivityAdvanced.cs" />
+    <Compile Include="Source\Widgets\Calendar\CalendarWidgetService.cs" />
+    <Compile Include="Source\Widgets\Clock\AnalogClockWidget.cs" />
+    <Compile Include="Source\Widgets\Clock\AnalogClockWidgetConfigActivity.cs" />
+    <Compile Include="Source\Widgets\Clock\ClockUpdateBroadcastReceiver.cs" />
+    <Compile Include="Source\Widgets\Lifetime\LifetimeWidget.cs" />
+    <Compile Include="Source\Widgets\Lifetime\LifetimeWidgetConfigActivity.cs" />
+    <Compile Include="Source\Widgets\MainWidgetBase.cs" />
+    <Compile Include="Source\Widgets\Moon\MoonWidget.cs" />
+    <Compile Include="Source\Widgets\WidgetConfigAssistantManager.cs" />
+    <Compile Include="Source\Widgets\WidgetItemClickActivity.cs" />
+    <Compile Include="Source\Widgets\WidgetPreview.cs" />
+    <Compile Include="Source\Widgets\WidgetPreview2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -662,7 +665,11 @@
   <ItemGroup>
     <AndroidResource Include="Resources\xml\widget_moon.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\dialog_select_maplocation.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-de\strings.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>

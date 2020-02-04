@@ -25,7 +25,7 @@ namespace iChronoMe.Droid.GUI
 {
     public class ClockFragment : ActivityFragment, IMenuItemOnMenuItemClickListener, NavigationView.IOnNavigationItemSelectedListener
     {
-        public TimeType TimeType { get; set; } = AppConfigHolder.MainConfig.DefaultTimeType;
+        public TimeType TimeType { get; set; } = sys.DefaultTimeType;
         private DrawerLayout Drawer;
         NavigationView navigationView;
         private CoordinatorLayout coordinator;
