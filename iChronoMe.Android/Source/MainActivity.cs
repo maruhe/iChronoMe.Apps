@@ -1,5 +1,8 @@
 ﻿using System;
-
+using System.IO;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content;
@@ -11,7 +14,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
-
+using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
 
@@ -49,6 +52,11 @@ namespace iChronoMe.Droid
             {
                 iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
             }
+
+            Task.Factory.StartNew(() => {
+                Task.Delay(2500).Wait();
+                CheckErrorLog();
+            });
         }
 
         protected override void OnResume()
@@ -169,6 +177,75 @@ namespace iChronoMe.Droid
             ActiveFragment?.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public void CheckErrorLog()
+        {
+            string cErrorPath = sys.ErrorLogPath;
+
+            if (Directory.Exists(cErrorPath))
+            {
+                try
+                {
+                    var logS = Directory.GetFiles(cErrorPath);
+
+                    if (logS.Length > 0)
+                    {
+                        if (!AppConfigHolder.MainConfig.SendErrorLogs)
+                        {
+                            RunOnUiThread(() =>
+                            {
+                                new AlertDialog.Builder(this)
+                                    .SetTitle("letztes mal ging etwas schif oder die App ist abgestürzt!")
+                                    .SetMessage("dürfen Fehlerprotokolle übertragen werden, damit sowas gelöst werden kann?\ndiese Protokollen enthalten technische Parameter deines Geräts, aber natürlich keinerlei persönliche Informationen!")
+                                    .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
+                                    {
+                                        AppConfigHolder.MainConfig.SendErrorLogs = true;
+                                        AppConfigHolder.SaveMainConfig();
+                                        CheckErrorLog();
+                                    })
+                                    .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
+                                    {
+                                        try { Directory.Delete(cErrorPath, true); } catch { };
+                                    });
+                            });
+                            return;
+                        }
+
+                        new Thread(async() =>
+                        {
+                            string cUrl = "http://apps.jonny.mobi/bugs/upload.php?os=" + sys.OsType.ToString();
+#if DEBUG
+                            cUrl += "&debug";
+#endif
+                            foreach (string log in logS)
+                            {
+                                try
+                                {
+                                    HttpClient client = new HttpClient();
+                                    HttpContent content = new StringContent(File.ReadAllText(log));
+                                    HttpResponseMessage response = await client.PutAsync(cUrl, content);
+                                    string result = await response.Content.ReadAsStringAsync();
+
+                                    File.Delete(log);
+
+                                    await Task.Delay(50);
+                                }
+                                catch (Exception ex)
+                                {
+                                    ex.ToString();
+                                }
+                            }
+
+                            Directory.Delete(cErrorPath, true);
+                        }).Start();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.ToString();
+                }
+            }
         }
 
         protected override void OnDestroy()
