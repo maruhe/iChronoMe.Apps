@@ -19,6 +19,7 @@ using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
+using iChronoMe.Droid.Receivers;
 
 namespace iChronoMe.Droid
 {
@@ -29,15 +30,25 @@ namespace iChronoMe.Droid
         public NavigationView NavigationView { get; protected set; } = null;
         public ActivityFragment ActiveFragment { get; protected set; } = null;
 
+        private static ErrorReceiver errorReceiver;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            try
+            {
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+                TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+                errorReceiver = new ErrorReceiver();
+                Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).RegisterReceiver(errorReceiver, new IntentFilter("com.xamarin.example.TEST"));
 
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
+                Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
+            }
+            catch (Exception ex) {
+                sys.LogException(ex);
+            }
         }
 
         private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
@@ -55,6 +66,7 @@ namespace iChronoMe.Droid
         protected override void OnResume()
         {
             base.OnResume();
+            sys.currentActivity = this;
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -142,6 +154,7 @@ namespace iChronoMe.Droid
                     AppConfigHolder.MainConfig.DefaultTimeType = tt;
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.1F;
                     AppConfigHolder.SaveMainConfig();
+                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     ShowPermissionsAssistant();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
@@ -197,6 +210,7 @@ namespace iChronoMe.Droid
                             RunOnUiThread(() => ShowPermissionsAssistant());
                         }
                     });
+                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
@@ -210,12 +224,14 @@ namespace iChronoMe.Droid
                 {
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.3F;
                     AppConfigHolder.SaveMainConfig();
+                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     ShowPrivacyNotice();
                 })
                 .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                 {
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                     AppConfigHolder.SaveMainConfig();
+                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     SetAssistantDone();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
@@ -227,20 +243,23 @@ namespace iChronoMe.Droid
             new Android.Support.V7.App.AlertDialog.Builder(this)
                         .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_title))
                         .SetMessage(Resources.GetString(Resource.String.assistant_privacy_message))
-                        .SetPositiveButton(Resources.GetString(Resource.String.action_accept), (s2, e2) =>
+                        .SetPositiveButton(Resources.GetString(Resource.String.action_accept), (s, e) =>
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                             AppConfigHolder.SaveMainConfig();
+                            (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             SetAssistantDone();
                         })
-                        .SetNeutralButton(Resources.GetString(Resource.String.action_ignore), (s3, e3) =>
+                        .SetNeutralButton(Resources.GetString(Resource.String.action_ignore), (s, e) =>
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                             AppConfigHolder.SaveMainConfig();
+                            (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             SetAssistantDone();
                         })
-                        .SetNegativeButton(Resources.GetString(Resource.String.action_decline), (s3, e3) =>
+                        .SetNegativeButton(Resources.GetString(Resource.String.action_decline), (s, e) =>
                         {
+                            (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             FinishAndRemoveTask();
                         })
                         .SetOnCancelListener(new QuitOnCancelListener(this))

@@ -80,10 +80,14 @@
     <Compile Include="Source\GUI\ClockFragment.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
     <Compile Include="Source\GUI\ProgressDialog.cs" />
-    <Compile Include="Source\GUI\Settings\BackgroundServiceSettingsFragment.cs" />
+    <Compile Include="Source\GUI\Service\AboutFragment.cs" />
+    <Compile Include="Source\GUI\Service\FaqFragment.cs" />
+    <Compile Include="Source\GUI\Service\MainSettingsFragment.cs" />
+    <Compile Include="Source\GUI\Service\BackgroundServiceSettingsFragment.cs" />
     <Compile Include="Source\MainActivity.cs" />
     <Compile Include="Source\MapsView.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
+    <Compile Include="Source\Receivers\ErrorReceiver.cs" />
     <Compile Include="Source\Receivers\CalendarChangedReceiver.cs" />
     <Compile Include="Source\Receivers\TimeChangeReceiver.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -164,7 +168,7 @@
       <Version>1.6.292</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfSchedule.Android">
-      <Version>17.4.0.44</Version>
+      <Version>17.4.0.47</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
@@ -684,7 +688,22 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_backgroundservice_setting.xml">
+    <AndroidResource Include="Resources\layout\fragment_setting_backgroundservice.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_setting_main.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_service_about.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_service_faq.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

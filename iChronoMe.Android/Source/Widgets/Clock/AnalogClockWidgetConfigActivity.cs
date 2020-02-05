@@ -53,12 +53,12 @@ namespace iChronoMe.Droid.Widgets.Clock
         public void StartWidgetConfig()
         {
             var holder = new WidgetConfigHolder();
-            if (holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
+            if (false && holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
             {
                 Toast.MakeText(this, "widget bearbeiten...", ToastLength.Short).Show();
                 FinishAndRemoveTask();
             }
-            else
+            //else
             {
                 var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId);
                 var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this);

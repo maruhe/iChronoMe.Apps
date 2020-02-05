@@ -171,14 +171,17 @@ namespace iChronoMe.Droid.GUI
             StartClockUpdates();
             Task.Factory.StartNew(() =>
             {
-                var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
+                try
+                {
+                    var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
 
-                var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
-                if (lastLocation == null)
-                    lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+                    var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+                    if (lastLocation == null)
+                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
-                if (lastLocation != null)
-                    lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
+                    if (lastLocation != null)
+                        lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
+                } catch { }
             });
         }
 
@@ -270,7 +273,7 @@ namespace iChronoMe.Droid.GUI
             base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
-            item.SetIcon(Resource.Drawable.icons8_services);
+            item.SetIcon(Resource.Drawable.icons8_view_quilt);
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
         }

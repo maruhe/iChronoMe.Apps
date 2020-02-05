@@ -7,5 +7,12 @@ namespace iChronoMe.Droid.GUI
     public abstract class ActivityFragment : Fragment
     {
         public ViewGroup RootView { get; protected set; }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            this.Activity?.InvalidateOptionsMenu();
+        }
     }
 }

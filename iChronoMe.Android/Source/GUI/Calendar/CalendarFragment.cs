@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -26,7 +28,7 @@ using iChronoMe.Droid.Widgets;
 
 namespace iChronoMe.Droid.GUI.Calendar
 {
-    public class CalendarFragment : ActivityFragment, IMenuItemOnMenuItemClickListener, NavigationView.IOnNavigationItemSelectedListener
+    public class CalendarFragment : ActivityFragment, IMenuItemOnMenuItemClickListener
     {
         private DrawerLayout Drawer;
         private SfSchedule schedule;
@@ -49,17 +51,20 @@ namespace iChronoMe.Droid.GUI.Calendar
             mContext = (AppCompatActivity)container.Context;
 
             if (mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Permission.Granted)
-            {
                 ActivityCompat.RequestPermissions(mContext, new string[] { Android.Manifest.Permission.ReadCalendar, Android.Manifest.Permission.WriteCalendar }, 1);
-            }
 
             View view = inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
             Drawer = view.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
-            schedule = view.FindViewById<SfSchedule>(Resource.Id.calendar_schedule);
+            ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
+            if (ViewTypeSpinner != null)
+                ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
 
-            schedule.ItemsSource = calEvents.ListedDates;
-            //schedule.Locale. = new Locale("de");
+            schedule = view.FindViewById<SfSchedule>(Resource.Id.calendar_schedule);
+            schedule.Locale = Resources.Configuration.Locale;
+            schedule.ItemsSource = null;
+
+            schedule.HeaderHeight = 0;
             schedule.AppointmentMapping = new AppointmentMapping() { Subject = "Name", StartTime = "javaDisplayStart", EndTime = "javaDisplayEnd", IsAllDay = "AllDay", Location = "Location", Notes = "Description", Color = "javaColor" };
 
             if (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"))
@@ -69,6 +74,42 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.WeekViewSettings.WeekLabelSettings.TimeFormat = "HH";
                 schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
                 schedule.MonthViewSettings.AgendaViewStyle.TimeTextFormat = "HH:mm";
+            }
+
+            try
+            {
+                Color clTitleText = xColor.White.ToAndroid();
+                Color clTitleBack = xColor.FromHex("#2c3e50").ToAndroid();
+                Color clText = clTitleText;
+                Color clBack = xColor.FromHex("#2c3e50").ToAndroid();
+                Color clTodayText = clTitleText;
+                Color clAccent = xColor.FromHex("#1B3147").ToAndroid();
+
+                schedule.HeaderStyle = new HeaderStyle { TextColor = clTitleText, BackgroundColor = clTitleBack };
+
+                schedule.ViewHeaderStyle = new ViewHeaderStyle
+                {
+                    DayTextColor = clText,
+                    DateTextColor = clText,
+                    CurrentDateTextColor = clTodayText,
+                    CurrentDayTextColor = clTodayText,
+                    BackgroundColor = clBack
+                };
+
+                schedule.MonthCellStyle = new MonthCellStyle
+                {
+                    TextColor = clText,
+                    BackgroundColor = clBack,
+                    TodayTextColor = clTodayText,
+                    TodayBackgroundColor = clBack,
+                    PreviousMonthBackgroundColor = clAccent,
+                    NextMonthBackgroundColor = clAccent                    
+                };
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
             }
 
             try
@@ -86,17 +127,11 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.ScheduleViewChanged += Schedule_ScheduleViewChanged;
                 schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
 
-                ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
                 if (ViewTypeSpinner != null)
                 {
                     mContext.Title = "";
                     ViewTypeSpinner.Visibility = ViewStates.Visible;
-                    ViewTypeSpinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, new string[] { "Timeline", "Tag", "Woche", "Arbeit", "Monat" });
-                    Task.Factory.StartNew(() =>
-                    {
-                        Task.Delay(2500).Wait();
-                        ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
-                    });
+                    ViewTypeSpinner.Touch += ViewTypeSpinner_Touch;
                 }
                 if (cfg.DefaultViewType < 0)
                     SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.LastViewType));
@@ -120,23 +155,26 @@ namespace iChronoMe.Droid.GUI.Calendar
             bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
         }
 
+        bool bViewSpinnerActive = false;
         private void ViewSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
+            if (!bViewSpinnerActive)
+                return;
             switch (e.Position)
             {
-                case 0:
+                case 1:
                     SetViewType(ScheduleView.Timeline);
                     break;
-                case 1:
+                case 2:
                     SetViewType(ScheduleView.DayView);
                     break;
-                case 2:
+                case 3:
                     SetViewType(ScheduleView.WeekView);
                     break;
-                case 3:
+                case 4:
                     SetViewType(ScheduleView.WorkWeekView);
                     break;
-                case 4:
+                case 5:
                     SetViewType(ScheduleView.MonthView);
                     break;
             }
@@ -161,15 +199,14 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void Schedule_VisibleDatesChanged(object sender, VisibleDatesChangedEventArgs e)
         {
-            LoadEvents(e.VisibleDates.First(), e.VisibleDates.Last());
+            DateTime tFirst = sys.DateTimeFromJava(e.VisibleDates.First());
+            DateTime tLast = sys.DateTimeFromJava(e.VisibleDates.Last());
+
+            ResetTitleSpinner(tFirst, tLast);
+            LoadEvents(tFirst, tLast);
         }
 
         DateTime tFirstVisible, tLastVisible;
-
-        private void LoadEvents(Java.Util.Calendar tVon, Java.Util.Calendar tBis)
-        {
-            LoadEvents(sys.DateTimeFromJava(tVon), sys.DateTimeFromJava(tBis));
-        }
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
@@ -197,7 +234,6 @@ namespace iChronoMe.Droid.GUI.Calendar
         const int menu_typetype_RealSunTime = 1101;
         const int menu_typetype_MiddleSunTime = 1102;
         const int menu_typetype_TimeZoneTime = 1103;
-        const int menu_debug = 1200;
         const int menu_debug_create_events = 1208;
         const int menu_debug_delete_events = 1209;
 
@@ -205,46 +241,53 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             base.OnPrepareOptionsMenu(menu);
 
-            var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
-            item.SetIcon(Resource.Drawable.icons8_view_quilt);
-            item.SetShowAsAction(ShowAsAction.Always);
-            item.SetOnMenuItemClickListener(this);
+            try
+            {
+                var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
+                item.SetIcon(Resource.Drawable.icons8_view_quilt);
+                item.SetShowAsAction(ShowAsAction.Always);
+                item.SetOnMenuItemClickListener(this);
 
-            var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
-            sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance));
-            sub.Item.SetShowAsAction(ShowAsAction.Always);
+                var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
+                sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance));
+                sub.Item.SetShowAsAction(ShowAsAction.Always);
 
-            if (calEvents.timeType != TimeType.RealSunTime)
-            {
-                item = sub.Add(0, menu_typetype_RealSunTime, 0, Resources.GetString(Resource.String.TimeType_RealSunTime));
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
-                item.SetOnMenuItemClickListener(this);
-            }
-            if (calEvents.timeType != TimeType.MiddleSunTime)
-            {
-                item = sub.Add(0, menu_typetype_MiddleSunTime, 0, Resources.GetString(Resource.String.TimeType_MiddleSunTime));
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
-                item.SetOnMenuItemClickListener(this);
-            }
-            if (calEvents.timeType != TimeType.TimeZoneTime)
-            {
-                item = sub.Add(0, menu_typetype_TimeZoneTime, 0, Resources.GetString(Resource.String.TimeType_TimeZoneTime));
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
-                item.SetOnMenuItemClickListener(this);
-            }
+                if (calEvents.timeType != TimeType.RealSunTime)
+                {
+                    item = sub.Add(0, menu_typetype_RealSunTime, 0, Resources.GetString(Resource.String.TimeType_RealSunTime));
+                    item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
+                    item.SetOnMenuItemClickListener(this);
+                }
+                if (calEvents.timeType != TimeType.MiddleSunTime)
+                {
+                    item = sub.Add(0, menu_typetype_MiddleSunTime, 0, Resources.GetString(Resource.String.TimeType_MiddleSunTime));
+                    item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
+                    item.SetOnMenuItemClickListener(this);
+                }
+                if (calEvents.timeType != TimeType.TimeZoneTime)
+                {
+                    item = sub.Add(0, menu_typetype_TimeZoneTime, 0, Resources.GetString(Resource.String.TimeType_TimeZoneTime));
+                    item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
+                    item.SetOnMenuItemClickListener(this);
+                }
 #if DEBUG
-            sub = menu.AddSubMenu(0, 0, 0, "Debug");
-            sub.SetIcon(Resource.Drawable.icons8_services);
-            sub.Item.SetShowAsAction(ShowAsAction.Always);
+                sub = menu.AddSubMenu(0, 0, 0, "Debug");
+                sub.SetIcon(Resource.Drawable.icons8_services);
+                sub.Item.SetShowAsAction(ShowAsAction.Always);
 
-            item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
-            item.SetIcon(Resource.Drawable.icons8_add);
-            item.SetOnMenuItemClickListener(this);
+                item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
+                item.SetIcon(Resource.Drawable.icons8_add);
+                item.SetOnMenuItemClickListener(this);
 
-            item = sub.Add(0, menu_debug_delete_events, 0, "Delete Events");
-            item.SetIcon(Resource.Drawable.icons8_delete);
-            item.SetOnMenuItemClickListener(this);
+                item = sub.Add(0, menu_debug_delete_events, 0, "Delete Events");
+                item.SetIcon(Resource.Drawable.icons8_delete);
+                item.SetOnMenuItemClickListener(this);
 #endif
+            }
+            catch (Exception ex)
+            {
+                sys.LogException(ex);
+            }
         }
 
         public bool OnMenuItemClick(IMenuItem item)
@@ -362,72 +405,54 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         public void SetViewType(ScheduleView vType)
         {
-            if (schedule.ScheduleView == vType)
-                return;
-            schedule.ScheduleView = vType;
-            //pViewType.SelectedItem = vType;
-            //HeaderEndLayout.Children.Clear();
-
-            int iSel = 0;
-            switch (vType)
+            try
             {
-                case ScheduleView.Timeline:
-                    iSel = 0;
-                    break;
+                ResetTitleSpinner(tFirstVisible, tLastVisible);
+                if (schedule.ScheduleView != vType)
+                    schedule.ScheduleView = vType;
+            } catch (Exception ex) { sys.LogException(ex); }
+        }
 
-                case ScheduleView.DayView:
-                    iSel = 1;
-                    break;
+        private void ViewTypeSpinner_Touch(object sender, View.TouchEventArgs e)
+        {
+            try
+            {
+                var lst = new List<string>();
+                lst.Add(ViewTypeSpinner.Prompt);
+                lst.AddRange(Resources.GetStringArray(Resource.Array.calendar_viewtypes));
+                ViewTypeSpinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, lst.ToArray());                
+                ViewTypeSpinner.PerformClick();
+                bViewSpinnerActive = true;
+            } catch { }
+        }
 
-                case ScheduleView.WeekView:
-                    iSel = 2;
-                    break;
-
-                case ScheduleView.WorkWeekView:
-                    iSel = 3;
-                    break;
-
-                case ScheduleView.MonthView:
-                    iSel = 4;
-                    break;
-            }
+        private void ResetTitleSpinner(DateTime tFirstVisible, DateTime tLastVisible)
+        {
+            bViewSpinnerActive = false;
             if (ViewTypeSpinner != null)
             {
-                ViewTypeSpinner.ItemSelected -= ViewSpinner_ItemSelected;
-                ViewTypeSpinner.SetSelection(iSel, true);
-                ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
-            }
-        }
+                string cTitle = tFirstVisible.ToShortDateString();
+                switch (schedule.ScheduleView)
+                {
+                    case ScheduleView.Timeline:
+                    case ScheduleView.DayView:
+                        cTitle = tFirstVisible.ToString("MMMM yyyy");
+                        break;
+                    case ScheduleView.WeekView:
+                    case ScheduleView.WorkWeekView:
+                        cTitle = tFirstVisible.ToString("MMMM yyyy");
+                        if (tLastVisible.Month != tFirstVisible.Month)
+                            cTitle += " - " + tLastVisible.ToString("MMMM yyyy");
+                        break;
+                    case ScheduleView.MonthView:
+                        cTitle = tFirstVisible.AddDays((tLastVisible-tFirstVisible).Days / 2).ToString("MMMM yyyy");
+                        break;
+                }
 
-        public bool OnNavigationItemSelected(IMenuItem menuItem)
-        {
-            return OnNavigationItemSelected(menuItem.ItemId);
-        }
+                ViewTypeSpinner.Prompt = cTitle;
+                ViewTypeSpinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, new string[] { cTitle });
 
-        public bool OnNavigationItemSelected(int id)
-        {
-            if (id == Resource.Id.view_DayView)
-            {
-                SetViewType(ScheduleView.DayView);
             }
-            else if (id == Resource.Id.view_WeekView)
-            {
-                SetViewType(ScheduleView.WeekView);
-            }
-            else if (id == Resource.Id.view_WorkWeekView)
-            {
-                SetViewType(ScheduleView.WorkWeekView);
-            }
-            else if (id == Resource.Id.view_MonthView)
-            {
-                SetViewType(ScheduleView.MonthView);
-            }
-            else if (id == Resource.Id.view_Timeline)
-            {
-                SetViewType(ScheduleView.Timeline);
-            }
-            Drawer.CloseDrawer((int)GravityFlags.End);
-            return true;
         }
     }
 }

@@ -3,29 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-      <item
-          android:id="@+id/nav_clock"
-          android:title="@string/menu_clock" />
-      <item
-          android:id="@+id/nav_calendar"
-          android:title="@string/menu_calendar" />
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_clock"
+            android:title="@string/menu_clock" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:title="@string/menu_calendar" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/menu_service">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/menu_share" />
             <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_tools" />
-            <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="@string/action_settings" />
+                android:title="@string/menu_settings" />
+            <item
+                android:id="@+id/nav_faq"
+                android:title="@string/menu_faq" />
+            <item
+                android:id="@+id/nav_about"
+                android:title="@string/menu_about" />
         </menu>
     </item>
 

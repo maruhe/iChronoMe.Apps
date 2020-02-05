@@ -1,8 +1,7 @@
 ﻿
 using Android.App;
 using Android.OS;
-
-using iChronoMe.Droid.Source.GUI.Settings;
+using iChronoMe.Droid.GUI.Service;
 
 namespace iChronoMe.Droid
 {

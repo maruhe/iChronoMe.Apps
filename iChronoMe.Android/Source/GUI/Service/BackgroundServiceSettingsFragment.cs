@@ -14,7 +14,7 @@ using iChronoMe.Droid.GUI.Dialogs;
 
 using Xamarin.Essentials;
 
-namespace iChronoMe.Droid.Source.GUI.Settings
+namespace iChronoMe.Droid.GUI.Service
 {
     public class BackgroundServiceSettingsFragment : ActivityFragment
     {
@@ -28,7 +28,7 @@ namespace iChronoMe.Droid.Source.GUI.Settings
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_backgroundservice_setting, container, false);
+            RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_setting_backgroundservice, container, false);
 
             return RootView;
         }

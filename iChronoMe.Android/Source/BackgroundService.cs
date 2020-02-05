@@ -205,7 +205,7 @@ namespace iChronoMe.Droid
                 return;
             }
 
-            if ((new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length > 0 && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1) || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+            if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length > 0 || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
             {
                 if (!bIsForeGround)
                 {
@@ -410,7 +410,7 @@ namespace iChronoMe.Droid
                         RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_unconfigured);
 
                         Intent defineIntent = new Intent(Intent.ActionMain);
-                        defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.ClockWidgetConfigActivity"));
+                        defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
                         defineIntent.SetFlags(ActivityFlags.NoHistory);
                         defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
                         PendingIntent pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);
@@ -587,7 +587,7 @@ namespace iChronoMe.Droid
                                 if (cfg.ClickAction == WidgetCfgClickAction.OpenSettings)
                                 {
                                     Intent defineIntent = new Intent(Intent.ActionMain);
-                                    defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.ClockWidgetConfigActivity"));
+                                    defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
                                     defineIntent.SetFlags(ActivityFlags.NoHistory);
                                     defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
                                     pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);

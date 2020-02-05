@@ -20,7 +20,7 @@ using Android.Views;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
-
+using iChronoMe.Droid.GUI.Service;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
@@ -34,32 +34,39 @@ namespace iChronoMe.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            SetTheme(Resource.Style.AppTheme_NoActionBar);
-            SetContentView(Resource.Layout.activity_main);
-
-            Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(Toolbar);
-
-            Drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-            Drawer.AddDrawerListener(toggle);
-            toggle.SyncState();
-
-            NavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            NavigationView.SetNavigationItemSelectedListener(this);
-
-            if (savedInstanceState != null)
+            try
             {
-                iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
+
+                SetTheme(Resource.Style.AppTheme_NoActionBar);
+                SetContentView(Resource.Layout.activity_main);
+
+                Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+                SetSupportActionBar(Toolbar);
+
+                Drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+                Drawer.AddDrawerListener(toggle);
+                toggle.SyncState();
+
+                NavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+                NavigationView.SetNavigationItemSelectedListener(this);
+
+                if (savedInstanceState != null)
+                {
+                    iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
+                }
+
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(2500).Wait();
+                    CheckErrorLog();
+                });
+
+                BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
+            } 
+            catch (Exception ex) {
+                sys.LogException(ex);
             }
-
-            Task.Factory.StartNew(() =>
-            {
-                Task.Delay(2500).Wait();
-                CheckErrorLog();
-            });
-
-            BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
         }
 
         protected override void OnResume()
@@ -135,41 +142,57 @@ namespace iChronoMe.Droid
 
         public bool OnNavigationItemSelected(int id)
         {
-            ActivityFragment fr = null;
-
-            if (id == Resource.Id.nav_clock)
+            Task.Factory.StartNew(() =>
             {
-                if (frClock == null)
+                ActivityFragment fr = null;
+
+                if (id == Resource.Id.nav_clock)
+                {
+                    //if (frClock == null)
                     frClock = new ClockFragment();
-                fr = frClock;
-            }
-            else if (id == Resource.Id.nav_calendar)
-            {
-                if (frCalendar == null)
+                    fr = frClock;
+                }
+                else if (id == Resource.Id.nav_calendar)
+                {
+                    //if (frCalendar == null)
                     frCalendar = new CalendarFragment();
-                fr = frCalendar;
+                    fr = frCalendar;
 
-            }
-            else if (id == Resource.Id.nav_share)
-            {
+                }
+                else if (id == Resource.Id.nav_share)
+                {
 
-            }
+                }
+                else if (id == Resource.Id.nav_settings)
+                {
+                    fr = new MainSettingsFragment();
+                }
+                else if (id == Resource.Id.nav_faq)
+                {
+                    fr = new FaqFragment();
+                }
+                else if (id == Resource.Id.nav_about)
+                {
+                    fr = new AboutFragment();
+                }
 
-            iNavigationItem = id;
+                RunOnUiThread(() =>
+                {
+                    iNavigationItem = id;
+                    if (fr != null)
+                    {
+                        SupportFragmentManager.BeginTransaction()
+                        .Replace(Resource.Id.main_frame, fr)
+                        .Commit();
+                        ActiveFragment = fr;
+                    }
 
-            if (fr != null)
-            {
-                ActiveFragment = fr;
-                SupportFragmentManager.BeginTransaction()
-                .Replace(Resource.Id.main_frame, fr)
-                .Commit();
-            }
+                    DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+                    drawer.CloseDrawer(GravityCompat.Start);
 
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            drawer.CloseDrawer(GravityCompat.Start);
-
-            this.InvalidateOptionsMenu();
-
+                    //this.InvalidateOptionsMenu();
+                });
+            });
             return true;
         }
 
@@ -210,14 +233,15 @@ namespace iChronoMe.Droid
                                     .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                                     {
                                         try { Directory.Delete(cErrorPath, true); } catch { };
-                                    });
+                                    })
+                                    .Create().Show();
                             });
                             return;
                         }
 
                         new Thread(async () =>
                         {
-                            string cUrl = "http://apps.jonny.mobi/bugs/upload.php?os=" + sys.OsType.ToString();
+                            string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
 #if DEBUG
                             cUrl += "&debug";
 #endif

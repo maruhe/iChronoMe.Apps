@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Support.V7.App;
-
+using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Interfaces;
@@ -123,11 +123,18 @@ namespace iChronoMe.Droid.Widgets
 
         public void TriggerNegativeButtonClicked()
         {
-            CurrentSample = null;
             tcsUI?.TrySetResult(false);
         }
+
         public void TriggerDialogCanceled()
         {
+            tcsUI?.TrySetResult(false);
+        }
+
+        public void TriggerAbortProzess()
+        {
+            CurrentSample = null;
+            currentAssi = null;
             tcsUI?.TrySetResult(false);
         }
 
@@ -155,6 +162,11 @@ namespace iChronoMe.Droid.Widgets
         {
             if (pDlg != null)
                 pDlg.SetProgressDone();
+        }
+
+        public void ShowToast(string cMessage)
+        {
+            Toast.MakeText(mContext, cMessage, ToastLength.Long).Show();
         }
 
         public void ShowError(string cMessage)
