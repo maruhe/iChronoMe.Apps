@@ -76,7 +76,6 @@
     <Compile Include="Source\GUI\ActivityFragment.cs" />
     <Compile Include="Source\GUI\Calendar\CalendarFragment.cs" />
     <Compile Include="Source\GUI\Calendar\EventEditFragment.cs" />
-    <Compile Include="Source\GUI\Class1.cs" />
     <Compile Include="Source\GUI\ClockFragment.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
     <Compile Include="Source\GUI\ProgressDialog.cs" />
@@ -95,6 +94,8 @@
     <Compile Include="Source\ShortCutActivity.cs" />
     <Compile Include="Source\svg.cs" />
     <Compile Include="Source\TestActivity.cs" />
+    <Compile Include="Source\Tools.cs" />
+    <Compile Include="Source\ViewModels\MainSettingsModel.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidget.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidgetConfigActivity.cs" />

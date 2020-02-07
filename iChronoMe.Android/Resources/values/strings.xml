@@ -57,38 +57,38 @@
 
     <string name="TimeType">time-type</string>
     <string name="firststart_welcome">
-        "welcome to iChronoMe!
-        please select your default Time-Type:"
+"welcome to iChronoMe!
+please select your default Time-Type:"
     </string>
     <string name="TimeType_RealSunTime">real sun time</string>
     <string name="TimeType_RealSunTime_Desc">
-        "the time, by the real position of the sun where the highest point of the sun means 12 o'clock
-        this means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is
-        the offset to timezone-time is changing every day"
+"the time, by the real position of the sun where the highest point of the sun means 12 o'clock
+this means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is
+the offset to timezone-time is changing every day"
     </string>
     <string name="TimeType_MiddleSunTime">middle sun time</string>
-    <string name="TimeType_MiddleSunTime_Desc">
-        "the time based on the current longitude of your location
-        around the year the difference between real an middle solar time can be up to about 18 minutes
-        every day has exact 24 hours and the offset to timezone-time is stable"
-    </string>
+	<string name="TimeType_MiddleSunTime_Desc">
+		"the time based on the current longitude of your location
+		around the year the difference between real an middle solar time can be up to about 18 minutes
+		every day has exact 24 hours and the offset to timezone-time is stable"
+	</string>
     <string name="TimeType_TimeZoneTime">timezone time</string>
     <string name="TimeType_TimeZoneTime_Desc">
-        "this time is based on the borders of the country you enjoy currently
-        may this is far far away from the real time on your location"
+"this time is based on the borders of the country you enjoy currently
+may this is far far away from the real time on your location"
     </string>
 
     <string name="assistant_permission_welcome">
-        "yep, we need some permissions:"
+"yep, we need some permissions:"
     </string>
     <string name="assistant_permission_location">
-        "the app needs permission to your location to calculate correct solar time"
+"the app needs permission to your location to calculate correct solar time"
     </string>
     <string name="assistant_permission_calendar">
-        "to display calendar-events in solar time we need permission here"
+"to display calendar-events in solar time we need permission here"
     </string>
     <string name="assistant_permission_storage">
-        "and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"
+"and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"
     </string>
 
     <string name="assistant_privacy_question">you may mind about data privacy?</string>
@@ -104,33 +104,33 @@
     <string name="calendar_viewtype_MonthView">month-view</string>
 
     <string-array name="calendar_viewtypes">
-        <item>@string/calendar_viewtype_Timeline</item>
-        <item>@string/calendar_viewtype_DayView</item>
-        <item>@string/calendar_viewtype_WeekView</item>
-        <item>@string/calendar_viewtype_WorkWeek</item>
-        <item>@string/calendar_viewtype_MonthView</item>
+<item>@string/calendar_viewtype_Timeline</item>
+<item>@string/calendar_viewtype_DayView</item>
+<item>@string/calendar_viewtype_WeekView</item>
+<item>@string/calendar_viewtype_WorkWeek</item>
+<item>@string/calendar_viewtype_MonthView</item>
     </string-array>
 
     <string name="calendar_monthview_appointmentviewtypes_title">show appointments:</string>
     <string-array name="calendar_monthview_appointmentviewtypes">
-        <item>inline</item>
-        <item>agenda</item>
-        <item>hidden</item>
+<item>inline</item>
+<item>agenda</item>
+<item>hidden</item>
     </string-array>
 
     <string name="calendar_monthview_appointmentdisplaymode_title">display mode:</string>
     <string-array name="calendar_monthview_appointmentdisplaymodes">
-        <item>indicator</item>
-        <item>appointment</item>
+<item>indicator</item>
+<item>appointment</item>
     </string-array>
 
     <!-- backgroundservice -->
 
     <string name="backgroundservice_info_why">why do I see a clock in notification area?</string>
     <string name="backgroundservice_info_explenation">
-        "to show a clock as widget that does show a custom time a service needs to be running in background
-        since android 7 it is needet to show a notification while a background-service is running
-        you can customize this notification or disable it in system-settings
+"to show a clock as widget that does show a custom time a service needs to be running in background
+since android 7 it is needet to show a notification while a background-service is running
+you can customize this notification or disable it in system-settings
     </string>
 
     <string name="action_backgroundservice_showalways">always show clock in notifocation area</string>
@@ -141,16 +141,16 @@
     <string name="action_select_location">select location</string>
     <string name="label_title">title</string>
     <string-array name="label_locationtypes">
-        <item>@string/action_location_type_live</item>
-        <item>@string/action_location_type_static</item>
+<item>@string/action_location_type_live</item>
+<item>@string/action_location_type_static</item>
     </string-array>
 
     <string name="action_notification_click_action">on notification click</string>
     <string-array name="label_notification_click_actions">
-        <item>show this window</item>
-        <item>start iChronoMe</item>
-        <item>open "clock"</item>
-        <item>open "app-calendar"</item>
-        <item>do nothing</item>
+<item>show this window</item>
+<item>start iChronoMe</item>
+<item>open "clock"</item>
+<item>open "app-calendar"</item>
+<item>do nothing</item>
     </string-array>
 </resources>

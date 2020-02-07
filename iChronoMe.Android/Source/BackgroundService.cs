@@ -53,6 +53,8 @@ namespace iChronoMe.Droid
             mReceiver.CommandReceived += MReceiver_CommandReceived;
             this.RegisterReceiver(mReceiver, intentFilter);
 
+            //RegisterForegroundService();
+
             Task.Factory.StartNew(() =>
             {
                 //archive lost configs
@@ -214,6 +216,7 @@ namespace iChronoMe.Droid
 
                 updateHolder = new WidgetUpdateThreadHolder(this);
             }
+            else StopSelf();
         }
 
         Task tskRestartUpdateDelay = null;
@@ -281,6 +284,9 @@ namespace iChronoMe.Droid
                 int[] appWidgetIDs = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
 
                 if (appWidgetIDs.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                    return;
+
+                if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
                     return;
 
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.O)

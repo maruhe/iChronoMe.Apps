@@ -196,9 +196,6 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         ShowWidgetTypeSelector();
                         pDlg.Dismiss();
                     });
-
-                    await Task.Delay(2500);
-                    sys.LogException(new NotImplementedException());
                 }
                 catch (System.Exception ex)
                 {

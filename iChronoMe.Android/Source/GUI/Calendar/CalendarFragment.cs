@@ -31,10 +31,13 @@ namespace iChronoMe.Droid.GUI.Calendar
     public class CalendarFragment : ActivityFragment, IMenuItemOnMenuItemClickListener
     {
         private DrawerLayout Drawer;
+        private CoordinatorLayout coordinator;
         private SfSchedule schedule;
         private Spinner ViewTypeSpinner;
         private AppCompatActivity mContext = null;
         private EventCollection calEvents = null;
+        private ArrayAdapter<string> ViewTypeAdapter = null;
+        private FloatingActionButton fabTimeType;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -55,10 +58,15 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             View view = inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
             Drawer = view.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            coordinator = view.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
+            ViewTypeAdapter = new ArrayAdapter<string>(Context, Android.Resource.Layout.SimpleSpinnerDropDownItem, new List<string>(new string[] { "init.." }));
             ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (ViewTypeSpinner != null)
+            {
                 ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
+                ViewTypeSpinner.Adapter = ViewTypeAdapter;
+            }
 
             schedule = view.FindViewById<SfSchedule>(Resource.Id.calendar_schedule);
             schedule.Locale = Resources.Configuration.Locale;
@@ -142,6 +150,10 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 xLog.Error(ex);
             }
+
+            fabTimeType = view.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
+            fabTimeType.Click += Fab_Click;
+
             //NavigationView navigationView = view.FindViewById<NavigationView>(Resource.Id.nav_view);
             //navigationView.SetNavigationItemSelectedListener(this);
 
@@ -210,6 +222,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
+            mContext.RunOnUiThread(() => fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance)));
             if (!bPermissionCheckOk)
                 return;
             if (tVon != null)
@@ -221,6 +234,27 @@ namespace iChronoMe.Droid.GUI.Calendar
             }
             await calEvents.DoLoadCalendarEventsListed(tFirstVisible, tLastVisible);
             mContext.RunOnUiThread(() => { schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
+
+            CheckCalendarWelcomeAssistant();
+        }
+
+        private async void CheckCalendarWelcomeAssistant()
+        {
+            if (AppConfigHolder.CalendarViewConfig.WelcomeScreenDone < 1)
+            {
+                var def = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
+                if (def == null)
+                {
+                    if (await Tools.ShowYesNoMessage(Context, "Kein Calender gefunden", "sollen wir einen anlegen?"))
+                    {
+                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = "iChronoMe" });
+                    }
+                    else
+                        return;
+                }
+                AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
+                AppConfigHolder.SaveCalendarViewConfig();
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -248,7 +282,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 item.SetShowAsAction(ShowAsAction.Always);
                 item.SetOnMenuItemClickListener(this);
 
-                var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
+                /*var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
                 sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance));
                 sub.Item.SetShowAsAction(ShowAsAction.Always);
 
@@ -270,8 +304,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                     item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
                     item.SetOnMenuItemClickListener(this);
                 }
+                */
 #if DEBUG
-                sub = menu.AddSubMenu(0, 0, 0, "Debug");
+                var sub = menu.AddSubMenu(0, 0, 0, "Debug");
                 sub.SetIcon(Resource.Drawable.icons8_services);
                 sub.Item.SetShowAsAction(ShowAsAction.Always);
 
@@ -331,34 +366,55 @@ namespace iChronoMe.Droid.GUI.Calendar
             await GenerateEvents(10, "New");
             await GenerateEvents(10, "Test");
             await GenerateEvents(1, "geo?");
+            Tools.ShowToast(Context, "events created");
             LoadEvents();
         }
 
         private async void deleteAllEvents()
         {
-            //if (!(await DisplayAlert("löschen?", "alle löschen?", "löschen!", "abbrechen")))
-            //  return;
-
-            DateTime calStart = new DateTime(2019, 01, 01);
-            DateTime calEnd = calStart.AddDays(1000);
             var calendar = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
-            var calEvents = await DeviceCalendar.DeviceCalendar.GetEventsAsync(calendar, calStart, calEnd);
-            foreach (var ev in calEvents)
-            {
-                try
+            if (calendar == null)
+                return;
+
+            new AlertDialog.Builder(Context).
+                SetMessage("alle Termine in " + calendar.Name + " löschen?")
+                .SetPositiveButton("ja", (s, e) =>
                 {
-                    await DeviceCalendar.DeviceCalendar.DeleteEventAsync(calendar, ev);
-                }
-                catch { }
-            }
-            LoadEvents();
+                    Task.Factory.StartNew(async() =>
+                    {                        
+                        int iDeleted = 0;
+                        DateTime calStart = new DateTime(2019, 01, 01);
+                        DateTime calEnd = calStart.AddDays(1000);
+                        var calEvents = await DeviceCalendar.DeviceCalendar.GetEventsAsync(calendar, calStart, calEnd);
+                        foreach (var ev in calEvents)
+                        {
+                            try
+                            {
+                                await DeviceCalendar.DeviceCalendar.DeleteEventAsync(calendar, ev);
+                                iDeleted++;
+                            }
+                            catch { }
+                        }
+                        Toast.MakeText(Context, iDeleted + " events deleted", ToastLength.Short).Show();
+                        LoadEvents();
+                    });
+                })
+                .SetNegativeButton("neeeeiin!", (s, e) => { })
+                .Create().Show();
         }
 
         private async Task GenerateEvents(int count, string name)
         {
+            xLog.Debug("GenerateEvents: " + count + " : " + name);
+
             var xDate = schedule.SelectedDate != null ? sys.DateTimeFromJava(schedule.SelectedDate) : sys.DateTimeFromJava(schedule.VisibleDates.First());
             string[] cLocations = new string[] { "Hyderabad, Pakistan", "Oran, Algeria", "Mexico City, Mexico", "Cairo, Egypt", "Barranquilla, Colombia", "Philadelphia, United States", "Tashkent, Uzbekistan", "Changchun, China", "Lima, Peru", "Brazzaville, Congo Republic", "Shiraz, Iran", "Los Angeles, United States", "Lagos, Nigeria", "Vienna, Austria", "Manila, Philippines", "Ankara, Turkey", "Hamburg, Germany", "Peshawar, Pakistan", "Kwangju,Korea, South", "Curitiba, Brazil", "Bengaluru, India", "Pune, India", "Patna, India", "Wenzhou, China", "Bandung, Indonesia", "Taichung, Taiwan", "Wuhan, China", "Davao City, Philippines", "Tijuana, Mexico", "Rosario, Argentina", "Lanzhou, China", "Barcelona, Spain", "Alexandria, Egypt", "Harare, Zimbabwe", "Singapore, Singapore", "Medan, Indonesia", "Saitama, Japan", "New York City, United States", "Bhopal, India", "Yerevan, Armenia", "Karachi, Pakistan", "Moscow, Russia", "Bulawayo, Zimbabwe", "Beijing, China", "Chennai, India", "Fukuoka, Japan", "Havana, Cuba", "Omsk, Russia", "Kolkata, India", "Kyoto, Japan", "Rome, Italy", "Surat, India", "Dhaka, Bangladesh", "Shijiazhuang, China", "Pyongyang, North", "Quanzhou, China", "Suzhou, China", "Cologne, Germany", "Cali, Colombia", "Harbin, China", "Shenzhen, China", "Ho Chi Minh City, Vietnam", "Shanghai, China", "Córdoba, Argentina", "Zhengzhou, China", "Recife, Brazil", "Vijayawada, India", "Surabaya, Indonesia", "Rio de Janeiro, Brazil", "Monterrey, Mexico", "Warsaw, Poland", "Santiago, Chile", "Kinshasa, DR Congo", "Jeddah, Saudi Arabia", "San Diego, United States", "Palembang, Indonesia", "Melbourne, Australia", "Fortaleza, Brazil", "Porto Alegre, Brazil", "Nanjing, China", "Ulsan, South", "Hyderabad, India", "Xi'an, China", "Kuala Lumpur, Malaysia", "Belo Horizonte, Brazil", "Kharkiv, Ukraine", "Seoul, Korea,South", "Yokohama, Japan", "Astana, Kazakhstan", "Ningbo, China", "Mandalay, Myanmar", "Phoenix, United States", "New Taipei City, Taiwan", "Birmingham, United Kingdom", "Kiev, Ukraine", "Xiamen, China", "Johannesburg, South Africa", "Tabriz, Iran", "Ekurhuleni, South Africa", "Rawalpindi, Pakistan", "Quezon City, Philippines", "Kanpur, India", "Hong Kong, China", "Khartoum, Sudan", "Rostov-on-Don, Russia", "Maputo, Mozambique", "Milan, Italy", "Busan, Korea,South", "Prague, Czech Republic", "Yekaterinburg, Russia", "Visakhapatnam, India", "Daejeon, South", "Kabul, Afghanistan", "Quito, Ecuador", "Kano, Nigeria", "Tripoli, Libya", "Munich, Germany", "Giza, Egypt", "São Paulo, Brazil", "Novosibirsk, Russia", "Foshan, China", "Dongguan, China", "Kampala, Uganda", "Yaoundé, Cameroon", "Ibadan, Nigeria", "Nagpur, India", "Hiroshima, Japan", "Fez, Morocco", "Sapporo, Japan", "Cape Town, South Africa", "Luanda, Angola", "Hangzhou, China", "Tianjin, China", "Douala, Cameroon", "Delhi, India", "Faisalabad, Pakistan", "Incheon, South", "Sana'a, Yemen", "Ahmedabad, India", "Accra, Ghana", "Basra, Iraq", "Kobe, Japan", "Tokyo, Japan", "London, United Kingdom", "Addis Ababa, Ethiopia", "Buenos Aires, Argentina", "Medellin, Colombia", "Jaipur, India", "Riyadh, Saudi Arabia", "Chongqing, China", "Isfahan, Iran", "Caracas, Venezuela", "Brisbane, Australia", "Bangkok, Thailand", "Caloocan, Philippines", "Guadalajara, Mexico", "Phnom Penh, Cambodia", "Daegu, South", "Santa Cruz de la Sierra, Bolivia", "Almaty, Kazakhstan", "Dalian, China", "Paris, France", "Hanoi, Vietnam", "Gujranwala, Pakistan", "Auckland, New Zealand", "Abuja, Nigeria", "Algiers, Algeria", "Guatemala City, Guatemala", "Semarang, Indonesia", "Kawasaki, Japan", "Brasília, Brazil", "Dakar, Senegal", "İzmir, Turkey", "Shantou, China", "Changsha, China", "Sofia, Bulgaria", "Tunis, Tunisia", "Ouagadougou, Burkina Faso", "Madrid, Spain", "Istanbul, Turkey", "Tehran, Iran", "Tainan, Taiwan", "Qingdao, China", "Saint Petersburg, Russia", "Montreal, Canada", "Abidjan, Ivory Coast", "Casablanca, Morocco", "Baku, Azerbaijan", "Baghdad, Iraq", "Jinan, China", "Mumbai, India", "Calgary, Canada", "Chittagong, Bangladesh", "Chaozhou, China", "Budapest, Hungary", "Suwon, South Korea", "Mashhad, Iran", "Lucknow, India", "Montevideo, Uruguay", "Karaj, Iran", "Tangshan, China", "Qom, Iran", "Sydney, Australia", "Guangzhou, China", "Zhongshan, China", "Taipei, Taiwan", "Nairobi, Kenya", "Dubai, United Arab Emirates", "Guayaquil, Ecuador", "Makassar, Indonesia", "Jakarta, Indonesia", "Toronto, Canada", "Houston, UnitedStates", "Dar es Salaam, Tanzania", "Shenyang, China", "Zunyi, China", "Chengdu, China", "Dallas, United States", "Osaka, Japan", "Belgrade, Serbia", "T'bilisi, Georgia", "Minsk, Belarus", "Berlin, Germany", "Nizhny Novgorod, Russia", "Kaohsiung, Taiwan", "Nagoya, Japan", "Campinas, Brazil", "Chicago, UnitedStates", "Fuzhou, China", "Islamabad, Pakistan", "Bucharest, Romania", "Managua, Nicaragua", "Lahore, Pakistan", "Hefei, China", "Yangon, Myanmar", "Durban, South Africa", "Abu Dhabi, United Arab Emirates", "Salvador, Brazil", "San Antonio, United States", "Ahvaz, Iran", "Lusaka, Zambia", "Bogotá, Colombia", "Kathmandu, Nepal", "Maracaibo, Venezuela" };
             var cal = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
+            if (cal == null)
+            {
+                Tools.ShowMessage(Context, "Fehler", "Kein Kalender gefunden!");
+                return;
+            }
             for (int i = 0; i < count; i++)
             {
                 Random rnd = new Random(DateTime.Now.Millisecond * DateTime.Now.Second * i);
@@ -375,6 +431,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 e.End = e.Start.AddHours(new Random().Next(5) + 1);
                 e.Location = cLocations[rnd.Next(cLocations.Length - 1)];//(nLat + dDec / 2).ToString("#.000000", CultureInfo.InvariantCulture) + ", " + (nLng + dDec).ToString("#.000000", CultureInfo.InvariantCulture);
                 e.EventColor = xColor.FromRgb(rnd.Next(200), rnd.Next(200), rnd.Next(200));
+
+                xLog.Debug("save Event: " + e.Name);
 
                 await DeviceCalendar.DeviceCalendar.AddOrUpdateEventAsync(cal, e);
 
@@ -420,7 +478,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                 var lst = new List<string>();
                 lst.Add(ViewTypeSpinner.Prompt);
                 lst.AddRange(Resources.GetStringArray(Resource.Array.calendar_viewtypes));
-                ViewTypeSpinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, lst.ToArray());                
+                ViewTypeAdapter.Clear();
+                ViewTypeAdapter.AddAll(lst);
+                ViewTypeAdapter.NotifyDataSetChanged();
                 ViewTypeSpinner.PerformClick();
                 bViewSpinnerActive = true;
             } catch { }
@@ -450,8 +510,79 @@ namespace iChronoMe.Droid.GUI.Calendar
                 }
 
                 ViewTypeSpinner.Prompt = cTitle;
-                ViewTypeSpinner.Adapter = new ArrayAdapter<string>(mContext, Android.Resource.Layout.SimpleSpinnerDropDownItem, new string[] { cTitle });
+                ViewTypeAdapter.Clear();
+                ViewTypeAdapter.Add(cTitle);
+                ViewTypeAdapter.NotifyDataSetChanged();
 
+            }
+        }
+
+        bool isFABOpen = false;
+        private void Fab_Click(object sender, EventArgs e)
+        {
+            if (!isFABOpen)
+            {
+                showFABMenu();
+            }
+            else
+            {
+                closeFABMenu();
+            }
+        }
+
+        List<FloatingActionButton> fabs;
+
+        private void showFABMenu()
+        {
+            isFABOpen = true;
+            List<TimeType> menu = new List<TimeType>(new TimeType[] { TimeType.TimeZoneTime, TimeType.MiddleSunTime, TimeType.RealSunTime });
+            menu.Remove(this.calEvents.timeType);
+
+            int margin = (int)Resources.GetDimension(Resource.Dimension.fab_margin);
+            var lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.WrapContent, CoordinatorLayout.LayoutParams.WrapContent);
+            lp.Gravity = (int)(GravityFlags.Bottom | GravityFlags.End);
+            lp.SetMargins(margin, margin, margin, margin);
+
+            float fAnimate = Resources.GetDimension(Resource.Dimension.standard_60);
+
+            fabs = new List<FloatingActionButton>();
+            foreach (TimeType tt in menu)
+            {
+                var fab = new FloatingActionButton(mContext);
+                fab.SetImageResource(MainWidgetBase.GetTimeTypeIcon(tt, LocationTimeHolder.LocalInstance));
+                fab.Tag = new Java.Lang.String(tt.ToString());
+                fab.Click += FabMenu_Click;
+                coordinator.AddView(fab, lp);
+                fabs.Add(fab);
+
+                fab.Animate().TranslationY(-(fAnimate));
+                fAnimate += Resources.GetDimension(Resource.Dimension.standard_60);
+            }
+            fabTimeType.BringToFront();
+        }
+
+        private void FabMenu_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string tag = (string)(sender as FloatingActionButton).Tag;
+                var tt = Enum.Parse<TimeType>(tag);
+                SetTimeType(tt);
+            }
+            finally
+            {
+                closeFABMenu();
+            }
+        }
+
+        private void closeFABMenu()
+        {
+            isFABOpen = false;
+            if (fabs == null)
+                return;
+            foreach (var fab in fabs)
+            {
+                fab.Animate().TranslationY(0).WithEndAction(new Java.Lang.Runnable(() => { coordinator.RemoveView(fab); }));
             }
         }
     }

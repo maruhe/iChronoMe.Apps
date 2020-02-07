@@ -121,8 +121,13 @@ namespace iChronoMe.Droid
         {
             return AppConfigHolder.MainConfig.WelcomeScreenDone < nStartAssistantMaxStep;
         }
+
+        bool bStartAssistantActive = false;
         public void ShowStartAssistant()
         {
+            if (bStartAssistantActive)
+                return;
+            bStartAssistantActive = true;
             if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.1F)
                 ShowFirstStartAssistant();
             else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.2F)
@@ -154,7 +159,7 @@ namespace iChronoMe.Droid
                     AppConfigHolder.MainConfig.DefaultTimeType = tt;
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.1F;
                     AppConfigHolder.SaveMainConfig();
-                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     ShowPermissionsAssistant();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
@@ -210,7 +215,7 @@ namespace iChronoMe.Droid
                             RunOnUiThread(() => ShowPermissionsAssistant());
                         }
                     });
-                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
@@ -224,14 +229,14 @@ namespace iChronoMe.Droid
                 {
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.3F;
                     AppConfigHolder.SaveMainConfig();
-                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     ShowPrivacyNotice();
                 })
                 .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                 {
                     AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                     AppConfigHolder.SaveMainConfig();
-                    (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     SetAssistantDone();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
@@ -247,19 +252,19 @@ namespace iChronoMe.Droid
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                             AppConfigHolder.SaveMainConfig();
-                            (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                            //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             SetAssistantDone();
                         })
                         .SetNeutralButton(Resources.GetString(Resource.String.action_ignore), (s, e) =>
                         {
                             AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
                             AppConfigHolder.SaveMainConfig();
-                            (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                            //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             SetAssistantDone();
                         })
                         .SetNegativeButton(Resources.GetString(Resource.String.action_decline), (s, e) =>
                         {
-                            (s as Android.Support.V7.App.AlertDialog)?.Dismiss();
+                            //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             FinishAndRemoveTask();
                         })
                         .SetOnCancelListener(new QuitOnCancelListener(this))
@@ -268,6 +273,7 @@ namespace iChronoMe.Droid
 
         public void SetAssistantDone()
         {
+            bStartAssistantActive = false;
             AppConfigHolder.MainConfig.WelcomeScreenDone = nStartAssistantMaxStep;
             AppConfigHolder.SaveMainConfig();
             OnResume();

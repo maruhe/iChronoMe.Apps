@@ -1,11 +1,12 @@
 ﻿
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
 using iChronoMe.Droid.GUI.Service;
 
 namespace iChronoMe.Droid
 {
-    [Activity(Label = "BackgroundServiceInfoActivity", Theme = "@style/splashscreen")]
+    [Activity(Label = "BackgroundServiceInfoActivity", Theme = "@style/splashscreen", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     public class BackgroundServiceInfoActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

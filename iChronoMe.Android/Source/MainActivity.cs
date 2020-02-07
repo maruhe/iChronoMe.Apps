@@ -178,19 +178,21 @@ namespace iChronoMe.Droid
 
                 RunOnUiThread(() =>
                 {
-                    iNavigationItem = id;
-                    if (fr != null)
+                    try
                     {
-                        SupportFragmentManager.BeginTransaction()
-                        .Replace(Resource.Id.main_frame, fr)
-                        .Commit();
-                        ActiveFragment = fr;
-                    }
+                        iNavigationItem = id;
+                        if (fr != null)
+                        {
+                            SupportFragmentManager.BeginTransaction()
+                            .Replace(Resource.Id.main_frame, fr)
+                            .Commit();
+                            ActiveFragment = fr;
+                        }
 
-                    DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-                    drawer.CloseDrawer(GravityCompat.Start);
+                        DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+                        drawer.CloseDrawer(GravityCompat.Start);
 
-                    //this.InvalidateOptionsMenu();
+                    } catch { }
                 });
             });
             return true;

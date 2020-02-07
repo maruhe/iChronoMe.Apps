@@ -6,10 +6,23 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         tools:openDrawer="right">
-    <Com.Syncfusion.Schedule.SfSchedule
-        android:id="@+id/calendar_schedule"
+    <android.support.design.widget.CoordinatorLayout 
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+        <Com.Syncfusion.Schedule.SfSchedule
+            android:id="@+id/calendar_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_time_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@drawable/real_sun_time" />
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

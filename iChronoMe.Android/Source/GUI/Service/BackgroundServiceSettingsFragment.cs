@@ -86,21 +86,19 @@ namespace iChronoMe.Droid.GUI.Service
                 .SetNegativeButton(Resources.GetString(Resource.String.action_block), (s, e) =>
                 {
                     Intent intent = new Intent();
-                    intent.SetAction("android.settings.APP_NOTIFICATION_SETTINGS");
 
 
-                    //for Android 5-7
-                    if (Build.VERSION.SdkInt <= BuildVersionCodes.NMr1)
+                    if (Build.VERSION.SdkInt < BuildVersionCodes.O)
                     {
+                        //for Android 5-7
+                        intent.SetAction("android.settings.APP_NOTIFICATION_SETTINGS");
                         intent.PutExtra("app_package", Context.PackageName);
                         intent.PutExtra("app_uid", Context.ApplicationInfo.Uid);
                     }
                     else
                     {
                         // for Android 8 and above
-                        //intent.PutExtra(Settings.EXTRA_APP_PACKAGE, Context.PackageName);
-                        //intent.PutExtra(Settings.EXTRA_CHANNEL_ID, "widget_service");
-
+                        intent.SetAction("android.settings.CHANNEL_NOTIFICATION_SETTINGS");
                         intent.PutExtra("android.provider.extra.APP_PACKAGE", Context.PackageName);
                         intent.PutExtra("android.provider.extra.CHANNEL_ID", "widget_service");
                     }
