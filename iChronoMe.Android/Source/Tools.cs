@@ -10,18 +10,19 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Xamarin.Essentials;
 
 namespace iChronoMe.Droid
 {
     public static class Tools
     {
         public static void ShowToast(Context context, string text, bool bShowLong = false)
-            => Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show();
+            => MainThread.BeginInvokeOnMainThread(() => Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show());
         public static void ShowToast(Context context, ICharSequence text, bool bShowLong = false)
-            => Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show();
+            => MainThread.BeginInvokeOnMainThread(() => Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show());
 
         public static void ShowToast(Context context, int resId, bool bShowLong = false)
-            => Toast.MakeText(context, resId, bShowLong ? ToastLength.Long : ToastLength.Short).Show();
+            => MainThread.BeginInvokeOnMainThread(() => Toast.MakeText(context, resId, bShowLong ? ToastLength.Long : ToastLength.Short).Show());
 
         public static void ShowMessage(Context context, string title, string text)
             => new AlertDialog.Builder(context).
