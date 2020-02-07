@@ -3,42 +3,46 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:padding="5dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
    
     <TextView
-        android:text="settings main  xxxS2"
+        android:text="@string/label_default_TimeType"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+
+    <Spinner
+        android:id="@+id/sp_default_timetype"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <CheckBox
-        android:id="@+id/cb_showalways"
-        android:text="cb_showalways"
+        android:id="@+id/cb_calendar_default_timetype"
+        android:text="@string/action_calendar_UsesDefaultTimeType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/testedit1"
-        android:text="testedit1"
-        android:inputType="text"
+    <TextView
+        android:id="@+id/tv_calendar_timetype"
+        android:text="@string/label_calendar_TimeType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/testedit2"
-        android:text="testedit2"
-        android:inputType="text"
+
+    <Spinner
+        android:id="@+id/sp_calendar_timetype"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/testedit3"
-        android:text="testedit3"
-        android:inputType="text"
+
+    <CheckBox
+        android:id="@+id/cb_notification_showalways"
+        android:text="@string/action_notification_show_always"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/testedit4"
-        android:text="testedit4"
-        android:inputType="text"
+
+    <Button
+        android:id="@+id/btn_notification_config"
+        android:text="@string/action_notification_config"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

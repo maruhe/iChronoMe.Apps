@@ -95,7 +95,7 @@
     <Compile Include="Source\svg.cs" />
     <Compile Include="Source\TestActivity.cs" />
     <Compile Include="Source\Tools.cs" />
-    <Compile Include="Source\ViewModels\MainSettingsModel.cs" />
+    <Compile Include="Source\ViewModels\ClockNotificationViewModel.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidget.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidgetConfigActivity.cs" />
@@ -705,6 +705,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\fragment_service_faq.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_title.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

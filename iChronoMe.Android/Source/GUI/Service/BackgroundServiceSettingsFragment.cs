@@ -9,9 +9,10 @@ using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Dialogs;
-
+using iChronoMe.Droid.Source.ViewModels;
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -19,6 +20,7 @@ namespace iChronoMe.Droid.GUI.Service
     public class BackgroundServiceSettingsFragment : ActivityFragment
     {
         private bool bIsInfoActivity = false;
+        DataBinder binder;
 
         public BackgroundServiceSettingsFragment(bool isInfoActivity = false)
         {
@@ -30,8 +32,37 @@ namespace iChronoMe.Droid.GUI.Service
         {
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_setting_backgroundservice, container, false);
 
+            var model = new ClockNotificationViewModel(Activity);
+            binder = model.GetDataBinder(RootView);
+            RootView.FindViewById<Button>(Resource.Id.btn_show_info).Click += model.ShowBackgroundServiceInfo;
+            RootView.FindViewById<Button>(Resource.Id.btn_select_location).Click += model.ShowLocationSelector;
+
             return RootView;
         }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            binder.Start();
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+            binder.Stop();
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            binder.Dispose();
+            binder = null;
+            RootView.Dispose();
+            RootView = null;
+        }
+    }
+}
+/*
 
         Button btn_ShowInfo, btn_SelectLocation;
         CheckBox cbShowAlways;
@@ -86,7 +117,6 @@ namespace iChronoMe.Droid.GUI.Service
                 .SetNegativeButton(Resources.GetString(Resource.String.action_block), (s, e) =>
                 {
                     Intent intent = new Intent();
-
 
                     if (Build.VERSION.SdkInt < BuildVersionCodes.O)
                     {
@@ -166,3 +196,4 @@ namespace iChronoMe.Droid.GUI.Service
 
     }
 }
+*/

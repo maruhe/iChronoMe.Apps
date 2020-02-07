@@ -22,7 +22,7 @@ namespace iChronoMe.Droid.GUI.Service
             Task.Factory.StartNew(() =>
             {
                 Task.Delay(250).Wait();
-                sys.LogException(new NotImplementedException());
+                Tools.ShowToast(Context, "NotImplementedException");
             });
 
             return RootView;
