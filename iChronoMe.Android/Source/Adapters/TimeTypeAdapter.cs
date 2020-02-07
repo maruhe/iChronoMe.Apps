@@ -12,15 +12,17 @@ namespace iChronoMe.Droid.Adapters
     public class TimeTypeAdapter : BaseAdapter<SimpleObject>
     {
         List<SimpleObject> items;
-        Activity context;
+        Activity Context;
+        bool IsSpinner;
 
-        public TimeTypeAdapter(Activity context) : base()
+        public TimeTypeAdapter(Activity context, bool bIsSpinner = false) : base()
         {
             this.items = new List<SimpleObject>();
             this.items.Add(new SimpleObject() { Tag = TimeType.RealSunTime, Title1 = context.Resources.GetString(Resource.String.TimeType_RealSunTime), Description1 = context.Resources.GetString(Resource.String.TimeType_RealSunTime_Desc) });
             this.items.Add(new SimpleObject() { Tag = TimeType.MiddleSunTime, Title1 = context.Resources.GetString(Resource.String.TimeType_MiddleSunTime), Description1 = context.Resources.GetString(Resource.String.TimeType_MiddleSunTime_Desc) });
             this.items.Add(new SimpleObject() { Tag = TimeType.TimeZoneTime, Title1 = context.Resources.GetString(Resource.String.TimeType_TimeZoneTime), Description1 = context.Resources.GetString(Resource.String.TimeType_TimeZoneTime_Desc) });
-            this.context = context;
+            Context = context;
+            IsSpinner = bIsSpinner;
         }
 
 
@@ -48,12 +50,14 @@ namespace iChronoMe.Droid.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+            if (!IsSpinner)
+                return GetDropDownView(position, convertView, parent);
+
             var item = items[position];
-
-
+            
             if (convertView == null)
             {
-                convertView = context.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
+                convertView = Context.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
             }
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
@@ -69,7 +73,7 @@ namespace iChronoMe.Droid.Adapters
 
             if (convertView == null)
             {
-                convertView = context.LayoutInflater.Inflate(Resource.Layout.listitem_title_detail, null);
+                convertView = Context.LayoutInflater.Inflate(Resource.Layout.listitem_title_detail, null);
             }
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
