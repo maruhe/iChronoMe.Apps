@@ -12,7 +12,7 @@ namespace iChronoMe.Droid.Adapters
     public class TimeTypeAdapter : BaseAdapter<SimpleObject>
     {
         List<SimpleObject> items;
-        Activity Context;
+        Activity mContext;
         bool IsSpinner;
 
         public TimeTypeAdapter(Activity context, bool bIsSpinner = false) : base()
@@ -21,7 +21,7 @@ namespace iChronoMe.Droid.Adapters
             this.items.Add(new SimpleObject() { Tag = TimeType.RealSunTime, Title1 = context.Resources.GetString(Resource.String.TimeType_RealSunTime), Description1 = context.Resources.GetString(Resource.String.TimeType_RealSunTime_Desc) });
             this.items.Add(new SimpleObject() { Tag = TimeType.MiddleSunTime, Title1 = context.Resources.GetString(Resource.String.TimeType_MiddleSunTime), Description1 = context.Resources.GetString(Resource.String.TimeType_MiddleSunTime_Desc) });
             this.items.Add(new SimpleObject() { Tag = TimeType.TimeZoneTime, Title1 = context.Resources.GetString(Resource.String.TimeType_TimeZoneTime), Description1 = context.Resources.GetString(Resource.String.TimeType_TimeZoneTime_Desc) });
-            Context = context;
+            mContext = context;
             IsSpinner = bIsSpinner;
         }
 
@@ -57,7 +57,7 @@ namespace iChronoMe.Droid.Adapters
             
             if (convertView == null)
             {
-                convertView = Context.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
+                convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
             }
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
@@ -73,8 +73,9 @@ namespace iChronoMe.Droid.Adapters
 
             if (convertView == null)
             {
-                convertView = Context.LayoutInflater.Inflate(Resource.Layout.listitem_title_detail, null);
+                convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title_detail, null);
             }
+            
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;

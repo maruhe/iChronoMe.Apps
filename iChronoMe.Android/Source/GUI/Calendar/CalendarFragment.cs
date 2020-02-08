@@ -21,10 +21,13 @@ using Com.Syncfusion.Schedule.Enums;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
+using iChronoMe.Droid.Source.ViewModels;
 using iChronoMe.Droid.Widgets;
+using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI.Calendar
 {
@@ -38,6 +41,8 @@ namespace iChronoMe.Droid.GUI.Calendar
         private EventCollection calEvents = null;
         private ArrayAdapter<string> ViewTypeAdapter = null;
         private FloatingActionButton fabTimeType;
+        private CalendarConfigViewModel ConfigModel;
+        private DataBinder ConfigBinder;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -58,13 +63,14 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             View view = inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
             Drawer = view.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            Drawer.DrawerStateChanged += Drawer_DrawerStateChanged;
             coordinator = view.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
             ViewTypeAdapter = new ArrayAdapter<string>(Context, Android.Resource.Layout.SimpleSpinnerDropDownItem, new List<string>(new string[] { "init.." }));
             ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (ViewTypeSpinner != null)
             {
-                ViewTypeSpinner.ItemSelected += ViewSpinner_ItemSelected;
+                ViewTypeSpinner.ItemSelected += ViewTypeSpinner_ItemSelected;
                 ViewTypeSpinner.Adapter = ViewTypeAdapter;
             }
 
@@ -75,81 +81,23 @@ namespace iChronoMe.Droid.GUI.Calendar
             schedule.HeaderHeight = 0;
             schedule.AppointmentMapping = new AppointmentMapping() { Subject = "Name", StartTime = "javaDisplayStart", EndTime = "javaDisplayEnd", IsAllDay = "AllDay", Location = "Location", Notes = "Description", Color = "javaColor" };
 
-            if (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"))
+            schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
+            schedule.CellDoubleTapped += Schedule_CellDoubleTapped;
+
+            if (ViewTypeSpinner != null)
             {
-                schedule.TimelineViewSettings.LabelSettings.TimeFormat = "HH";
-                schedule.DayViewSettings.DayLabelSettings.TimeFormat = "HH";
-                schedule.WeekViewSettings.WeekLabelSettings.TimeFormat = "HH";
-                schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
-                schedule.MonthViewSettings.AgendaViewStyle.TimeTextFormat = "HH:mm";
+                mContext.Title = "";
+                ViewTypeSpinner.Visibility = ViewStates.Visible;
+                ViewTypeSpinner.Touch += ViewTypeSpinner_Touch;
             }
+            if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
+                SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
+            else
+                SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.DefaultViewType));
+            LoadCalendarConfig();
 
-            try
-            {
-                Color clTitleText = xColor.White.ToAndroid();
-                Color clTitleBack = xColor.FromHex("#2c3e50").ToAndroid();
-                Color clText = clTitleText;
-                Color clBack = xColor.FromHex("#2c3e50").ToAndroid();
-                Color clTodayText = clTitleText;
-                Color clAccent = xColor.FromHex("#1B3147").ToAndroid();
-
-                schedule.HeaderStyle = new HeaderStyle { TextColor = clTitleText, BackgroundColor = clTitleBack };
-
-                schedule.ViewHeaderStyle = new ViewHeaderStyle
-                {
-                    DayTextColor = clText,
-                    DateTextColor = clText,
-                    CurrentDateTextColor = clTodayText,
-                    CurrentDayTextColor = clTodayText,
-                    BackgroundColor = clBack
-                };
-
-                schedule.MonthCellStyle = new MonthCellStyle
-                {
-                    TextColor = clText,
-                    BackgroundColor = clBack,
-                    TodayTextColor = clTodayText,
-                    TodayBackgroundColor = clBack,
-                    PreviousMonthBackgroundColor = clAccent,
-                    NextMonthBackgroundColor = clAccent                    
-                };
-
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
-
-            try
-            {
-                var cfg = AppConfigHolder.CalendarViewConfig;
-
-                schedule.TimelineViewSettings.StartHour = 6;
-                schedule.TimelineViewSettings.EndHour = 22;
-
-                schedule.MonthViewSettings.ShowAppointmentsInline = cfg.ShowInlineEvents;
-                schedule.MonthViewSettings.ShowAgendaView = !schedule.MonthViewSettings.ShowAppointmentsInline;
-                schedule.MonthViewSettings.AppointmentDisplayMode = (AppointmentDisplayMode)Enum.ToObject(typeof(AppointmentDisplayMode), cfg.AppointmentDisplayMode);
-                schedule.MonthViewSettings.AppointmentIndicatorCount = cfg.AppointmentIndicatorCount;
-
-                schedule.ScheduleViewChanged += Schedule_ScheduleViewChanged;
-                schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
-
-                if (ViewTypeSpinner != null)
-                {
-                    mContext.Title = "";
-                    ViewTypeSpinner.Visibility = ViewStates.Visible;
-                    ViewTypeSpinner.Touch += ViewTypeSpinner_Touch;
-                }
-                if (cfg.DefaultViewType < 0)
-                    SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.LastViewType));
-                else
-                    SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), cfg.DefaultViewType));
-            }
-            catch (Exception ex)
-            {
-                xLog.Error(ex);
-            }
+            ConfigModel = new CalendarConfigViewModel(Activity, schedule);
+            ConfigBinder = ConfigModel.GetDataBinder(view.FindViewById<NavigationView>(Resource.Id.nav_view));
 
             fabTimeType = view.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
             fabTimeType.Click += Fab_Click;
@@ -160,6 +108,37 @@ namespace iChronoMe.Droid.GUI.Calendar
             return view;
         }
 
+        private void Schedule_CellDoubleTapped(object sender, CellTappedEventArgs e)
+        {
+            if (e.ScheduleAppointment != null)
+                return;
+            //if (e.ScheduleAppointments.Count > 0)
+              //  return;
+            switch(schedule.ScheduleView)
+            {
+                case ScheduleView.MonthView:
+                    SetViewType(ScheduleView.WeekView);
+                    break;
+                case ScheduleView.WorkWeekView:
+                    SetViewType(ScheduleView.DayView);
+                    break;
+                case ScheduleView.WeekView:
+                    SetViewType(ScheduleView.DayView);
+                    break;
+            }
+        }
+
+        private void Drawer_DrawerStateChanged(object sender, DrawerLayout.DrawerStateChangedEventArgs e)
+        {
+            if (e.NewState == 2)
+            {
+                if (Drawer.IsDrawerOpen((int)GravityFlags.End))
+                    ConfigBinder.Stop();
+                else
+                    ConfigBinder.Start();
+            }
+        }
+
         bool bPermissionCheckOk = false;
         public override void OnResume()
         {
@@ -167,46 +146,19 @@ namespace iChronoMe.Droid.GUI.Calendar
             bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
         }
 
-        bool bViewSpinnerActive = false;
-        private void ViewSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            if (!bViewSpinnerActive)
-                return;
-            switch (e.Position)
-            {
-                case 1:
-                    SetViewType(ScheduleView.Timeline);
-                    break;
-                case 2:
-                    SetViewType(ScheduleView.DayView);
-                    break;
-                case 3:
-                    SetViewType(ScheduleView.WeekView);
-                    break;
-                case 4:
-                    SetViewType(ScheduleView.WorkWeekView);
-                    break;
-                case 5:
-                    SetViewType(ScheduleView.MonthView);
-                    break;
-            }
-        }
+
 
         public override void OnPause()
         {
             base.OnPause();
+            SaveCalendarConfig();
             var spinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (spinner != null)
             {
                 spinner.Visibility = ViewStates.Gone;
-                spinner.ItemSelected -= ViewSpinner_ItemSelected;
+                spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
                 mContext.Title = Resources.GetString(Resource.String.app_name);
             }
-        }
-
-        private void Schedule_ScheduleViewChanged(object sender, ScheduleViewChangedEventArgs e)
-        {
-            //throw new NotImplementedException();
         }
 
         private void Schedule_VisibleDatesChanged(object sender, VisibleDatesChangedEventArgs e)
@@ -356,6 +308,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             return true;
         }
 
+        #region debug stuff
 #if DEBUG
         private async void createTestEvents()
         {
@@ -453,6 +406,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             }
         }
 #endif
+#endregion 
 
         public void SetTimeType(TimeType tt)
         {
@@ -468,7 +422,34 @@ namespace iChronoMe.Droid.GUI.Calendar
                 ResetTitleSpinner(tFirstVisible, tLastVisible);
                 if (schedule.ScheduleView != vType)
                     schedule.ScheduleView = vType;
+                if (Drawer.IsDrawerOpen((int)GravityFlags.End))
+                    ConfigBinder.PushDataToViewOnce();
             } catch (Exception ex) { sys.LogException(ex); }
+        }
+
+        bool bViewSpinnerActive = false;
+        private void ViewTypeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            if (!bViewSpinnerActive)
+                return;
+            switch (e.Position)
+            {
+                case 1:
+                    SetViewType(ScheduleView.Timeline);
+                    break;
+                case 2:
+                    SetViewType(ScheduleView.DayView);
+                    break;
+                case 3:
+                    SetViewType(ScheduleView.WeekView);
+                    break;
+                case 4:
+                    SetViewType(ScheduleView.WorkWeekView);
+                    break;
+                case 5:
+                    SetViewType(ScheduleView.MonthView);
+                    break;
+            }
         }
 
         private void ViewTypeSpinner_Touch(object sender, View.TouchEventArgs e)
@@ -491,22 +472,25 @@ namespace iChronoMe.Droid.GUI.Calendar
             bViewSpinnerActive = false;
             if (ViewTypeSpinner != null)
             {
-                string cTitle = tFirstVisible.ToShortDateString();
-                switch (schedule.ScheduleView)
+                string cTitle = tFirstVisible.ToString("MMM yyyy");
+                if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
                 {
-                    case ScheduleView.Timeline:
-                    case ScheduleView.DayView:
-                        cTitle = tFirstVisible.ToString("MMMM yyyy");
-                        break;
-                    case ScheduleView.WeekView:
-                    case ScheduleView.WorkWeekView:
-                        cTitle = tFirstVisible.ToString("MMMM yyyy");
-                        if (tLastVisible.Month != tFirstVisible.Month)
-                            cTitle += " - " + tLastVisible.ToString("MMMM yyyy");
-                        break;
-                    case ScheduleView.MonthView:
-                        cTitle = tFirstVisible.AddDays((tLastVisible-tFirstVisible).Days / 2).ToString("MMMM yyyy");
-                        break;
+                    switch (schedule.ScheduleView)
+                    {
+                        case ScheduleView.Timeline:
+                        case ScheduleView.DayView:
+                            cTitle = tFirstVisible.ToString("MMMM yyyy");
+                            break;
+                        case ScheduleView.WeekView:
+                        case ScheduleView.WorkWeekView:
+                            cTitle = tFirstVisible.ToString("MMMM yyyy");
+                            if (tLastVisible.Month != tFirstVisible.Month)
+                                cTitle += " - " + tLastVisible.ToString("MMMM yyyy");
+                            break;
+                        case ScheduleView.MonthView:
+                            cTitle = tFirstVisible.AddDays((tLastVisible - tFirstVisible).Days / 2).ToString("MMMM yyyy");
+                            break;
+                    }
                 }
 
                 ViewTypeSpinner.Prompt = cTitle;
@@ -584,6 +568,86 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 fab.Animate().TranslationY(0).WithEndAction(new Java.Lang.Runnable(() => { coordinator.RemoveView(fab); }));
             }
+        }
+
+        public void LoadCalendarConfig()
+        {
+            if (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"))
+            {
+                schedule.TimelineViewSettings.LabelSettings.TimeFormat = "HH";
+                schedule.DayViewSettings.DayLabelSettings.TimeFormat = "HH";
+                schedule.WeekViewSettings.WeekLabelSettings.TimeFormat = "HH";
+                schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
+                schedule.MonthViewSettings.AgendaViewStyle.TimeTextFormat = "HH:mm";
+            }
+
+            try
+            {
+                Color clTitleText = xColor.White.ToAndroid();
+                Color clTitleBack = xColor.FromHex("#2c3e50").ToAndroid();
+                Color clText = clTitleText;
+                Color clBack = xColor.FromHex("#2c3e50").ToAndroid();
+                Color clTodayText = clTitleText;
+                Color clAccent = xColor.FromHex("#1B3147").ToAndroid();
+
+                schedule.HeaderStyle = new HeaderStyle { TextColor = clTitleText, BackgroundColor = clTitleBack };
+
+                schedule.ViewHeaderStyle = new ViewHeaderStyle
+                {
+                    DayTextColor = clText,
+                    DateTextColor = clText,
+                    CurrentDateTextColor = clTodayText,
+                    CurrentDayTextColor = clTodayText,
+                    BackgroundColor = clBack
+                };
+
+                schedule.MonthCellStyle = new MonthCellStyle
+                {
+                    TextColor = clText,
+                    BackgroundColor = clBack,
+                    TodayTextColor = clTodayText,
+                    TodayBackgroundColor = clBack,
+                    PreviousMonthBackgroundColor = clAccent,
+                    NextMonthBackgroundColor = clAccent
+                };
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+
+            try
+            {
+                var cfg = AppConfigHolder.CalendarViewConfig;
+
+                schedule.TimelineViewSettings.StartHour = 6;
+                schedule.TimelineViewSettings.EndHour = 22;
+
+                schedule.MonthViewSettings.ShowAppointmentsInline = cfg.MonthViewShowInlineEvents;
+                schedule.MonthViewSettings.ShowAgendaView = !schedule.MonthViewSettings.ShowAppointmentsInline && cfg.MonthViewShowAgenda;
+                schedule.MonthViewSettings.AppointmentDisplayMode = (AppointmentDisplayMode)Enum.ToObject(typeof(AppointmentDisplayMode), cfg.MonthViewAppointmentDisplayMode);
+                schedule.MonthViewSettings.AppointmentIndicatorCount = cfg.MonthViewAppointmentIndicatorCount;
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
+        }
+        public void SaveCalendarConfig()
+        {
+            var cfg = AppConfigHolder.CalendarViewConfig;
+            cfg.LastViewType = (int)schedule.ScheduleView;
+
+            schedule.TimelineViewSettings.StartHour = 6;
+            schedule.TimelineViewSettings.EndHour = 22;
+
+            cfg.MonthViewShowInlineEvents = schedule.MonthViewSettings.ShowAppointmentsInline;
+            cfg.MonthViewShowAgenda = schedule.MonthViewSettings.ShowAgendaView;
+            cfg.MonthViewAppointmentDisplayMode = (int)schedule.MonthViewSettings.AppointmentDisplayMode;
+            cfg.MonthViewAppointmentIndicatorCount = schedule.MonthViewSettings.AppointmentIndicatorCount;
+
+            AppConfigHolder.SaveCalendarViewConfig();
         }
     }
 }

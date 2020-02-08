@@ -63,20 +63,15 @@
 	</string>
 	<string name="TimeType_RealSunTime">real sun time</string>
 	<string name="TimeType_RealSunTime_Desc">
-		"the time, by the real position of the sun where the highest point of the sun means 12 o'clock
-		this means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is
-		the offset to timezone-time is changing every day"
+		"the time, by the real position of the sun where the highest point of the sun means 12 o'clock\nthis means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is\nthe offset to timezone-time is changing every day"
 	</string>
 	<string name="TimeType_MiddleSunTime">middle sun time</string>
 	<string name="TimeType_MiddleSunTime_Desc">
-		"the time based on the current longitude of your location
-		around the year the difference between real an middle solar time can be up to about 18 minutes
-		every day has exact 24 hours and the offset to timezone-time is stable"
+		"the time based on the current longitude of your location\naround the year the difference between real an middle solar time can be up to about 18 minutes\nevery day has exact 24 hours and the offset to timezone-time is stable"
 	</string>
 	<string name="TimeType_TimeZoneTime">timezone time</string>
 	<string name="TimeType_TimeZoneTime_Desc">
-		"this time is based on the borders of the country you enjoy currently
-		may this is far far away from the real time on your location"
+		"this time is based on the borders of the country you enjoy currently\nmay this is far far away from the real time on your location"
 	</string>
 
 	<string name="assistant_permission_welcome">
@@ -125,13 +120,36 @@
 		<item>appointment</item>
 	</string-array>
 
+	<string-array name="calendar_monthview_appointmentdisplaycount">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+	</string-array>
+
+	<string-array name="calendar_monthview_navigation_directions">
+		<item>horizontal</item>
+		<item>vertical</item>
+	</string-array>
+
+	<string name="label_cfg_calendar_visible_time">visible time</string>
+	<string name="label_cfg_calendar_core_time">core time</string>
+	<string name="label_cfg_timeline_days_count">days count</string>
+	<string name="action_cfg_calendar_show_allday">show allday appointments</string>
+	<string name="label_cfg_calendar_show_weeknumbers">show weeknumbers</string>
+
 	<!-- backgroundservice -->
 
 	<string name="backgroundservice_info_why">why do I see a clock in notification area?</string>
 	<string name="backgroundservice_info_explenation">
-		"to show a clock as widget that does show a custom time a service needs to be running in background
-		since android 7 it is needet to show a notification while a background-service is running
-		you can customize this notification or disable it in system-settings
+		"to show a clock as widget that does show a custom time a service needs to be running in background\nsince android 7 it is needet to show a notification while a background-service is running\nyou can customize this notification or disable it in system-settings
 	</string>
 
 	<string name="action_backgroundservice_showalways">always show clock in notifocation area</string>
@@ -162,5 +180,25 @@
 	<string name="label_calendar_TimeType">calendar TimeType:</string>
 	<string name="action_notification_show_always">always show clock in notifocation area</string>
 	<string name="action_notification_config">configure notifocation area</string>
+
+	<!---->
+
+	<string-array name="numbers_0_14">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+		<item>7</item>
+		<item>8</item>
+		<item>9</item>
+		<item>10</item>
+		<item>11</item>
+		<item>12</item>
+		<item>13</item>
+		<item>14</item>
+	</string-array>
 
 </resources>

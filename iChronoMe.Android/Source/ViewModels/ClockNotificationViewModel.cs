@@ -20,7 +20,8 @@ namespace iChronoMe.Droid.Source.ViewModels
     {
         Activity mContext;
         bool IsBackgroundServiceInfoActivity;
-        WidgetConfigHolder holder; private MainConfig main { get => AppConfigHolder.MainConfig; }
+        private WidgetConfigHolder holder; 
+        private MainConfig main { get => AppConfigHolder.MainConfig; }
         private WidgetCfg_ClockAnalog _clock;
         private void saveMain() { AppConfigHolder.SaveMainConfig(); }
 

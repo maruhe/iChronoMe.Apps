@@ -21,6 +21,8 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
 using iChronoMe.Droid.GUI.Service;
+using iChronoMe.Droid.Source.GUI.Dialogs;
+
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
@@ -235,6 +237,10 @@ namespace iChronoMe.Droid
                                     .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                                     {
                                         try { Directory.Delete(cErrorPath, true); } catch { };
+                                    })
+                                    .SetNeutralButton("more info", (s, e) =>
+                                    {
+                                        new ErrorLogDlg().Show(SupportFragmentManager, "");
                                     })
                                     .Create().Show();
                             });

@@ -68,6 +68,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Adapters\ErrorLogAdapter.cs" />
+    <Compile Include="Source\Adapters\HourAdapter.cs" />
     <Compile Include="Source\Adapters\SimpleObject.cs" />
     <Compile Include="Source\Adapters\TimeTypeAdapter.cs" />
     <Compile Include="Source\BackgroundService.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Source\GUI\Calendar\CalendarFragment.cs" />
     <Compile Include="Source\GUI\Calendar\EventEditFragment.cs" />
     <Compile Include="Source\GUI\ClockFragment.cs" />
+    <Compile Include="Source\GUI\Dialogs\ErrorLogDlg.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
     <Compile Include="Source\GUI\ProgressDialog.cs" />
     <Compile Include="Source\GUI\Service\AboutFragment.cs" />
@@ -95,6 +98,7 @@
     <Compile Include="Source\svg.cs" />
     <Compile Include="Source\TestActivity.cs" />
     <Compile Include="Source\Tools.cs" />
+    <Compile Include="Source\ViewModels\CalendarConfigViewModel.cs" />
     <Compile Include="Source\ViewModels\ClockNotificationViewModel.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidget.cs" />
@@ -711,6 +715,49 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_title.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\overlay_click.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_calendar_configpanel.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_calendar_configpanel_timeline.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_calendar_configpanel_weekview.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_calendar_configpanel_monthview.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_calendar_configpanel_workweek.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_calendar_configpanel_dayview.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout1.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

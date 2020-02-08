@@ -26,57 +26,16 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+        android:padding="@dimen/frame_padding"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end">
-        <LinearLayout
-            android:id="@+id/cfg_timeline"
-            android:orientation="vertical"
+        
+        <include
+            layout="@layout/fragment_calendar_configpanel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/cfg_dayview"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/cfg_weekview"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/cfg_workweek"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/cfg_monthview"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/calendar_monthview_appointmentviewtypes_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/cfg_monthview_sp_appointmentview"
-                android:entries="@array/calendar_monthview_appointmentviewtypes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text="@string/calendar_monthview_appointmentdisplaymode_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/cfg_monthview_sp_appointmentmode"
-                android:entries="@array/calendar_monthview_appointmentdisplaymodes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:layout_height="match_parent"/>
+
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
