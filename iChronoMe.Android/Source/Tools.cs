@@ -1,16 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Android.Content;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
+using iChronoMe.Core.Types;
 using Java.Lang;
 using Xamarin.Essentials;
+using static Android.Content.Res.Resources;
 
 namespace iChronoMe.Droid
 {
@@ -109,6 +115,64 @@ namespace iChronoMe.Droid
                 return null;
             else
                 return items[iRes];
+        }
+
+        public static string GetAllThemeColors(Theme theme)
+        {
+            string cRes = "";
+
+            foreach (var prop in typeof(Android.Resource.Attribute).GetFields(BindingFlags.Public | BindingFlags.Static))
+            {
+                if (prop.IsLiteral && !prop.IsInitOnly)
+                {
+                    if (prop.FieldType == typeof(int)) {
+                        var clr = GetThemeColor(theme, (int)prop.GetValue(null));
+                        if (clr != null)
+                        {
+                            cRes += prop.Name + "\t" + clr.Value.ToColor().HexString + "\n";
+                        }
+                    }
+                }
+            }
+
+            return cRes;
+        }
+
+        public static Color? GetThemeColor(Theme theme, int attrId)
+        {
+            try
+            {
+                TypedValue val = new TypedValue();
+                theme.ResolveAttribute(attrId, val, true);
+
+
+                if (val.Type >= DataType.FirstColorInt && val.Type <= DataType.LastColorInt)
+                {
+                    //simple colors
+                    return new Color((int)val.Data);
+                }
+                else
+                {
+                    //android colorSet
+                    TypedArray themeArray = theme.ObtainStyledAttributes(new int[] { (int)val.Data });
+                    try
+                    {
+                        int index = 0;
+                        int defaultColourValue = 0;
+                        int aColour = themeArray.GetColor(index, defaultColourValue);
+                        return new Color((int)aColour);
+                    }
+                    finally
+                    {
+                        // Calling recycle() is important. Especially if you use alot of TypedArrays
+                        // http://stackoverflow.com/a/13805641/8524
+                        themeArray.Recycle();
+                    }
+                }
+
+                
+            } catch { }
+            return null;
         }
 
         private class myDialogCancelListener<T> : Java.Lang.Object, IDialogInterfaceOnCancelListener

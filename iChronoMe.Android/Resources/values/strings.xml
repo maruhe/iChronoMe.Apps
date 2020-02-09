@@ -201,4 +201,7 @@
 		<item>14</item>
 	</string-array>
 
+	<string name="No_Appointments">your are free</string>
+	<string name="all_day">all day</string>
+
 </resources>

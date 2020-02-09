@@ -148,10 +148,15 @@ namespace iChronoMe.Droid.Source.ViewModels
 
         public int TimeLineDaysCount
         {
-            get => Schedule.TimelineViewSettings.DaysCount;
+            get => Schedule.TimelineViewSettings.DaysCount < 0 ? 0 : Schedule.TimelineViewSettings.DaysCount;
             set
             {
-                Schedule.TimelineViewSettings.DaysCount = value;
+                if (value == 0)
+                {
+                    Schedule.TimelineViewSettings.DaysCount = -1;
+                }
+                else
+                    Schedule.TimelineViewSettings.DaysCount = value;
                 OnPropertyChanged();
             }
         }
@@ -210,7 +215,7 @@ namespace iChronoMe.Droid.Source.ViewModels
 
             }
         }
-        public int DayViewWorkHourEnd
+        public int DayViewWorkHourEnd   
         {
             get => (int)Schedule.DayViewSettings.WorkEndHour;
             set

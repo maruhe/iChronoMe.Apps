@@ -131,4 +131,8 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
     <item>öffne "Kalender"</item>
     <item>nichts unternehmen</item>
   </string-array>
+
+	<string name="No_Appointments">du bist frei</string>
+	<string name="all_day">ganztägig</string>
+
 </resources>

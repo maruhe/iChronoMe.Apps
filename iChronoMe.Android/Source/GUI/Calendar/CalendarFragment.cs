@@ -94,6 +94,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
             else
                 SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.DefaultViewType));
+            //SearchScheduleColors(schedule, null);
             LoadCalendarConfig();
 
             ConfigModel = new CalendarConfigViewModel(Activity, schedule);
@@ -102,8 +103,8 @@ namespace iChronoMe.Droid.GUI.Calendar
             fabTimeType = view.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
             fabTimeType.Click += Fab_Click;
 
-            //NavigationView navigationView = view.FindViewById<NavigationView>(Resource.Id.nav_view);
-            //navigationView.SetNavigationItemSelectedListener(this);
+            //SearchScheduleColors(schedule, view.FindViewById<LinearLayout>(Resource.Id.ll_colorlist));
+            cColorTree.ToString();
 
             return view;
         }
@@ -112,9 +113,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             if (e.ScheduleAppointment != null)
                 return;
-            //if (e.ScheduleAppointments.Count > 0)
-              //  return;
-            switch(schedule.ScheduleView)
+            switch (schedule.ScheduleView)
             {
                 case ScheduleView.MonthView:
                     SetViewType(ScheduleView.WeekView);
@@ -146,12 +145,9 @@ namespace iChronoMe.Droid.GUI.Calendar
             bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
         }
 
-
-
         public override void OnPause()
         {
             base.OnPause();
-            SaveCalendarConfig();
             var spinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (spinner != null)
             {
@@ -159,6 +155,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
                 mContext.Title = Resources.GetString(Resource.String.app_name);
             }
+            SaveCalendarConfig();
         }
 
         private void Schedule_VisibleDatesChanged(object sender, VisibleDatesChangedEventArgs e)
@@ -333,8 +330,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 SetMessage("alle Termine in " + calendar.Name + " löschen?")
                 .SetPositiveButton("ja", (s, e) =>
                 {
-                    Task.Factory.StartNew(async() =>
-                    {                        
+                    Task.Factory.StartNew(async () =>
+                    {
                         int iDeleted = 0;
                         DateTime calStart = new DateTime(2019, 01, 01);
                         DateTime calEnd = calStart.AddDays(1000);
@@ -406,7 +403,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             }
         }
 #endif
-#endregion 
+        #endregion
 
         public void SetTimeType(TimeType tt)
         {
@@ -424,7 +421,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                     schedule.ScheduleView = vType;
                 if (Drawer.IsDrawerOpen((int)GravityFlags.End))
                     ConfigBinder.PushDataToViewOnce();
-            } catch (Exception ex) { sys.LogException(ex); }
+            }
+            catch (Exception ex) { sys.LogException(ex); }
         }
 
         bool bViewSpinnerActive = false;
@@ -456,6 +454,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             try
             {
+                bViewSpinnerActive = true;
                 var lst = new List<string>();
                 lst.Add(ViewTypeSpinner.Prompt);
                 lst.AddRange(Resources.GetStringArray(Resource.Array.calendar_viewtypes));
@@ -463,8 +462,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 ViewTypeAdapter.AddAll(lst);
                 ViewTypeAdapter.NotifyDataSetChanged();
                 ViewTypeSpinner.PerformClick();
-                bViewSpinnerActive = true;
-            } catch { }
+            }
+            catch { }
         }
 
         private void ResetTitleSpinner(DateTime tFirstVisible, DateTime tLastVisible)
@@ -583,12 +582,18 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             try
             {
-                Color clTitleText = xColor.White.ToAndroid();
-                Color clTitleBack = xColor.FromHex("#2c3e50").ToAndroid();
+                var theme = Context.Theme;
+                //Tools.GetAllThemeColors(theme);
+
+                Color clTitleText = Color.White;
+                Color clTitleBack = Color.ParseColor("#2c3e50");
                 Color clText = clTitleText;
-                Color clBack = xColor.FromHex("#2c3e50").ToAndroid();
+                Color clBack = Color.ParseColor("#2c3e50");
                 Color clTodayText = clTitleText;
-                Color clAccent = xColor.FromHex("#1B3147").ToAndroid();
+                Color clAccent = Color.ParseColor("#1B3147");
+
+                Color clSlotBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.WindowBackground).Value;
+                Color clSlotAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorSecondary).Value;
 
                 schedule.HeaderStyle = new HeaderStyle { TextColor = clTitleText, BackgroundColor = clTitleBack };
 
@@ -601,16 +606,57 @@ namespace iChronoMe.Droid.GUI.Calendar
                     BackgroundColor = clBack
                 };
 
+                schedule.AppointmentStyle = new AppointmentStyle
+                {
+                    TextColor = Color.White,
+                    BorderColor = clSlotAccent,
+                    SelectionBorderColor = clText == Color.White ? Color.WhiteSmoke : clText,
+                    SelectionTextColor = Color.White
+                };
+
+                schedule.SelectionStyle = new SelectionStyle
+                {
+                  //  BackgroundColor = clBack
+                };
+
+                schedule.TimelineViewSettings.Color = clSlotBack;
+                schedule.TimelineViewSettings.LabelSettings.TimeLabelColor = clText;
+
+                //schedule.DayViewSettings.TimeSlotColor = clSlotBack;
+                //schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent; 
+                //schedule.DayViewSettings.DayLabelSettings.TimeLabelColor = clText;
+
+                schedule.WeekViewSettings.TimeSlotColor = clSlotBack;
+                schedule.WeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
+                schedule.WeekViewSettings.WeekLabelSettings.TimeLabelColor = clText;
+
+                schedule.WorkWeekViewSettings.TimeSlotColor = clSlotBack;
+                schedule.WorkWeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
+                schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeLabelColor = clText;
+
+                schedule.MonthViewSettings.AgendaViewStyle = new AgendaViewStyle
+                {
+                    DateTextColor = clText,
+                    TimeTextColor = clText,
+                    SubjectTextColor = clText,
+                    BackgroundColor = clSlotBack
+                };
+
                 schedule.MonthCellStyle = new MonthCellStyle
                 {
                     TextColor = clText,
-                    BackgroundColor = clBack,
+                    BackgroundColor = clSlotBack,
                     TodayTextColor = clTodayText,
                     TodayBackgroundColor = clBack,
-                    PreviousMonthBackgroundColor = clAccent,
-                    NextMonthBackgroundColor = clAccent
+                    PreviousMonthBackgroundColor = clSlotAccent,
+                    NextMonthBackgroundColor = clSlotAccent
                 };
 
+                schedule.MonthViewSettings.WeekNumberStyle = new WeekNumberStyle
+                {
+                    TextColor = clText,
+                    BackgroundColor = clBack
+                };
             }
             catch (Exception ex)
             {
@@ -619,15 +665,36 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             try
             {
-                var cfg = AppConfigHolder.CalendarViewConfig;
+                var cfg = AppConfigHolder.CalendarViewConfig.SfScheduldeConfig;
 
-                schedule.TimelineViewSettings.StartHour = 6;
-                schedule.TimelineViewSettings.EndHour = 22;
+                schedule.TimelineViewSettings.StartHour = cfg.TimeLineHourStart;
+                schedule.TimelineViewSettings.EndHour = cfg.TimeLineHourEnd;
+                schedule.TimelineViewSettings.DaysCount = cfg.TimeLineDaysCount;
 
-                schedule.MonthViewSettings.ShowAppointmentsInline = cfg.MonthViewShowInlineEvents;
-                schedule.MonthViewSettings.ShowAgendaView = !schedule.MonthViewSettings.ShowAppointmentsInline && cfg.MonthViewShowAgenda;
+                schedule.DayViewSettings.StartHour = cfg.DayViewHourStart;
+                schedule.DayViewSettings.EndHour = cfg.DayViewHourEnd;
+                schedule.DayViewSettings.WorkStartHour = cfg.DayViewWorkHourStart;
+                schedule.DayViewSettings.WorkEndHour = cfg.DayViewWorkHourEnd;
+                schedule.DayViewSettings.ShowAllDay = cfg.DayViewShowAllDay;
+
+                schedule.WeekViewSettings.StartHour = cfg.WeekViewHourStart;
+                schedule.WeekViewSettings.EndHour = cfg.WeekViewHourEnd;
+                schedule.WeekViewSettings.WorkStartHour = cfg.WeekViewWorkHourStart ;
+                schedule.WeekViewSettings.WorkEndHour = cfg.WeekViewWorkHourEnd;
+                schedule.WeekViewSettings.ShowAllDay = cfg.WeekViewShowAllDay;
+
+                schedule.WorkWeekViewSettings.StartHour = cfg.WorkWeekHourStart;
+                schedule.WorkWeekViewSettings.EndHour = cfg.WorkWeekHourEnd;
+                schedule.WorkWeekViewSettings.WorkStartHour = cfg.WorkWeekWorkHourStart;
+                schedule.WorkWeekViewSettings.WorkEndHour = cfg.WorkWeekWorkHourEnd;
+                schedule.WorkWeekViewSettings.ShowAllDay = cfg.WorkWeekShowAllDay;
+
+                schedule.MonthViewSettings.ShowWeekNumber = cfg.MonthViewShowWeekNumber;
                 schedule.MonthViewSettings.AppointmentDisplayMode = (AppointmentDisplayMode)Enum.ToObject(typeof(AppointmentDisplayMode), cfg.MonthViewAppointmentDisplayMode);
                 schedule.MonthViewSettings.AppointmentIndicatorCount = cfg.MonthViewAppointmentIndicatorCount;
+                schedule.MonthViewSettings.MonthNavigationDirection = (MonthNavigationDirections)Enum.ToObject(typeof(MonthNavigationDirections), cfg.MonthViewNavigationDirection);
+                schedule.MonthViewSettings.ShowAppointmentsInline = cfg.MonthViewShowInlineEvents;
+                schedule.MonthViewSettings.ShowAgendaView = !cfg.MonthViewShowInlineEvents && cfg.MonthViewShowAgenda;
             }
             catch (Exception ex)
             {
@@ -636,18 +703,94 @@ namespace iChronoMe.Droid.GUI.Calendar
         }
         public void SaveCalendarConfig()
         {
-            var cfg = AppConfigHolder.CalendarViewConfig;
-            cfg.LastViewType = (int)schedule.ScheduleView;
+            AppConfigHolder.CalendarViewConfig.LastViewType = (int)schedule.ScheduleView;
+            var cfg = AppConfigHolder.CalendarViewConfig.SfScheduldeConfig;
 
-            schedule.TimelineViewSettings.StartHour = 6;
-            schedule.TimelineViewSettings.EndHour = 22;
+            cfg.TimeLineHourStart = (int)schedule.TimelineViewSettings.StartHour;
+            cfg.TimeLineHourEnd = (int)schedule.TimelineViewSettings.EndHour;
+            cfg.TimeLineDaysCount = schedule.TimelineViewSettings.DaysCount;
 
-            cfg.MonthViewShowInlineEvents = schedule.MonthViewSettings.ShowAppointmentsInline;
-            cfg.MonthViewShowAgenda = schedule.MonthViewSettings.ShowAgendaView;
+            cfg.DayViewHourStart = (int)schedule.DayViewSettings.StartHour;
+            cfg.DayViewHourEnd = (int)schedule.DayViewSettings.EndHour;
+            cfg.DayViewWorkHourStart = (int)schedule.DayViewSettings.WorkStartHour;
+            cfg.DayViewWorkHourEnd = (int)schedule.DayViewSettings.WorkEndHour;
+            cfg.DayViewShowAllDay = schedule.DayViewSettings.ShowAllDay;
+
+            cfg.WeekViewHourStart = (int)schedule.WeekViewSettings.StartHour;
+            cfg.WeekViewHourEnd = (int)schedule.WeekViewSettings.EndHour;
+            cfg.WeekViewWorkHourStart = (int)schedule.WeekViewSettings.WorkStartHour;
+            cfg.WeekViewWorkHourEnd = (int)schedule.WeekViewSettings.WorkEndHour;
+            cfg.WeekViewShowAllDay = schedule.WeekViewSettings.ShowAllDay;
+
+            cfg.WorkWeekHourStart = (int)schedule.WorkWeekViewSettings.StartHour;
+            cfg.WorkWeekHourEnd = (int)schedule.WorkWeekViewSettings.EndHour;
+            cfg.WorkWeekWorkHourStart = (int)schedule.WorkWeekViewSettings.WorkStartHour;
+            cfg.WorkWeekWorkHourEnd = (int)schedule.WorkWeekViewSettings.WorkEndHour;
+            cfg.WorkWeekShowAllDay = schedule.WorkWeekViewSettings.ShowAllDay;
+
+            cfg.MonthViewShowWeekNumber = schedule.MonthViewSettings.ShowWeekNumber;
             cfg.MonthViewAppointmentDisplayMode = (int)schedule.MonthViewSettings.AppointmentDisplayMode;
             cfg.MonthViewAppointmentIndicatorCount = schedule.MonthViewSettings.AppointmentIndicatorCount;
+            cfg.MonthViewNavigationDirection = (int)schedule.MonthViewSettings.MonthNavigationDirection;
+            cfg.MonthViewShowInlineEvents = schedule.MonthViewSettings.ShowAppointmentsInline;
+            cfg.MonthViewShowAgenda = schedule.MonthViewSettings.ShowAgendaView;
 
             AppConfigHolder.SaveCalendarViewConfig();
+        }
+
+        String cColorTree = "";
+        public void SearchScheduleColors(object o, LinearLayout ll)
+        {
+            foreach (var prop in o.GetType().GetProperties())
+            {
+                try
+                {
+                    if (prop.PropertyType == typeof(Android.Graphics.Color))
+                    {
+                        xColor clr = ((Android.Graphics.Color)prop.GetValue(o)).ToColor();
+                        EditText btn = new EditText(Context);
+                        btn.SetBackgroundColor(clr.ToAndroid());
+                        btn.SetTextColor(Color.Red);
+                        btn.Text = prop.Name;
+                        ll?.AddView(btn);
+                        cColorTree += "\n\t" + prop.Name + "\t\t" + clr.HexString+"\tclr";
+
+                        clr = clr.Luminosity < 0.5 ? xColor.HotPink : xColor.IndianRed;
+                        if (prop.CanWrite)
+                            prop.SetValue(o, clr.ToAndroid());
+                    }
+                    else if (prop.PropertyType == typeof(int) && prop.Name.ToLower().Contains("color"))
+                    {
+                        xColor clr = new Android.Graphics.Color((int)prop.GetValue(o)).ToColor();
+                        Button btn = new Button(Context);
+                        btn.SetBackgroundColor(clr.ToAndroid());
+                        btn.Text = prop.Name;
+                        btn.SetTextColor(Color.Red);
+                        ll?.AddView(btn);
+                        cColorTree += "\n\t" + prop.Name + "\t\t" + clr.HexString+"\tint";
+
+                        clr = clr.Luminosity < 0.5 ? xColor.Aqua : xColor.Green;
+                        if (prop.CanWrite)// && prop.Name.ToLower().Contains("back"))
+                            prop.SetValue(o, clr.ToAndroid().ToArgb());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    xLog.Error(ex);
+                }
+            }
+            foreach (var prop in o.GetType().GetProperties())
+            {
+                if (prop.Name.ToLower().Contains("settings") || prop.Name.ToLower().Contains("style"))
+                {
+                    cColorTree += "\n" + prop.Name;
+                    ll?.AddView(new TextView(Context) { Text = prop.Name });
+                    if (prop.GetValue(o) == null && prop.CanWrite)
+                        prop.SetValue(o, Activator.CreateInstance(prop.PropertyType));
+                    if (prop.GetValue(o) != null)
+                        SearchScheduleColors(prop.GetValue(o), ll);
+                }
+            }
         }
     }
 }
