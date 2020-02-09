@@ -83,7 +83,7 @@ namespace iChronoMe.Droid.Widgets
                 var listAdapter = new WidgetPreviewListAdapter(mContext, wSize, CalendarModel, myEventsMonth, myEventsList, null);
                 foreach (var sample in currentAssi.Samples)
                 {
-                    listAdapter.Items.Add(sample.Title, sample.WidgetConfig);
+                    listAdapter.Items.Add(sample.Title, sample.PreviewConfig == null ? sample.WidgetConfig : sample.PreviewConfig);
                 }
 
                 tcsUI = new TaskCompletionSource<bool>();

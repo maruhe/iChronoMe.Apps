@@ -128,9 +128,9 @@ namespace iChronoMe.Droid.GUI
                     DateTime tAnimateTo = sys.GetTimeWithoutMilliSeconds(lth.GetTime(tt).Add(tsDuriation)); //=> Second hand stops animation on full second
                     TimeSpan tsAnimateWay = tAnimateTo - tAnimateFrom;
 
+                    bNoClockUpdate = true;
                     SetTimeType(tt);
 
-                    bNoClockUpdate = true;
                     //vClock.ShowSecondHand = false;
                     vClock.FlowMinuteHand = true;
                     vClock.FlowSecondHand = true;
