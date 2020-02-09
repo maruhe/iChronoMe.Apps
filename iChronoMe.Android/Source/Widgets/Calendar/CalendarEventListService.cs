@@ -94,7 +94,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     {
                         Intent cfgIntent = new Intent();
                         cfgIntent.PutExtra("_ClickCommand", "CheckCalendarWidget");
-                        cfgIntent.PutExtra("_ConfigComponent", "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarTimetableWidgetConfigActivity");
+                        cfgIntent.PutExtra("_ConfigComponent", "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity");
                         cfgIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iMyWidgetId);
                         rv.SetOnClickFillInIntent(Resource.Id.item_layout, cfgIntent);
                     }
@@ -144,8 +144,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     CalendarEvent calEvent = (CalendarEvent)data;
                     CalendarEventExtention extEvent = CalendarEventExtention.GetExtention(calEvent.ExternalID);
 
-                    DateTime tStart = calEvent.Start;
-                    DateTime tEnd = calEvent.End;
+                    DateTime tStart = calEvent.DisplayStart;
+                    DateTime tEnd = calEvent.DisplayEnd;
 
                     // feed row
                     string cBis = " bis ";
@@ -342,8 +342,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         Intent xxIntent = new Intent();
                         xxIntent.PutExtra("_ClickCommand", "StartActivityByComponentName");
                         xxIntent.PutExtra("_ComponentName", "me.ichrono.droid/me.ichrono.droid.ShortCutActivity");
-                        xxIntent.PutExtra("_NoHistory", true);
-                        xxIntent.PutExtra("shortcut", "create_calender_event");
+                        xxIntent.PutExtra("shortcut", "edit_calender_event");
                         xxIntent.PutExtra("extra", calEvent.ExternalID);
                         rv.SetOnClickFillInIntent(Resource.Id.item_layout, xxIntent);
                     }

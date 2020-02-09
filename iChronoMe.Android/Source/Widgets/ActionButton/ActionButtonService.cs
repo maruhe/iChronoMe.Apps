@@ -208,7 +208,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 
                     case ActionButton_ClickAction.OpenCalendar:
                         itClick = new Intent(Intent.ActionMain);
-                        itClick.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Droid.GUI.CalendarActivity"));
+                        itClick.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
+                        itClick.PutExtra("NavigationItem", Resource.Id.nav_calendar);
                         itClick.SetFlags(ActivityFlags.ReorderToFront);
                         break;
                     case ActionButton_ClickAction.CreateEvent:

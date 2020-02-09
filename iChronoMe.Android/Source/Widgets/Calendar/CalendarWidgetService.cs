@@ -301,8 +301,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
             //Title Click
             //Intent startMainActivityIntent = new Intent(context, typeof(MainActivity));
             Intent startMainActivityIntent = new Intent(Intent.ActionMain);
-            startMainActivityIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Droid.GUI.CalendarActivity"));
+            startMainActivityIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
             startMainActivityIntent.SetFlags(ActivityFlags.ReorderToFront);
+            startMainActivityIntent.PutExtra("NavigationItem", Resource.Id.nav_calendar);
             PendingIntent startMainActivityPendingIntent = PendingIntent.GetActivity(context, 11, startMainActivityIntent, PendingIntentFlags.UpdateCurrent);
             rv.SetOnClickPendingIntent(Resource.Id.widget, startMainActivityPendingIntent);
 
