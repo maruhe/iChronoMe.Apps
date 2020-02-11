@@ -204,6 +204,7 @@
 	</string-array>
 
 	<string name="No_Appointments">your are free</string>
+	<string name="NoSelectedDate"> Please select a date</string>
 	<string name="all_day">all day</string>
 
 </resources>

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Android;
+using Android.Accounts;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
@@ -13,10 +15,11 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
-
+using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
@@ -67,6 +70,33 @@ namespace iChronoMe.Droid
                     CheckErrorLog();
                 });
 
+                /*
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.GetAccounts) != Permission.Granted)
+                {
+                    if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.GetAccounts))
+                    {
+                        ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.GetAccounts }, 507);
+                    }
+                    else
+                    {
+                        ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.GetAccounts }, 507);
+                    }
+                }
+                //else
+                try
+                {
+                    //do some stuff
+                    List<String> emails = new List<string>();
+
+                    Account[] accounts = AccountManager.Get(this).GetAccounts();
+                    foreach (Account account in accounts)
+                    {
+                        emails.Add(account.Name);
+                    }
+
+                    Toast.MakeText(this, emails.ToString(), ToastLength.Long).Show();
+                } catch { }
+                */
                 BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
             } 
             catch (Exception ex) {

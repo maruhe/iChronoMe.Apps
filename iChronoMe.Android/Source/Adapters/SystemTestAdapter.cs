@@ -34,6 +34,8 @@ namespace iChronoMe.Droid.Source.Adapters
 
         public override int Count => Items.Count;
 
+        public override int ViewTypeCount => Count;
+
         public override Java.Lang.Object GetItem(int position)
         {
             return position;

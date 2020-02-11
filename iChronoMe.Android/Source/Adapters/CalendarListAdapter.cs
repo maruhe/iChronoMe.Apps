@@ -17,20 +17,61 @@ namespace iChronoMe.Droid.Source.Adapters
     {
         Activity mContext;
         private Dictionary<string, Calendar> Items = new Dictionary<string, Calendar>();
+        private bool _primaryOnly = true;
+        public bool PrimaryOnly { get => _primaryOnly; set { _primaryOnly = value; refresh(); } }
+
+        private int _secondaryCount = 0;
+        public bool HasSecondary { get => _secondaryCount > 0; }
+
+        private ListView parentListView;
+        private ImageView btnExpand;
 
         public CalendarListAdapter(Activity context)
         {
             mContext = context;
+            refresh();
+        }
 
+        private void refresh()
+        {
             Task.Factory.StartNew(async () =>
             {
+                _secondaryCount = 0;
                 var cals = await DeviceCalendar.DeviceCalendar.GetCalendarsAsync();
                 List<string> cS = new List<string>();
                 foreach (var cal in cals)
                 {
-                    Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                    if (!_primaryOnly || cal.IsPrimary)
+                        Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                    if (!cal.IsPrimary)
+                        _secondaryCount++;
                 }
-                this.NotifyDataSetChanged();
+                mContext.RunOnUiThread(() =>
+                {
+                    this.NotifyDataSetChanged();
+                    return;
+                    try
+                    {
+                        if (_secondaryCount == 0)
+                            return;
+                        if (parentListView == null)
+                            return;
+                        if (!(parentListView.Parent.Parent is RelativeLayout))
+                            return;
+                        if (btnExpand == null)
+                        {
+                            btnExpand = new ImageView(mContext);
+                            var lp = new RelativeLayout.LayoutParams(30, 80);
+                            lp.AddRule(LayoutRules.AlignParentEnd);
+                            lp.AddRule(LayoutRules.Below, Resource.Id.lv_calendars);
+
+                            btnExpand.SetImageResource(Resource.Drawable.icons8_delete);
+
+                            (parentListView.Parent.Parent as RelativeLayout).AddView(btnExpand, lp);
+                        }
+                    } catch { }
+                });
+                
             });
         }
 
@@ -61,6 +102,8 @@ namespace iChronoMe.Droid.Source.Adapters
             if (parent is ListView)
                 ((ListView)parent).SetItemChecked(position, bIsActive);
 
+            if (parentListView == null && parent is ListView)
+                parentListView = (ListView)parent;
             /*
             try
             {
