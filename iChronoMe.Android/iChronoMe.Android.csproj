@@ -68,6 +68,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Adapters\SystemTestAdapter.cs" />
+    <Compile Include="Source\Adapters\CalendarListAdapter.cs" />
     <Compile Include="Source\Adapters\ErrorLogAdapter.cs" />
     <Compile Include="Source\Adapters\HourAdapter.cs" />
     <Compile Include="Source\Adapters\SimpleObject.cs" />
@@ -758,6 +760,23 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\layout1.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_calendar.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_service_system_test.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_process.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

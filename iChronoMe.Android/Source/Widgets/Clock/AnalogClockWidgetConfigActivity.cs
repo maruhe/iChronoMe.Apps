@@ -60,13 +60,16 @@ namespace iChronoMe.Droid.Widgets.Clock
             }
             //else
             {
+                var tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_Start);
+                if (holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
+                    tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase);
                 var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId);
                 var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this);
                 Task.Factory.StartNew(async () =>
                 {
                     try
                     {
-                        var result = await manager.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_Start), cfg);
+                        var result = await manager.StartAt(tStartAssistant, cfg);
                         if (result != null)
                         {
                             if (!holder.WidgetExists<WidgetCfg_ClockAnalog>(-101) || AppWidgetManager.GetInstance(this).GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name)).Length == 1)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
+using iChronoMe.Droid.Source.Adapters;
+using iChronoMe.Droid.Source.GUI.Dialogs;
 using iChronoMe.Droid.Source.ViewModels;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -40,11 +43,50 @@ namespace iChronoMe.Droid.GUI.Service
 
             RootView.FindViewById<Spinner>(Resource.Id.sp_default_timetype).Adapter = new TimeTypeAdapter(Activity, true);
             RootView.FindViewById<Spinner>(Resource.Id.sp_calendar_timetype).Adapter = new TimeTypeAdapter(Activity, true);
+            
             RootView.FindViewById<Button>(Resource.Id.btn_notification_config).Click += btnNotifyCfg_Click;
+            RootView.FindViewById<Button>(Resource.Id.btn_clear_cache).Click += btnClearCache_Click;
+            RootView.FindViewById<Button>(Resource.Id.btn_system_test).Click += btnSystemTest_Click;
 
             binder.UserChangedProperty += Binder_UserChangedProperty;
 
             return RootView;
+        }
+
+        private void btnSystemTest_Click(object sender, EventArgs e)
+        {
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.fragment_service_system_test, null);
+            var listView = view.FindViewById<ListView>(Resource.Id.ListView);
+            var adapter = new SystemTestAdapter(Activity);
+            listView.Adapter = adapter;
+
+            AlertDialog dialog = new AlertDialog.Builder(Context)
+            .SetTitle("System-Test")
+            .SetView(view)
+            .SetNegativeButton(Resource.String.action_close, (senderAlert, args) =>
+            {
+            })
+            .Create();
+            dialog.Show();
+            adapter.StartSystemTest();
+        }
+
+        private void btnClearCache_Click(object sender, EventArgs e)
+        {
+            new AlertDialog.Builder(Context)
+                .SetTitle("clear cache?")
+                .SetMessage("you will have to restart iChronome continue")
+                .SetPositiveButton(Resource.String.action_continue, (s, e) =>
+                {
+                    db.dbAreaCache.Close();
+                    try { Directory.Delete(sys.PathCache, true); } catch { };
+                    Activity.MoveTaskToBack(true);
+                    Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+                    Java.Lang.JavaSystem.Exit(0);
+                })
+                .SetNegativeButton(Resource.String.action_abort, (s, e) => { })
+                .Create().Show();
+
         }
 
         private void Binder_UserChangedProperty(object sender, UserChangedPropertyEventArgs e)

@@ -92,18 +92,13 @@ namespace iChronoMe.Droid.Source.ViewModels
             return binder;
         }
 
-        public bool ShowAllCalendars
-        {
-            get => cal.ShowAllCalendars;
-            set
-            {
-                cal.ShowAllCalendars = value;
-                saveCal();
-                OnPropertyChanged();
-            }
-        }
-
         public List<string> HideCalendars { get => cal.HideCalendars; }
+
+        public void HiddenCalendarsChanged()
+        {
+            saveCal();
+            OnPropertyChanged(nameof(HideCalendars));
+        }
 
         public int DefaultViewType { 
             get => cal.DefaultViewType;

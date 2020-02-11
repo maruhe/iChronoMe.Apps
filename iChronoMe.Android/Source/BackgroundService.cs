@@ -46,6 +46,9 @@ namespace iChronoMe.Droid
             base.OnCreate();
             currentService = this;
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+
             manager = AppWidgetManager.GetInstance(this);
 
             IntentFilter intentFilter = new IntentFilter(ClockUpdateBroadcastReceiver.intentFilter);
@@ -96,6 +99,19 @@ namespace iChronoMe.Droid
             });
         }
 
+        private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
+        {
+            var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
+            sys.LogException(newExc);
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            var newExc = new Exception("CurrentDomainOnUnhandledException", unhandledExceptionEventArgs.ExceptionObject as Exception);
+            sys.LogException(newExc);
+        }
+
+
         private LinearLayout mLayout;
         private IWindowManager mManager;
 
@@ -120,12 +136,17 @@ namespace iChronoMe.Droid
             mManager.AddView(mLayout, parameters);
         }
 
-        private void MReceiver_CommandReceived(string command, string baseaction)
+        private void MReceiver_CommandReceived(string command, string baseaction, int? iAppWidgetID)
         {
             if (ClockUpdateBroadcastReceiver.cmdStopUpdates.Equals(command))
                 StopUpdate(true);
             else if (ClockUpdateBroadcastReceiver.cmdRestartUpdates.Equals(command))
-                RestartUpdateDelay();
+            {
+                if (iAppWidgetID != null && iAppWidgetID.Value != 0 && updateHolder?.IsWidgetThreadAlive(iAppWidgetID.Value) == true)
+                    updateHolder.UpdateSingleWidget(iAppWidgetID.Value);
+                else
+                    RestartUpdateDelay();
+            }
         }
 
         [return: GeneratedEnum]
@@ -271,7 +292,7 @@ namespace iChronoMe.Droid
             }
         }
 
-        public static void RestartService(Context context, string cAction)
+        public static void RestartService(Context context, string cAction, int? iAppWidgetID = null)
         {
             bool running = IsServiceRunning(context, typeof(BackgroundService));
             if (running)
@@ -304,6 +325,8 @@ namespace iChronoMe.Droid
                 update_widget.SetAction(ClockUpdateBroadcastReceiver.intentFilter);
                 update_widget.PutExtra(ClockUpdateBroadcastReceiver.command, ClockUpdateBroadcastReceiver.cmdRestartUpdates);
                 update_widget.PutExtra(ClockUpdateBroadcastReceiver.baseaction, cAction);
+                if (iAppWidgetID != null)
+                    update_widget.PutExtra(AppWidgetManager.ExtraAppwidgetId, iAppWidgetID.Value);
                 context.SendBroadcast(update_widget);
             }
         }
@@ -354,6 +377,7 @@ namespace iChronoMe.Droid
         public bool IsAlive { get => RunningThreads > 0; }
 
         bool bRunning = true;
+        Context ctx;
         LocationTimeHolder lthLocal = null;
         WidgetConfigHolder cfgHolder = null;
         static LocationManager locationManager;
@@ -362,8 +386,9 @@ namespace iChronoMe.Droid
         AppWidgetManager manager = null;
         PowerManager pm = null;
 
-        public WidgetUpdateThreadHolder(Context ctx)
+        public WidgetUpdateThreadHolder(Context context)
         {
+            ctx = context;
             manager = AppWidgetManager.GetInstance(ctx);
             pm = (PowerManager)ctx.GetSystemService(Context.PowerService);
             cfgHolder = new WidgetConfigHolder();
@@ -404,104 +429,123 @@ namespace iChronoMe.Droid
             //Start one Thread per Widget
             foreach (int iWidgetId in appWidgetIDs)
             {
-                var tsk = new Thread(() =>
+                StartWidgetTask(iWidgetId);
+            }
+        }
+
+        Dictionary<int, Thread> mThreads = new Dictionary<int, Thread>();
+        Dictionary<int, LocationTimeHolder> mLths = new Dictionary<int, LocationTimeHolder>();
+        public bool IsWidgetThreadAlive(int iWidgetID)
+            => mThreads.ContainsKey(iWidgetID);
+
+        public void StartWidgetTask(int iWidgetId)
+        {
+            lock (mThreads)
+            {
+                if (mThreads.ContainsKey(iWidgetId))
                 {
-                    xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
-                    DateTime swStart = DateTime.Now;
-                    WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
-                    if (cfg == null)
-                        return;
-                    if (cfg.PositionType == WidgetCfgPositionType.None)
-                    {
-                        RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_unconfigured);
-
-                        Intent defineIntent = new Intent(Intent.ActionMain);
-                        defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
-                        defineIntent.SetFlags(ActivityFlags.NoHistory);
-                        defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                        PendingIntent pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);
-                        updateViews.SetOnClickPendingIntent(Resource.Id.widget, pendingIntent);
-
-                        manager.UpdateAppWidget(iWidgetId, updateViews);
-                        return;
-                    }
-
-                    if (cfg.PositionType == WidgetCfgPositionType.LivePosition)
-                    {
-                        if (BackgroundService.lastLocation != null)
-                        {
-                            cfg.Latitude = BackgroundService.lastLocation.Latitude;
-                            cfg.Longitude = BackgroundService.lastLocation.Longitude;
-                        }
-                    }
-
-                    LocationTimeHolder lth = null;
-                    if (cfg.PositionType == WidgetCfgPositionType.LivePosition || cfg.WidgetId == -101)
-                    {
-                        //Alle Widges mit lokaler Position bekommen den selben Holder
-                        if (lthLocal != null)
-                            lth = lthLocal;
-                        else
-                        {
-                            lth = lthLocal = LocationTimeHolder.LocalInstance;
-                            lth.ChangePositionDelay(cfg.Latitude, cfg.Longitude);
-                            lthLocal.AreaChanged += LthLocal_AreaChanged;
-                        }
-                    }
-                    else
-                    {
-                        lth = LocationTimeHolder.NewInstanceDelay(cfg.Latitude, cfg.Longitude);
-                        lth.AreaChanged += LthLocal_AreaChanged;
-                    }
-
-                    Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, manager);
-                    int iClockSizeDp = wSize.X;
-                    if (wSize.Y < wSize.X)
-                        iClockSizeDp = wSize.Y;
-                    int iClockSize = (int)(iClockSizeDp * sys.DisplayDensity);
-
-                    WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
-                    clockView.ReadConfig(cfg);
-
-                    Android.Net.Uri uBackgroundImage = null;
-                    DateTime tBackgroundUpdate = DateTime.MinValue;
                     try
                     {
-                        if (!string.IsNullOrEmpty(cfg.BackgroundImage))
-                        {
-                            string cBackImgPath = cfg.BackgroundImage;
-                            if (!cfg.BackgroundImage.Contains("/"))
-                                cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockface"), cfg.BackgroundImage);
-                            Java.IO.File fBack = new Java.IO.File(cfg.BackgroundImage);
-                            bool bBackEx = fBack.Exists();
-                            if (bBackEx)
-                            {
-                                uBackgroundImage = GrandImageAccessToLaunchers(ctx, fBack);
-                            }
-                        }
+                        var tr = mThreads[iWidgetId];
+                        mThreads.Remove(iWidgetId);
+                        tr.Abort();
                     }
-                    catch (Exception eImg)
+                    catch (Exception ex)
                     {
-                        xLog.Error(eImg, "WindgetBackground");
+                        xLog.Error(ex);
                     }
-                    Bitmap bmpBackgroundColor = null;
-                    if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
+                }
+            }
+
+            var tsk = new Thread(() =>
+            {
+                xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
+                DateTime swStart = DateTime.Now;
+                WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
+                if (cfg == null)
+                    return;
+                if (cfg.PositionType == WidgetCfgPositionType.None)
+                {
+                    RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_unconfigured);
+
+                    Intent defineIntent = new Intent(Intent.ActionMain);
+                    defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
+                    defineIntent.SetFlags(ActivityFlags.NoHistory);
+                    defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    PendingIntent pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);
+                    updateViews.SetOnClickPendingIntent(Resource.Id.widget, pendingIntent);
+
+                    manager.UpdateAppWidget(iWidgetId, updateViews);
+                    return;
+                }
+
+                if (cfg.PositionType == WidgetCfgPositionType.LivePosition)
+                {
+                    if (BackgroundService.lastLocation != null)
                     {
-                        GradientDrawable shape = new GradientDrawable();
-                        shape.SetShape(ShapeType.Oval);
-                        shape.SetColor(cfg.ColorBackground.ToAndroid());
-                        bmpBackgroundColor = MainWidgetBase.GetDrawableBmp(shape, iClockSizeDp, iClockSizeDp);
+                        cfg.Latitude = BackgroundService.lastLocation.Latitude;
+                        cfg.Longitude = BackgroundService.lastLocation.Longitude;
                     }
+                }
 
-                    TimeSpan swInit = DateTime.Now - swStart;
+                LocationTimeHolder lth = null;
+                if (cfg.PositionType == WidgetCfgPositionType.LivePosition || cfg.WidgetId == -101)
+                {
+                    //Alle Widges mit lokaler Position bekommen den selben Holder
+                    if (lthLocal != null)
+                        lth = lthLocal;
+                    else
+                    {
+                        lth = lthLocal = LocationTimeHolder.LocalInstance;
+                        lth.ChangePositionDelay(cfg.Latitude, cfg.Longitude);
+                        lthLocal.AreaChanged += LthLocal_AreaChanged;
+                    }
+                }
+                else
+                {
+                    lth = LocationTimeHolder.NewInstanceDelay(cfg.Latitude, cfg.Longitude);
+                    lth.AreaChanged += LthLocal_AreaChanged;
+                }
+                lock (mLths)
+                {
+                    if (mLths.ContainsKey(iWidgetId))
+                        mLths.Remove(iWidgetId);
+                    mLths.Add(iWidgetId, lth);
+                }
 
-                    TimeType tType = cfg.ShowTimeType;
-                    DateTime tLastDateRefresh = DateTime.MinValue;
-                    DynamicDate dDay = DynamicDate.EmptyDate;
+                Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, manager);
+                int iClockSizeDp = wSize.X;
+                if (wSize.Y < wSize.X)
+                    iClockSizeDp = wSize.Y;
+                int iClockSize = (int)(iClockSizeDp * sys.DisplayDensity);
 
-                    RunningThreads++;
-                    int iRun = 10;
-                    DateTime tLastRun = DateTime.MinValue;
+                WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
+                clockView.ReadConfig(cfg);
+
+                DateTime tBackgroundUpdate = DateTime.MinValue;
+                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfg);
+                
+                Bitmap bmpBackgroundColor = null;
+                if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
+                {
+                    GradientDrawable shape = new GradientDrawable();
+                    shape.SetShape(ShapeType.Oval);
+                    shape.SetColor(cfg.ColorBackground.ToAndroid());
+                    bmpBackgroundColor = MainWidgetBase.GetDrawableBmp(shape, iClockSizeDp, iClockSizeDp);
+                }
+
+                TimeSpan swInit = DateTime.Now - swStart;
+
+                TimeType tType = cfg.ShowTimeType;
+                DateTime tLastDateRefresh = DateTime.MinValue;
+                DynamicDate dDay = DynamicDate.EmptyDate;
+
+                RunningThreads++;
+                int iRun = 10;
+                DateTime tLastRun = DateTime.MinValue;
+                DateTime tLastFullUpdate = DateTime.Now;
+                try
+                {
                     while (bRunning)
                     {
                         try
@@ -549,68 +593,11 @@ namespace iChronoMe.Droid
                             if (iWidgetId >= 0)
                             {
                                 swStart = DateTime.Now;
-                                Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(lth.GetTime(tType), iClockSize, iClockSize));
-                                TimeSpan swGetClockBmp = DateTime.Now - swStart;
-
-                                RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_clock);
-
-                                string cTitle = cfg.WidgetTitle;
-                                if (string.IsNullOrEmpty(cTitle))
-                                    cTitle = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
-
-                                updateViews.SetImageViewBitmap(Resource.Id.analog_clock, bitmap);
-                                updateViews.SetTextViewText(Resource.Id.clock_title, cTitle);
-                                updateViews.SetTextColor(Resource.Id.clock_title, cfg.ColorTitleText.ToAndroid());
-                                updateViews.SetTextColor(Resource.Id.clock_time, cfg.ColorTitleText.ToAndroid());
-
-                                if (tLastRun.AddSeconds(15) < DateTime.Now)
-                                {
-                                    updateViews.SetImageViewBitmap(Resource.Id.background_color, bmpBackgroundColor);
-                                    if (iRun > 1)
-                                        updateViews.SetImageViewUri(Resource.Id.background_image, uBackgroundImage);
-
-                                    updateViews.SetImageViewResource(Resource.Id.time_switcher, MainWidgetBase.GetTimeTypeIcon(tType, lth));
-
-                                    if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
-                                    {
-                                        Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
-                                        changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
-                                        changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                                        if (cfg.ShowTimeType != TimeType.RealSunTime)
-                                            changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.RealSunTime);
-                                        else
-                                            changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.TimeZoneTime);
-                                        PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
-                                        updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
-                                    }
-                                    else
-                                    {
-                                        updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, null);
-                                    }
-                                }
-
-                                PendingIntent pendingIntent = null;
-                                if (cfg.ClickAction == WidgetCfgClickAction.OpenSettings)
-                                {
-                                    Intent defineIntent = new Intent(Intent.ActionMain);
-                                    defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
-                                    defineIntent.SetFlags(ActivityFlags.NoHistory);
-                                    defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                                    pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);
-                                }
-                                else if (cfg.ClickAction == WidgetCfgClickAction.OpenApp)
-                                {
-                                    var notificationIntent = new Intent(ctx, typeof(MainActivity));
-                                    notificationIntent.SetAction(Intent.ActionMain);
-                                    notificationIntent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTask);
-                                    pendingIntent = PendingIntent.GetActivity(ctx, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
-                                }
-                                if (cfg.ClickAction != WidgetCfgClickAction.None)
-                                {
-                                    updateViews.SetOnClickPendingIntent(Resource.Id.widget, pendingIntent);
-                                }
-
-                                manager.UpdateAppWidget(iWidgetId, updateViews);
+                                bool bDoFullUpdate = tLastFullUpdate.AddSeconds(15) < DateTime.Now;
+                                var rv = GetClockAnalogRemoteView(ctx, cfg, clockView, iClockSize, lth, lth.GetTime(tType), uBackgroundImage, bmpBackgroundColor, true);
+                                manager.UpdateAppWidget(iWidgetId, rv);
+                                if (bDoFullUpdate && iRun > 3)
+                                    tLastFullUpdate = DateTime.Now;
                             }
                             else
                             {
@@ -684,17 +671,224 @@ namespace iChronoMe.Droid
                                 }
                             }
                         }
+                        catch (ThreadAbortException) { return; } //all fine
                         catch (Exception e)
                         {
-                            xLog.Error(e, "OnUpdateWidget " + iWidgetId);
+                            sys.LogException(e, "OnUpdateWidget " + iWidgetId, false);
                             Thread.Sleep(1000);
                         }
                     }
+                }
+                catch (ThreadAbortException) { } //all fine
+                catch (Exception ex)
+                {
+                    sys.LogException(ex, "OnUpdateWidget " + iWidgetId, false);
+                }
+                finally
+                {
+
                     RunningThreads--;
-                });
-                tsk.IsBackground = true;
-                tsk.Start();
+                }
+
+            });
+            lock (mThreads)
+            {
+                mThreads.Add(iWidgetId, tsk);
             }
+            tsk.IsBackground = true;
+            tsk.Start();
+        }
+
+        public void UpdateSingleWidget(int iWidgetId)
+        {
+            try
+            {
+                var cfgOld = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
+                cfgHolder = new WidgetConfigHolder();
+                var cfgNew = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
+
+                if (cfgNew.ShowTimeType == cfgOld.ShowTimeType)
+                {
+                    StartWidgetTask(iWidgetId);// quick update
+                }
+                else
+                {
+                    lock (mThreads)
+                    {
+                        if (mThreads.ContainsKey(iWidgetId))
+                        {
+                            try
+                            {
+                                var tr = mThreads[iWidgetId];
+                                mThreads.Remove(iWidgetId);
+                                tr.Abort();
+                            }
+                            catch (Exception ex)
+                            {
+                                xLog.Error(ex);
+                            }
+                        }
+                    }
+
+                    //TimeType Changed => animate
+
+                    Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfgNew, manager);
+                    int iClockSizeDp = wSize.X;
+                    if (wSize.Y < wSize.X)
+                        iClockSizeDp = wSize.Y;
+                    int iClockSize = (int)(iClockSizeDp * sys.DisplayDensity);
+
+                    WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
+                    clockView.ReadConfig(cfgNew);
+
+                    DateTime tBackgroundUpdate = DateTime.MinValue;
+                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfgNew);
+
+                    Bitmap bmpBackgroundColor = null;
+                    if (cfgNew.ColorBackground.ToAndroid() != Color.Transparent)
+                    {
+                        GradientDrawable shape = new GradientDrawable();
+                        shape.SetShape(ShapeType.Oval);
+                        shape.SetColor(cfgNew.ColorBackground.ToAndroid());
+                        bmpBackgroundColor = MainWidgetBase.GetDrawableBmp(shape, iClockSizeDp, iClockSizeDp);
+                    }
+
+                    TimeType tType = cfgNew.ShowTimeType;
+                    var lth = mLths[iWidgetId];
+
+                    TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
+                    DateTime tStart = DateTime.Now;
+                    DateTime tStop = DateTime.Now.Add(tsDuriation);
+
+                    DateTime tAnimateFrom = lth.GetTime(cfgOld.ShowTimeType);
+                    DateTime tAnimateTo = sys.GetTimeWithoutMilliSeconds(lth.GetTime(cfgNew.ShowTimeType).Add(tsDuriation)); //=> Second hand stops animation on full second
+                    TimeSpan tsAnimateWay = tAnimateTo - tAnimateFrom;
+                    int iDestSecond = tAnimateTo.Second;
+                    if (!clockView.FlowMinuteHand)
+                        tAnimateTo = sys.GetTimeWithoutSeconds(tAnimateTo);
+                    
+                    while (DateTime.Now < tStop)
+                    {
+                        var tmp = tAnimateFrom.AddMilliseconds(tsAnimateWay.TotalMilliseconds / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
+                        tmp = new DateTime(tmp.Year, tmp.Month, tmp.Day, tmp.Hour, tmp.Minute, 0);
+                        DateTime tNow = tmp.AddSeconds(tAnimateFrom.Second + (iDestSecond - tAnimateFrom.Second) / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
+
+                        if (tmp.Minute != tAnimateFrom.Minute && (!clockView.FlowMinuteHand || !clockView.FlowSecondHand))
+                        {
+                            clockView.FlowMinuteHand = true;
+                            clockView.FlowSecondHand = true;
+                        }
+
+                        manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, tNow, uBackgroundImage, bmpBackgroundColor, false));
+
+                        Task.Delay(1000 / 60).Wait();
+                    }
+
+                    clockView.ReadConfig(cfgNew);
+                    var final = sys.GetTimeWithoutSeconds(tAnimateTo).AddSeconds(iDestSecond);
+                    manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, final, uBackgroundImage, bmpBackgroundColor, false));
+
+                    StartWidgetTask(iWidgetId);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                sys.LogException(ex);
+                StartWidgetTask(iWidgetId);// quick update
+            }
+        }
+
+        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetCfg_ClockAnalog cfg)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(cfg.BackgroundImage))
+                {
+                    string cBackImgPath = cfg.BackgroundImage;
+                    if (!cfg.BackgroundImage.Contains("/"))
+                        cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockface"), cfg.BackgroundImage);
+                    Java.IO.File fBack = new Java.IO.File(cfg.BackgroundImage);
+                    bool bBackEx = fBack.Exists();
+                    if (bBackEx)
+                    {
+                        return GrandImageAccessToLaunchers(ctx, fBack);
+                    }
+                }
+            }
+            catch (Exception eImg)
+            {
+                xLog.Error(eImg, "WindgetBackground");
+            }
+            return null;
+        }
+
+        public static RemoteViews GetClockAnalogRemoteView(Context ctx, WidgetCfg_ClockAnalog cfg, WidgetView_ClockAnalog clockView, int iClockSize, 
+            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll)
+        {
+            int iWidgetId = cfg.WidgetId;
+            var tType = cfg.ShowTimeType;
+
+            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, iClockSize, iClockSize));
+
+            RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_clock);
+
+            string cTitle = cfg.WidgetTitle;
+            if (string.IsNullOrEmpty(cTitle))
+                cTitle = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
+
+            updateViews.SetImageViewBitmap(Resource.Id.analog_clock, bitmap);
+            updateViews.SetTextViewText(Resource.Id.clock_title, cTitle);
+            updateViews.SetTextColor(Resource.Id.clock_title, cfg.ColorTitleText.ToAndroid());
+            updateViews.SetTextColor(Resource.Id.clock_time, cfg.ColorTitleText.ToAndroid());
+
+            if (bUpdateAll)
+            {
+                updateViews.SetImageViewBitmap(Resource.Id.background_color, bmpBackgroundColor);
+                updateViews.SetImageViewUri(Resource.Id.background_image, uBackgroundImage);
+
+                updateViews.SetImageViewResource(Resource.Id.time_switcher, MainWidgetBase.GetTimeTypeIcon(tType, lth));
+
+                if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
+                {
+                    Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
+                    changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
+                    changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    if (cfg.ShowTimeType != TimeType.RealSunTime)
+                        changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.RealSunTime);
+                    else
+                        changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.TimeZoneTime);
+                    PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
+                    updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
+                }
+                else
+                {
+                    updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, null);
+                }
+            }
+
+            PendingIntent pendingIntent = null;
+            if (cfg.ClickAction == WidgetCfgClickAction.OpenSettings)
+            {
+                Intent defineIntent = new Intent(Intent.ActionMain);
+                defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
+                defineIntent.SetFlags(ActivityFlags.NoHistory);
+                defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);
+            }
+            else if (cfg.ClickAction == WidgetCfgClickAction.OpenApp)
+            {
+                var notificationIntent = new Intent(ctx, typeof(MainActivity));
+                notificationIntent.SetAction(Intent.ActionMain);
+                notificationIntent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTask);
+                pendingIntent = PendingIntent.GetActivity(ctx, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
+            }
+            if (cfg.ClickAction != WidgetCfgClickAction.None)
+            {
+                updateViews.SetOnClickPendingIntent(Resource.Id.analog_clock, pendingIntent);
+            }
+
+            return updateViews;            
         }
 
         public static Android.Net.Uri GrandImageAccessToLaunchers(Context ctx, Java.IO.File fImage)

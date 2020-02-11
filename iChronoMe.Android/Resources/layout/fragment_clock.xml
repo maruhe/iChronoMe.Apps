@@ -74,6 +74,11 @@
 
                 </LinearLayout>
             </LinearLayout>
+            <ImageView
+                android:id="@+id/img_clock_background"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <SkiaSharp.Views.Android.SKCanvasView
                 android:id="@+id/skia_clock"
                 android:layout_margin="5dp"

@@ -102,7 +102,12 @@ namespace iChronoMe.Droid
             {
                 ActiveFragment?.OnPrepareOptionsMenu(menu);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                ActiveFragment?.IsAdded.ToString();
+                ActiveFragment?.IsDetached.ToString();
+            }
             return base.OnPrepareOptionsMenu(menu);
         }
 

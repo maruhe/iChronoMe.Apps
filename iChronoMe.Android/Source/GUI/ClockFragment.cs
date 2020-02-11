@@ -30,6 +30,7 @@ namespace iChronoMe.Droid.GUI
         NavigationView navigationView;
         private CoordinatorLayout coordinator;
         private TextView lTitle, lGeoPos, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3;
+        private ImageView imgClockBack;
         private SKCanvasView skiaView;
         private WidgetView_ClockAnalog vClock;
         private AppCompatActivity mContext = null;
@@ -48,6 +49,7 @@ namespace iChronoMe.Droid.GUI
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_clock, container, false);
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
             Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            imgClockBack = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background);
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
             lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
@@ -127,18 +129,20 @@ namespace iChronoMe.Droid.GUI
                     DateTime tAnimateFrom = lth.GetTime(this.TimeType);
                     DateTime tAnimateTo = sys.GetTimeWithoutMilliSeconds(lth.GetTime(tt).Add(tsDuriation)); //=> Second hand stops animation on full second
                     TimeSpan tsAnimateWay = tAnimateTo - tAnimateFrom;
+                    int iDestSecond = tAnimateTo.Second;
+                    if (!vClock.FlowMinuteHand)
+                        tAnimateTo = sys.GetTimeWithoutSeconds(tAnimateTo);
 
                     bNoClockUpdate = true;
                     SetTimeType(tt);
 
-                    //vClock.ShowSecondHand = false;
                     vClock.FlowMinuteHand = true;
                     vClock.FlowSecondHand = true;
                     while (DateTime.Now < tStop)
                     {
                         var tmp = tAnimateFrom.AddMilliseconds(tsAnimateWay.TotalMilliseconds / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
                         tmp = new DateTime(tmp.Year, tmp.Month, tmp.Day, tmp.Hour, tmp.Minute, 0);
-                        tClockTimeOverride = tmp.AddSeconds(tAnimateFrom.Second + (tAnimateTo.Second - tAnimateFrom.Second) / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
+                        tClockTimeOverride = tmp.AddSeconds(tAnimateFrom.Second + (iDestSecond - tAnimateFrom.Second) / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
                         xLog.Verbose("Set tClockTimeOverride: " + tClockTimeOverride.ToLongTimeString());
                         mContext.RunOnUiThread(() =>
                         {
@@ -146,9 +150,10 @@ namespace iChronoMe.Droid.GUI
                         });
                         Task.Delay(1000 / 60).Wait();
                     }
-                    tClockTimeOverride = tAnimateTo;
+                    tClockTimeOverride = sys.GetTimeWithoutSeconds(tAnimateTo).AddSeconds(iDestSecond);
                     mContext.RunOnUiThread(() =>
                     {
+                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
                         skiaView.Invalidate();
                     });
                 }
@@ -159,7 +164,7 @@ namespace iChronoMe.Droid.GUI
                 finally
                 {
                     tClockTimeOverride = DateTime.MinValue;
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    RefreshClockCfg();
                     bNoClockUpdate = false;
                 }
             });
@@ -240,7 +245,7 @@ namespace iChronoMe.Droid.GUI
                 bNoClockUpdate = false;
                 if (vClock == null)
                     vClock = new WidgetView_ClockAnalog();
-                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                RefreshClockCfg();
 
                 lth = LocationTimeHolder.LocalInstance;
                 skiaView.PaintSurface += OnPaintSurface;
@@ -375,7 +380,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
                         AppConfigHolder.SaveMainConfig();
-                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                        RefreshClockCfg();
                     }
                 });
             }
@@ -390,13 +395,29 @@ namespace iChronoMe.Droid.GUI
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
                         AppConfigHolder.SaveMainConfig();
-                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                        RefreshClockCfg();                        
                     }
                 });
             }
             unCheckAllMenuItems(navigationView.Menu);
             Drawer.CloseDrawer((int)GravityFlags.Right);
             return true;
+        }
+
+        private void RefreshClockCfg()
+        {
+            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+            try
+            {
+                if (string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage) || !System.IO.File.Exists(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
+                    imgClockBack.SetImageBitmap(null);
+                else
+                    imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(AppConfigHolder.MainConfig.MainClock.BackgroundImage)));
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
         }
 
         private void unCheckAllMenuItems(IMenu menu)
@@ -422,7 +443,7 @@ namespace iChronoMe.Droid.GUI
         {
             try
             {
-                vClock.DrawCanvas(e.Surface.Canvas, tClockTimeOverride == DateTime.MinValue ? lth.GetTime(this.TimeType) : tClockTimeOverride, (int)e.Info.Width, (int)e.Info.Height, true);
+                vClock.DrawCanvas(e.Surface.Canvas, tClockTimeOverride == DateTime.MinValue ? lth.GetTime(this.TimeType) : tClockTimeOverride, (int)e.Info.Width, (int)e.Info.Height);
             }
             catch (Exception ex)
             {

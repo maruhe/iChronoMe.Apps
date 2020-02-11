@@ -20,7 +20,7 @@ namespace iChronoMe.Droid.Widgets.Clock
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
             base.OnUpdate(context, appWidgetManager, appWidgetIds);
-            BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetUpdate);
+            BackgroundService.RestartService(context, AppWidgetManager.ActionAppwidgetUpdate, appWidgetIds.Length == 1 ? (int?)appWidgetIds[0] : null);
             return;
 
             xLog.Verbose("start");

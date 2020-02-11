@@ -28,6 +28,7 @@
 	<string name="action_continue">continue</string>
 	<string name="action_back">back</string>
 	<string name="action_more">more</string>
+	<string name="action_abort">abort</string>
 	<string name="action_ok">ok</string>
 	<string name="action_yes">yes</string>
 	<string name="action_no">no</string>
@@ -36,6 +37,7 @@
 	<string name="action_decline">decline</string>
 	<string name="action_block">block</string>
 	<string name="action_close">close</string>
+	<string name="action_clear_cache">clear cache</string>
 
 	<string name="action_colors">colors</string>
 	<string name="action_background">background</string>

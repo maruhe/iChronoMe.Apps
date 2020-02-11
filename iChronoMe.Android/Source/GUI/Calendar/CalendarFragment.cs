@@ -25,6 +25,7 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
+using iChronoMe.Droid.Source.Adapters;
 using iChronoMe.Droid.Source.ViewModels;
 using iChronoMe.Droid.Widgets;
 using Xamarin.Essentials;
@@ -43,6 +44,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private FloatingActionButton fabTimeType;
         private CalendarConfigViewModel ConfigModel;
         private DataBinder ConfigBinder;
+        private ListView lvCalendars;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -73,6 +75,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 ViewTypeSpinner.ItemSelected += ViewTypeSpinner_ItemSelected;
                 ViewTypeSpinner.Adapter = ViewTypeAdapter;
             }
+            lvCalendars = view.FindViewById<ListView>(Resource.Id.lv_calendars);
 
             schedule = view.FindViewById<SfSchedule>(Resource.Id.calendar_schedule);
             schedule.Locale = Resources.Configuration.Locale;
@@ -143,6 +146,21 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             base.OnResume();
             bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
+            if (bPermissionCheckOk)
+            {
+                lvCalendars.ChoiceMode = ChoiceMode.Multiple;
+                lvCalendars.ItemsCanFocus = false;
+                var adapter = new CalendarListAdapter(Activity);
+                lvCalendars.Adapter = adapter;
+                lvCalendars.ItemClick += adapter.ListView_ItemClick;
+                adapter.HiddenCalendarsChanged += Adapter_HiddenCalendarsChanged;
+            }
+        }
+
+        private void Adapter_HiddenCalendarsChanged(object sender, EventArgs e)
+        {
+            calEvents.RefreshCalendarFilter(AppConfigHolder.CalendarViewConfig.HideCalendars);
+            LoadEvents();
         }
 
         public override void OnPause()

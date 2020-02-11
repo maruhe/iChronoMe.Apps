@@ -55,7 +55,7 @@ namespace iChronoMe.Droid
             SetTitle(title)
             .SetMessage(text)
             .SetPositiveButton(context.Resources.GetString(Resource.String.action_yes), (s, e) => { tcsYnMsg.TrySetResult(true); })
-            .SetNegativeButton(context.Resources.GetString(Resource.String.action_yes), (s, e) => { tcsYnMsg.TrySetResult(false); })
+            .SetNegativeButton(context.Resources.GetString(Resource.String.action_no), (s, e) => { tcsYnMsg.TrySetResult(false); })
             .SetOnCancelListener(new myDialogCancelListener<bool>(tcsYnMsg))
             .Create();
 
