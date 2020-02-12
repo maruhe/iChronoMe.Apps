@@ -19,7 +19,9 @@ namespace iChronoMe.Droid.Widgets
     {
         public const string ActionManualRefresh = "_local.intent.action.ManualRefresh";
         public const string ActionChangeTimeType = "_local.intent.action.ChangeTimeType";
+        public const string ActionAnimate = "_local.intent.action.Animate";
         public const string ExtraTimeType = "_TimeType";
+        public const string ExtraDuriation = "_Duriation";
 
         public override void OnAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
         {

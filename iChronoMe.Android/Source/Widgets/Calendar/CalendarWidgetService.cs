@@ -808,7 +808,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                         {
                                             int iViewId = (int)typeof(Resource.Id).GetField("item_event" + iEvntLabel--).GetValue(null);
 
-                                            rvItem.SetTextViewText(iViewId, evnt.Name);
+                                            rvItem.SetTextViewText(iViewId, evnt.Title);
                                             rvItem.SetTextColor(iViewId, clEvent.ToAndroid());
 
                                             if (iEvnt >= iShowEvents || iEvntLabel < 1)

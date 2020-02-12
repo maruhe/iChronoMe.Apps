@@ -769,17 +769,16 @@ namespace iChronoMe.Droid
                     
                     while (DateTime.Now < tStop)
                     {
-                        var tmp = tAnimateFrom.AddMilliseconds(tsAnimateWay.TotalMilliseconds / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
-                        tmp = new DateTime(tmp.Year, tmp.Month, tmp.Day, tmp.Hour, tmp.Minute, 0);
-                        DateTime tNow = tmp.AddSeconds(tAnimateFrom.Second + (iDestSecond - tAnimateFrom.Second) / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
+                        DateTime tNow = tAnimateFrom.AddMilliseconds(tsAnimateWay.TotalMilliseconds / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
+                        float nSecondHandOverrideSecond = (float)(tAnimateFrom.Second + (iDestSecond - tAnimateFrom.Second) / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
 
-                        if (tmp.Minute != tAnimateFrom.Minute && (!clockView.FlowMinuteHand || !clockView.FlowSecondHand))
+                        if (tNow.Minute != tAnimateFrom.Minute && (!clockView.FlowMinuteHand || !clockView.FlowSecondHand))
                         {
                             clockView.FlowMinuteHand = true;
                             clockView.FlowSecondHand = true;
                         }
 
-                        manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, tNow, uBackgroundImage, bmpBackgroundColor, false));
+                        manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, tNow, uBackgroundImage, bmpBackgroundColor, false, nSecondHandOverrideSecond));
 
                         Task.Delay(1000 / 60).Wait();
                     }
@@ -789,6 +788,17 @@ namespace iChronoMe.Droid
                     manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, final, uBackgroundImage, bmpBackgroundColor, false));
 
                     StartWidgetTask(iWidgetId);
+
+#if DEBxUG
+                    Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
+                    changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
+                    changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    if (tType != TimeType.RealSunTime)
+                        changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.RealSunTime);
+                    else
+                        changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.TimeZoneTime);
+                    ctx.SendBroadcast(changeTypeIntent);
+#endif
 
                 }
             }
@@ -824,12 +834,12 @@ namespace iChronoMe.Droid
         }
 
         public static RemoteViews GetClockAnalogRemoteView(Context ctx, WidgetCfg_ClockAnalog cfg, WidgetView_ClockAnalog clockView, int iClockSize, 
-            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll)
+            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll, float? nSecondHandOverrideSecond = null)
         {
             int iWidgetId = cfg.WidgetId;
             var tType = cfg.ShowTimeType;
 
-            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, iClockSize, iClockSize));
+            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, iClockSize, iClockSize, false, nSecondHandOverrideSecond));
 
             RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_clock);
 
@@ -885,7 +895,7 @@ namespace iChronoMe.Droid
             }
             if (cfg.ClickAction != WidgetCfgClickAction.None)
             {
-                updateViews.SetOnClickPendingIntent(Resource.Id.analog_clock, pendingIntent);
+                updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, pendingIntent);
             }
 
             return updateViews;            
@@ -1054,7 +1064,7 @@ namespace iChronoMe.Droid
 
         }
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
 
         protected override void Dispose(bool disposing)
@@ -1089,6 +1099,6 @@ namespace iChronoMe.Droid
             // TODO: Auskommentierung der folgenden Zeile aufheben, wenn der Finalizer weiter oben überschrieben wird.
             // GC.SuppressFinalize(this);
         }
-        #endregion
+#endregion
     }
 }

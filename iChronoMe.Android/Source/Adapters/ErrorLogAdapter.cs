@@ -17,14 +17,14 @@ namespace iChronoMe.Droid.Source.Adapters
 {
     class ErrorLogAdapter : BaseAdapter<SimpleObject>
     {
-        List<SimpleObject> items;
+        public List<SimpleObject> Items { get; }
         Activity mContext;
 
         public ErrorLogAdapter(Activity context) : base()
         {
             var logS = Directory.GetFiles(sys.ErrorLogPath);
 
-            items = new List<SimpleObject>();
+            Items = new List<SimpleObject>();
             foreach (string log in logS)
             {
                 string cTitle = Path.GetFileNameWithoutExtension(log);
@@ -40,7 +40,7 @@ namespace iChronoMe.Droid.Source.Adapters
                     cTitle = "Screenshot " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
                 }
 
-                this.items.Add(new SimpleObject() { Tag = log, IconRes = iIcon, Title1 = cTitle });
+                this.Items.Add(new SimpleObject() { Tag = log, IconRes = iIcon, Title1 = cTitle });
             }
 
             mContext = context;
@@ -50,7 +50,7 @@ namespace iChronoMe.Droid.Source.Adapters
         {
             get
             {
-                return items[position];
+                return Items[position];
             }
         }
 
@@ -58,7 +58,7 @@ namespace iChronoMe.Droid.Source.Adapters
         {
             get
             {
-                return items.Count;
+                return Items.Count;
             }
         }
 
@@ -69,7 +69,7 @@ namespace iChronoMe.Droid.Source.Adapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            var item = items[position];
+            var item = Items[position];
 
             if (convertView == null)
             {

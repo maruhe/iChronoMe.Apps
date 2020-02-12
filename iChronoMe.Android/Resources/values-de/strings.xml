@@ -1,6 +1,5 @@
 <resources>
-  <string name="app_name">iChronoMe</string>
-  <string name="app_slogan">Zeit ist dynamisch</string>
+    <string name="app_slogan">Zeit ist dynamisch</string>
   <string name="navigation_drawer_open">Navigation öffnen</string>
   <string name="navigation_drawer_close">Navigation schließen</string>
   <string name="action_settings">Einstellungen</string>
@@ -85,9 +84,9 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"
   <string name="assistant_permission_storage">
     "und solltes du auch den Zugriff auf den Gerätespeicher zulassen kann die Voschau von Widges auch gleich mit deinem Hintergrundbild angezeigt werden"
   </string>
-  <string name="assistant_privacy_question">you may mind about data privacy?</string>
-  <string name="assistant_privacy_title">data privacy information:</string>
-  <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
+  <string name="assistant_privacy_question">hast du Interesse an unseren Informationen zu Dateschutz und Privatsphäre?</string>
+  <string name="assistant_privacy_title">Informationen zu Dateschutz und Privatsphäre?</string>
+  <string name="assistant_privacy_message">alles kann man klacken...</string>
 
   <string name="calendar_viewtype_Timeline">Zeitlinie</string>
   <string name="calendar_viewtype_DayView">Tagesansicht</string>
@@ -134,5 +133,25 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
 
 	<string name="No_Appointments">du bist frei</string>
 	<string name="all_day">ganztägig</string>
+    <string name="NoSelectedDate">kein Tag ausgewählt</string>
+    <string name="action_abort">abbrechen</string>
+    <string name="action_calendar_UsesDefaultTimeType">Kalender verwendet den selben Zeit-Typ</string>
+    <string name="action_cfg_calendar_show_allday">ganztägige Termine anzeigen</string>
+    <string name="action_clear_cache">Zwischenspeicher leeren</string>
+    <string name="action_close">schließen</string>
+    <string name="action_more">mehr</string>
+    <string name="action_notification_config">Benachrichtigungsbereich</string>
+    <string name="action_notification_show_always">Uhr im Benachrichtigungsbereich immer anzeigen</string>
+    <string name="calendar_monthview_appointmentdisplaymode_title">Anzeigemodus:</string>
+    <string name="label_calendar_TimeType">Kalender Zeit-Typ</string>
+    <string name="label_cfg_calendar_core_time">Kernzeiten</string>
+    <string name="label_cfg_calendar_show_weeknumbers">Wochennummern anzeigen</string>
+    <string name="label_cfg_calendar_visible_time">sichtbare Zeit</string>
+    <string name="label_cfg_timeline_days_count">Tage</string>
+    <string name="label_default_TimeType">standard Zeit-Typ</string>
+    <string name="menu_about">Über</string>
+    <string name="menu_service">Service</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_faq">FAQ</string>
 
 </resources>

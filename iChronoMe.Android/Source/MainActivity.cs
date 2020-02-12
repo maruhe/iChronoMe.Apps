@@ -273,7 +273,9 @@ namespace iChronoMe.Droid
                                     })
                                     .SetNeutralButton("more info", (s, e) =>
                                     {
-                                        new ErrorLogDlg().Show(SupportFragmentManager, "");
+                                        var logDlg = new ErrorLogDlg();
+                                        logDlg.OnDialogDismiss += LogDlg_OnDialogDismiss;
+                                        logDlg.Show(SupportFragmentManager, "");
                                     })
                                     .Create().Show();
                             });
@@ -314,6 +316,11 @@ namespace iChronoMe.Droid
                     e.ToString();
                 }
             }
+        }
+
+        private void LogDlg_OnDialogDismiss(object sender, EventArgs e)
+        {
+            CheckErrorLog();
         }
 
         protected override void OnDestroy()

@@ -16,7 +16,7 @@
             android:textStyle="bold"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="34dp"
-            android:gravity="left" />
+            android:gravity="start" />
         <TextView
             android:id="@+id/description"
             android:text="DescBlaBla"
@@ -25,14 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:gravity="left" />
+            android:layout_marginRight="34dp"
+            android:gravity="start" />
         <ImageView
             android:id="@+id/icon"
             android:visibility="gone"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:gravity="right" />
+            android:layout_centerVertical="true"
+            android:gravity="end" />
         <ProgressBar
             android:id="@+id/progress"
             android:visibility="gone"
@@ -40,7 +42,8 @@
             android:layout_width="30dp"            
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:gravity="right" />            
+            android:layout_centerVertical="true"
+            android:gravity="end" />            
 />
 
     </RelativeLayout>

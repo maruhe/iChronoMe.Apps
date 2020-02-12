@@ -181,7 +181,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     int iShapeWidth = 5;
                     int iShapeHeigth = 30;
 
-                    rv.SetTextViewText(Resource.Id.item_title, calEvent.Name);// + "     \t" + DateTime.Now.ToString("HH:mm:ss.fff"));
+                    rv.SetTextViewText(Resource.Id.item_title, calEvent.Title);// + "     \t" + DateTime.Now.ToString("HH:mm:ss.fff"));
                     rv.SetTextViewText(Resource.Id.item_time, cTime + " " + cAddonText);
 
                     rv.SetTextColor(Resource.Id.item_title, cfg.ColorEventNameText.ToAndroid());

@@ -26,6 +26,7 @@ using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Source.Adapters;
+using iChronoMe.Droid.Source.GUI.Dialogs;
 using iChronoMe.Droid.Source.ViewModels;
 using iChronoMe.Droid.Widgets;
 using Xamarin.Essentials;
@@ -82,10 +83,12 @@ namespace iChronoMe.Droid.GUI.Calendar
             schedule.ItemsSource = null;
 
             schedule.HeaderHeight = 0;
-            schedule.AppointmentMapping = new AppointmentMapping() { Subject = "Name", StartTime = "javaDisplayStart", EndTime = "javaDisplayEnd", IsAllDay = "AllDay", Location = "Location", Notes = "Description", Color = "javaColor" };
+            schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.javaDisplayStart), EndTime = nameof(CalendarEvent.javaDisplayEnd), IsAllDay = nameof(CalendarEvent.AllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.Description), Color = nameof(CalendarEvent.javaColor) };
 
             schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
+            schedule.CellTapped += Schedule_CellTapped;
             schedule.CellDoubleTapped += Schedule_CellDoubleTapped;
+            schedule.MonthInlineAppointmentTapped += Schedule_MonthInlineAppointmentTapped;
 
             if (ViewTypeSpinner != null)
             {
@@ -110,6 +113,37 @@ namespace iChronoMe.Droid.GUI.Calendar
             cColorTree.ToString();
 
             return view;
+        }
+
+        private void Schedule_MonthInlineAppointmentTapped(object sender, MonthInlineAppointmentTappedEventArgs e)
+        {
+            if (e.ScheduleAppointment != null)
+            {
+                try
+                {
+                    var evnt = calEvents.ListedDates[0];
+                    new CalendarEventDialog().Show(FragmentManager, evnt.ExternalID);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+            }
+        }
+
+        private void Schedule_CellTapped(object sender, CellTappedEventArgs e)
+        {
+            if (e.ScheduleAppointment != null)
+            {
+                try
+                {
+                    var evnt = calEvents.ListedDates[0];
+                    new CalendarEventDialog().Show(FragmentManager, evnt.ExternalID);
+                } catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+            }
         }
 
         private void Schedule_CellDoubleTapped(object sender, CellTappedEventArgs e)
@@ -138,23 +172,36 @@ namespace iChronoMe.Droid.GUI.Calendar
                     ConfigBinder.Stop();
                 else
                     ConfigBinder.Start();
+                calListAdapter.PrimaryOnly = true;
             }
         }
 
         bool bPermissionCheckOk = false;
+        CalendarListAdapter calListAdapter;
         public override void OnResume()
         {
             base.OnResume();
             bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
             if (bPermissionCheckOk)
             {
-                lvCalendars.ChoiceMode = ChoiceMode.Multiple;
-                lvCalendars.ItemsCanFocus = false;
-                var adapter = new CalendarListAdapter(Activity);
-                lvCalendars.Adapter = adapter;
-                lvCalendars.ItemClick += adapter.ListView_ItemClick;
-                adapter.HiddenCalendarsChanged += Adapter_HiddenCalendarsChanged;
+                if (lvCalendars.Adapter == null)
+                {
+                    lvCalendars.ChoiceMode = ChoiceMode.Multiple;
+                    lvCalendars.ItemsCanFocus = false;
+                    calListAdapter = new CalendarListAdapter(Activity);
+                    lvCalendars.Adapter = calListAdapter;
+                    lvCalendars.ItemClick += calListAdapter.ListView_ItemClick;
+                    calListAdapter.HiddenCalendarsChanged += Adapter_HiddenCalendarsChanged;
+
+                    lvCalendars.Touch += LvCalendars_Touch;
+                }
             }
+        }
+
+        private void LvCalendars_Touch(object sender, View.TouchEventArgs e)
+        {
+            calListAdapter.PrimaryOnly = false;
+            e.Handled = false;
         }
 
         private void Adapter_HiddenCalendarsChanged(object sender, EventArgs e)
@@ -392,7 +439,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     dDec /= 10;
                 CalendarEvent e = new CalendarEvent
                 {
-                    Name = $"{name} event {i}",
+                    Title = $"{name} event {i}",
                     Description = $"This is {name} event{i}'s description!",
                     Start = xDate.Date.AddDays(new Random(DateTime.Now.Millisecond * DateTime.Now.Second).Next(80) - 50).AddHours(new Random().Next(8) + 10)
                 };
@@ -400,7 +447,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 e.Location = cLocations[rnd.Next(cLocations.Length - 1)];//(nLat + dDec / 2).ToString("#.000000", CultureInfo.InvariantCulture) + ", " + (nLng + dDec).ToString("#.000000", CultureInfo.InvariantCulture);
                 e.EventColor = xColor.FromRgb(rnd.Next(200), rnd.Next(200), rnd.Next(200));
 
-                xLog.Debug("save Event: " + e.Name);
+                xLog.Debug("save Event: " + e.Title);
 
                 await DeviceCalendar.DeviceCalendar.AddOrUpdateEventAsync(cal, e);
 

@@ -167,20 +167,20 @@ namespace iChronoMe.Droid.Source.Adapters
                         else
                         {
                             nMin = Math.Min(nMin, lastLocation.Accuracy);
-                            SetInfo(test, "1/3 got gps location +-" + lastLocation.Accuracy + "meters");
+                            SetInfo(test, "1/3 got gps location +-" + lastLocation.Accuracy + " meters");
                             await Task.Delay(500);
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
                             nMin = Math.Min(nMin, lastLocation.Accuracy);
-                            SetInfo(test, "2/3 got gps location +-" + lastLocation.Accuracy + "meters");
+                            SetInfo(test, "2/3 got gps location +-" + lastLocation.Accuracy + " meters");
                             await Task.Delay(500);
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
                             nMin = Math.Min(nMin, lastLocation.Accuracy);
-                            SetInfo(test, "3/3 got gps location +-" + lastLocation.Accuracy + "meters");
+                            SetInfo(test, "3/3 got gps location +-" + lastLocation.Accuracy + " meters");
                             await Task.Delay(500);
                         }
                         if (nMin < 1000)
                         {
-                            SetInfo(test, "best location  was +-" + nMin + "meters");
+                            SetInfo(test, "best location was +-" + nMin + " meters");
                             await Task.Delay(500);
                         }
                         break;
@@ -340,7 +340,6 @@ namespace iChronoMe.Droid.Source.Adapters
             else
             {
                 ItemStatus[test] = TestStatus.Error;
-                ItemInfos[test] = cErrors.Count+" Errors :-(";
             }
             mContext.RunOnUiThread(() => NotifyDataSetChanged());
         }

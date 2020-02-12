@@ -18,7 +18,17 @@ namespace iChronoMe.Droid.Source.Adapters
         Activity mContext;
         private Dictionary<string, Calendar> Items = new Dictionary<string, Calendar>();
         private bool _primaryOnly = true;
-        public bool PrimaryOnly { get => _primaryOnly; set { _primaryOnly = value; refresh(); } }
+        public bool PrimaryOnly { 
+            get => _primaryOnly;
+            set
+            {
+                if (_primaryOnly != value)
+                {
+                    _primaryOnly = value;
+                    refresh();
+                }
+            }
+        }
 
         private int _secondaryCount = 0;
         public bool HasSecondary { get => _secondaryCount > 0; }
@@ -39,12 +49,16 @@ namespace iChronoMe.Droid.Source.Adapters
                 _secondaryCount = 0;
                 var cals = await DeviceCalendar.DeviceCalendar.GetCalendarsAsync();
                 List<string> cS = new List<string>();
-                foreach (var cal in cals)
+                lock (Items)
                 {
-                    if (!_primaryOnly || cal.IsPrimary)
-                        Items.Add(cal.AccountName + "_" + cal.Name, cal);
-                    if (!cal.IsPrimary)
-                        _secondaryCount++;
+                    Items.Clear();
+                    foreach (var cal in cals)
+                    {
+                        if (!_primaryOnly || cal.IsPrimary)
+                            Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                        if (!cal.IsPrimary)
+                            _secondaryCount++;
+                    }
                 }
                 mContext.RunOnUiThread(() =>
                 {
