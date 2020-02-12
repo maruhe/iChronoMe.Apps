@@ -89,6 +89,7 @@
     <Compile Include="Source\GUI\Service\FaqFragment.cs" />
     <Compile Include="Source\GUI\Service\MainSettingsFragment.cs" />
     <Compile Include="Source\GUI\Service\BackgroundServiceSettingsFragment.cs" />
+    <Compile Include="Source\GUI\WorldTimeMapFragment.cs" />
     <Compile Include="Source\MainActivity.cs" />
     <Compile Include="Source\MapsView.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
@@ -788,6 +789,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\selector.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_world_time_map.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -15,9 +15,9 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.Interfaces;
 using iChronoMe.Core.ViewModels;
-using iChronoMe.Droid.Source.Adapters;
+using iChronoMe.Droid.Adapters;
 
-namespace iChronoMe.Droid.Source.GUI.Dialogs
+namespace iChronoMe.Droid.GUI.Dialogs
 {
     public class CalendarEventDialog : DialogFragment
     {

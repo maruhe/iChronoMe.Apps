@@ -7,10 +7,13 @@
         <item
             android:id="@+id/nav_clock"
             android:title="@string/menu_clock" />
-        <item
-            android:id="@+id/nav_calendar"
-            android:title="@string/menu_calendar" />
-    </group>
+			<item
+					android:id="@+id/nav_calendar"
+					android:title="@string/menu_calendar" />
+			<item
+					android:id="@+id/nav_world_time_map"
+					android:title="@string/menu_world_time_map" />
+		</group>
 
     <item android:title="@string/menu_service">
         <menu>

@@ -46,7 +46,6 @@ namespace iChronoMe.Droid.GUI.Dialogs
             return fragment;
         }
 
-        MapsView map;
         GoogleMap mGoogleMap = null;
         MapView mMapView = null;
         double nLatitude, nLongitude;
@@ -103,8 +102,9 @@ namespace iChronoMe.Droid.GUI.Dialogs
             mGoogleMap.MoveCamera(CameraUpdateFactory.NewLatLng(posisiabsen));
 
             googleMap.UiSettings.ZoomControlsEnabled = true;
-            //googleMap.UiSettings.CompassEnabled = true;
-            //googleMap.UiSettings.MyLocationButtonEnabled = false;
+            googleMap.UiSettings.MapToolbarEnabled = false;
+            googleMap.UiSettings.CompassEnabled = true;
+            googleMap.UiSettings.MyLocationButtonEnabled = true;
 
             mGoogleMap.MapClick += MGoogleMap_MapClick;
         }

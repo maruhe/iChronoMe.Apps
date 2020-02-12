@@ -13,9 +13,9 @@ using Com.Syncfusion.Schedule;
 using Com.Syncfusion.Schedule.Enums;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
-using iChronoMe.Droid.Source.Adapters;
+using iChronoMe.Droid.Adapters;
 
-namespace iChronoMe.Droid.Source.ViewModels
+namespace iChronoMe.Droid.ViewModels
 {
     public class CalendarConfigViewModel : BaseObservable
     {

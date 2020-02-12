@@ -13,7 +13,7 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Adapters;
 
-namespace iChronoMe.Droid.Source.Adapters
+namespace iChronoMe.Droid.Adapters
 {
     class ErrorLogAdapter : BaseAdapter<SimpleObject>
     {

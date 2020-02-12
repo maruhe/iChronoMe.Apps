@@ -17,9 +17,9 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
-using iChronoMe.Droid.Source.Adapters;
-using iChronoMe.Droid.Source.GUI.Dialogs;
-using iChronoMe.Droid.Source.ViewModels;
+using iChronoMe.Droid.Adapters;
+using iChronoMe.Droid.GUI.Dialogs;
+using iChronoMe.Droid.ViewModels;
 
 namespace iChronoMe.Droid.GUI.Service
 {

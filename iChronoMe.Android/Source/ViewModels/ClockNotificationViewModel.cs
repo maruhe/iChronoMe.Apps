@@ -14,7 +14,7 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.GUI.Dialogs;
 
-namespace iChronoMe.Droid.Source.ViewModels
+namespace iChronoMe.Droid.ViewModels
 {
     public class ClockNotificationViewModel : BaseObservable
     {

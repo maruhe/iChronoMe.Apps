@@ -25,9 +25,9 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
-using iChronoMe.Droid.Source.Adapters;
-using iChronoMe.Droid.Source.GUI.Dialogs;
-using iChronoMe.Droid.Source.ViewModels;
+using iChronoMe.Droid.Adapters;
+using iChronoMe.Droid.GUI.Dialogs;
+using iChronoMe.Droid.ViewModels;
 using iChronoMe.Droid.Widgets;
 using Xamarin.Essentials;
 

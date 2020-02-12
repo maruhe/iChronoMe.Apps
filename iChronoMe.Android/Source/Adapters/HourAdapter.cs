@@ -11,7 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace iChronoMe.Droid.Source.Adapters
+namespace iChronoMe.Droid.Adapters
 {
     public class HourAdapter : BaseAdapter<string>
     {

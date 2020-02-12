@@ -14,9 +14,9 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using iChronoMe.Core.Classes;
-using iChronoMe.Droid.Source.Adapters;
+using iChronoMe.Droid.Adapters;
 
-namespace iChronoMe.Droid.Source.GUI.Dialogs
+namespace iChronoMe.Droid.GUI.Dialogs
 {
     public class ErrorLogDlg : DialogFragment
     {
@@ -29,12 +29,7 @@ namespace iChronoMe.Droid.Source.GUI.Dialogs
                 AlertDialog dialog = new AlertDialog.Builder(Context)
                 .SetTitle("Error-Logs")
                 .SetSingleChoiceItems(adapter, 0, ItemClicked)
-                .SetPositiveButton("Select", (senderAlert, args) =>
-                {
-                })
-                .SetNegativeButton("Cancel", (senderAlert, args) =>
-                {
-                })
+                .SetNegativeButton(Resource.String.action_close, (s, e) => { })
                 .Create();
                 dialog.Show();
 

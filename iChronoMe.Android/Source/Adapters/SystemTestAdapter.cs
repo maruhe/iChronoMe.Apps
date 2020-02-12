@@ -15,7 +15,7 @@ using iChronoMe.Core.Classes;
 using iChronoMe.DeviceCalendar;
 using static iChronoMe.Core.Classes.GeoInfo;
 
-namespace iChronoMe.Droid.Source.Adapters
+namespace iChronoMe.Droid.Adapters
 {
     public class SystemTestAdapter : BaseAdapter
     {

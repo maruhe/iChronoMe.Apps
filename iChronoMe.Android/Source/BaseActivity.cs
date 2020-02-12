@@ -92,7 +92,7 @@ namespace iChronoMe.Droid
             {
                 ActiveFragment?.OnCreateOptionsMenu(menu, MenuInflater);
             }
-            catch { }
+            catch (Exception ex) { sys.LogException(ex); }
             return base.OnCreateOptionsMenu(menu);
         }
 
@@ -100,14 +100,10 @@ namespace iChronoMe.Droid
         {
             try
             {
-                ActiveFragment?.OnPrepareOptionsMenu(menu);
+                if (ActiveFragment?.IsAdded == true && ActiveFragment?.IsDetached == false)
+                    ActiveFragment?.OnPrepareOptionsMenu(menu);
             }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                ActiveFragment?.IsAdded.ToString();
-                ActiveFragment?.IsDetached.ToString();
-            }
+            catch (Exception ex) { sys.LogException(ex); }
             return base.OnPrepareOptionsMenu(menu);
         }
 
@@ -118,7 +114,7 @@ namespace iChronoMe.Droid
             {
                 ActiveFragment?.OnOptionsMenuClosed(menu);
             }
-            catch { }
+            catch (Exception ex) { sys.LogException(ex); }
         }
 
         const float nStartAssistantMaxStep = 1.4F;

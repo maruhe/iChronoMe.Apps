@@ -24,7 +24,7 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
 using iChronoMe.Droid.GUI.Service;
-using iChronoMe.Droid.Source.GUI.Dialogs;
+using iChronoMe.Droid.GUI.Dialogs;
 
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
@@ -192,7 +192,10 @@ namespace iChronoMe.Droid
                     //if (frCalendar == null)
                     frCalendar = new CalendarFragment();
                     fr = frCalendar;
-
+                }
+                else if (id == Resource.Id.nav_world_time_map)
+                {
+                    fr = new WorldTimeMapFragment();
                 }
                 else if (id == Resource.Id.nav_share)
                 {

@@ -12,7 +12,7 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Dialogs;
-using iChronoMe.Droid.Source.ViewModels;
+using iChronoMe.Droid.ViewModels;
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI.Service

@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using iChronoMe.DeviceCalendar;
 
-namespace iChronoMe.Droid.Source.Adapters
+namespace iChronoMe.Droid.Adapters
 {
     public class CalendarListAdapter : BaseAdapter
     {
