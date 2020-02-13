@@ -8,18 +8,18 @@ using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI
 {
-    public class ProgressDialog : DialogFragment
+    public class ProgressDlg : DialogFragment
     {
-        public static ProgressDialog NewInstance(string cTitle)
+        public static ProgressDlg NewInstance(string cTitle)
         {
             var b = new Bundle();
             b.PutString("Title", cTitle);
             return NewInstance(b);
         }
 
-        public static ProgressDialog NewInstance(Bundle bundle)
+        public static ProgressDlg NewInstance(Bundle bundle)
         {
-            ProgressDialog fragment = new ProgressDialog();
+            ProgressDlg fragment = new ProgressDlg();
             fragment.Arguments = bundle;
             return fragment;
         }

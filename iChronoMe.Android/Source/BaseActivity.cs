@@ -14,18 +14,19 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
-
+using Android.Widget;
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.Interfaces;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.Receivers;
 
 namespace iChronoMe.Droid
 {
-    public abstract class BaseActivity : AppCompatActivity
+    public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler
     {
-        public Toolbar Toolbar { get; protected set; } = null;
+        public Android.Support.V7.Widget.Toolbar Toolbar { get; protected set; } = null;
         public DrawerLayout Drawer { get; protected set; } = null;
         public NavigationView NavigationView { get; protected set; } = null;
         public ActivityFragment ActiveFragment { get; protected set; } = null;
@@ -37,14 +38,19 @@ namespace iChronoMe.Droid
             base.OnCreate(savedInstanceState);
             try
             {
-                AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-                TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+                if (errorReceiver == null)
+                {
+                    AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+                    TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
-                errorReceiver = new ErrorReceiver();
-                Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).RegisterReceiver(errorReceiver, new IntentFilter("com.xamarin.example.TEST"));
+                    errorReceiver = new ErrorReceiver();
+                    Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).RegisterReceiver(errorReceiver, new IntentFilter("com.xamarin.example.TEST"));
 
-                Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
+                    Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+                    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
+
+                    sys.MainUserIO = this;
+                }
             }
             catch (Exception ex)
             {
@@ -291,6 +297,61 @@ namespace iChronoMe.Droid
             RequestPermissions(permissions, requestCode);
             await RequestPermissionsTask;
             return RequestPermissionsTask.Result;
+        }
+
+        ProgressDlg pDlg = null;
+
+        public void StartProgress(string cTitle)
+        {
+            RunOnUiThread(() =>
+            {
+                pDlg = ProgressDlg.NewInstance(cTitle);
+                pDlg.Show(this.SupportFragmentManager, "progress_widget_cfg_assi_mgr");
+            });
+        }
+
+        public void SetProgress(int progress, int max, string cMessage)
+        {
+            RunOnUiThread(() =>
+            {
+                if (pDlg == null)
+                    StartProgress("just a moment...");
+                pDlg.SetProgress(progress, max, cMessage);
+            });
+        }
+
+        public void SetProgressDone()
+        {
+            RunOnUiThread(() =>
+            {
+                if (pDlg != null)
+                    pDlg.SetProgressDone();
+            });
+        }
+
+        public void ShowToast(string cMessage)
+        {
+            RunOnUiThread(() =>
+            {
+                Toast.MakeText(this, cMessage, ToastLength.Long).Show();
+            });
+        }
+
+        public void ShowError(string cMessage)
+        {
+            RunOnUiThread(() =>
+            {
+                if (pDlg != null)
+                    pDlg.SetProgressDone();
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(250).Wait();
+                    RunOnUiThread(() =>
+                    {
+                        new Android.Support.V7.App.AlertDialog.Builder(this).SetTitle("Error").SetMessage(cMessage).Create().Show();
+                    });
+                });
+            });
         }
     }
 

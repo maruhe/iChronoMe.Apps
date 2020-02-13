@@ -65,6 +65,7 @@ namespace iChronoMe.Droid
                 {
                     Task.Delay(2500).Wait();
                     CheckErrorLog();
+                    TimeZoneMap.GetTimeZone(47, 13);
                 });
 
                 /*

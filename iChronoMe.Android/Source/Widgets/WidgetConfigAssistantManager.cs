@@ -144,11 +144,11 @@ namespace iChronoMe.Droid.Widgets
             return LocationPickerDialog.SelectLocation(mContext);
         }
 
-        ProgressDialog pDlg = null;
+        ProgressDlg pDlg = null;
 
         public void StartProgress(string cTitle)
         {
-            pDlg = ProgressDialog.NewInstance(cTitle);
+            pDlg = ProgressDlg.NewInstance(cTitle);
             pDlg.Show(mContext.SupportFragmentManager, "progress_widget_cfg_assi_mgr");
         }
 

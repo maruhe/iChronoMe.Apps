@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
@@ -12,7 +13,9 @@ using Android.Widget;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets;
+using static iChronoMe.Core.Classes.GeoInfo;
 
 namespace iChronoMe.Droid.GUI
 {
@@ -25,6 +28,7 @@ namespace iChronoMe.Droid.GUI
         static FragmentActivity mActivity;
         static TimeType mTimeType = sys.DefaultTimeType;
         private Dictionary<string, WorldTimeItem> wtItems = new Dictionary<string, WorldTimeItem>();
+        static List<Marker> markers = new List<Marker>();
         static bool bShowMilliSeconds = false;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -120,6 +124,7 @@ namespace iChronoMe.Droid.GUI
             passchendaeleMarker.SetPosition(e.Point);
             passchendaeleMarker.Draggable(true);
             var marker = mGoogleMap.AddMarker(passchendaeleMarker);
+            markers.Add(marker);
 
             var item = new WorldTimeItem(marker);
             lock (wtItems)
@@ -143,6 +148,8 @@ namespace iChronoMe.Droid.GUI
             item.BlinkOnce();
         }
 
+        const int menu_typetype_Debug_AreaCache = 1001;
+        const int menu_typetype_Debug_ZonesOverlay = 1002;
         const int menu_typetype_RealSunTime = 1101;
         const int menu_typetype_MiddleSunTime = 1102;
         const int menu_typetype_TimeZoneTime = 1103;
@@ -150,6 +157,20 @@ namespace iChronoMe.Droid.GUI
         public override void OnPrepareOptionsMenu(IMenu menu)
         {
             base.OnPrepareOptionsMenu(menu);
+
+#if DEBUG
+            var dsub = menu.AddSubMenu(0, 0, 10, "Debug");
+            dsub.Item.SetShowAsAction(ShowAsAction.Always);
+
+
+            var ditem = dsub.Add(0, menu_typetype_Debug_AreaCache, 0, "AreaCache");
+            ditem.SetShowAsAction(ShowAsAction.Always);
+            ditem.SetOnMenuItemClickListener(this);
+
+            ditem = dsub.Add(0, menu_typetype_Debug_ZonesOverlay, 0, "TZ-Overlay");
+            ditem.SetShowAsAction(ShowAsAction.Always);
+            ditem.SetOnMenuItemClickListener(this);
+#endif
 
             var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
             sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(mTimeType, LocationTimeHolder.LocalInstance));
@@ -177,6 +198,25 @@ namespace iChronoMe.Droid.GUI
 
         public bool OnMenuItemClick(IMenuItem item)
         {
+            if (item.ItemId == menu_typetype_Debug_AreaCache)
+            {
+                foreach (var wt in wtItems.Values)
+                {
+                    wt.Stop();
+                }
+                wtItems.Clear();
+                llInfoLayout.RemoveAllViews();
+
+                mGoogleMap.Clear();
+                DrawAreaCache();
+                return true;
+            };
+            if (item.ItemId == menu_typetype_Debug_ZonesOverlay)
+            {
+                DrawZonesOverlay();
+                return true;
+            };
+
             if (item.ItemId == menu_typetype_RealSunTime)
                 mTimeType = TimeType.RealSunTime;
             else if (item.ItemId == menu_typetype_MiddleSunTime)
@@ -191,6 +231,137 @@ namespace iChronoMe.Droid.GUI
             }
 
             return true;
+        }
+
+        private void DrawZonesOverlay()
+        {
+            var rnd = new Random();
+
+            Task.Factory.StartNew(async () =>
+            {
+                int ip = 0;
+                foreach (var p in TimeZoneMap.timeZonePolygons.Keys)
+                {
+                    try
+                    {
+                        List<PolygonOptions> mPolygonsTimezone = new List<PolygonOptions>();
+
+                        ip++;
+                        //if (ip % 5 != 0)
+                          //  continue;
+                        //if (!p.Contains(new NetTopologySuite.Geometries.Point(markers[0].Position.Latitude, markers[0].Position.Longitude))
+                        //    && !p.Contains(new NetTopologySuite.Geometries.Point(markers[1].Position.Latitude, markers[1].Position.Longitude)))
+                        //continue;
+
+                        var polygon1 = new PolygonOptions();
+                        int i = 0;
+                        foreach (var x in p.Coordinates)
+                        {
+                            i++;
+                            if (i % 3 == 0)
+                                polygon1.Add(new LatLng(x.X, x.Y));
+                        }
+                        polygon1.InvokeStrokeWidth(2f);
+                        polygon1.InvokeStrokeColor(Color.HotPink);
+                        polygon1.InvokeFillColor(Color.Transparent);// xColor.FromRgba(rnd.Next(200), rnd.Next(200), rnd.Next(200), 120).ToAndroid());
+                        mPolygonsTimezone.Add(polygon1);
+
+                        mActivity.RunOnUiThread(() =>
+                        {
+
+                            try
+                            {
+                                mActivity.Title = ip.ToString();
+
+                                PolygonOptions pgLast = null;
+                                foreach (PolygonOptions pg in mPolygonsTimezone)
+                                {
+                                    mGoogleMap.AddPolygon(pg);
+                                    pgLast = pg;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Tools.ShowToast(mActivity, "Main: " + ex.Message);
+                            }
+                        });
+                    }
+                    catch(Exception exx)
+                    {
+                        Tools.ShowToast(mActivity, "Loader: " + exx.Message);
+                    }
+                }
+            });
+        }
+
+        private void DrawAreaCache()
+        {
+            List<PolygonOptions> mPolygonsArea = new List<PolygonOptions>();
+            List<PolygonOptions> mPolygonsTimezone = new List<PolygonOptions>();
+            List<MarkerOptions> mPinS = new List<MarkerOptions>();
+
+            Task.Factory.StartNew(async () =>
+            {
+                var cache2 = db.dbAreaCache.Query<TimeZoneInfoCache>("select * from TimeZoneInfoCache limit 0,150", new object[0]);
+                foreach (TimeZoneInfoCache ti in cache2)
+                {
+                    var polygon1 = new PolygonOptions();
+                    polygon1.Add(new LatLng(ti.boxNorth, ti.boxWest));
+                    polygon1.Add(new LatLng(ti.boxNorth, ti.boxEast));
+                    polygon1.Add(new LatLng(ti.boxSouth, ti.boxEast));
+                    polygon1.Add(new LatLng(ti.boxSouth, ti.boxWest));
+                    polygon1.Add(new LatLng(ti.boxNorth, ti.boxWest));
+                    polygon1.InvokeStrokeWidth(1f);
+                    polygon1.InvokeStrokeColor(Color.Blue);
+                    polygon1.InvokeFillColor(Color.Transparent);
+                    mPolygonsTimezone.Add(polygon1);
+                    /*mPinS.Add(new Pin()
+                    {
+                        Position = new Position(ti.boxNorth, ti.boxWest),
+                        Label = ti.timezoneId
+                    });*/
+                }
+
+                var cache = db.dbAreaCache.Query<AreaInfo>("select * from AreaInfo limit 0,150", new object[0]);
+                foreach (AreaInfo ai in cache)
+                {
+
+                    var polygon1 = new PolygonOptions();
+                    polygon1.Add(new LatLng(ai.boxNorth, ai.boxWest));
+                    polygon1.Add(new LatLng(ai.boxNorth, ai.boxEast));
+                    polygon1.Add(new LatLng(ai.boxSouth, ai.boxEast));
+                    polygon1.Add(new LatLng(ai.boxSouth, ai.boxWest));
+                    polygon1.Add(new LatLng(ai.boxNorth, ai.boxWest));
+                    polygon1.InvokeStrokeWidth(1f);
+                    polygon1.InvokeStrokeColor(Color.Red);
+                    polygon1.InvokeFillColor(Color.Transparent);
+                    mPolygonsArea.Add(polygon1);
+                    var m = new MarkerOptions();
+                    m.SetPosition(new LatLng(ai.centerLat, ai.centerLong));
+                    m.SetTitle(ai.toponymName);
+                    mPinS.Add(m);
+                }
+
+                mActivity.RunOnUiThread(() =>
+                {
+
+                    mActivity.Title = mPolygonsArea.Count.ToString();
+
+                    PolygonOptions pgLast = null;
+                    foreach (PolygonOptions pg in mPolygonsTimezone)
+                    {
+                        mGoogleMap.AddPolygon(pg);
+                        pgLast = pg;
+                    }
+                    foreach (PolygonOptions pg in mPolygonsArea)
+                    {
+                        mGoogleMap.AddPolygon(pg);
+                        pgLast = pg;
+                    }
+                    foreach (var p in mPinS)
+                        mGoogleMap.AddMarker(p);
+                });
+            });
         }
 
         class WorldTimeItem
