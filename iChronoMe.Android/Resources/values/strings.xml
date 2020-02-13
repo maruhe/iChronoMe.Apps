@@ -161,6 +161,7 @@
 	<string name="action_location_type_live">current Location</string>
 	<string name="action_location_type_static">static Location</string>
 	<string name="action_select_location">select location</string>
+	<string name="action_refresh_location">refresh current location</string>
 	<string name="label_title">title</string>
 	<string-array name="label_locationtypes">
 		<item>@string/action_location_type_live</item>

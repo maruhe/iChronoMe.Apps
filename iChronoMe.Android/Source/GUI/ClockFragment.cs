@@ -34,7 +34,7 @@ namespace iChronoMe.Droid.GUI
         private SKCanvasView skiaView;
         private WidgetView_ClockAnalog vClock;
         private AppCompatActivity mContext = null;
-        private LocationTimeHolder lth;
+        private LocationTimeHolder lth = LocationTimeHolder.LocalInstanceClone;
         private FloatingActionButton fabTimeType;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -60,6 +60,8 @@ namespace iChronoMe.Droid.GUI
             lTimeInfo2 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo2);
             lTimeInfo3 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo3);
 
+            RootView.FindViewById<ImageButton>(Resource.Id.btn_locate).Click += btnLocate_Click; ;
+
             fabTimeType = RootView.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
             fabTimeType.Click += Fab_Click;
 
@@ -67,6 +69,46 @@ namespace iChronoMe.Droid.GUI
             navigationView.SetNavigationItemSelectedListener(this);
 
             return RootView;
+        }
+
+        private void btnLocate_Click(object sender, EventArgs e)
+        {
+            PopupMenu popup = new PopupMenu(Activity, sender as View);
+            popup.Menu.Add(0, 1, 0, Resource.String.action_refresh_location);
+            popup.Menu.Add(0, 2, 0, Resource.String.action_select_location);
+
+            popup.MenuItemClick += (s, e) =>
+            {
+                if (e.Item.ItemId == 1)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
+
+                            var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+                            if (lastLocation == null)
+                                lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+
+                            if (lastLocation != null)
+                                lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
+                        }
+                        catch { }
+                    });
+                }
+                else if (e.Item.ItemId == 2)
+                {
+                    Task.Factory.StartNew(async () =>
+                    {
+                        var sel = await LocationPickerDialog.SelectLocation((AppCompatActivity)Activity);
+                        if (sel != null)
+                            lth.ChangePositionDelay(sel.Latitude, sel.Longitude, true, true);
+                    });
+                }
+            };
+
+            popup.Show();
         }
 
         bool isFABOpen = false;
@@ -226,8 +268,9 @@ namespace iChronoMe.Droid.GUI
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
                     if (lastLocation != null)
-                        lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
-                } catch { }
+                        lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
+                }
+                catch { }
             });
         }
 
@@ -247,7 +290,6 @@ namespace iChronoMe.Droid.GUI
                     vClock = new WidgetView_ClockAnalog();
                 RefreshClockCfg();
 
-                lth = LocationTimeHolder.LocalInstance;
                 skiaView.PaintSurface += OnPaintSurface;
 
                 lth.AreaChanged += Lth_AreaChanged;
@@ -326,6 +368,7 @@ namespace iChronoMe.Droid.GUI
             base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
+            //var icon = VectorDrawableCompat.Create(Activity.Resources, Resource.Drawable.icons8_alarm_3, Activity.Theme);
             item.SetIcon(Resource.Drawable.icons8_view_quilt);
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
@@ -397,7 +440,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
                         AppConfigHolder.SaveMainConfig();
-                        RefreshClockCfg();                        
+                        RefreshClockCfg();
                     }
                 });
             }

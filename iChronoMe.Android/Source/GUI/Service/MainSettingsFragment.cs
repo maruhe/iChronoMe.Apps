@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using iChronoMe.Core;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
-using iChronoMe.Droid.GUI;
-using iChronoMe.Droid.Adapters;
-using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.ViewModels;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -43,7 +36,7 @@ namespace iChronoMe.Droid.GUI.Service
 
             RootView.FindViewById<Spinner>(Resource.Id.sp_default_timetype).Adapter = new TimeTypeAdapter(Activity, true);
             RootView.FindViewById<Spinner>(Resource.Id.sp_calendar_timetype).Adapter = new TimeTypeAdapter(Activity, true);
-            
+
             RootView.FindViewById<Button>(Resource.Id.btn_notification_config).Click += btnNotifyCfg_Click;
             RootView.FindViewById<Button>(Resource.Id.btn_clear_cache).Click += btnClearCache_Click;
             RootView.FindViewById<Button>(Resource.Id.btn_system_test).Click += btnSystemTest_Click;
@@ -110,14 +103,14 @@ namespace iChronoMe.Droid.GUI.Service
 
             view.FindViewById<Button>(Resource.Id.btn_show_info).Click += model.ShowBackgroundServiceInfo;
             view.FindViewById<Button>(Resource.Id.btn_select_location).Click += model.ShowLocationSelector;
-            dlgBinder.Start();            
+            dlgBinder.Start();
             dlg.Show();
         }
 
         public override void OnResume()
         {
             base.OnResume();
-            
+
             binder.Start();
         }
 

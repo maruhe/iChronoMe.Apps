@@ -25,7 +25,7 @@ namespace iChronoMe.Droid.Widgets.Clock
             //var srv = Service;
             String cCommand = intent.GetStringExtra(command);
             String cBaseAction = intent.GetStringExtra(baseaction);
-            int? iAppWidgetID = intent.HasExtra(AppWidgetManager.ExtraAppwidgetId) ? (int?)intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0) : null;            
+            int? iAppWidgetID = intent.HasExtra(AppWidgetManager.ExtraAppwidgetId) ? (int?)intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, 0) : null;
             if (CommandReceived != null && !string.IsNullOrEmpty(cCommand))
                 CommandReceived(cCommand, cBaseAction, iAppWidgetID);
         }

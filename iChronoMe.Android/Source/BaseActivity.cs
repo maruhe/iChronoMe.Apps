@@ -46,7 +46,8 @@ namespace iChronoMe.Droid
                 Xamarin.Essentials.Platform.Init(this, savedInstanceState);
                 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 sys.LogException(ex);
             }
         }

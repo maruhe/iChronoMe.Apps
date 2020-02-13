@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Android.Views;
 using Android.Widget;
-using iChronoMe.Core.Classes;
+
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.Interfaces;
 using iChronoMe.Core.ViewModels;
-using iChronoMe.Droid.Adapters;
 
 namespace iChronoMe.Droid.GUI.Dialogs
 {
@@ -33,7 +25,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
 
                 mViewModel = new CalendarEventPopupViewModel(cEventId, Activity as IUserIO);
                 mBinder = new DataBinder(Activity, vRoot);
-                
+
                 mBinder.BindViewProperty(Resource.Id.title, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.Title), BindMode.TwoWay);
                 mBinder.BindViewProperty(Resource.Id.StartDate, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.StartDate), BindMode.TwoWay);
                 mBinder.BindViewProperty(Resource.Id.StartTime, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.StartTime), BindMode.TwoWay);

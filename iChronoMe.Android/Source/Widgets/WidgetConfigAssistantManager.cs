@@ -7,6 +7,7 @@ using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Support.V7.App;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Interfaces;

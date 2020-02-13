@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using Com.Syncfusion.Schedule;
 using Com.Syncfusion.Schedule.Enums;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.Adapters;
@@ -100,7 +98,8 @@ namespace iChronoMe.Droid.ViewModels
             OnPropertyChanged(nameof(HideCalendars));
         }
 
-        public int DefaultViewType { 
+        public int DefaultViewType
+        {
             get => cal.DefaultViewType;
             set
             {
@@ -137,7 +136,7 @@ namespace iChronoMe.Droid.ViewModels
                 Schedule.TimelineViewSettings.StartHour = x.Item1;
                 Schedule.TimelineViewSettings.EndHour = x.Item2;
                 OnPropertyChanged(nameof(TimeLineHourStart));
-                OnPropertyChanged(nameof(TimeLineHourEnd));                
+                OnPropertyChanged(nameof(TimeLineHourEnd));
             }
         }
 
@@ -159,7 +158,8 @@ namespace iChronoMe.Droid.ViewModels
         public ICollection<int> TimelineNonWorkingDays
         {
             get => new List<int>(Schedule.TimelineViewSettings.NonWorkingDays);
-            set{
+            set
+            {
                 Schedule.TimelineViewSettings.NonWorkingDays = new System.Collections.ObjectModel.ObservableCollection<int>(value);
                 OnPropertyChanged();
             }
@@ -210,7 +210,7 @@ namespace iChronoMe.Droid.ViewModels
 
             }
         }
-        public int DayViewWorkHourEnd   
+        public int DayViewWorkHourEnd
         {
             get => (int)Schedule.DayViewSettings.WorkEndHour;
             set
@@ -402,8 +402,8 @@ namespace iChronoMe.Droid.ViewModels
         }
 
         public int MonthViewAppointmentIndicatorCount
-        { 
-            get => Schedule.MonthViewSettings.AppointmentIndicatorCount; 
+        {
+            get => Schedule.MonthViewSettings.AppointmentIndicatorCount;
             set
             {
                 Schedule.MonthViewSettings.AppointmentIndicatorCount = value;
@@ -433,7 +433,7 @@ namespace iChronoMe.Droid.ViewModels
                     sel.TimeInMillis = Schedule.VisibleDates.First().TimeInMillis + ((Schedule.VisibleDates.Last().TimeInMillis - Schedule.VisibleDates.First().TimeInMillis) / 5);
                 else
                     sel.TimeInMillis = Schedule.SelectedDate.TimeInMillis;
-                
+
                 Schedule.SelectedDate = null;
                 Schedule.MonthViewSettings.ShowAppointmentsInline = value == 0;
                 Schedule.MonthViewSettings.ShowAgendaView = value == 1;

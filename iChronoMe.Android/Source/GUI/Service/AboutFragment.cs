@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Android.Content;
+﻿using System.Threading.Tasks;
+
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
-using iChronoMe.Core.Classes;
-using iChronoMe.Droid.GUI;
 
 namespace iChronoMe.Droid.GUI.Service
 {

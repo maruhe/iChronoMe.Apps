@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Types;
+
 using Java.Lang;
+
 using Xamarin.Essentials;
+
 using static Android.Content.Res.Resources;
 
 namespace iChronoMe.Droid
@@ -96,7 +95,9 @@ namespace iChronoMe.Droid
                         textS.Add("_empty_");
                     else
                         x.GetType().GetProperty(textProperty).GetValue(x).ToString();
-                } catch {
+                }
+                catch
+                {
                     textS.Add(string.Concat("_error_", x));
                 }
             }
@@ -125,7 +126,8 @@ namespace iChronoMe.Droid
             {
                 if (prop.IsLiteral && !prop.IsInitOnly)
                 {
-                    if (prop.FieldType == typeof(int)) {
+                    if (prop.FieldType == typeof(int))
+                    {
                         var clr = GetThemeColor(theme, (int)prop.GetValue(null));
                         if (clr != null)
                         {
@@ -170,8 +172,9 @@ namespace iChronoMe.Droid
                     }
                 }
 
-                
-            } catch { }
+
+            }
+            catch { }
             return null;
         }
 
@@ -185,7 +188,7 @@ namespace iChronoMe.Droid
             }
 
             public void OnCancel(IDialogInterface dialog)
-            {                
+            {
                 if (typeof(T) == typeof(bool))
                     (Handler as TaskCompletionSource<bool>).TrySetResult(false);
                 else if (typeof(T) == typeof(int))
@@ -194,7 +197,7 @@ namespace iChronoMe.Droid
                     (Handler as TaskCompletionSource<string>).TrySetResult(null);
                 else if (typeof(object) == typeof(object))
                     (Handler as TaskCompletionSource<object>).TrySetResult(null);
-                else 
+                else
                     Handler.TrySetResult(default(T));
 
                 dialog?.Dismiss();

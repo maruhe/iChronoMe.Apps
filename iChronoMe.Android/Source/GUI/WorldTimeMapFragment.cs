@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Android.Content;
+
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Widgets;
@@ -29,7 +26,7 @@ namespace iChronoMe.Droid.GUI
         static TimeType mTimeType = sys.DefaultTimeType;
         private Dictionary<string, WorldTimeItem> wtItems = new Dictionary<string, WorldTimeItem>();
         static bool bShowMilliSeconds = false;
-        
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             mActivity = Activity;
@@ -91,7 +88,7 @@ namespace iChronoMe.Droid.GUI
                     item.lth.ChangePositionDelay(e.Marker.Position.Latitude, e.Marker.Position.Longitude);
                     item.Update();
                 }
-            }            
+            }
         }
 
         private void MGoogleMap_MarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
@@ -124,7 +121,7 @@ namespace iChronoMe.Droid.GUI
             passchendaeleMarker.Draggable(true);
             var marker = mGoogleMap.AddMarker(passchendaeleMarker);
 
-            var item = new WorldTimeItem(e.Point) { Marker = marker };
+            var item = new WorldTimeItem(marker);
             lock (wtItems)
             {
                 wtItems.Add(marker.Id, item);
@@ -204,11 +201,15 @@ namespace iChronoMe.Droid.GUI
             public Marker Marker { get; set; }
             public TableLayout InfoView { get; }
             TextView tvArea, tvRDT, tvMST, tvTZT, tvRDToffset, tvMSToffset, tvTZToffset;
+            public string ID { get; }
+            static string blinkingID;
 
-            public WorldTimeItem(LatLng location)
+            public WorldTimeItem(Marker marker)
             {
-                Location = location;
-                lth = LocationTimeHolder.NewInstanceDelay(location.Latitude, location.Longitude);
+                ID = marker.Id;
+                Marker = marker;
+                Location = marker.Position;
+                lth = LocationTimeHolder.NewInstanceDelay(Location.Latitude, Location.Longitude);
                 lth.AreaChanged += lth_AreaChanged;
 
                 InfoView = new TableLayout(mActivity);
@@ -219,7 +220,7 @@ namespace iChronoMe.Droid.GUI
                 int iPad1 = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 10, mActivity.Resources.DisplayMetrics);
                 int iPad2 = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 5, mActivity.Resources.DisplayMetrics);
 
-                tvArea = new TextView(mActivity) { Text = sys.DezimalGradToGrad(location.Latitude, location.Longitude) };
+                tvArea = new TextView(mActivity) { Text = sys.DezimalGradToGrad(Location.Latitude, Location.Longitude) };
                 tvArea.SetMaxLines(1);
                 tvArea.Enabled = true;
 
@@ -270,7 +271,8 @@ namespace iChronoMe.Droid.GUI
 
             private void lth_AreaChanged(object sender, AreaChangedEventArgs e)
             {
-                mActivity.RunOnUiThread(() => {
+                mActivity.RunOnUiThread(() =>
+                {
                     try
                     {
                         if (Marker.Position.Latitude != lth.Latitude || Marker.Position.Longitude != lth.Longitude)
@@ -279,7 +281,8 @@ namespace iChronoMe.Droid.GUI
                         tvArea.Text = cText;
                         Marker.Title = cText;
                         Marker.ShowInfoWindow();
-                    } catch { }
+                    }
+                    catch { }
                 });
             }
 
@@ -341,11 +344,14 @@ namespace iChronoMe.Droid.GUI
             {
                 if (isBlinking)
                     return;
+                blinkingID = ID;
                 isBlinking = true;
                 InfoView.SetBackgroundColor(Android.Graphics.Color.ParseColor("#A0FFFFFF"));
                 Task.Factory.StartNew(() =>
                 {
-                    Task.Delay(500).Wait();
+                    DateTime tEnd = DateTime.Now.AddMilliseconds(500);
+                    while (blinkingID == ID && tEnd > DateTime.Now)
+                        Task.Delay(25).Wait();
                     mActivity.RunOnUiThread(() => InfoView.SetBackgroundResource(Resource.Drawable.selector));
                     isBlinking = false;
                 });

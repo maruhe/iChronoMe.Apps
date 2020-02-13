@@ -4,8 +4,6 @@ using System;
 using Android.App;
 using Android.Content;
 
-using iChronoMe.Core.Classes;
-
 namespace iChronoMe.Droid.Receivers
 {
     [BroadcastReceiver]

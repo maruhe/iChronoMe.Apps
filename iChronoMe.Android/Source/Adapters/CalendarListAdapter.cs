@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.DeviceCalendar;
 
 namespace iChronoMe.Droid.Adapters
@@ -18,7 +16,8 @@ namespace iChronoMe.Droid.Adapters
         Activity mContext;
         private Dictionary<string, Calendar> Items = new Dictionary<string, Calendar>();
         private bool _primaryOnly = true;
-        public bool PrimaryOnly { 
+        public bool PrimaryOnly
+        {
             get => _primaryOnly;
             set
             {
@@ -83,9 +82,10 @@ namespace iChronoMe.Droid.Adapters
 
                             (parentListView.Parent.Parent as RelativeLayout).AddView(btnExpand, lp);
                         }
-                    } catch { }
+                    }
+                    catch { }
                 });
-                
+
             });
         }
 

@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Content;
 using Android.Locations;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
-using iChronoMe.DeviceCalendar;
+
 using static iChronoMe.Core.Classes.GeoInfo;
 
 namespace iChronoMe.Droid.Adapters
@@ -68,7 +66,7 @@ namespace iChronoMe.Droid.Adapters
                     {
                         progress.Visibility = ViewStates.Visible;
                         icon.Visibility = ViewStates.Gone;
-                    } 
+                    }
                     else
                     {
                         icon.Visibility = ViewStates.Visible;
@@ -105,7 +103,7 @@ namespace iChronoMe.Droid.Adapters
 
         internal void StartSystemTest()
         {
-            Task.Factory.StartNew(async() =>
+            Task.Factory.StartNew(async () =>
             {
                 foreach (var test in Items)
                     await RunSystemTest(test);
@@ -211,7 +209,7 @@ namespace iChronoMe.Droid.Adapters
                         break;
 
                     case SystemTest.TimeZoneInfo:
-                        SetInfo(test, "check timezone...");                        
+                        SetInfo(test, "check timezone...");
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
                         if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
@@ -235,7 +233,7 @@ namespace iChronoMe.Droid.Adapters
                         var tiSys = TimeZoneInfo.FindSystemTimeZoneById(ti.timezoneId);
                         if (tiSys == null)
                         {
-                            SetInfo(test, "no system-timezone found for "+ti.timezoneId);
+                            SetInfo(test, "no system-timezone found for " + ti.timezoneId);
                             cErrors.Add("no system-timezone found for " + ti.timezoneId);
                             await Task.Delay(1500);
                             break;
@@ -279,14 +277,14 @@ namespace iChronoMe.Droid.Adapters
                         }
                         if (calendarsw.Count == 0)
                         {
-                            SetInfo(test, calendars.Count+" calendars found, but no editable...");
+                            SetInfo(test, calendars.Count + " calendars found, but no editable...");
                             cErrors.Add(calendars.Count + " calendars found, but no editable...");
                             await Task.Delay(1500);
                             break;
                         }
                         if (def == null)
                         {
-                            SetInfo(test, calendars.Count + " calendars found, "+ calendarsw.Count+ " editable, but no default...");
+                            SetInfo(test, calendars.Count + " calendars found, " + calendarsw.Count + " editable, but no default...");
                             cErrors.Add(calendars.Count + " calendars found, " + calendarsw.Count + " editable, but no default...");
                             await Task.Delay(1500);
                             break;
@@ -320,7 +318,7 @@ namespace iChronoMe.Droid.Adapters
                             await Task.Delay(1500);
                             break;
                         }
-                        SetInfo(test, iEventCount+" events found in " + cals.Count + " calendars...");
+                        SetInfo(test, iEventCount + " events found in " + cals.Count + " calendars...");
                         await Task.Delay(500);
 
                         break;

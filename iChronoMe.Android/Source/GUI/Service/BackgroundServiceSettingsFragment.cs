@@ -1,19 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Android.App;
-using Android.Appwidget;
-using Android.Content;
-using Android.OS;
+﻿using Android.OS;
 using Android.Views;
 using Android.Widget;
 
-using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
-using iChronoMe.Droid.GUI;
-using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.ViewModels;
-using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI.Service
 {

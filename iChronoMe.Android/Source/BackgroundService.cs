@@ -524,7 +524,7 @@ namespace iChronoMe.Droid
 
                 DateTime tBackgroundUpdate = DateTime.MinValue;
                 Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfg);
-                
+
                 Bitmap bmpBackgroundColor = null;
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
                 {
@@ -766,7 +766,7 @@ namespace iChronoMe.Droid
                     int iDestSecond = tAnimateTo.Second;
                     if (!clockView.FlowMinuteHand)
                         tAnimateTo = sys.GetTimeWithoutSeconds(tAnimateTo);
-                    
+
                     while (DateTime.Now < tStop)
                     {
                         DateTime tNow = tAnimateFrom.AddMilliseconds(tsAnimateWay.TotalMilliseconds / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
@@ -778,18 +778,22 @@ namespace iChronoMe.Droid
                             clockView.FlowSecondHand = true;
                         }
 
-                        manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, tNow, uBackgroundImage, bmpBackgroundColor, false, nSecondHandOverrideSecond));
+                        var rv = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, tNow, uBackgroundImage, bmpBackgroundColor, false, nSecondHandOverrideSecond);
+                        rv.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                        manager.UpdateAppWidget(iWidgetId, rv);
 
                         Task.Delay(1000 / 60).Wait();
                     }
 
                     clockView.ReadConfig(cfgNew);
                     var final = sys.GetTimeWithoutSeconds(tAnimateTo).AddSeconds(iDestSecond);
-                    manager.UpdateAppWidget(iWidgetId, GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, final, uBackgroundImage, bmpBackgroundColor, false));
+                    var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, final, uBackgroundImage, bmpBackgroundColor, false);
+                    rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                    manager.UpdateAppWidget(iWidgetId, rvf);
 
                     StartWidgetTask(iWidgetId);
 
-#if DEBxUG
+#if DEfBUG
                     Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
                     changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
                     changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
@@ -833,7 +837,7 @@ namespace iChronoMe.Droid
             return null;
         }
 
-        public static RemoteViews GetClockAnalogRemoteView(Context ctx, WidgetCfg_ClockAnalog cfg, WidgetView_ClockAnalog clockView, int iClockSize, 
+        public static RemoteViews GetClockAnalogRemoteView(Context ctx, WidgetCfg_ClockAnalog cfg, WidgetView_ClockAnalog clockView, int iClockSize,
             LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll, float? nSecondHandOverrideSecond = null)
         {
             int iWidgetId = cfg.WidgetId;
@@ -898,7 +902,7 @@ namespace iChronoMe.Droid
                 updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, pendingIntent);
             }
 
-            return updateViews;            
+            return updateViews;
         }
 
         public static Android.Net.Uri GrandImageAccessToLaunchers(Context ctx, Java.IO.File fImage)
@@ -1064,7 +1068,7 @@ namespace iChronoMe.Droid
 
         }
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool disposedValue = false; // Dient zur Erkennung redundanter Aufrufe.
 
         protected override void Dispose(bool disposing)
@@ -1099,6 +1103,6 @@ namespace iChronoMe.Droid
             // TODO: Auskommentierung der folgenden Zeile aufheben, wenn der Finalizer weiter oben überschrieben wird.
             // GC.SuppressFinalize(this);
         }
-#endregion
+        #endregion
     }
 }

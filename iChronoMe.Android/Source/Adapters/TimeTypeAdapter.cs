@@ -54,7 +54,7 @@ namespace iChronoMe.Droid.Adapters
                 return GetDropDownView(position, convertView, parent);
 
             var item = items[position];
-            
+
             if (convertView == null)
             {
                 convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
@@ -75,7 +75,7 @@ namespace iChronoMe.Droid.Adapters
             {
                 convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title_detail, null);
             }
-            
+
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;

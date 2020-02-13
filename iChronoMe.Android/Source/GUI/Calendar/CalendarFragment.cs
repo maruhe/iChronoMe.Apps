@@ -12,7 +12,6 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -29,6 +28,7 @@ using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.ViewModels;
 using iChronoMe.Droid.Widgets;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI.Calendar
@@ -139,7 +139,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 {
                     var evnt = calEvents.ListedDates[0];
                     new CalendarEventDialog().Show(FragmentManager, evnt.ExternalID);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ex.ToString();
                 }
@@ -681,7 +682,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 schedule.SelectionStyle = new SelectionStyle
                 {
-                  //  BackgroundColor = clBack
+                    //  BackgroundColor = clBack
                 };
 
                 schedule.TimelineViewSettings.Color = clSlotBack;
@@ -744,7 +745,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 schedule.WeekViewSettings.StartHour = cfg.WeekViewHourStart;
                 schedule.WeekViewSettings.EndHour = cfg.WeekViewHourEnd;
-                schedule.WeekViewSettings.WorkStartHour = cfg.WeekViewWorkHourStart ;
+                schedule.WeekViewSettings.WorkStartHour = cfg.WeekViewWorkHourStart;
                 schedule.WeekViewSettings.WorkEndHour = cfg.WeekViewWorkHourEnd;
                 schedule.WeekViewSettings.ShowAllDay = cfg.WeekViewShowAllDay;
 
@@ -818,7 +819,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                         btn.SetTextColor(Color.Red);
                         btn.Text = prop.Name;
                         ll?.AddView(btn);
-                        cColorTree += "\n\t" + prop.Name + "\t\t" + clr.HexString+"\tclr";
+                        cColorTree += "\n\t" + prop.Name + "\t\t" + clr.HexString + "\tclr";
 
                         clr = clr.Luminosity < 0.5 ? xColor.HotPink : xColor.IndianRed;
                         if (prop.CanWrite)
@@ -832,7 +833,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                         btn.Text = prop.Name;
                         btn.SetTextColor(Color.Red);
                         ll?.AddView(btn);
-                        cColorTree += "\n\t" + prop.Name + "\t\t" + clr.HexString+"\tint";
+                        cColorTree += "\n\t" + prop.Name + "\t\t" + clr.HexString + "\tint";
 
                         clr = clr.Luminosity < 0.5 ? xColor.Aqua : xColor.Green;
                         if (prop.CanWrite)// && prop.Name.ToLower().Contains("back"))

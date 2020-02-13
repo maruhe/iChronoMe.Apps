@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
@@ -24,7 +19,7 @@ namespace iChronoMe.Droid.Adapters
             string cFormat = interval == Interval.Hour ? (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH") ? "HH:mm" : "H tt") : "HH:mm";
             DateTime tStart = DateTime.Today.AddHours(start);
             DateTime tEnd = DateTime.Today.AddHours(end);
-            while(tStart <= tEnd)
+            while (tStart <= tEnd)
             {
                 items.Add(tStart.ToString(cFormat));
                 tStart += TimeSpan.FromMinutes((int)interval);
