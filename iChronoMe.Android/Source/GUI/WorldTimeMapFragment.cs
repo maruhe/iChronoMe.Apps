@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Android.App;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Graphics;
@@ -27,12 +27,15 @@ namespace iChronoMe.Droid.GUI
         static LinearLayout llInfoLayout;
         static FragmentActivity mActivity;
         static TimeType mTimeType = sys.DefaultTimeType;
-        private Dictionary<string, WorldTimeItem> wtItems = new Dictionary<string, WorldTimeItem>();
-        static List<Marker> markers = new List<Marker>();
+        static private Dictionary<string, WorldTimeItem> wtItems;
+        static List<Marker> markers;
         static bool bShowMilliSeconds = false;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            wtItems = new Dictionary<string, WorldTimeItem>();
+            markers = new List<Marker>();
+
             mActivity = Activity;
             var view = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_world_time_map, null);
 
@@ -48,6 +51,43 @@ namespace iChronoMe.Droid.GUI
             mMapView.GetMapAsync(this);
 
             return view;
+        }
+
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+            outState.PutInt("marker_count", wtItems.Count);
+            int i = 0;
+            foreach (var item in wtItems.Values)
+            {
+                outState.PutDouble("marker_" + i + "_lat", item.Location.Latitude);
+                outState.PutDouble("marker_" + i + "_lng", item.Location.Longitude);
+                i++;
+            }
+        }
+
+        Bundle blRestore;
+        public override void OnViewStateRestored(Bundle savedInstanceState)
+        {
+            base.OnViewStateRestored(savedInstanceState);
+            if (savedInstanceState != null)
+                blRestore = new Bundle(savedInstanceState);
+        }
+
+        private void RestoreItems(Bundle savedInstanceState) 
+        {
+            if (savedInstanceState == null)
+                return;
+            RemoveAllItems();
+            bIsFirstClick = false;
+            int iCount = savedInstanceState.GetInt("marker_count", 0);
+            for (int i = 0;i<iCount;i++)
+            {
+                var lat = savedInstanceState.GetDouble("marker_" + i + "_lat", 0);
+                var lng = savedInstanceState.GetDouble("marker_" + i + "_lng", 0);
+                if (lat != 0 && lng != 0)
+                    AddLocation(new LatLng(lat, lng));
+            }
         }
 
         public void OnMapReady(GoogleMap googleMap)
@@ -69,6 +109,10 @@ namespace iChronoMe.Droid.GUI
             mGoogleMap.MarkerDragStart += MGoogleMap_MarkerDragStart;
             mGoogleMap.MarkerDrag += MGoogleMap_MarkerDrag;
             mGoogleMap.MarkerDragEnd += MGoogleMap_MarkerDragEnd;
+
+            RemoveAllItems();
+            if (blRestore != null)
+                RestoreItems(blRestore);
         }
 
         private void MGoogleMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
@@ -108,7 +152,6 @@ namespace iChronoMe.Droid.GUI
                     item.Update();
                 }
             }
-            FocusItem(e.Marker.Id);
         }
 
         bool bIsFirstClick = true;
@@ -119,33 +162,47 @@ namespace iChronoMe.Droid.GUI
                 llInfoLayout.RemoveAllViews();
                 bIsFirstClick = false;
             }
-
-            var passchendaeleMarker = new MarkerOptions();
-            passchendaeleMarker.SetPosition(e.Point);
-            passchendaeleMarker.Draggable(true);
-            var marker = mGoogleMap.AddMarker(passchendaeleMarker);
-            markers.Add(marker);
-
-            var item = new WorldTimeItem(marker);
-            lock (wtItems)
-            {
-                wtItems.Add(marker.Id, item);
-            }
-            item.Start();
-            Task.Factory.StartNew(() =>
-            {
-                Task.Delay(100).Wait();
-                mActivity.RunOnUiThread(() => FocusItem(marker.Id));
-            });
+            AddLocation(e.Point);
         }
 
-        private void FocusItem(string id)
+        private void AddLocation(LatLng loc)
+        {
+            try
+            {
+                var passchendaeleMarker = new MarkerOptions();
+                passchendaeleMarker.SetPosition(loc);
+                passchendaeleMarker.Draggable(true);
+                var marker = mGoogleMap.AddMarker(passchendaeleMarker);
+                markers.Add(marker);
+
+                var item = new WorldTimeItem(marker);
+                lock (wtItems)
+                {
+                    wtItems.Add(marker.Id, item);
+                }
+                item.Start();
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(100).Wait();
+                    mActivity.RunOnUiThread(() => FocusItem(marker.Id, false));
+                });
+            } 
+            catch (Exception ex)
+            {
+                sys.LogException(ex);
+                RemoveAllItems();
+                Tools.ShowMessage(Activity, "an error happened", "try again please");
+            }
+        }
+
+        private void FocusItem(string id, bool bBlink = true)
         {
             if (!wtItems.ContainsKey(id))
                 return;
             var item = wtItems[id];
             scrollView.SmoothScrollTo(item.InfoView.Left - item.InfoView.Width, 0);
-            item.BlinkOnce();
+            if (bBlink)
+                item.BlinkOnce();
         }
 
         const int menu_typetype_Debug_AreaCache = 1001;
@@ -153,6 +210,13 @@ namespace iChronoMe.Droid.GUI
         const int menu_typetype_RealSunTime = 1101;
         const int menu_typetype_MiddleSunTime = 1102;
         const int menu_typetype_TimeZoneTime = 1103;
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            base.OnCreateOptionsMenu(menu, inflater);
+
+            //inflater.Inflate(Resource.Menu.searchbar_location, menu);
+        }
 
         public override void OnPrepareOptionsMenu(IMenu menu)
         {
@@ -200,14 +264,7 @@ namespace iChronoMe.Droid.GUI
         {
             if (item.ItemId == menu_typetype_Debug_AreaCache)
             {
-                foreach (var wt in wtItems.Values)
-                {
-                    wt.Stop();
-                }
-                wtItems.Clear();
-                llInfoLayout.RemoveAllViews();
-
-                mGoogleMap.Clear();
+                RemoveAllItems();
                 DrawAreaCache();
                 return true;
             };
@@ -233,6 +290,29 @@ namespace iChronoMe.Droid.GUI
             return true;
         }
 
+        static void RemoveItem(WorldTimeItem item)
+        {
+            item.Stop();
+            llInfoLayout.RemoveView(item.InfoView);
+            wtItems.Remove(item.ID);
+            markers.Remove(item.Marker);
+            item.Marker.Remove();
+            item.Dispose();
+        }
+
+        static void RemoveAllItems()
+        {
+            foreach (var wt in wtItems.Values)
+            {
+                wt.Stop();
+                wt.Dispose();
+            }
+            wtItems.Clear();
+            markers.Clear();
+            llInfoLayout.RemoveAllViews();
+            mGoogleMap.Clear();
+        }
+
         private void DrawZonesOverlay()
         {
             var rnd = new Random();
@@ -244,6 +324,9 @@ namespace iChronoMe.Droid.GUI
                 {
                     try
                     {
+                        //if (!string.IsNullOrEmpty(TimeZoneMap.timeZonePolygons[p].timezoneId))
+                          //  continue;
+
                         List<PolygonOptions> mPolygonsTimezone = new List<PolygonOptions>();
 
                         ip++;
@@ -364,14 +447,15 @@ namespace iChronoMe.Droid.GUI
             });
         }
 
-        class WorldTimeItem
+        class WorldTimeItem : IDisposable
         {
             public LatLng Location { get; set; }
             public string Title { get; set; }
-            public LocationTimeHolder lth { get; }
+            public LocationTimeHolder lth { get; private set; }
             public Marker Marker { get; set; }
-            public TableLayout InfoView { get; }
+            public TableLayout InfoView { get; private set; }
             TextView tvArea, tvRDT, tvMST, tvTZT, tvRDToffset, tvMSToffset, tvTZToffset;
+            ImageView imgTZ;
             public string ID { get; }
             static string blinkingID;
 
@@ -383,13 +467,33 @@ namespace iChronoMe.Droid.GUI
                 lth = LocationTimeHolder.NewInstanceDelay(Location.Latitude, Location.Longitude);
                 lth.AreaChanged += lth_AreaChanged;
 
+                InfoView = (TableLayout)mActivity.LayoutInflater.Inflate(Resource.Layout.listitem_location_times, null);
+
+                tvArea = InfoView.FindViewById<TextView>(Resource.Id.title);
+                tvRDT = InfoView.FindViewById<TextView>(Resource.Id.time_rdt);
+                tvRDToffset = InfoView.FindViewById<TextView>(Resource.Id.time_offset_rdt);
+                tvMST = InfoView.FindViewById<TextView>(Resource.Id.time_mst);
+                tvMSToffset = InfoView.FindViewById<TextView>(Resource.Id.time_offset_mst);
+                tvTZT = InfoView.FindViewById<TextView>(Resource.Id.time_tzt);
+                tvTZToffset = InfoView.FindViewById<TextView>(Resource.Id.time_offset_tzt);
+                imgTZ = InfoView.FindViewById<ImageView>(Resource.Id.img_timezone);
+
+                InfoView.Click += InfoView_Click;
+                InfoView.LongClick += InfoView_LongClick;
+                tvArea.Text = sys.DezimalGradToGrad(Location.Latitude, Location.Longitude);
+
+                llInfoLayout.AddView(InfoView, new LinearLayout.LayoutParams((int)TypedValue.ApplyDimension(ComplexUnitType.Sp, 165, mActivity.Resources.DisplayMetrics), LinearLayout.LayoutParams.MatchParent));
+
+                /*
                 InfoView = new TableLayout(mActivity);
                 InfoView.Clickable = true;
                 InfoView.Click += InfoView_Click;
+                InfoView.LongClick += InfoView_LongClick;
                 InfoView.SetBackgroundResource(Resource.Drawable.selector);
                 InfoView.SetColumnStretchable(2, true);
                 int iPad1 = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 10, mActivity.Resources.DisplayMetrics);
                 int iPad2 = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, 5, mActivity.Resources.DisplayMetrics);
+                InfoView.SetPadding(iPad2, 0, 0, 0);
 
                 tvArea = new TextView(mActivity) { Text = sys.DezimalGradToGrad(Location.Latitude, Location.Longitude) };
                 tvArea.SetMaxLines(1);
@@ -407,31 +511,68 @@ namespace iChronoMe.Droid.GUI
                 tvTZT.SetPadding(iPad1, 0, 0, 0);
 
                 tvRDToffset = new TextView(mActivity) { Text = "+-??:??" };
-                tvRDToffset.SetPadding(iPad1, 0, iPad2, 0);
+                tvRDToffset.SetPadding(iPad1, 0, 0, 0);
                 tvMSToffset = new TextView(mActivity) { Text = "-??:??" };
-                tvMSToffset.SetPadding(iPad1, 0, iPad2, 0);
+                tvMSToffset.SetPadding(iPad1, 0, 0, 0);
                 tvTZToffset = new TextView(mActivity) { Text = "~??:??" };
-                tvTZToffset.SetPadding(iPad1, 0, iPad2, 0);
+                tvTZToffset.SetPadding(iPad1, 0, 0, 0);
+
+                var lpImp = new TableLayout.LayoutParams(55,55);// (int)TypedValue.ApplyDimension(ComplexUnitType.Sp, 26, mActivity.Resources.DisplayMetrics), (int)TypedValue.ApplyDimension(ComplexUnitType.Sp, 26, mActivity.Resources.DisplayMetrics));
+                var img = new ImageView(mActivity);
+                img.SetMaxWidth(23);
+                img.SetMaxWidth(23);
+                img.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, lth));
+                //img.SetScaleType(ImageView.ScaleType.FitXy);
 
                 row = new TableRow(mActivity);
-                row.AddView(new TextView(mActivity) { Text = "real" }, 0);
-                row.AddView(tvRDT, 1);
-                row.AddView(tvRDToffset, 2);
+                row.AddView(img);
+                row.AddView(tvRDT);
+                row.AddView(tvRDToffset);
                 InfoView.AddView(row);
 
-                row = new TableRow(mActivity);
-                row.AddView(new TextView(mActivity) { Text = "mid" }, 0);
-                row.AddView(tvMST, 1);
-                row.AddView(tvMSToffset, 2);
-                InfoView.AddView(row);
+                img = new ImageView(mActivity);
+                img.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, lth));
+                //img.SetScaleType(ImageView.ScaleType.FitXy);
 
                 row = new TableRow(mActivity);
-                row.AddView(new TextView(mActivity) { Text = "zone" }, 0);
+                row.AddView(img, lpImp);
+                row.AddView(tvMST);
+                row.AddView(tvMSToffset);
+                InfoView.AddView(row);
+
+                imgTZ = new ImageView(mActivity);
+                imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
+                imgTZ.SetScaleType(ImageView.ScaleType.FitXy);
+
+                row = new TableRow(mActivity);
+                row.AddView(imgTZ, 0, lpImp);
                 row.AddView(tvTZT, 1);
                 row.AddView(tvTZToffset, 2);
                 InfoView.AddView(row);
 
-                llInfoLayout.AddView(InfoView, new LinearLayout.LayoutParams((int)TypedValue.ApplyDimension(ComplexUnitType.Sp, 170, mActivity.Resources.DisplayMetrics), LinearLayout.LayoutParams.MatchParent));
+                llInfoLayout.AddView(InfoView, new LinearLayout.LayoutParams((int)TypedValue.ApplyDimension(ComplexUnitType.Sp, 165, mActivity.Resources.DisplayMetrics), LinearLayout.LayoutParams.MatchParent));
+                */
+            }
+
+            private void InfoView_LongClick(object sender, View.LongClickEventArgs e)
+            {
+                PopupMenu popup = new PopupMenu(mActivity, sender as View);
+                popup.Menu.Add(0, 1, 0, Resource.String.action_remove);
+                popup.Menu.Add(0, 2, 0, Resource.String.action_remove_all);
+
+                popup.MenuItemClick += (s, e) =>
+                {
+                    if (e.Item.ItemId == 1)
+                    {
+                        RemoveItem(this);
+                    }
+                    else if (e.Item.ItemId == 2)
+                    {
+                        RemoveAllItems();
+                    }
+                };
+
+                popup.Show();
             }
 
             private void InfoView_Click(object sender, EventArgs e)
@@ -448,6 +589,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         if (Marker.Position.Latitude != lth.Latitude || Marker.Position.Longitude != lth.Longitude)
                             return;
+                        imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
                         string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName + ", " + lth.CountryName;
                         tvArea.Text = cText;
                         Marker.Title = cText;
@@ -457,7 +599,6 @@ namespace iChronoMe.Droid.GUI
                 });
             }
 
-            string cTsFormat = bShowMilliSeconds ? @"mm\:ss\.fff" : @"mm\:ss";
             public void Start()
             {
                 lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
@@ -501,11 +642,28 @@ namespace iChronoMe.Droid.GUI
 
             private void UpdateTime(TextView tvTime, TextView tvOffset, TimeType typeType)
             {
+                if (lth == null || InfoView == null)
+                    return;
                 DateTime tCurrent = lth.GetTime(mTimeType);
                 DateTime tInfo = lth.GetTime(typeType);
+                var tsOff = tInfo - tCurrent;
                 tvTime.Text = tInfo.ToLongTimeString();
                 if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
-                    tvOffset.Text = (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToString(cTsFormat);
+                {
+                    tvOffset.Text = (tCurrent > tInfo ? "-" : "+") + tsOff.ToShortString();
+                    double iMin = tsOff.TotalMinutes;
+                    if (iMin < 0) iMin *= -1;
+                    if (iMin < 30)
+                        tvOffset.SetTextColor(xColor.MaterialLightGreen.ToAndroid());
+                    else if (iMin < 45)
+                        tvOffset.SetTextColor(xColor.MaterialAmber.ToAndroid());
+                    else if (iMin < 60)
+                        tvOffset.SetTextColor(xColor.MaterialOrange.ToAndroid());
+                    else if (iMin < 90)
+                        tvOffset.SetTextColor(xColor.MaterialDeepOrange.ToAndroid());
+                    else
+                        tvOffset.SetTextColor(xColor.MaterialRed.ToAndroid());
+                }
                 else
                     tvOffset.Text = "";
             }
@@ -520,12 +678,25 @@ namespace iChronoMe.Droid.GUI
                 InfoView.SetBackgroundColor(Android.Graphics.Color.ParseColor("#A0FFFFFF"));
                 Task.Factory.StartNew(() =>
                 {
-                    DateTime tEnd = DateTime.Now.AddMilliseconds(500);
+                    DateTime tEnd = DateTime.Now.AddMilliseconds(250);
                     while (blinkingID == ID && tEnd > DateTime.Now)
                         Task.Delay(25).Wait();
+                    if (lth == null || InfoView == null)
+                        return;
                     mActivity.RunOnUiThread(() => InfoView.SetBackgroundResource(Resource.Drawable.selector));
                     isBlinking = false;
                 });
+            }
+
+            public void Dispose()
+            {
+                blinkingID = null;
+                Stop();
+                lth.Dispose();
+                lth = null;
+                Marker = null;
+                InfoView = null;
+                Location = null;
             }
         }
     }

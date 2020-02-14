@@ -30,11 +30,12 @@ namespace iChronoMe.Droid.GUI
         NavigationView navigationView;
         private CoordinatorLayout coordinator;
         private TextView lTitle, lGeoPos, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3;
+        private ImageView imgTZ;
         private ImageView imgClockBack;
         private SKCanvasView skiaView;
         private WidgetView_ClockAnalog vClock;
         private AppCompatActivity mContext = null;
-        private LocationTimeHolder lth = LocationTimeHolder.LocalInstanceClone;
+        private LocationTimeHolder lth;
         private FloatingActionButton fabTimeType;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -53,13 +54,17 @@ namespace iChronoMe.Droid.GUI
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
             lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
-            lTime1 = RootView.FindViewById<TextView>(Resource.Id.text_time1);
-            lTime2 = RootView.FindViewById<TextView>(Resource.Id.text_time2);
-            lTime3 = RootView.FindViewById<TextView>(Resource.Id.text_time3);
-            lTimeInfo1 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo1);
-            lTimeInfo2 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo2);
-            lTimeInfo3 = RootView.FindViewById<TextView>(Resource.Id.text_timeinfo3);
 
+
+            RootView.FindViewById<TextView>(Resource.Id.title).Visibility = ViewStates.Gone;
+            lTime1 = RootView.FindViewById<TextView>(Resource.Id.time_rdt);
+            lTimeInfo1 = RootView.FindViewById<TextView>(Resource.Id.time_offset_rdt);
+            lTime2 = RootView.FindViewById<TextView>(Resource.Id.time_mst);
+            lTimeInfo2 = RootView.FindViewById<TextView>(Resource.Id.time_offset_mst);
+            lTime3 = RootView.FindViewById<TextView>(Resource.Id.time_tzt);
+            lTimeInfo3 = RootView.FindViewById<TextView>(Resource.Id.time_offset_tzt);
+            imgTZ = RootView.FindViewById<ImageView>(Resource.Id.img_timezone);
+            
             RootView.FindViewById<ImageButton>(Resource.Id.btn_locate).Click += btnLocate_Click; ;
 
             fabTimeType = RootView.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
@@ -81,6 +86,9 @@ namespace iChronoMe.Droid.GUI
             {
                 if (e.Item.ItemId == 1)
                 {
+                    StopClockUpdates();
+                    lth = LocationTimeHolder.LocalInstance;
+                    StartClockUpdates();
                     Task.Factory.StartNew(() =>
                     {
                         try
@@ -103,7 +111,12 @@ namespace iChronoMe.Droid.GUI
                     {
                         var sel = await LocationPickerDialog.SelectLocation((AppCompatActivity)Activity);
                         if (sel != null)
+                        {
+                            StopClockUpdates();
+                            lth = LocationTimeHolder.LocalInstanceClone;
                             lth.ChangePositionDelay(sel.Latitude, sel.Longitude, true, true);
+                            StartClockUpdates();
+                        }
                     });
                 }
             };
@@ -228,6 +241,7 @@ namespace iChronoMe.Droid.GUI
         {
             mContext.RunOnUiThread(() =>
             {
+                imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
                 lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
                 if (lth.Latitude == 0 && lth.Longitude == 0)
                     lGeoPos.Text = "unknown position";
@@ -289,6 +303,8 @@ namespace iChronoMe.Droid.GUI
                 if (vClock == null)
                     vClock = new WidgetView_ClockAnalog();
                 RefreshClockCfg();
+                if (lth == null)
+                    lth = LocationTimeHolder.LocalInstance;
 
                 skiaView.PaintSurface += OnPaintSurface;
 
@@ -297,43 +313,17 @@ namespace iChronoMe.Droid.GUI
 
                 mContext.RunOnUiThread(() => fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth)));
 
-                string cTsFormat = sys.Debugmode ? @"mm\:ss\.fff" : @"mm\:ss";
-
                 lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
-                {
-                    mContext.RunOnUiThread(() =>
-                    {
-                        DateTime tCurrent = lth.GetTime(this.TimeType);
-                        DateTime tInfo = lth.GetTime(TimeType.RealSunTime);
-                        lTime1.Text = TimeType.RealSunTime.ToString() + ":";
-                        lTimeInfo1.Text = tInfo.ToLongTimeString();
-                        if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
-                            lTimeInfo1.Text += "\t(" + (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToString(cTsFormat) + ")";
-                    });
+                { 
+                    mContext.RunOnUiThread(() => UpdateTime(lTime1, lTimeInfo1, TimeType.RealSunTime));
                 });
                 lth.StartTimeChangedHandler(this, TimeType.MiddleSunTime, (s, e) =>
                 {
-                    mContext.RunOnUiThread(() =>
-                    {
-                        DateTime tCurrent = lth.GetTime(this.TimeType);
-                        DateTime tInfo = lth.GetTime(TimeType.MiddleSunTime);
-                        lTime2.Text = TimeType.MiddleSunTime.ToString() + ":"; xColor.FromUint((uint)lTime2.CurrentTextColor).HexString.ToString();
-                        lTimeInfo2.Text = tInfo.ToLongTimeString();
-                        if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
-                            lTimeInfo2.Text += "\t(" + (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToString(cTsFormat) + ")";
-                    });
+                    mContext.RunOnUiThread(() => UpdateTime(lTime2, lTimeInfo2, TimeType.MiddleSunTime));
                 });
                 lth.StartTimeChangedHandler(this, TimeType.TimeZoneTime, (s, e) =>
                 {
-                    mContext.RunOnUiThread(() =>
-                    {
-                        DateTime tCurrent = lth.GetTime(this.TimeType);
-                        DateTime tInfo = lth.GetTime(TimeType.TimeZoneTime);
-                        lTime3.Text = TimeType.TimeZoneTime.ToString() + ":";
-                        lTimeInfo3.Text = tInfo.ToLongTimeString();
-                        if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
-                            lTimeInfo3.Text += "\t(" + (tCurrent > tInfo ? "-" : "+") + (tInfo - tCurrent).ToString(cTsFormat) + ")";
-                    });
+                    mContext.RunOnUiThread(() => UpdateTime(lTime3, lTimeInfo3, TimeType.TimeZoneTime));
                 });
 
                 lth.StartTimeChangedHandler(skiaView, this.TimeType, (s, e) =>
@@ -351,6 +341,48 @@ namespace iChronoMe.Droid.GUI
             {
                 ex.ToString();
             }
+        }
+
+        private void UpdateTime(TextView tvTime, TextView tvOffset, TimeType typeType)
+        {
+            if (lth == null)
+                return;
+            DateTime tCurrent = lth.GetTime(this.TimeType);
+            DateTime tInfo = lth.GetTime(typeType);
+            var tsOff = tInfo - tCurrent;
+            tvTime.Text = tInfo.ToLongTimeString();
+            if (sys.GetTimeWithoutMilliSeconds(tCurrent) != sys.GetTimeWithoutMilliSeconds(tInfo))
+            {
+                tvOffset.Text = (tCurrent > tInfo ? "-" : "+") + tsOff.ToShortString();
+                double iMin = tsOff.TotalMinutes;
+                if (iMin < 0) iMin *= -1;
+                if (iMin < 30)
+                    tvOffset.SetTextColor(xColor.MaterialLightGreen.ToAndroid());
+                else if (iMin < 45)
+                    tvOffset.SetTextColor(xColor.MaterialAmber.ToAndroid());
+                else if (iMin < 60)
+                    tvOffset.SetTextColor(xColor.MaterialOrange.ToAndroid());
+                else if (iMin < 90)
+                    tvOffset.SetTextColor(xColor.MaterialDeepOrange.ToAndroid());
+                else
+                    tvOffset.SetTextColor(xColor.MaterialRed.ToAndroid());
+            }
+            else
+                tvOffset.Text = "";
+        }
+
+        private void SetOffsetColor(TextView tvOffset, TimeSpan timeSpan)
+        {
+            double iMin = timeSpan.TotalMinutes;
+            if (iMin < 0) iMin *= -1;
+            if (iMin < 30)
+                tvOffset.SetTextColor(xColor.MaterialLightGreen.ToAndroid());
+            else if (iMin < 45)
+                tvOffset.SetTextColor(xColor.MaterialAmber.ToAndroid());
+            else if (iMin < 60)
+                tvOffset.SetTextColor(xColor.MaterialOrange.ToAndroid());
+            else
+                tvOffset.SetTextColor(xColor.MaterialRed.ToAndroid());
         }
 
         private void StopClockUpdates()

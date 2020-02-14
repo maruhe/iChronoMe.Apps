@@ -59,42 +59,16 @@ namespace iChronoMe.Droid
                 if (savedInstanceState != null)
                 {
                     iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
+                    blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
                 }
 
                 Task.Factory.StartNew(() =>
                 {
                     Task.Delay(2500).Wait();
                     CheckErrorLog();
-                    TimeZoneMap.GetTimeZone(47, 13);
+                    TimeZoneMap.GetTimeZone(1, 1);
                 });
 
-                /*
-                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.GetAccounts) != Permission.Granted)
-                {
-                    if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.GetAccounts))
-                    {
-                        ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.GetAccounts }, 507);
-                    }
-                    else
-                    {
-                        ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.GetAccounts }, 507);
-                    }
-                }
-                //else
-                try
-                {
-                    //do some stuff
-                    List<String> emails = new List<string>();
-
-                    Account[] accounts = AccountManager.Get(this).GetAccounts();
-                    foreach (Account account in accounts)
-                    {
-                        emails.Add(account.Name);
-                    }
-
-                    Toast.MakeText(this, emails.ToString(), ToastLength.Long).Show();
-                } catch { }
-                */
                 BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
             }
             catch (Exception ex)
@@ -115,6 +89,7 @@ namespace iChronoMe.Droid
             {
                 ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation }, 2);
             }
+
             OnNavigationItemSelected(iNavigationItem);
         }
 
@@ -132,6 +107,20 @@ namespace iChronoMe.Droid
         {
             base.OnSaveInstanceState(outState);
             outState.PutInt("NavigationItem", iNavigationItem);
+            if (ActiveFragment != null)
+            {
+                var blFragment = new Bundle();
+                ActiveFragment.OnSaveInstanceState(blFragment);
+                outState.PutBundle("ActiveFragment", blFragment);
+            }
+        }
+
+        Bundle blRestoreFragment = null;
+        protected override void OnRestoreInstanceState(Bundle savedInstanceState)
+        {
+            base.OnRestoreInstanceState(savedInstanceState);
+            if (savedInstanceState != null)
+                blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
         }
 
         public override void OnBackPressed()
@@ -212,6 +201,9 @@ namespace iChronoMe.Droid
                 {
                     fr = new AboutFragment();
                 }
+                if (fr != null && blRestoreFragment != null)
+                    fr.OnViewStateRestored(blRestoreFragment);
+                blRestoreFragment = null;
 
                 RunOnUiThread(() =>
                 {

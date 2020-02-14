@@ -38,6 +38,10 @@
 	<string name="action_block">block</string>
 	<string name="action_close">close</string>
 	<string name="action_clear_cache">clear cache</string>
+	<string name="action_remove">remove</string>
+	<string name="action_remove_all">remove all</string>
+	<string name="action_search_location">search for location</string>
+	<string name="search_hint">the hint so search ;-)</string>
 
 	<string name="action_colors">colors</string>
 	<string name="action_background">background</string>
