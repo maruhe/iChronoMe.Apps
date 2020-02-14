@@ -208,8 +208,8 @@ namespace iChronoMe.Droid.Adapters
                         await Task.Delay(500);
                         break;
 
-                    case SystemTest.TimeZoneInfo:
-                        SetInfo(test, "check timezone...");
+                    case SystemTest.TimeZoneInfoOnline:
+                        SetInfo(test, "check timezone online...");
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
                         if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
@@ -258,6 +258,104 @@ namespace iChronoMe.Droid.Adapters
                             await Task.Delay(1500);
                         }
                         SetInfo(test, "timezone found: " + tiSys.DisplayName + ", GMT " + ti.gmtOffset.ToString("+#;-#;0") + " DST " + ti.dstOffset.ToString("+#;-#;0"));
+                        await Task.Delay(2500);
+                        break;
+
+                    case SystemTest.TimeZoneInfoOffline:
+                        SetInfo(test, "check timezone offline...");
+
+                        var ts = TimeZoneMap.ParserTest();
+                        if (ts == null)
+                        {
+                            SetInfo(test, "error parsing timezone-map...");
+                            cErrors.Add("error parsing timezone-map...");
+                            await Task.Delay(1500);
+                            break;
+                        }
+
+                        if (ts.Value.TotalSeconds > 10)
+                        {
+                            SetInfo(test, "parsing slow: "+ts.Value.TotalSeconds+"sec.");
+                            cErrors.Add("parsing slow: " + ts.Value.TotalSeconds + "sec.");
+                            await Task.Delay(1500);
+                        }
+                        else if (ts.Value.TotalSeconds < 3)
+                        {
+                            SetInfo(test, "parsing fast: " + ts.Value.TotalSeconds + "sec.");
+                            await Task.Delay(1500);
+                        }
+                        else
+                        {
+                            SetInfo(test, "parsing okay: " + ts.Value.TotalSeconds + "sec.");
+                            await Task.Delay(1500);
+                        }
+
+                        Random rnd = new Random();
+                        int iTzCount = 0;
+                        int iTzFound = 0;
+                        DateTime tStop = DateTime.Now.AddSeconds(3);
+                        while (DateTime.Now < tStop)
+                        {
+                            float lat = (float)rnd.Next(178000000) / 1000000 - 89;
+                            float lng = (float)rnd.Next(178000000) / 1000000 - 89;
+
+                            var tz = TimeZoneMap.GetTimeZone(lat, lng);
+                            iTzCount++;
+                            if (tz != null)
+                            {
+                                iTzFound++;
+                            }
+                        }
+                        SetInfo(test, string.Format("speedtest: {0:D} per sec, {1:D}% found", (int)(iTzCount / 3), iTzFound * 100 / iTzCount));
+                        await Task.Delay(1500);
+
+                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+                        if (lastLocation == null)
+                            lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+
+                        if (lastLocation == null)
+                        {
+                            SetInfo(test, "no location, no area...");
+                            cErrors.Add("no location, no area...");
+                            await Task.Delay(1500);
+                        }
+                        var ti2 = TimeZoneMap.GetTimeZone((float)lastLocation.Latitude, (float)lastLocation.Longitude);
+                        if (ti2 == null)
+                        {
+                            SetInfo(test, "unable to get timezone info...");
+                            cErrors.Add("unable to get timezone info...");
+                            await Task.Delay(1500);
+                            break;
+                        }
+
+                        var tiSys2 = TimeZoneInfo.FindSystemTimeZoneById(ti2.timezoneId);
+                        if (tiSys2 == null)
+                        {
+                            SetInfo(test, "no system-timezone found for " + ti2.timezoneId);
+                            cErrors.Add("no system-timezone found for " + ti2.timezoneId);
+                            await Task.Delay(1500);
+                            break;
+                        }
+
+                        var lth2 = LocationTimeHolder.NewInstanceOffline(lastLocation.Latitude, lastLocation.Longitude, ti2.timezoneId);
+                        var tsDiff2 = lth2.TimeZoneTime - DateTime.Now;
+                        long ticks2 = tsDiff2.Ticks;
+                        if (ticks2 < 0)
+                            ticks = ticks2 * -1;
+                        long offsetTicks2 = TimeHolder.mLastNtpDiff.Ticks;
+                        if (offsetTicks2 < 0)
+                            offsetTicks2 = offsetTicks2 * -1;
+                        long lthOffset2 = ticks2 - offsetTicks2;
+                        if (lthOffset2 < 0)
+                            lthOffset2 = lthOffset2 * -1;
+
+                        if (TimeSpan.FromTicks(lthOffset2) > TimeSpan.FromMinutes(5))
+                        {
+                            SetInfo(test, "timezone looks fine but offset is " + TimeSpan.FromTicks(lthOffset2));
+                            cErrors.Add("timezone looks fine but offset is " + TimeSpan.FromTicks(lthOffset2));
+                            await Task.Delay(1500);
+                        }
+                        SetInfo(test, "timezone found: " + tiSys2.DisplayName);//ToDO!! + ", GMT " + ti2.gmtOffset.ToString("+#;-#;0") + " DST " + ti2.dstOffset.ToString("+#;-#;0"));
                         await Task.Delay(2500);
                         break;
 
@@ -352,7 +450,8 @@ namespace iChronoMe.Droid.Adapters
         {
             LocationState,
             AreaInfo,
-            TimeZoneInfo,
+            TimeZoneInfoOnline,
+            TimeZoneInfoOffline,
             CalendarAccess,
             CalendarData
         }
