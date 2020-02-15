@@ -28,7 +28,7 @@ using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid
 {
-    [Service(Label = "Widget Update-Service", Exported = true)]
+    [Service(Label = "@string/label_BackgroundService", Exported = true)]
     public class BackgroundService : Service
     {
         public static WidgetUpdateThreadHolder updateHolder { get; private set; }
@@ -171,14 +171,14 @@ namespace iChronoMe.Droid
             if (Build.VERSION.SdkInt >= BuildVersionCodes.NMr1
                 || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
             {
-                Notification notification = GetForegroundNotification();
+                Notification notification = GetForegroundNotification(this.Resources.GetString(Resource.String.label_BackgroundService), this.Resources.GetString(Resource.String.description_BackgroundService));
                 // Enlist this instance of the service as a foreground service
                 StartForeground(101, notification);
                 bIsForeGround = true;
             }
         }
 
-        public Notification GetForegroundNotification(string cTitle = "Hintergrunddienst", string cText = "damit die Widges laufen..", WidgetCfgClickAction clickAction = WidgetCfgClickAction.OpenSettings)
+        public Notification GetForegroundNotification(string cTitle, string cText, WidgetCfgClickAction clickAction = WidgetCfgClickAction.OpenSettings)
         {
             string channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? createNotificationChannel() : null;
 
@@ -196,9 +196,9 @@ namespace iChronoMe.Droid
         private string createNotificationChannel()
         {
             var channelId = "widget_service";
-            var channelName = "Widget Update-Service";
+            var channelName = this.Resources.GetString(Resource.String.label_BackgroundService);
             var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Min);
-            chan.Description = "keeps the Clock-Widges going on :-)";
+            chan.Description = this.Resources.GetString(Resource.String.description_BackgroundService);
             chan.LightColor = Color.Blue;
             chan.LockscreenVisibility = NotificationVisibility.Private;
             var service = GetSystemService(NotificationService) as NotificationManager;
@@ -398,7 +398,7 @@ namespace iChronoMe.Droid
             iS.AddRange(appWidgetID2s);
             if ((cfgHolder.AllIds<WidgetCfg_ClockAnalog>().Length > 0 && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1) || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
             {
-                Notification notification = BackgroundService.currentService.GetForegroundNotification("Hintergrunddienst", sys.EzMzText(iS.Count, "Ein Widget aktiv", "{0} Widges aktiv", "keine Widges aktiv"), cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(-101).ClickAction);
+                Notification notification = BackgroundService.currentService.GetForegroundNotification(ctx.Resources.GetString(Resource.String.label_BackgroundService), sys.EzMzText(iS.Count, ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_one), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_more), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_zero)), cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(-101).ClickAction);
                 NotificationManager mNotificationManager = (NotificationManager)ctx.GetSystemService(Context.NotificationService);
                 mNotificationManager.Notify(101, notification);
 

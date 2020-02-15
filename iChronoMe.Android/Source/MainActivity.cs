@@ -254,8 +254,8 @@ namespace iChronoMe.Droid
                             RunOnUiThread(() =>
                             {
                                 new AlertDialog.Builder(this)
-                                    .SetTitle("letztes mal ging etwas schif oder die App ist abgestürzt!")
-                                    .SetMessage("dürfen Fehlerprotokolle übertragen werden, damit sowas gelöst werden kann?\ndiese Protokollen enthalten technische Parameter deines Geräts, aber natürlich keinerlei persönliche Informationen!")
+                                    .SetTitle(Resource.String.progress_senderrorlog_title)
+                                    .SetMessage(Resource.String.progress_senderrorlog_message)
                                     .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
                                     {
                                         AppConfigHolder.MainConfig.SendErrorLogs = true;
@@ -266,7 +266,7 @@ namespace iChronoMe.Droid
                                     {
                                         try { Directory.Delete(cErrorPath, true); } catch { };
                                     })
-                                    .SetNeutralButton("more info", (s, e) =>
+                                    .SetNeutralButton(Resource.String.progress_senderrorlog_more, (s, e) =>
                                     {
                                         var logDlg = new ErrorLogDlg();
                                         logDlg.OnDialogDismiss += LogDlg_OnDialogDismiss;

@@ -151,7 +151,7 @@ namespace iChronoMe.Droid
         public void ShowFirstStartAssistant()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle(base.Resources.GetString(Resource.String.firststart_welcome))
+                .SetTitle(base.Resources.GetString(Resource.String.welcome_ichronomy)+"\n"+ base.Resources.GetString(Resource.String.label_choose_default_timetype))
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
                 {
                     var tt = TimeType.RealSunTime;
@@ -315,7 +315,7 @@ namespace iChronoMe.Droid
             RunOnUiThread(() =>
             {
                 if (pDlg == null)
-                    StartProgress("just a moment...");
+                    StartProgress(Resources.GetString(Resource.String.just_a_moment));
                 pDlg.SetProgress(progress, max, cMessage);
             });
         }
@@ -348,7 +348,7 @@ namespace iChronoMe.Droid
                     Task.Delay(250).Wait();
                     RunOnUiThread(() =>
                     {
-                        new Android.Support.V7.App.AlertDialog.Builder(this).SetTitle("Error").SetMessage(cMessage).Create().Show();
+                        new Android.Support.V7.App.AlertDialog.Builder(this).SetTitle(Resources.GetString(Resource.String.label_error)).SetMessage(cMessage).Create().Show();
                     });
                 });
             });

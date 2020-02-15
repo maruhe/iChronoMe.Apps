@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+
 using Android.App;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Gms.Maps.Utils.Data.GeoJson;
 using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets;
+using Org.Json;
 using static iChronoMe.Core.Classes.GeoInfo;
 
 namespace iChronoMe.Droid.GUI
@@ -94,8 +97,7 @@ namespace iChronoMe.Droid.GUI
         {
             mGoogleMap = googleMap;
 
-            LatLng posisiabsen = new LatLng(47.2813, 13.7255); ////your lat lng
-            //mGoogleMap.AddMarker(new MarkerOptions() { Position = posisiabsen, Title = "Yout title");
+            LatLng posisiabsen = new LatLng(sys.lastUserLocation.Latitude, sys.lastUserLocation.Longitude);
             mGoogleMap.MoveCamera(CameraUpdateFactory.NewLatLng(posisiabsen));
 
             googleMap.UiSettings.ZoomControlsEnabled = true;
@@ -316,38 +318,69 @@ namespace iChronoMe.Droid.GUI
         private void DrawZonesOverlay()
         {
             var rnd = new Random();
+            var pDlg = ProgressDlg.NewInstance(Resources.GetString(Resource.String.progress_overlay_timezones_title));
+            pDlg.Show(mActivity.SupportFragmentManager, "geosjon");
 
-            Task.Factory.StartNew(async () =>
+            Task.Factory.StartNew(() =>
             {
+                xColor[] clrS = new xColor[] { xColor.MaterialAmber, xColor.MaterialBlue, xColor.MaterialBrown, xColor.MaterialCyan, xColor.MaterialDeepOrange, xColor.MaterialDeepPurple, xColor.MaterialGreen, xColor.MaterialGrey, xColor.MaterialIndigo, xColor.MaterialOrange, xColor.MaterialPink, xColor.MaterialRed };
+                try
+                {
+                    var cGeoJ = System.IO.File.ReadAllText(System.IO.Path.Combine(sys.PathData, "ne_10m_time_zones.geojson"));
+                    GeoJsonLayer layer = new GeoJsonLayer(mGoogleMap, new JSONObject(cGeoJ));
+
+                    foreach (GeoJsonFeature f in layer.Features.ToEnumerable())
+                    {
+                        f.PolygonStyle = new GeoJsonPolygonStyle
+                        {
+                            StrokeWidth = 2,
+                            StrokeColor = clrS[int.Parse(f.GetProperty("map_color6"))].ToAndroid(),
+                            FillColor = clrS[int.Parse(f.GetProperty("map_color8"))].WithAlpha(80).ToAndroid()
+                        };
+                    }
+
+                    //layer.FeatureClick += Layer_FeatureClick;
+                    mActivity.RunOnUiThread(() =>
+                    {
+                        layer.AddLayerToMap();
+                        pDlg.SetProgressDone();
+                    });
+                } catch (Exception ex)
+                {
+                    Tools.ShowMessage(Context, ex.GetType().Name, ex.Message);
+                    pDlg.SetProgressDone();
+                }
+                return;
+
                 int ip = 0;
                 foreach (var p in TimeZoneMap.timeZonePolygons.Keys)
                 {
                     try
                     {
-                        //if (!string.IsNullOrEmpty(TimeZoneMap.timeZonePolygons[p].timezoneId))
-                          //  continue;
 
                         List<PolygonOptions> mPolygonsTimezone = new List<PolygonOptions>();
 
                         ip++;
-                        //if (ip % 5 != 0)
-                          //  continue;
-                        //if (!p.Contains(new NetTopologySuite.Geometries.Point(markers[0].Position.Latitude, markers[0].Position.Longitude))
-                        //    && !p.Contains(new NetTopologySuite.Geometries.Point(markers[1].Position.Latitude, markers[1].Position.Longitude)))
-                        //continue;
 
                         var polygon1 = new PolygonOptions();
                         int i = 0;
                         foreach (var x in p.Coordinates)
                         {
                             i++;
-                            if (i % 3 == 0)
-                                polygon1.Add(new LatLng(x.X, x.Y));
+                            polygon1.Add(new LatLng(x.X, x.Y));
                         }
-                        polygon1.InvokeStrokeWidth(2f);
-                        polygon1.InvokeStrokeColor(Color.HotPink);
-                        polygon1.InvokeFillColor(Color.Transparent);// xColor.FromRgba(rnd.Next(200), rnd.Next(200), rnd.Next(200), 120).ToAndroid());
+
+                        var tz = TimeZoneMap.timeZonePolygons[p];
+
+                        //polygon1.InvokeStrokeWidth(2f);
+                        polygon1.InvokeStrokeColor(Color.Transparent);
+                        polygon1.InvokeFillColor(clrS[tz.Color6].WithAlpha(120).ToAndroid());
+                        if (string.IsNullOrEmpty(tz.timezoneId))
+                            polygon1.InvokeFillColor(xColor.Black.WithAlpha(120).ToAndroid());
                         mPolygonsTimezone.Add(polygon1);
+
+                        var polygon2 = new PolygonOptions();
+                        //polygon2.Add(new LatLng(tz.bo))
 
                         mActivity.RunOnUiThread(() =>
                         {
@@ -375,6 +408,11 @@ namespace iChronoMe.Droid.GUI
                     }
                 }
             });
+        }
+
+        private void Layer_FeatureClick(object sender, Android.Gms.Maps.Utils.Data.Layer.FeatureClickEventArgs e)
+        {
+            Tools.ShowToast(Context, e.P0.ToString());
         }
 
         private void DrawAreaCache()

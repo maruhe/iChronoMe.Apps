@@ -1,7 +1,32 @@
 <resources>
 	<string name="app_name" translatable="false">iChronoMe</string>
 	<string name="app_slogan">time is dynamic</string>
-	<string name="navigation_drawer_open">Open navigation drawer</string>
+
+	<string name="label_BackgroundService">Widget Update-Service</string>
+	<string name="description_BackgroundService">keeps the Clock-Widges going on</string>
+
+	<string name="label_ShortCutActivity">"short cut's"</string>
+
+    <string name="ezmz_runningwidgets_one">ein widget aktiv</string>
+	<string name="ezmz_runningwidgets_more">{0} widges aktiv</string>
+
+	<string name="unknown_position">unkwnown_position</string>
+	<string name="title_location_picker">select a location</string>
+
+	<string name="progress_clearcache_action">clear cache</string>
+	<string name="progress_clearcache_title">clear cache?</string>
+	<string name="progress_clearcache_message">you will have to restart iChronome after continue</string>
+
+	<string name="progress_systemtest_action">system test</string>
+	<string name="progress_systemtest_title">system test</string>
+
+	<string name="progress_overlay_timezones_title">preparing timezones...</string>
+
+    <string name="progress_senderrorlog_more">more information</string>
+
+	<string name="alert_no_calendar_found">no calendars found!</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 	<string name="action_settings">Settings</string>
 	<string name="action_options">Options</string>
@@ -28,6 +53,8 @@
 	<string name="action_continue">continue</string>
 	<string name="action_back">back</string>
 	<string name="action_more">more</string>
+	<string name="action_select">select</string>
+	<string name="action_cancel">cancel</string>
 	<string name="action_abort">abort</string>
 	<string name="action_ok">ok</string>
 	<string name="action_yes">yes</string>
@@ -43,6 +70,11 @@
 	<string name="action_search_location">search for location</string>
 	<string name="search_hint">the hint so search ;-)</string>
 
+	<string name="label_error">error</string>
+	<string name="label_errorlog">error log</string>
+	<string name="label_sceenshot">screenshot</string>
+	<string name="action_deny_error_screentshot">only error-logs without screenshots</string>
+
 	<string name="action_colors">colors</string>
 	<string name="action_background">background</string>
 	<string name="dont_ask_again">"don't ask again"</string>
@@ -50,7 +82,7 @@
 
 	<string name="menu_clock">Clock</string>
 	<string name="menu_calendar">Calendar</string>
-	<string name="menu_world_time_map">World Time Map</string>
+	<string name="menu_world_time_map">World-Time Map</string>
 	<string name="menu_tools">Tools</string>
 	<string name="menu_service">Service</string>
 	<string name="menu_share">Share</string>
@@ -64,10 +96,8 @@
 	<string name="widget_title_lifetime">lifetime</string>
 
 	<string name="TimeType">time-type</string>
-	<string name="firststart_welcome">
-		"welcome to iChronoMe!
-		please select your default Time-Type:"
-	</string>
+	<string name="welcome_ichronomy">"welcome to iChronoMe!"</string>
+	<string name="label_choose_default_timetype">"choose your default Time-Type:"</string>
 	<string name="TimeType_RealSunTime">real sun time</string>
 	<string name="TimeType_RealSunTime_Desc">
 		"the time, by the real position of the sun where the highest point of the sun means 12 o'clock\nthis means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is\nthe offset to timezone-time is changing every day"
@@ -126,6 +156,7 @@
 		<item>indicator</item>
 		<item>appointment</item>
 	</string-array>
+	<string name="calendar_monthview_appointmentdisplaymode_max_title">show maximal:</string>
 
 	<string-array name="calendar_monthview_appointmentdisplaycount">
 		<item>0</item>
@@ -212,5 +243,9 @@
 	<string name="No_Appointments">your are free</string>
 	<string name="NoSelectedDate">" no selected date"</string>
 	<string name="all_day">all day</string>
+    <string name="ezmz_runningwidgets_zero">no aktiv widget</string>
+    <string name="progress_senderrorlog_message">do you allow to send error-logs to help solving such problems? theese logs contain tecnical parameters of you device and as you allow a screenshot, but no other kind of personal information</string>
+    <string name="progress_senderrorlog_title">something got wrong or the App crashed last time</string>
+    <string name="question_create_new_calendar">you like to create a new Calendar?</string>
 
 </resources>

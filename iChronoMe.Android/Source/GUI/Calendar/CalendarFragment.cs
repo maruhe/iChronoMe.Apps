@@ -260,9 +260,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                 var def = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
                 if (def == null)
                 {
-                    if (await Tools.ShowYesNoMessage(Context, "Kein Calender gefunden", "sollen wir einen anlegen?"))
+                    if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
                     {
-                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = "iChronoMe" });
+                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = Resources.GetString(Resource.String.app_name) });
                     }
                     else
                         return;

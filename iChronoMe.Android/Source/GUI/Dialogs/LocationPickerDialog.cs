@@ -55,21 +55,20 @@ namespace iChronoMe.Droid.GUI.Dialogs
             try
             {
                 AlertDialog dialog = new AlertDialog.Builder(Context)
-                .SetTitle("Choose Location")
+                .SetTitle(Resource.String.title_location_picker)
                 .SetView(Resource.Layout.dialog_select_maplocation)
-                .SetPositiveButton("Select", (senderAlert, args) =>
+                .SetPositiveButton(Resource.String.action_select, (senderAlert, args) =>
                 {
                     dlgResult = new SelectPositionResult { Title = "", Latitude = nLatitude, Longitude = nLongitude };
                     tcsUI?.TrySetResult(true);
                 })
-                .SetNegativeButton("Cancel", (senderAlert, args) =>
+                .SetNegativeButton(Resource.String.action_cancel, (senderAlert, args) =>
                 {
                     tcsUI?.TrySetResult(false);
                 })
                 .Create();
                 dialog.Show();
                 mGoogleMap = null;
-
 
                 mMapView = (MapView)dialog.FindViewById(Resource.Id.mapView);
                 MapsInitializer.Initialize(Context);

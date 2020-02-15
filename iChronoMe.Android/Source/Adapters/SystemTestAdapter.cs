@@ -296,7 +296,7 @@ namespace iChronoMe.Droid.Adapters
                         DateTime tStop = DateTime.Now.AddSeconds(3);
                         while (DateTime.Now < tStop)
                         {
-                            float lat = (float)rnd.Next(178000000) / 1000000 - 89;
+                            float lat = (float)rnd.Next(88000000) / 1000000 - 44;
                             float lng = (float)rnd.Next(178000000) / 1000000 - 89;
 
                             var tz = TimeZoneMap.GetTimeZone(lat, lng);

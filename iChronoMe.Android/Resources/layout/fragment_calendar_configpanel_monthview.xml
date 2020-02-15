@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
-        android:text="MonthView:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
         android:text="@string/calendar_monthview_appointmentviewtypes_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -27,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView
-        android:text="max"
+        android:text="@string/calendar_monthview_appointmentdisplaymode_max_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Spinner

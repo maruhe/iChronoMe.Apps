@@ -14,7 +14,7 @@ namespace iChronoMe.Droid.Adapters
         List<SimpleObject> items;
         Activity mContext;
         bool IsSpinner;
-
+        
         public TimeTypeAdapter(Activity context, bool bIsSpinner = false) : base()
         {
             this.items = new List<SimpleObject>();

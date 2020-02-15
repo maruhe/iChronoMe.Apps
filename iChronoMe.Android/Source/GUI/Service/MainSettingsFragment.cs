@@ -54,7 +54,7 @@ namespace iChronoMe.Droid.GUI.Service
             listView.Adapter = adapter;
 
             AlertDialog dialog = new AlertDialog.Builder(Context)
-            .SetTitle("System-Test")
+            .SetTitle(Resource.String.progress_systemtest_title)
             .SetView(view)
             .SetNegativeButton(Resource.String.action_close, (senderAlert, args) =>
             {
@@ -67,14 +67,14 @@ namespace iChronoMe.Droid.GUI.Service
         private void btnClearCache_Click(object sender, EventArgs e)
         {
             new AlertDialog.Builder(Context)
-                .SetTitle("clear cache?")
-                .SetMessage("you will have to restart iChronome continue")
+                .SetTitle(Resource.String.progress_clearcache_title)
+                .SetMessage(Resource.String.progress_clearcache_message)
                 .SetPositiveButton(Resource.String.action_continue, (s, e) =>
                 {
                     db.dbAreaCache.Close();
                     try { Directory.Delete(sys.PathCache, true); } catch { };
                     Activity.MoveTaskToBack(true);
-                    Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+                    Process.KillProcess(Process.MyPid());
                     Java.Lang.JavaSystem.Exit(0);
                 })
                 .SetNegativeButton(Resource.String.action_abort, (s, e) => { })

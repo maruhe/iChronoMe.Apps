@@ -50,10 +50,9 @@
   <string name="widget_title_lifetime">Lebenszeit</string>
 
   <string name="TimeType">Zeit-Typ</string>
-  <string name="firststart_welcome">
-"willkommen bei iChronoMe!
-bitte wähle einen Zeit-Typ als Standard:"
-  </string>
+	<string name="welcome_ichronomy">willkommen bei iChronoMe!</string>
+	<string name="label_choose_default_timetype">"wähle einen Zeit-Typ als Standard:"</string>
+
   <string name="TimeType_RealSunTime">wahre Ortszeit</string>
   <string name="TimeType_RealSunTime_Desc">
 "die Uhrzeit gemessen an der echten Position der Sonne, wobei der Tageshöchststand der Sonne 12 Uhr bedeutet
@@ -115,7 +114,7 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
   <string name="action_location_type_promt">Wählen einen Standort:</string>
   <string name="action_location_type_live">aktueller Standort</string>
   <string name="action_location_type_static">feste Position</string>
-  <string name="action_select_location">Position erwählen</string>
+  <string name="action_select_location">Position wählen</string>
   <string name="label_title">Titel</string>
   <string-array name="label_locationtypes">
     <item>@string/action_location_type_live</item>
@@ -153,5 +152,37 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
     <string name="menu_service">Service</string>
     <string name="menu_settings">Einstellungen</string>
     <string name="menu_faq">FAQ</string>
+    <string name="action_cancel">abbrechen</string>
+  <string name="action_deny_error_screentshot">nur Fehlerberichten ohne Bilder</string>
+  <string name="action_refresh_location">Standord aktualisieren</string>
+  <string name="action_remove">entfernen</string>
+  <string name="action_remove_all">alle entfernen</string>
+  <string name="action_select">wählen</string>
+  <string name="action_search_location">Position suchen</string>
+  <string name="alert_no_calendar_found">keine Kalender gefunden!</string>
+  <string name="calendar_monthview_appointmentdisplaymode_max_title">maximal:</string>
+  <string name="description_BackgroundService">damit die Widges laufen..</string>
+  <string name="ezmz_runningwidgets_more">{0} Widgets aktiv</string>
+  <string name="ezmz_runningwidgets_one">Ein Widget aktiv</string>
+  <string name="ezmz_runningwidgets_zero">keine aktiven Widges</string>
+  <string name="label_BackgroundService">Widget Update-Dienst</string>
+  <string name="label_ShortCutActivity">short cut\'s</string>
+  <string name="label_error">Fehler</string>
+  <string name="label_errorlog">Fehlerprotokoll</string>
+  <string name="label_sceenshot">Screenshot</string>
+  <string name="menu_world_time_map">Welt-Zeit Karte</string>
+  <string name="progress_clearcache_action">Zwischenspeicher löschen</string>
+  <string name="progress_clearcache_title">Zwischenspeicher löschen</string>
+  <string name="progress_clearcache_message">anschließend kannst du iChronoMe einfach wieder starten</string>
+  <string name="progress_overlay_timezones_title">Zeitzonen werden aufbereitet</string>
+  <string name="progress_senderrorlog_message">dürfen Fehlerprotokolle übertragen werden, damit sowas gelöst werden kann? diese Protokollen enthalten technische Parameter deines Geräts und sofern du erlaubst einen Screenshot, aber sonst natürlich keinerlei persönliche Informationen!</string>
+  <string name="progress_senderrorlog_more">mehr Informationen</string>
+  <string name="progress_senderrorlog_title">letztes mal ging etwas schif oder die App ist abgestürzt!</string>
+  <string name="progress_systemtest_action">System-Test</string>
+  <string name="progress_systemtest_title">System-Test</string>
+  <string name="question_create_new_calendar">soll ein neuer Calendar angelegt werden?</string>
+  <string name="search_hint">wenn dieser Text auftaucht bitte bescheid geben ;-)</string>
+  <string name="title_location_picker">wähle eine Position</string>
+  <string name="unknown_position">unbekannte Position</string>
 
 </resources>
