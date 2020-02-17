@@ -58,6 +58,39 @@ namespace iChronoMe.Droid
             }
         }
 
+        public void LoadAppTheme()
+        {
+            try
+            {
+                string cThemeName = GetPreferences(FileCreationMode.Private).GetString("_user_theme", nameof(Resource.Style.Theme_iChronoMe_Dark));
+                int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
+                SetTheme(iThemeId);
+            } 
+            catch(Exception ex)
+            {
+                sys.LogException(ex);
+                SetTheme(Resource.Style.Theme_iChronoMe_Dark);
+            }
+        }
+
+        public async void ShowThemeSelector()
+        {
+            List<string> themes = new List<string>();
+            foreach (var prop in typeof(Resource.Style).GetFields())
+            {
+                if (prop.Name.StartsWith("Theme_iChronoMe_"))
+                    themes.Add(prop.Name);
+            }
+            var theme = await Tools.ShowSingleChoiseDlg(this, Resources.GetString(Resource.String.action_change_theme), themes.ToArray());
+            if (theme >= 0)
+            {
+                var editor = GetPreferences(FileCreationMode.Private).Edit();
+                editor.PutString("_user_theme", themes[theme]);
+                editor.Commit();
+                RunOnUiThread(() => Recreate());
+            }
+        }
+
         private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
         {
             var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);

@@ -233,8 +233,8 @@ namespace iChronoMe.Droid.GUI
                                 TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
                                 DateTime tAnimateFrom = lth.GetTime(this.TimeType);
                                 lth = LocationTimeHolder.LocalInstanceClone;
-                                nLastLatitude = lth.Latitude;//to prevent standard-Animation
-                                nLastLongitude = lth.Longitude;
+                                nLastLatitude = sel.Latitude;//to prevent standard-Animation
+                                nLastLongitude = sel.Longitude;
                                 lth.ChangePositionDelay(sel.Latitude, sel.Longitude, true, true);
                                 DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
                                 StartClockUpdates();
@@ -648,7 +648,7 @@ namespace iChronoMe.Droid.GUI
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
             //var icon = VectorDrawableCompat.Create(Activity.Resources, Resource.Drawable.icons8_alarm_3, Activity.Theme);
-            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, xColor.FromHex("#B3FFFFFF")));
+            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, xColor.FromHex("#FFFFFFFF")));
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
         }

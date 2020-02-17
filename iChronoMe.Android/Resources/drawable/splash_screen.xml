@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
   <item>
     <!-- color of spaces not covered by the image -->
-    <color android:color="@color/colorPrimary" />
+    <color android:color="@color/medDarkGray" />
   </item>
   <item>
     <!-- place the image in the center of the screen -->

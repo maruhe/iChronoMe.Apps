@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -39,8 +40,7 @@ namespace iChronoMe.Droid
 
             try
             {
-
-                SetTheme(Resource.Style.AppTheme_NoActionBar);
+                LoadAppTheme();
                 SetContentView(Resource.Layout.activity_main);
 
                 Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -203,6 +203,10 @@ namespace iChronoMe.Droid
                 {
                     fr = new AboutFragment();
                 }
+                else if (id == Resource.Id.nav_theme)
+                {
+                    ShowThemeSelector();
+                }
                 if (fr != null && blRestoreFragment != null)
                     fr.OnViewStateRestored(blRestoreFragment);
                 blRestoreFragment = null;
@@ -211,9 +215,9 @@ namespace iChronoMe.Droid
                 {
                     try
                     {
-                        iNavigationItem = id;
                         if (fr != null)
                         {
+                            iNavigationItem = id;
                             SupportFragmentManager.BeginTransaction()
                             .Replace(Resource.Id.main_frame, fr)
                             .Commit();
@@ -222,7 +226,6 @@ namespace iChronoMe.Droid
 
                         DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
                         drawer.CloseDrawer(GravityCompat.Start);
-
                     }
                     catch { }
                 });

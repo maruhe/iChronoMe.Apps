@@ -33,7 +33,7 @@
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 	<string name="action_settings">Settings</string>
 	<string name="action_options">Options</string>
-
+	<string name="action_change_theme">change theme</string>
 	<string name="widget_loading">time is just illusion\u2026</string>
 	<string name="widget_unconfigured">click here to configure the widget</string>
 	<string name="widget_permission_error">I need some permissions, click here please</string>

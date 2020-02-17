@@ -14,7 +14,7 @@ namespace iChronoMe.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            SetTheme(Resource.Style.AppTheme_NoActionBar);
+            LoadAppTheme();
             SetContentView(Resource.Layout.activity_main);
 
             Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);

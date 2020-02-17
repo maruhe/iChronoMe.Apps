@@ -29,8 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
-            app:srcCompat="@drawable/real_sun_time"
+        <ImageView
+            android:src="@drawable/real_sun_time"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 
@@ -55,9 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
-            app:srcCompat="@drawable/middle_sun_time"
-            android:tint="@color/iconTint"
+        <ImageView
+            android:src="@drawable/middle_sun_time"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 
@@ -82,10 +81,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/img_timezone"
-            app:srcCompat="@drawable/icons8_timezone_0"
-            android:tint="@color/iconTint"
+            android:src="@drawable/icons8_timezone_0"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 

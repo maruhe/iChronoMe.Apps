@@ -68,7 +68,10 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\BuzzerManager.cs" />
     <Compile Include="Source\DrawableHelper.cs" />
+    <Compile Include="Source\GUI\Buzzer\BuzzerClockReceiverActivity.cs" />
+    <Compile Include="Source\GUI\Buzzer\BuzzerManagerActivity.cs" />
     <Compile Include="Source\IOUtil.cs" />
     <Compile Include="Source\Adapters\SystemTestAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarListAdapter.cs" />
@@ -138,7 +141,6 @@
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
-    <AndroidResource Include="Resources\values-v21\styles.xml" />
     <AndroidResource Include="Resources\drawable\side_nav_bar.xml" />
     <AndroidResource Include="Resources\drawable-v21\ic_menu_camera.xml" />
     <AndroidResource Include="Resources\drawable-v21\ic_menu_gallery.xml" />
@@ -525,9 +527,6 @@
     <AndroidResource Include="Resources\drawable-v21\icons8_timezone_globe.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_timezone_m.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_timezone_m1.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -829,6 +828,17 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_view_quilt.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_buzzer_receiver.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\themes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\values-v21\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
