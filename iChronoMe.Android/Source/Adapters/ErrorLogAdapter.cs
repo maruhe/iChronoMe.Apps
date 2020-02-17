@@ -17,26 +17,28 @@ namespace iChronoMe.Droid.Adapters
         public ErrorLogAdapter(Activity context) : base()
         {
             mContext = context;
-
-            var logS = Directory.GetFiles(sys.ErrorLogPath);
-
             Items = new List<SimpleObject>();
+
+            var logS = new List<string>(Directory.GetFiles(sys.ErrorLogPath));
+            logS.Sort();
+            
             foreach (string log in logS)
             {
                 string cTitle = Path.GetFileNameWithoutExtension(log);
                 int iIcon = -1;
-                if (log.EndsWith(".log"))
-                {
-                    iIcon = Resource.Drawable.icons8_delete;
-                    cTitle = mContext.Resources.GetString(Resource.String.label_errorlog) + " " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
-                }
-                else if (log.EndsWith(".png"))
+                if (log.EndsWith(".png"))
                 {
                     iIcon = Resource.Drawable.icons8_edit;
                     cTitle = mContext.Resources.GetString(Resource.String.label_sceenshot) + " " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
                 }
+                else
+                {
+                    iIcon = Resource.Drawable.icons8_delete;
+                    cTitle = mContext.Resources.GetString(Resource.String.label_errorlog) + " " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
+                }
 
-                this.Items.Add(new SimpleObject() { Tag = log, IconRes = iIcon, Title1 = cTitle });
+                if (!log.EndsWith(".png") || !AppConfigHolder.MainConfig.DenyErrorScreens)
+                    this.Items.Add(new SimpleObject() { Tag = log, IconRes = iIcon, Title1 = cTitle });
             }
         }
 

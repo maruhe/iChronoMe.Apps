@@ -34,6 +34,10 @@ namespace iChronoMe.Droid.GUI.Service
             binder.BindViewProperty(Resource.Id.sp_calendar_timetype, nameof(Spinner.Visibility), cfg, nameof(MasterConfigViewModel.CalendarUseOwnTimeType), BindMode.OneWay);
             binder.BindViewProperty(Resource.Id.cb_notification_showalways, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.AlwaysShowForegroundNotification), BindMode.TwoWay);
 
+            binder.BindViewProperty(Resource.Id.cb_send_error_logs, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.SendErrorLogs), BindMode.TwoWay);
+            binder.BindViewProperty(Resource.Id.cb_deny_error_screens, nameof(CheckBox.Visibility), cfg, nameof(MasterConfigViewModel.SendErrorLogs), BindMode.TwoWay);
+            binder.BindViewProperty(Resource.Id.cb_deny_error_screens, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.DenyErrorScreens), BindMode.TwoWay);
+
             RootView.FindViewById<Spinner>(Resource.Id.sp_default_timetype).Adapter = new TimeTypeAdapter(Activity, true);
             RootView.FindViewById<Spinner>(Resource.Id.sp_calendar_timetype).Adapter = new TimeTypeAdapter(Activity, true);
 

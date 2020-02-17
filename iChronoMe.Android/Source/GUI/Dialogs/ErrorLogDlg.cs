@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
-
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
@@ -8,7 +11,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
-
+using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Adapters;
 
 namespace iChronoMe.Droid.GUI.Dialogs
@@ -22,9 +25,12 @@ namespace iChronoMe.Droid.GUI.Dialogs
             {
                 adapter = new ErrorLogAdapter(Activity);
                 AlertDialog dialog = new AlertDialog.Builder(Context)
-                .SetTitle("Error-Logs")
+                .SetTitle(Resource.String.title_send_errorlog)
                 .SetSingleChoiceItems(adapter, 0, ItemClicked)
-                .SetNegativeButton(Resource.String.action_close, (s, e) => { })
+                .SetPositiveButton(Resource.String.action_send_errorlog_once, (s, e) => { SendLogs(); })
+                .SetNegativeButton(Resource.String.action_close, (s, e) => {
+                    OnDialogCancel?.Invoke(e, new EventArgs());
+                })
                 .Create();
                 dialog.Show();
 
@@ -74,13 +80,53 @@ namespace iChronoMe.Droid.GUI.Dialogs
             }
         }
 
-        public event EventHandler OnDialogDismiss;
+        public event EventHandler OnDialogCancel;
 
-        public override void OnDismiss(IDialogInterface dialog)
+        public override void OnCancel(IDialogInterface dialog)
         {
-            base.OnDismiss(dialog);
+            base.OnCancel(dialog);
+            OnDialogCancel?.Invoke(dialog, new EventArgs());
+        }
 
-            OnDialogDismiss?.Invoke(dialog, new EventArgs());
+        public static void SendLogs()
+        {
+            string cErrorPath = sys.ErrorLogPath;
+
+            if (Directory.Exists(cErrorPath))
+            {
+
+                new Thread(async () =>
+                {
+                    var logS = Directory.GetFiles(cErrorPath);
+                    string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
+#if DEBUG
+                    cUrl += "&debug";
+#endif
+                    foreach (string log in logS)
+                    {
+                        try
+                        {
+                            if (!log.EndsWith(".png") || !AppConfigHolder.MainConfig.DenyErrorScreens)
+                            {
+                                string cFileUrl = cUrl + "&title=" + WebUtility.UrlEncode(System.IO.Path.GetFileName(log));
+                                HttpClient client = new HttpClient();
+                                HttpContent content = new StreamContent(new FileStream(log, FileMode.Open));// log.EndsWith(".png") ? (HttpContent)new StreamContent(new FileStream(log, FileMode.Open)) : (HttpContent)new StringContent(File.ReadAllText(log));
+                                HttpResponseMessage response = await client.PutAsync(cFileUrl, content);
+                                string result = await response.Content.ReadAsStringAsync();
+                            }
+                            File.Delete(log);
+
+                            await Task.Delay(50);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.ToString();
+                        }
+                    }
+
+                    Directory.Delete(cErrorPath, true);
+                }).Start();
+            }
         }
     }
 }

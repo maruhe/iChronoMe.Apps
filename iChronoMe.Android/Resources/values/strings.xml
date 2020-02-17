@@ -71,11 +71,15 @@
 	<string name="search_hint">the hint so search ;-)</string>
 
 	<string name="action_send_testlog">send log</string>
+	
+	<string name="action_send_errorlog_once">send this time</string>
+	<string name="title_send_errorlog">these informations will be send:</string>
 
 	<string name="label_error">error</string>
 	<string name="label_errorlog">error log</string>
 	<string name="label_sceenshot">screenshot</string>
 	<string name="action_deny_error_screentshot">only error-logs without screenshots</string>
+	<string name="action_allow_send_errorlogs">allow sending error-logs</string>
 
 	<string name="action_colors">colors</string>
 	<string name="action_background">background</string>

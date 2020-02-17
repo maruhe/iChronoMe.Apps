@@ -177,7 +177,7 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
   <string name="progress_overlay_timezones_title">Zeitzonen werden aufbereitet</string>
   <string name="progress_senderrorlog_message">dürfen Fehlerprotokolle übertragen werden, damit sowas gelöst werden kann? diese Protokollen enthalten technische Parameter deines Geräts und sofern du erlaubst einen Screenshot, aber sonst natürlich keinerlei persönliche Informationen!</string>
   <string name="progress_senderrorlog_more">mehr Informationen</string>
-  <string name="progress_senderrorlog_title">letztes mal ging etwas schif oder die App ist abgestürzt!</string>
+  <string name="progress_senderrorlog_title">letztes mal ging etwas schief oder die App ist abgestürzt!</string>
   <string name="progress_systemtest_action">System-Test</string>
   <string name="progress_systemtest_title">System-Test</string>
   <string name="question_create_new_calendar">soll ein neuer Calendar angelegt werden?</string>

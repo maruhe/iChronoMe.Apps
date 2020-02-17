@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
-
+using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
@@ -67,6 +68,7 @@ namespace iChronoMe.Droid
                     Task.Delay(2500).Wait();
                     CheckErrorLog();
                     TimeZoneMap.GetTimeZone(1, 1);
+                    //sys.DebugLogException(new Exception("lalaaa"));
                 });
 
                 BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
@@ -253,14 +255,19 @@ namespace iChronoMe.Droid
                         {
                             RunOnUiThread(() =>
                             {
+                                var cb = new CheckBox(this);
+                                cb.SetText(Resource.String.action_deny_error_screentshot);
+                                cb.Checked = AppConfigHolder.MainConfig.DenyErrorScreens;
+                                cb.CheckedChange += Cb_CheckedChange;
                                 new AlertDialog.Builder(this)
                                     .SetTitle(Resource.String.progress_senderrorlog_title)
                                     .SetMessage(Resource.String.progress_senderrorlog_message)
+                                    .SetView(cb)
                                     .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
                                     {
                                         AppConfigHolder.MainConfig.SendErrorLogs = true;
                                         AppConfigHolder.SaveMainConfig();
-                                        CheckErrorLog();
+                                        ErrorLogDlg.SendLogs();
                                     })
                                     .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                                     {
@@ -269,7 +276,7 @@ namespace iChronoMe.Droid
                                     .SetNeutralButton(Resource.String.progress_senderrorlog_more, (s, e) =>
                                     {
                                         var logDlg = new ErrorLogDlg();
-                                        logDlg.OnDialogDismiss += LogDlg_OnDialogDismiss;
+                                        logDlg.OnDialogCancel += LogDlg_OnDialogCancel;
                                         logDlg.Show(SupportFragmentManager, "");
                                     })
                                     .Create().Show();
@@ -277,33 +284,7 @@ namespace iChronoMe.Droid
                             return;
                         }
 
-                        new Thread(async () =>
-                        {
-                            string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
-#if DEBUG
-                            cUrl += "&debug";
-#endif
-                            foreach (string log in logS)
-                            {
-                                try
-                                {
-                                    HttpClient client = new HttpClient();
-                                    HttpContent content = new StringContent(File.ReadAllText(log));
-                                    HttpResponseMessage response = await client.PutAsync(cUrl, content);
-                                    string result = await response.Content.ReadAsStringAsync();
-
-                                    File.Delete(log);
-
-                                    await Task.Delay(50);
-                                }
-                                catch (Exception ex)
-                                {
-                                    ex.ToString();
-                                }
-                            }
-
-                            Directory.Delete(cErrorPath, true);
-                        }).Start();
+                        ErrorLogDlg.SendLogs();
                     }
                 }
                 catch (Exception e)
@@ -313,9 +294,15 @@ namespace iChronoMe.Droid
             }
         }
 
-        private void LogDlg_OnDialogDismiss(object sender, EventArgs e)
+        private void LogDlg_OnDialogCancel(object sender, EventArgs e)
         {
             CheckErrorLog();
+        }
+
+        private void Cb_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            AppConfigHolder.MainConfig.DenyErrorScreens = e.IsChecked;
+            AppConfigHolder.SaveMainConfig();
         }
 
         protected override void OnDestroy()

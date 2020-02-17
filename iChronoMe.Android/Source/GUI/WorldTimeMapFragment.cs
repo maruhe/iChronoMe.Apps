@@ -414,15 +414,15 @@ namespace iChronoMe.Droid.GUI
 
         static void RemoveAllItems()
         {
-            foreach (var wt in wtItems.Values)
+            foreach (var wt in wtItems?.Values)
             {
                 wt.Stop();
                 wt.Dispose();
             }
-            wtItems.Clear();
-            markers.Clear();
-            llInfoLayout.RemoveAllViews();
-            mGoogleMap.Clear();
+            wtItems?.Clear();
+            markers?.Clear();
+            llInfoLayout?.RemoveAllViews();
+            mGoogleMap?.Clear();
         }
 
         private void DrawZonesOverlay()
@@ -775,7 +775,7 @@ namespace iChronoMe.Droid.GUI
 
             public void Stop()
             {
-                lth.StopTimeChangedHandler(this);
+                lth?.StopTimeChangedHandler(this);
             }
 
             public void Update()
