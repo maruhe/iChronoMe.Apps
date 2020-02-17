@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/item_posicon"
-                    android:src="@drawable/icons8_sun_white"
+                    android:src="@drawable/icons8_sun_18"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="4dp"
@@ -130,7 +130,7 @@
     <ImageView
         android:id="@+id/img_sun_controlled"
         android:visibility="visible"
-        android:background="@drawable/icons8_summer"
+        android:background="@drawable/real_sun_time"
         android:layout_alignParentRight="true"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="4dp"

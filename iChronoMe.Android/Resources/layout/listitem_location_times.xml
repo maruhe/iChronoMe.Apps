@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="5dp"
     android:orientation="vertical"
     android:clickable="true"
@@ -28,8 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:src="@drawable/real_sun_time"
+        <android.support.v7.widget.AppCompatImageView
+            app:srcCompat="@drawable/real_sun_time"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 
@@ -54,8 +55,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:src="@drawable/middle_sun_time"
+        <android.support.v7.widget.AppCompatImageView
+            app:srcCompat="@drawable/middle_sun_time"
+            android:tint="@color/iconTint"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 
@@ -80,9 +82,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/img_timezone"
-            android:src="@drawable/icons8_timezone_0"
+            app:srcCompat="@drawable/icons8_timezone_0"
+            android:tint="@color/iconTint"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 

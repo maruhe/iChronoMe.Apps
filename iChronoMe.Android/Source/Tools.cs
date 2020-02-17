@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views.InputMethods;
 using Android.Widget;
-
+using iChronoMe.Core;
+using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 
 using Java.Lang;
@@ -254,6 +256,35 @@ namespace iChronoMe.Droid
             catch { }
             return null;
         }
+
+        public static Bitmap GetTimeTypeIcon(Context ctx, TimeType tType, LocationTimeHolder lth = null, float nSizeDp = 24, string color = "#FFFFFFFF")
+        {
+            return DrawableHelper.GetIconBitmap(ctx, GetTimeTypeIconName(tType, lth), nSizeDp, xColor.FromHex(color));
+        }
+
+        public static int GetTimeTypeIconID(TimeType tType, LocationTimeHolder lth = null)
+        {
+            return (int)typeof(Resource.Drawable).GetField(GetTimeTypeIconName(tType, lth)).GetValue(null);
+        }
+
+        public static string GetTimeTypeIconName(TimeType tType, LocationTimeHolder lth = null)
+        {
+            if (lth == null)
+                lth = LocationTimeHolder.LocalInstance;
+            switch (tType)
+            {
+                case TimeType.RealSunTime:
+                    return "real_sun_time";                    
+                case TimeType.MiddleSunTime:
+                    return "middle_sun_time";
+                case TimeType.TimeZoneTime:
+                    return "icons8_timezone_" + ((int)lth.TimeZoneOffset).ToString().Replace("-", "m");
+                case TimeType.UtcTime:
+                    return "icons8_timezone_globe";
+            }
+            return "";
+        }
+
 
         private class myDialogCancelListener<T> : Java.Lang.Object, IDialogInterfaceOnCancelListener
         {

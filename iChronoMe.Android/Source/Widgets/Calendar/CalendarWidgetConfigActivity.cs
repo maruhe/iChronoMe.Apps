@@ -24,37 +24,12 @@ namespace iChronoMe.Droid.Widgets.Calendar
     [Activity(Label = "CalendarWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     public class CalendarWidgetConfigActivity : BaseWidgetActivity
     {
-        public int appWidgetId = -1;
         DynamicCalendarModel CalendarModel;
         EventCollection myEventsMonth;
         EventCollection myEventsList;
-        Drawable wallpaperDrawable;
         AlertDialog pDlg;
         List<WidgetCfg_Calendar> DeletedWidgets = new List<WidgetCfg_Calendar>();
         WidgetConfigHolder holder;
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            Intent launchIntent = Intent;
-            Bundle extras = launchIntent.Extras;
-
-            if (extras != null)
-            {
-                appWidgetId = extras.GetInt(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
-                Intent resultValue = new Intent();
-                resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
-                resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-                SetResult(Result.Canceled, resultValue);
-            }
-            if (appWidgetId < 0)
-            {
-                Toast.MakeText(this, "Fehlerhafte Parameter!", ToastLength.Long).Show();
-                FinishAndRemoveTask();
-                return;
-            }
-        }
 
         bool bPermissionTryed = false;
 
@@ -95,7 +70,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     progressBar.Indeterminate = true;
                     pDlg = new AlertDialog.Builder(this)
                         .SetCancelable(false)
-                        .SetTitle("Daten werden aufbereitet...")
+                        .SetTitle(Resource.String.progress_preparing_data)
                         .SetView(progressBar)
                         .Create();
                     pDlg.Show();
@@ -154,30 +129,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         sys.LogException(ex);
                     }
 
-                    try
-                    {
-                        WallpaperManager wpMgr = WallpaperManager.GetInstance(this);
-                        wallpaperDrawable = wpMgr.FastDrawable;
-                        wpMgr.Dispose();
-                    }
-                    catch (System.Exception ex)
-                    {
-                        try
-                        {
-                            WallpaperManager wpMgr = WallpaperManager.GetInstance(this);
-                            wallpaperDrawable = wpMgr.BuiltInDrawable;
-                            wpMgr.Dispose();
-                        }
-                        catch (System.Exception ex2)
-                        {
-                            ex2.ToString();
-                        }
-
-                        ex.ToString();
-                    }
-
-                    if (wallpaperDrawable == null)
-                        wallpaperDrawable = Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, Theme);
+                    TryGetWallpaper();
 
                     myEventsMonth = new EventCollection();
 
@@ -202,20 +154,6 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     ShowExitMessage(ex.Message);
                 }
             });
-        }
-
-        private void ShowExitMessage(string cMessage)
-        {
-            var alert = new AlertDialog.Builder(this)
-               .SetMessage(cMessage)
-               .SetCancelable(false);
-            alert.SetPositiveButton("OK", (senderAlert, args) =>
-            {
-                (senderAlert as Dialog).Dismiss();
-                FinishAndRemoveTask();
-            });
-
-            alert.Show();
         }
 
         private void ShowWidgetTypeSelector()

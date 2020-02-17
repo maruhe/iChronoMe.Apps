@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget"    
     android:layout_width="match_parent"
@@ -149,21 +149,21 @@
 
         <ImageView
             android:id="@+id/btn_config"            
-            android:src="@drawable/icons8_services_white"
+            android:src="@drawable/icons8_services"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <ImageView
             android:id="@+id/btn_refresh"                    
-            android:src="@drawable/icons8_refresh_white"
+            android:src="@drawable/icons8_refresh"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <ImageView
             android:id="@+id/btn_add_event"
-            android:src="@drawable/icons8_add_white"
+            android:src="@drawable/icons8_add"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
             android:layout_width="40dp"

@@ -22,30 +22,6 @@ namespace iChronoMe.Droid.Widgets.Lifetime
     
     public class LifetimeWidgetConfigActivity : BaseWidgetActivity
     {
-        int appWidgetId;
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            Intent launchIntent = Intent;
-            Bundle extras = launchIntent.Extras;
-
-            if (extras != null)
-            {
-                appWidgetId = extras.GetInt(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
-                Intent cancelResultValue = new Intent();
-                cancelResultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-                SetResult(Result.Canceled, cancelResultValue);
-            }
-            else
-            {
-                Toast.MakeText(this, "Fehlerhafte Parameter!", ToastLength.Long).Show();
-                Finish();
-                return;
-            }
-        }
-
         protected override void OnResume()
         {
             base.OnResume();

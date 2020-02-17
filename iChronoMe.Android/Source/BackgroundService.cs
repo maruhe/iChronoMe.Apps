@@ -865,7 +865,7 @@ namespace iChronoMe.Droid
                 updateViews.SetImageViewBitmap(Resource.Id.background_color, bmpBackgroundColor);
                 updateViews.SetImageViewUri(Resource.Id.background_image, uBackgroundImage);
 
-                updateViews.SetImageViewResource(Resource.Id.time_switcher, MainWidgetBase.GetTimeTypeIcon(tType, lth));
+                updateViews.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(ctx, tType, lth, 32, cfg.ColorTitleText.HexString));
 
                 if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
                 {

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-
+using Android;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
@@ -16,41 +18,61 @@ namespace iChronoMe.Droid.Widgets.Clock
     [Activity(Label = "AnalogClockWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     public class AnalogClockWidgetConfigActivity : BaseWidgetActivity
     {
-        public int appWidgetId = -1;
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            Intent launchIntent = Intent;
-            Bundle extras = launchIntent.Extras;
-
-            if (extras != null)
-            {
-                appWidgetId = extras.GetInt(AppWidgetManager.ExtraAppwidgetId, AppWidgetManager.InvalidAppwidgetId);
-                Intent resultValue = new Intent();
-                resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
-                resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-                SetResult(Result.Canceled, resultValue);
-            }
-            if (appWidgetId < 0)
-            {
-                Toast.MakeText(this, "Fehlerhafte Parameter!", ToastLength.Long).Show();
-                FinishAndRemoveTask();
-                return;
-            }
-        }
-
+        AlertDialog pDlg;
+        
         protected override void OnResume()
         {
             base.OnResume();
             if (NeedsStartAssistant())
                 ShowStartAssistant();
             else
-                StartWidgetConfig();
+            {
+                var progressBar = new ProgressBar(this);
+                progressBar.Indeterminate = true;
+                pDlg = new AlertDialog.Builder(this)
+                    .SetCancelable(false)
+                    .SetTitle(Resource.String.progress_preparing_data)
+                    .SetView(progressBar)
+                    .Create();
+                pDlg.Show();
+
+                StartWidgetSelection();
+            }
         }
 
-        public void StartWidgetConfig()
+        System.Drawing.Point wSize = new System.Drawing.Point(100, 100);
+
+        void StartWidgetSelection()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    Task.Delay(100).Wait();
+
+
+                    if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
+                    {
+                        //RunOnUiThread(() => ShowExitMessage("Die Widget's funktionieren (aktuell) nur mit Standort-Zugriff!"));
+                        //return;
+                    }
+
+                    TryGetWallpaper();
+
+                    RunOnUiThread(() =>
+                    {
+                        ShowWidgetTypeSelector();
+                        pDlg.Dismiss();
+                    });
+                }
+                catch (System.Exception ex)
+                {
+                    ShowExitMessage(ex.Message);
+                }
+            });
+        }
+
+        private void ShowWidgetTypeSelector()
         {
             var holder = new WidgetConfigHolder();
             if (false && holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
@@ -64,7 +86,7 @@ namespace iChronoMe.Droid.Widgets.Clock
                 if (holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
                     tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase);
                 var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId);
-                var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this, null);
+                var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this, wallpaperDrawable);
                 Task.Factory.StartNew(async () =>
                 {
                     try

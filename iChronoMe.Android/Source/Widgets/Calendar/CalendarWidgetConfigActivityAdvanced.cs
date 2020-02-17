@@ -25,7 +25,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             }
             else
             {
-                Toast.MakeText(this, "Fehlerhafte Parameter!", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.error_message_paramers, ToastLength.Long).Show();
                 FinishAndRemoveTask();
                 return;
             }

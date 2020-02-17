@@ -145,6 +145,9 @@ namespace iChronoMe.Droid.GUI
             popup.Menu.Add(0, 1, 0, Resource.String.action_refresh_location);
             popup.Menu.Add(0, 2, 0, Resource.String.action_select_location);
 
+            string clr = xColor.FromUint((uint)lTimeInfo1.CurrentTextColor).HexString;
+            clr.ToString();
+
             popup.MenuItemClick += (s, e) =>
             {
                 if (e.Item.ItemId == 1)
@@ -314,7 +317,7 @@ namespace iChronoMe.Droid.GUI
             foreach (TimeType tt in menu)
             {
                 var fab = new FloatingActionButton(mContext);
-                fab.SetImageResource(MainWidgetBase.GetTimeTypeIcon(tt, lth));
+                fab.SetImageResource(Tools.GetTimeTypeIconID(tt, lth));
                 fab.Tag = new Java.Lang.String(tt.ToString());
                 fab.Click += FabMenu_Click;
                 coordinator.AddView(fab, lp);
@@ -458,7 +461,7 @@ namespace iChronoMe.Droid.GUI
                 }
                 nLastLatitude = lth.Latitude;
                 nLastLongitude = lth.Longitude;
-                imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
+                imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
                 lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
                 if (lth.Latitude == 0 && lth.Longitude == 0)
                     lGeoPos.Text = Resources.GetString(Resource.String.unknown_position);
@@ -570,7 +573,7 @@ namespace iChronoMe.Droid.GUI
                 lth.AreaChanged += Lth_AreaChanged;
                 Lth_AreaChanged(null, null);
 
-                mContext.RunOnUiThread(() => fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(this.TimeType, lth)));
+                mContext.RunOnUiThread(() => fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth)));
 
                 lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
                 { 
@@ -645,7 +648,7 @@ namespace iChronoMe.Droid.GUI
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
             //var icon = VectorDrawableCompat.Create(Activity.Resources, Resource.Drawable.icons8_alarm_3, Activity.Theme);
-            item.SetIcon(Resource.Drawable.icons8_view_quilt);
+            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, xColor.FromHex("#B3FFFFFF")));
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
         }

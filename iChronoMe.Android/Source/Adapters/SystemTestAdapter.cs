@@ -75,11 +75,11 @@ namespace iChronoMe.Droid.Adapters
                     {
                         icon.Visibility = ViewStates.Visible;
                         progress.Visibility = ViewStates.Gone;
-                        int imgRes = Resource.Drawable.icons8_summer;
+                        int imgRes = Resource.Drawable.real_sun_time;
                         if (status == TestStatus.OK)
-                            imgRes = Resource.Drawable.icons8_add_green;
+                            imgRes = Resource.Drawable.icons8_approval;
                         else if (status == TestStatus.Error)
-                            imgRes = Resource.Drawable.icons8_delete;
+                            imgRes = Resource.Drawable.icons8_error;
                         icon.SetImageResource(imgRes);
                     }
                 }

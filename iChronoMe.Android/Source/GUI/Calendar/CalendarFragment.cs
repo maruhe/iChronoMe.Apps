@@ -237,7 +237,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
-            mContext.RunOnUiThread(() => fabTimeType.SetImageResource(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance)));
+            mContext.RunOnUiThread(() => fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(calEvents.timeType, LocationTimeHolder.LocalInstance)));
             if (!bPermissionCheckOk)
                 return;
             if (tVon != null)
@@ -293,30 +293,30 @@ namespace iChronoMe.Droid.GUI.Calendar
             try
             {
                 var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
-                item.SetIcon(Resource.Drawable.icons8_view_quilt);
+                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, xColor.FromHex("#B3FFFFFF")));
                 item.SetShowAsAction(ShowAsAction.Always);
                 item.SetOnMenuItemClickListener(this);
 
                 /*var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
-                sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(calEvents.timeType, LocationTimeHolder.LocalInstance));
+                sub.SetIcon(Tools.GetTimeTypeIconID(calEvents.timeType, LocationTimeHolder.LocalInstance));
                 sub.Item.SetShowAsAction(ShowAsAction.Always);
 
                 if (calEvents.timeType != TimeType.RealSunTime)
                 {
                     item = sub.Add(0, menu_typetype_RealSunTime, 0, Resources.GetString(Resource.String.TimeType_RealSunTime));
-                    item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
+                    item.SetIcon(Tools.GetTimeTypeIconID(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
                     item.SetOnMenuItemClickListener(this);
                 }
                 if (calEvents.timeType != TimeType.MiddleSunTime)
                 {
                     item = sub.Add(0, menu_typetype_MiddleSunTime, 0, Resources.GetString(Resource.String.TimeType_MiddleSunTime));
-                    item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
+                    item.SetIcon(Tools.GetTimeTypeIconID(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
                     item.SetOnMenuItemClickListener(this);
                 }
                 if (calEvents.timeType != TimeType.TimeZoneTime)
                 {
                     item = sub.Add(0, menu_typetype_TimeZoneTime, 0, Resources.GetString(Resource.String.TimeType_TimeZoneTime));
-                    item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
+                    item.SetIcon(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
                     item.SetOnMenuItemClickListener(this);
                 }
                 */
@@ -598,7 +598,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             foreach (TimeType tt in menu)
             {
                 var fab = new FloatingActionButton(mContext);
-                fab.SetImageResource(MainWidgetBase.GetTimeTypeIcon(tt, LocationTimeHolder.LocalInstance));
+                fab.SetImageResource(Tools.GetTimeTypeIconID(tt, LocationTimeHolder.LocalInstance));
                 fab.Tag = new Java.Lang.String(tt.ToString());
                 fab.Click += FabMenu_Click;
                 coordinator.AddView(fab, lp);

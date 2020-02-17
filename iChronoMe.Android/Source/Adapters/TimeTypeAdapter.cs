@@ -60,7 +60,7 @@ namespace iChronoMe.Droid.Adapters
                 convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
             }
 
-            convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
+            convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(Tools.GetTimeTypeIconID((TimeType)item.Tag));
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
 
             return convertView;
@@ -77,7 +77,7 @@ namespace iChronoMe.Droid.Adapters
             }
 
 
-            convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(MainWidgetBase.GetTimeTypeIcon((TimeType)item.Tag));
+            convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(Tools.GetTimeTypeIconID((TimeType)item.Tag));
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
             convertView.FindViewById<TextView>(Resource.Id.description).Text = item.Description1;
 

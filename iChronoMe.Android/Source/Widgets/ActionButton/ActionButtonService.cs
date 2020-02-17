@@ -256,7 +256,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 int iIconRes = Resource.Drawable.clockface_sun_junior_icon;
                 try
                 {
-                    rv.SetImageViewBitmap(Resource.Id.circle_image, svg.GetIcon(cfg.IconName, iIconSize, iIconSize, cfg.IconColor.ToAndroid()));
+                    rv.SetImageViewBitmap(Resource.Id.circle_image, DrawableHelper.GetIconBitmap(context, cfg.IconName, iIconSize, cfg.IconColor));
                 }
                 catch (Exception ex)
                 {

@@ -251,25 +251,25 @@ namespace iChronoMe.Droid.GUI
 #endif
 
             var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
-            sub.SetIcon(MainWidgetBase.GetTimeTypeIcon(mTimeType, LocationTimeHolder.LocalInstance));
+            sub.SetIcon(Tools.GetTimeTypeIconID(mTimeType, LocationTimeHolder.LocalInstance));
             sub.Item.SetShowAsAction(ShowAsAction.Always);
             IMenuItem item;
             if (mTimeType != TimeType.RealSunTime)
             {
                 item = sub.Add(0, menu_typetype_RealSunTime, 0, Resources.GetString(Resource.String.TimeType_RealSunTime));
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
+                item.SetIcon(Tools.GetTimeTypeIconID(TimeType.RealSunTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
             if (mTimeType != TimeType.MiddleSunTime)
             {
                 item = sub.Add(0, menu_typetype_MiddleSunTime, 0, Resources.GetString(Resource.String.TimeType_MiddleSunTime));
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
+                item.SetIcon(Tools.GetTimeTypeIconID(TimeType.MiddleSunTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
             if (mTimeType != TimeType.TimeZoneTime)
             {
                 item = sub.Add(0, menu_typetype_TimeZoneTime, 0, Resources.GetString(Resource.String.TimeType_TimeZoneTime));
-                item.SetIcon(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
+                item.SetIcon(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, LocationTimeHolder.LocalInstance));
                 item.SetOnMenuItemClickListener(this);
             }
         }
@@ -669,7 +669,7 @@ namespace iChronoMe.Droid.GUI
                 var img = new ImageView(mActivity);
                 img.SetMaxWidth(23);
                 img.SetMaxWidth(23);
-                img.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.RealSunTime, lth));
+                img.SetImageResource(Tools.GetTimeTypeIconID(TimeType.RealSunTime, lth));
                 //img.SetScaleType(ImageView.ScaleType.FitXy);
 
                 row = new TableRow(mActivity);
@@ -679,7 +679,7 @@ namespace iChronoMe.Droid.GUI
                 InfoView.AddView(row);
 
                 img = new ImageView(mActivity);
-                img.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.MiddleSunTime, lth));
+                img.SetImageResource(Tools.GetTimeTypeIconID(TimeType.MiddleSunTime, lth));
                 //img.SetScaleType(ImageView.ScaleType.FitXy);
 
                 row = new TableRow(mActivity);
@@ -689,7 +689,7 @@ namespace iChronoMe.Droid.GUI
                 InfoView.AddView(row);
 
                 imgTZ = new ImageView(mActivity);
-                imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
+                imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
                 imgTZ.SetScaleType(ImageView.ScaleType.FitXy);
 
                 row = new TableRow(mActivity);
@@ -737,7 +737,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         if (Marker.Position.Latitude != lth.Latitude || Marker.Position.Longitude != lth.Longitude)
                             return;
-                        imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
+                        imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
                         string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName + ", " + lth.CountryName;
                         tvArea.Text = cText;
                         Marker.Title = cText;

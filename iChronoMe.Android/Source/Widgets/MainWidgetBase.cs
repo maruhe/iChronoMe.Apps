@@ -291,36 +291,6 @@ namespace iChronoMe.Droid.Widgets
             }*/
             return new Point(iWidth, iHeigth);
         }
-
-        public static int GetTimeTypeIcon(TimeType tType, LocationTimeHolder lth = null)
-        {
-            try
-            {
-                if (lth == null)
-                    lth = LocationTimeHolder.LocalInstance;
-                string cTimeSwitcher = null;
-                switch (tType)
-                {
-                    case TimeType.RealSunTime:
-                        cTimeSwitcher = "real_sun_time";
-                        break;
-                    case TimeType.MiddleSunTime:
-                        cTimeSwitcher = "middle_sun_time";
-                        break;
-                    case TimeType.TimeZoneTime:
-                        cTimeSwitcher = "icons8_timezone_" + ((int)lth.TimeZoneOffset).ToString().Replace("-", "m");
-                        break;
-                    case TimeType.UtcTime:
-                        cTimeSwitcher = "icons8_timezone_0";
-                        break;
-                }
-                return (int)typeof(Resource.Drawable).GetField(cTimeSwitcher).GetValue(null);
-            }
-            catch
-            {
-                return -1;
-            }
-        }
     }
 
     class WidgetSizeChangedParams

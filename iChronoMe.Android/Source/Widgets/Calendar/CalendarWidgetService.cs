@@ -365,7 +365,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 {
                     rv.SetViewVisibility(Resource.Id.time_switcher, ViewStates.Visible);
 
-                    rv.SetImageViewResource(Resource.Id.time_switcher, MainWidgetBase.GetTimeTypeIcon(cfg.ShowTimeType, LocationTimeHolder.LocalInstance));
+                    rv.SetImageViewResource(Resource.Id.time_switcher, Tools.GetTimeTypeIconID(cfg.ShowTimeType, LocationTimeHolder.LocalInstance));
 
                     if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
                     {
@@ -389,9 +389,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
             if (wSize.X < 150)
                 rv.SetViewVisibility(Resource.Id.layout_buttons, ViewStates.Gone);
 
-            rv.SetImageViewBitmap(Resource.Id.btn_config, svg.GetCacheIcon("icons8_services", 30, 30, cfg.ColorTitleButtons.ToAndroid()));
-            rv.SetImageViewBitmap(Resource.Id.btn_refresh, svg.GetCacheIcon("icons8_refresh", 30, 30, cfg.ColorTitleButtons.ToAndroid()));
-            rv.SetImageViewBitmap(Resource.Id.btn_add_event, svg.GetCacheIcon("icons8_add", 30, 30, cfg.ColorTitleButtons.ToAndroid()));
+            rv.SetImageViewBitmap(Resource.Id.btn_config, DrawableHelper.GetIconBitmap(context, "icons8_services", 30, cfg.ColorTitleButtons));
+            rv.SetImageViewBitmap(Resource.Id.btn_refresh, DrawableHelper.GetIconBitmap(context, "icons8_refresh", 30, cfg.ColorTitleButtons));
+            rv.SetImageViewBitmap(Resource.Id.btn_add_event, DrawableHelper.GetIconBitmap(context, "icons8_add", 40, cfg.ColorTitleButtons));
 
             if (!cfg.ShowButtonConfig)
                 rv.SetViewVisibility(Resource.Id.btn_config, ViewStates.Gone);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget"
     android:layout_width="match_parent"
@@ -42,8 +42,8 @@
         style="@style/Text.WidgetTitle" />
     <ImageView 
         android:id="@+id/time_switcher"
-        android:layout_width="32dip"
-        android:layout_height="32dip"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:scaleType="fitCenter" />
