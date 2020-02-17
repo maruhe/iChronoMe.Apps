@@ -64,7 +64,7 @@ namespace iChronoMe.Droid.Widgets.Clock
                 if (holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
                     tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase);
                 var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId);
-                var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this);
+                var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this, null);
                 Task.Factory.StartNew(async () =>
                 {
                     try
@@ -94,8 +94,8 @@ namespace iChronoMe.Droid.Widgets.Clock
                     }
                     catch (Exception ex)
                     {
-                        ex.ToString();
-                        Toast.MakeText(this, ex.Message, ToastLength.Long).Show();
+                        sys.LogException(ex);
+                        RunOnUiThread(() => Toast.MakeText(this, ex.Message, ToastLength.Long).Show());
                     }
                     finally
                     {

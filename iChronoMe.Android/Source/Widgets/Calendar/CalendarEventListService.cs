@@ -324,7 +324,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                         }
                         catch (Exception ex)
-                        { Console.WriteLine(ex.Message); }
+                        { xLog.Debug(ex.Message); }
                     }
 
                     // end feed row
@@ -416,7 +416,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     CalendarEventListService.ResetData = false;
                     myEvents.AllDatesAndEvents.Clear();
                     myEvents.Clear();
-                    Console.WriteLine("Did Data-Reset CalendarWidget: " + iMyWidgetId.ToString());
+                    xLog.Debug("Did Data-Reset CalendarWidget: " + iMyWidgetId.ToString());
 
                     Task.Factory.StartNew(() =>
                     {
@@ -427,7 +427,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                     return;
                 }
-                Console.WriteLine("LoadData CalendarWidget: " + iMyWidgetId.ToString());
+                xLog.Debug("LoadData CalendarWidget: " + iMyWidgetId.ToString());
 
                 bool bPermissionError = false;
                 try

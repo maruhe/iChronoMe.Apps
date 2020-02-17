@@ -128,6 +128,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     catch (ThreadAbortException) { }
                     catch (Exception ex)
                     {
+                        sys.DebugLogException(ex);
                         xLog.Error(ex, "Update Widget Error: " + iWidgetId);
                         RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
                         rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message);
@@ -261,6 +262,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 {
                     xLog.Error(ex, "SetImageViewBitmap: " + cfg.IconName);
                     rv.SetImageViewResource(Resource.Id.circle_image, iIconRes);
+                    sys.DebugLogException(ex);
                 }
             }
             appWidgetManager?.UpdateAppWidget(iWidgetId, rv);

@@ -167,7 +167,7 @@ namespace iChronoMe.Droid.Widgets
 
                 if (!cTitle.StartsWith("#"))
                 {
-                    viewHolder.title.Text = cTitle + ", " + RunningWidgetLoader;
+                    viewHolder.title.Text = cTitle;// + ", " + RunningWidgetLoader;
                     viewHolder.title.TextAlignment = TextAlignment.Center;
                     viewHolder.title.Visibility = ViewStates.Visible;
                 }
@@ -262,7 +262,7 @@ namespace iChronoMe.Droid.Widgets
                         Bitmap bmp = BitmapFactory.DecodeByteArray(byteArray, 0, byteArray.Length);//, new BitmapFactory.Options() { InSampleSize = 2 });
                         viewHolder.preview.ScaleX = viewHolder.preview.ScaleY = 1;// .7F / nImgScale;
                         viewHolder.preview.SetImageBitmap(bmp);
-                        viewHolder.title.Text = cTitle + ", " + Times[position] + "ms";
+                        viewHolder.title.Text = cTitle;// + ", " + Times[position] + "ms";
                         //if (sys.Debugmode)
                         //  viewHolder.title.Text = byteArray.Length.ToString("N0") + " : " + bmp.AllocationByteCount.ToString("N0") + ", " + Times[position] + "ms";
                     }

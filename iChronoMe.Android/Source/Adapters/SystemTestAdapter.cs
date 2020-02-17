@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
-using Android.App;
 using Android.Content;
 using Android.Locations;
+using Android.Support.V4.App;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 
@@ -17,12 +20,13 @@ namespace iChronoMe.Droid.Adapters
 {
     public class SystemTestAdapter : BaseAdapter
     {
-        Activity mContext;
+        FragmentActivity mContext;
         List<SystemTest> Items = new List<SystemTest>();
         Dictionary<SystemTest, TestStatus> ItemStatus = new Dictionary<SystemTest, TestStatus>();
         Dictionary<SystemTest, string> ItemInfos = new Dictionary<SystemTest, string>();
+        List<string> cTestLog = new List<string>();
 
-        public SystemTestAdapter(Activity context)
+        public SystemTestAdapter(FragmentActivity context)
         {
             mContext = context;
 
@@ -91,6 +95,32 @@ namespace iChronoMe.Droid.Adapters
             return convertView;
         }
 
+        internal void SendTestLog()
+        {
+            new Thread(async() =>
+            {
+                string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
+                try
+                {
+                    string cLog = "System-Test " + DateTime.Now.ToString() + "\n";
+                    foreach (string c in cTestLog)
+                        cLog += "\n" + c;
+                    cLog += "\n" + "\n" + sys.cAppVersionInfo + "\n" + sys.cDeviceInfo;
+
+                    HttpClient client = new HttpClient();
+                    HttpContent content = new StringContent(cLog);
+                    HttpResponseMessage response = await client.PutAsync(cUrl, content);
+                    string result = await response.Content.ReadAsStringAsync();
+
+                    Tools.ShowToast(mContext, result);
+                }
+                catch (Exception ex)
+                {
+                    Tools.ShowToast(mContext, "error sending log\n"+ex.Message);
+                }                
+            }).Start();
+        }
+
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             ItemClick(sender, e.Position);
@@ -101,12 +131,24 @@ namespace iChronoMe.Droid.Adapters
 
         }
 
+        public AlertDialog Dialog { get; private set; }
+        public void SetDialog(AlertDialog dialog)
+        {
+            Dialog = dialog;
+            if (dialog == null)
+                return;
+            Dialog.GetButton((int)DialogButtonType.Positive).Visibility = ViewStates.Gone;
+        }
+
         internal void StartSystemTest()
         {
             Task.Factory.StartNew(async () =>
             {
                 foreach (var test in Items)
                     await RunSystemTest(test);
+
+                if (Dialog != null)
+                    mContext.RunOnUiThread(() => Dialog.GetButton((int)DialogButtonType.Positive).Visibility = ViewStates.Visible);
             });
         }
 
@@ -122,6 +164,7 @@ namespace iChronoMe.Droid.Adapters
             ItemInfos.Add(test, "init...");
             mContext.RunOnUiThread(() => NotifyDataSetChanged());
             List<string> cErrors = new List<string>();
+            List<string> cWarnings = new List<string>();
 
             var locationManager = (LocationManager)mContext.GetSystemService(Context.LocationService);
 
@@ -158,9 +201,8 @@ namespace iChronoMe.Droid.Adapters
                         if (lastLocation == null)
                         {
                             SetInfo(test, "unable to get location from gps!");
-                            cErrors.Add("unable to get location from gps");
+                            cWarnings.Add("unable to get location from gps");
                             await Task.Delay(1500);
-                            break;
                         }
                         else
                         {
@@ -387,7 +429,13 @@ namespace iChronoMe.Droid.Adapters
                             await Task.Delay(1500);
                             break;
                         }
-                        SetInfo(test, calendars.Count + " calendars found, " + calendarsw.Count + " editable, default is " + def.Name);
+                        int iPrimary = 0;
+                        foreach (var cal in calendars)
+                        {
+                            if (cal.IsPrimary)
+                                iPrimary++;
+                        }
+                        SetInfo(test, calendars.Count + " calendars found, " +iPrimary+" primary, "+ calendarsw.Count + " editable, default is " + def.Name);
                         await Task.Delay(500);
                         break;
 
@@ -443,6 +491,7 @@ namespace iChronoMe.Droid.Adapters
         private void SetInfo(SystemTest test, string info)
         {
             ItemInfos[test] = info;
+            cTestLog.Add(test.ToString() + ": " + info);
             mContext.RunOnUiThread(() => NotifyDataSetChanged());
         }
 

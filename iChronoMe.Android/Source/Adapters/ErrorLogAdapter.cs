@@ -16,6 +16,8 @@ namespace iChronoMe.Droid.Adapters
 
         public ErrorLogAdapter(Activity context) : base()
         {
+            mContext = context;
+
             var logS = Directory.GetFiles(sys.ErrorLogPath);
 
             Items = new List<SimpleObject>();
@@ -36,8 +38,6 @@ namespace iChronoMe.Droid.Adapters
 
                 this.Items.Add(new SimpleObject() { Tag = log, IconRes = iIcon, Title1 = cTitle });
             }
-
-            mContext = context;
         }
 
         public override SimpleObject this[int position]

@@ -19,6 +19,7 @@ using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets;
 using Org.Json;
 using static iChronoMe.Core.Classes.GeoInfo;
+using Android.Content;
 
 namespace iChronoMe.Droid.GUI
 {
@@ -67,6 +68,12 @@ namespace iChronoMe.Droid.GUI
                 outState.PutDouble("marker_" + i + "_lng", item.Location.Longitude);
                 i++;
             }
+        }
+
+        public override void OnPause()
+        {
+            base.OnPause();
+            mGoogleMap = null;
         }
 
         Bundle blRestore;
@@ -209,6 +216,7 @@ namespace iChronoMe.Droid.GUI
 
         const int menu_typetype_Debug_AreaCache = 1001;
         const int menu_typetype_Debug_ZonesOverlay = 1002;
+        const int menu_typetype_Debug_LoadGeoJson = 1003;
         const int menu_typetype_RealSunTime = 1101;
         const int menu_typetype_MiddleSunTime = 1102;
         const int menu_typetype_TimeZoneTime = 1103;
@@ -234,6 +242,10 @@ namespace iChronoMe.Droid.GUI
             ditem.SetOnMenuItemClickListener(this);
 
             ditem = dsub.Add(0, menu_typetype_Debug_ZonesOverlay, 0, "TZ-Overlay");
+            ditem.SetShowAsAction(ShowAsAction.Always);
+            ditem.SetOnMenuItemClickListener(this);
+
+            ditem = dsub.Add(0, menu_typetype_Debug_LoadGeoJson, 0, "LoadGeoJson");
             ditem.SetShowAsAction(ShowAsAction.Always);
             ditem.SetOnMenuItemClickListener(this);
 #endif
@@ -276,6 +288,35 @@ namespace iChronoMe.Droid.GUI
                 return true;
             };
 
+            if (item.ItemId == menu_typetype_Debug_LoadGeoJson)
+            {
+
+                var intent = new Intent(Intent.ActionGetContent);
+
+                intent.SetType("*/*");
+
+                string[] allowedTypes = intent.GetStringArrayExtra("EXTRA_ALLOWED_TYPES")?.
+                    Where(o => !string.IsNullOrEmpty(o) && o.Contains("/")).ToArray();
+
+                if (allowedTypes != null && allowedTypes.Any())
+                {
+                    intent.PutExtra(Intent.ExtraMimeTypes, allowedTypes);
+                }
+
+                intent.AddCategory(Intent.CategoryOpenable);
+                try
+                {
+                    this.StartActivityForResult(Intent.CreateChooser(intent, "Select file"), 409);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Write(ex);
+                }
+
+                return true;
+            }
+
+
             if (item.ItemId == menu_typetype_RealSunTime)
                 mTimeType = TimeType.RealSunTime;
             else if (item.ItemId == menu_typetype_MiddleSunTime)
@@ -290,6 +331,75 @@ namespace iChronoMe.Droid.GUI
             }
 
             return true;
+        }
+
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == 409 && resultCode != (int)Result.Canceled)
+            {
+                if (data?.Data == null)
+                {
+                    Tools.ShowToast(Context, "Data = null");
+                }
+
+                var uri = data.Data;
+
+                var filePath = IOUtil.GetPath(Context, uri);
+
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    filePath = IOUtil.IsMediaStore(uri.Scheme) ? uri.ToString() : uri.Path;
+                }
+
+                var fileName = IOUtil.GetFileName(Context, uri);
+                Tools.ShowToast(mActivity, filePath + "\n" + fileName, true);
+
+                var rnd = new Random();
+                var pDlg = ProgressDlg.NewInstance(fileName);
+                pDlg.Show(mActivity.SupportFragmentManager, "geosjon");
+
+                Task.Factory.StartNew(() =>
+                {
+                    var swStart = DateTime.Now;
+                    xColor[] clrS = new xColor[] { xColor.MaterialAmber, xColor.MaterialBlue, xColor.MaterialBrown, xColor.MaterialCyan, xColor.MaterialDeepOrange, xColor.MaterialDeepPurple, xColor.MaterialGreen, xColor.MaterialGrey, xColor.MaterialIndigo, xColor.MaterialOrange, xColor.MaterialPink, xColor.MaterialRed };
+                    try
+                    {
+                        var cGeoJ = System.IO.File.ReadAllText(filePath);
+                        var oJson = new JSONObject(cGeoJ);
+                        GeoJsonLayer layer = new GeoJsonLayer(mGoogleMap, oJson);
+                        
+                        foreach (GeoJsonFeature f in layer.Features.ToEnumerable())
+                        {
+                            f.PolygonStyle = new GeoJsonPolygonStyle
+                            {
+                                StrokeWidth = 2,
+                                StrokeColor = xColor.MaterialPink.ToAndroid(),
+                                FillColor = clrS[rnd.Next(clrS.Length-1)].WithAlpha(80).ToAndroid()
+                            };
+                        }
+
+                        var tsLoading = DateTime.Now - swStart;
+                        swStart = DateTime.Now;
+
+                        //layer.FeatureClick += Layer_FeatureClick;
+                        mActivity.RunOnUiThread(() =>
+                        {
+                            layer.AddLayerToMap();
+                            var tsDisplay = DateTime.Now - swStart;
+                            Tools.ShowToast(mActivity, "Load: " + (int)tsLoading.TotalMilliseconds + "\nDisplay" + (int)tsDisplay.TotalMilliseconds);
+                            pDlg.SetProgressDone();
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        Tools.ShowMessage(mActivity, ex.GetType().Name, ex.Message);
+                        pDlg.SetProgressDone();
+                    }
+                    return;
+                });
+            }
         }
 
         static void RemoveItem(WorldTimeItem item)
@@ -347,7 +457,7 @@ namespace iChronoMe.Droid.GUI
                     });
                 } catch (Exception ex)
                 {
-                    Tools.ShowMessage(Context, ex.GetType().Name, ex.Message);
+                    Tools.ShowMessage(mActivity, ex.GetType().Name, ex.Message);
                     pDlg.SetProgressDone();
                 }
                 return;

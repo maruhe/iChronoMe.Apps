@@ -11,10 +11,11 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Interfaces;
+using iChronoMe.Core.Types;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
-
+using Net.ArcanaStudio.ColorPicker;
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
@@ -27,7 +28,7 @@ namespace iChronoMe.Droid.Widgets
         DynamicCalendarModel CalendarModel = null;
         EventCollection myEventsMonth = null;
         EventCollection myEventsList = null;
-        Drawable wallpaperDrawable = null;
+        Drawable WallpaperDrawable = null;
 
         IWidgetConfigAssistant<T> currentAssi = null;
         public WidgetCfgSample<T> CurrentSample = null;
@@ -35,9 +36,28 @@ namespace iChronoMe.Droid.Widgets
         public Task<bool> UserInputTaskTask { get { return tcsUI == null ? Task.FromResult(false) : tcsUI.Task; } }
         private TaskCompletionSource<bool> tcsUI = null;
 
-        public WidgetConfigAssistantManager(AppCompatActivity context)
+        public WidgetConfigAssistantManager(AppCompatActivity context, Drawable wallpaperDrawable)
         {
             mContext = context;
+            CalendarModel = CalendarModelCfgHolder.BaseGregorian;
+            WallpaperDrawable = wallpaperDrawable;
+            init();
+        }
+
+        public WidgetConfigAssistantManager(AppCompatActivity context, DynamicCalendarModel calendarModel, EventCollection eventsList, EventCollection eventsListMonth, Drawable wallpaperDrawable)
+        {
+            mContext = context;
+            CalendarModel = calendarModel;
+            myEventsList = eventsList;
+            myEventsMonth = eventsListMonth;
+            WallpaperDrawable = wallpaperDrawable;
+            init();
+        }
+
+        private void init() 
+        {
+            if (typeof(T) == typeof(WidgetCfg_ActionButton))
+                wSize = new Point(100, 100);
         }
 
         public async Task<WidgetCfgSample<T>> StartAt(Type widgetConfigAssistantType, T baseConfig, List<Type> stopAt = null)
@@ -81,10 +101,12 @@ namespace iChronoMe.Droid.Widgets
                     return;
                 }
 
-                var listAdapter = new WidgetPreviewListAdapter(mContext, wSize, CalendarModel, myEventsMonth, myEventsList, null);
+                var textItems = new List<string>();
+                var listAdapter = new WidgetPreviewListAdapter(mContext, wSize, CalendarModel, myEventsMonth, myEventsList, WallpaperDrawable);
                 foreach (var sample in currentAssi.Samples)
                 {
-                    listAdapter.Items.Add(sample.Title, sample.PreviewConfig == null ? sample.WidgetConfig : sample.PreviewConfig);
+                    textItems.Add(sample.Title);
+                    (listAdapter as WidgetPreviewListAdapter).Items.Add(sample.Title, sample.PreviewConfig == null ? sample.WidgetConfig : sample.PreviewConfig);
                 }
 
                 tcsUI = new TaskCompletionSource<bool>();
@@ -92,11 +114,16 @@ namespace iChronoMe.Droid.Widgets
                 {
                     var dlg = new AlertDialog.Builder(mContext)
                         .SetTitle(currentAssi.Title)
-                        .SetSingleChoiceItems(listAdapter, -1, new SingleChoiceClickListener<T>(this, listAdapter))
                         .SetNegativeButton("abbrechen", new myNegativeButtonClickListener<T>(this))
-                        .SetOnCancelListener(new myDialogCancelListener<T>(this))
-                        .Create();
-                    dlg.Show();
+                        .SetOnCancelListener(new myDialogCancelListener<T>(this));
+                    if (currentAssi.ShowPreviewImage)
+                        dlg.SetSingleChoiceItems(listAdapter, -1, new SingleChoiceClickListener<T>(this, listAdapter));
+                    else
+                        dlg.SetSingleChoiceItems(textItems.ToArray(), -1, new SingleChoiceClickListener<T>(this, listAdapter));
+
+                    if (currentAssi.AllowCustom)
+                        dlg.SetNeutralButton(currentAssi.CurstumButtonText, DlgCustomButtonClick);
+                    dlg.Create().Show();
                 });
 
                 UserInputTaskTask.Wait();
@@ -112,6 +139,15 @@ namespace iChronoMe.Droid.Widgets
                 return null;
         }
 
+        public void DlgCustomButtonClick(object sender, DialogClickEventArgs e)
+        {
+            (sender as IDialogInterface).Dismiss();
+            Task.Factory.StartNew(() =>
+            {
+                currentAssi.ExecCustom(this);
+            });
+        }
+
         public void TriggerSingleChoiceClicked(int which)
         {
             CurrentSample = currentAssi.Samples[which];
@@ -120,6 +156,12 @@ namespace iChronoMe.Droid.Widgets
                 currentAssi.AfterSelect(this, CurrentSample);
                 tcsUI?.TrySetResult(true);
             });
+        }
+
+        public void TriggerPositiveButtonClicked()
+        {
+            CurrentSample = currentAssi.BaseSample;
+            tcsUI?.TrySetResult(true);
         }
 
         public void TriggerNegativeButtonClicked()
@@ -139,7 +181,7 @@ namespace iChronoMe.Droid.Widgets
             tcsUI?.TrySetResult(false);
         }
 
-        public Task<SelectPositionResult> TriggerSelectMapsLocation()
+        public Task<SelectPositionResult> UserSelectMapsLocation()
         {
             return LocationPickerDialog.SelectLocation(mContext);
         }
@@ -182,6 +224,42 @@ namespace iChronoMe.Droid.Widgets
                     new AlertDialog.Builder(mContext).SetTitle("Error").SetMessage(cMessage).Create().Show();
                 });
             });
+        }
+
+        public Task<bool> UserShowYesNoMessage(string title, string message, string yes = null, string no = null)
+        {
+            return Tools.ShowYesNoMessage(mContext, title, message, yes, no);
+        }
+
+        public Task<bool> UserShowYesNoMessage(int title, int message, int? yes = null, int? no = null)
+        {
+            return Tools.ShowYesNoMessage(mContext, title, message, yes, no);
+        }
+
+        public Task<xColor?> UserSelectColor(int title, xColor? current = null, xColor[] colors = null, bool allowCustom = true, bool allowAlpha = true)
+        {
+            return UserSelectColor(mContext.Resources.GetString(title), current, colors, allowCustom, allowAlpha);
+        }
+
+        public async Task<xColor?> UserSelectColor(string title, xColor? current = null, xColor[] colors = null, bool allowCustom = true, bool allowAlpha = true)
+        {
+            var clrDlg = ColorPickerDialog.NewBuilder()
+                        .SetDialogType(ColorPickerDialog.DialogType.Preset)
+                        .SetAllowCustom(allowCustom)
+                        .SetShowColorShades(true)
+                        .SetColorShape(ColorShape.Circle)
+                        .SetShowAlphaSlider(allowAlpha)
+                        .SetDialogTitle(title);
+
+            var clr = await clrDlg.ShowAsyncNullable(mContext);
+            if (clr.HasValue)
+                return clr.Value.ToColor();
+            return null;
+        }
+
+        public Task<string> UserInputText(string title, string message, string placeholder)
+        {
+            return Tools.UserInputText(mContext, title, message, placeholder);
         }
     }
 

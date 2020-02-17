@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 
-using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 
@@ -56,11 +56,14 @@ namespace iChronoMe.Droid.GUI.Service
             AlertDialog dialog = new AlertDialog.Builder(Context)
             .SetTitle(Resource.String.progress_systemtest_title)
             .SetView(view)
-            .SetNegativeButton(Resource.String.action_close, (senderAlert, args) =>
-            {
+            .SetPositiveButton(Resource.String.action_send_testlog, (s, e) => {
+                adapter.SendTestLog();
             })
+            .SetNegativeButton(Resource.String.action_close, (s, e) => { })
             .Create();
+
             dialog.Show();
+            adapter.SetDialog(dialog);
             adapter.StartSystemTest();
         }
 

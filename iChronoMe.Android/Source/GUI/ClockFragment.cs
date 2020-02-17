@@ -20,6 +20,7 @@ using iChronoMe.Droid.Widgets;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
+using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI
 {
@@ -37,6 +38,7 @@ namespace iChronoMe.Droid.GUI
         private AppCompatActivity mContext = null;
         private LocationTimeHolder lth;
         private FloatingActionButton fabTimeType;
+        private WidgetAnimator_ClockAnalog animator;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -95,7 +97,7 @@ namespace iChronoMe.Droid.GUI
                 DateTime tAnimateFrom = lth.GetTime(this.TimeType);
                 DateTime tAnimateTo = tAnimateFrom.Add(tsDuriation);
 
-                new WidgetAnimator_ClockAnalog(vClock, tsDuriation, style)
+                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, style)
                     .SetStart(tAnimateFrom)
                     .SetEnd(tAnimateTo)
                     .SetPushFrame((h, m, s) =>
@@ -165,11 +167,13 @@ namespace iChronoMe.Droid.GUI
                                     TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
                                     DateTime tAnimateFrom = lth.GetTime(this.TimeType);
                                     lth = LocationTimeHolder.LocalInstance;
+                                    nLastLatitude = lastLocation.Latitude;//to prevent standard-Animation
+                                    nLastLongitude = lastLocation.Longitude;
                                     lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
                                     DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
                                     StartClockUpdates();
 
-                                    WidgetAnimator_ClockAnalog x = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
+                                    animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
                                     .SetStart(tAnimateFrom)
                                     .SetEnd(tAnimateTo)
                                     .SetPushFrame((h, m, s) =>
@@ -226,11 +230,13 @@ namespace iChronoMe.Droid.GUI
                                 TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
                                 DateTime tAnimateFrom = lth.GetTime(this.TimeType);
                                 lth = LocationTimeHolder.LocalInstanceClone;
+                                nLastLatitude = lth.Latitude;//to prevent standard-Animation
+                                nLastLongitude = lth.Longitude;
                                 lth.ChangePositionDelay(sel.Latitude, sel.Longitude, true, true);
                                 DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
                                 StartClockUpdates();
 
-                                WidgetAnimator_ClockAnalog x = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
+                                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
                                 .SetStart(tAnimateFrom)
                                 .SetEnd(tAnimateTo)
                                 .SetPushFrame((h, m, s) =>
@@ -331,7 +337,7 @@ namespace iChronoMe.Droid.GUI
 
             SetTimeType(tt);
 
-            WidgetAnimator_ClockAnalog x = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
+            animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
             .SetStart(tAnimateFrom)
             .SetEnd(tAnimateTo)
             .SetPushFrame((h, m, s) =>
@@ -384,10 +390,74 @@ namespace iChronoMe.Droid.GUI
             }
         }
 
+        double nLastLatitude = 0;
+        double nLastLongitude = 0;
+
         private void Lth_AreaChanged(object sender, AreaChangedEventArgs e)
         {
             mContext.RunOnUiThread(() =>
             {
+                if (tLastClockTime == DateTime.MinValue)
+                {
+                    nLastLatitude = lth.Latitude;
+                    nLastLongitude = lth.Longitude;
+                } 
+                else
+                {
+                    if (Xamarin.Essentials.Location.CalculateDistance(nLastLatitude, nLastLongitude, lth.Latitude, lth.Longitude, DistanceUnits.Kilometers) > 5)
+                    {
+                        //Animate Time-Change on Area-Change
+                        animator?.AbortAnimation();
+
+                        //Tools.ShowToast(mContext, "AreaChangedAnimation :-)");
+
+                        TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
+                        DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
+
+                        animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect);
+                        if (nManualHour != null && nManualMinute != null && nManualSecond != null)
+                            animator.SetStart(nManualHour.Value, nManualMinute.Value, nManualSecond.Value);
+                        else
+                            animator.SetStart(tLastClockTime);
+                        animator.SetEnd(tAnimateTo)
+                        .SetPushFrame((h, m, s) =>
+                        {
+                            nManualHour = h;
+                            nManualMinute = m;
+                            nManualSecond = s;
+                            mContext.RunOnUiThread(() =>
+                            {
+                                bNoClockUpdate = true;
+                                vClock.FlowMinuteHand = true;
+                                vClock.FlowSecondHand = true;
+                                skiaView.Invalidate();
+                            });
+                        })
+                        .SetLastRun((h, m, s) =>
+                        {
+                            nManualHour = h;
+                            nManualMinute = m;
+                            nManualSecond = s;
+
+                            mContext.RunOnUiThread(() =>
+                            {
+                                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                skiaView.Invalidate();
+                            });
+                        })
+                        .SetFinally(() =>
+                        {
+                            mContext.RunOnUiThread(() =>
+                            {
+                                nManualHour = nManualMinute = nManualSecond = null;
+                                bNoClockUpdate = false;
+                            });
+                        })
+                        .StartAnimation();
+                    }
+                }
+                nLastLatitude = lth.Latitude;
+                nLastLongitude = lth.Longitude;
                 imgTZ.SetImageResource(MainWidgetBase.GetTimeTypeIcon(TimeType.TimeZoneTime, lth));
                 lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
                 if (lth.Latitude == 0 && lth.Longitude == 0)
@@ -438,7 +508,7 @@ namespace iChronoMe.Droid.GUI
             DateTime tAnimateFrom = DateTime.Today;
             DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
 
-            WidgetAnimator_ClockAnalog x = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
+            animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
             .SetStart(tAnimateFrom)
             .SetEnd(tAnimateTo)
             .SetPushFrame((h, m, s) =>
@@ -624,7 +694,7 @@ namespace iChronoMe.Droid.GUI
 
                         SetTimeType(tt);
 
-                        WidgetAnimator_ClockAnalog x = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
+                        animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
                         .SetStart(tAnimateFrom)
                         .SetEnd(tAnimateTo)
                         .SetPushFrame((h, m, s) =>
@@ -670,7 +740,7 @@ namespace iChronoMe.Droid.GUI
             }
             else if (id == Resource.Id.clock_Colors)
             {
-                var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext);
+                var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);
 
                 Task.Factory.StartNew(async () =>
                 {
@@ -685,7 +755,7 @@ namespace iChronoMe.Droid.GUI
             }
             else if (id == Resource.Id.clock_Background)
             {
-                var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext);
+                var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);
 
                 Task.Factory.StartNew(async () =>
                 {
@@ -740,13 +810,17 @@ namespace iChronoMe.Droid.GUI
         double? nManualHour = null;
         double? nManualMinute = null;
         double? nManualSecond = null;
+        DateTime tLastClockTime = DateTime.MinValue;
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             try
             {
                 if (nManualSecond == null)
-                    vClock.DrawCanvas(e.Surface.Canvas, lth.GetTime(this.TimeType), (int)e.Info.Width, (int)e.Info.Height, false);
+                {
+                    tLastClockTime = lth.GetTime(this.TimeType);
+                    vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
+                }
                 else
                     vClock.DrawCanvas(e.Surface.Canvas, nManualHour.Value, nManualMinute.Value, nManualSecond.Value, (int)e.Info.Width, (int)e.Info.Height, false);
             }

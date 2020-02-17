@@ -68,6 +68,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\IOUtil.cs" />
     <Compile Include="Source\Adapters\SystemTestAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarListAdapter.cs" />
     <Compile Include="Source\Adapters\ErrorLogAdapter.cs" />

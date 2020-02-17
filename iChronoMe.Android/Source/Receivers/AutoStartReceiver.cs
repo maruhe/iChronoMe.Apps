@@ -15,7 +15,7 @@ namespace iChronoMe.Droid.Receivers
         {
             try
             {
-                Console.WriteLine("Received AutoStartReceiver intent!.");
+                xLog.Debug("Received AutoStartReceiver intent!.");
 
                 if (bDone)
                     return;

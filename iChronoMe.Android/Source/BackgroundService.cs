@@ -761,37 +761,35 @@ namespace iChronoMe.Droid
                     DateTime tStop = DateTime.Now.Add(tsDuriation);
 
                     DateTime tAnimateFrom = lth.GetTime(cfgOld.ShowTimeType);
-                    DateTime tAnimateTo = sys.GetTimeWithoutMilliSeconds(lth.GetTime(cfgNew.ShowTimeType).Add(tsDuriation)); //=> Second hand stops animation on full second
-                    TimeSpan tsAnimateWay = tAnimateTo - tAnimateFrom;
-                    int iDestSecond = tAnimateTo.Second;
-                    if (!clockView.FlowMinuteHand)
-                        tAnimateTo = sys.GetTimeWithoutSeconds(tAnimateTo);
+                    DateTime tAnimateTo = lth.GetTime(cfgNew.ShowTimeType);
 
-                    while (DateTime.Now < tStop)
-                    {
-                        DateTime tNow = tAnimateFrom.AddMilliseconds(tsAnimateWay.TotalMilliseconds / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
-                        float nSecondHandOverrideSecond = (float)(tAnimateFrom.Second + (iDestSecond - tAnimateFrom.Second) / tsDuriation.TotalMilliseconds * (DateTime.Now - tStart).TotalMilliseconds);
-
-                        if (tNow.Minute != tAnimateFrom.Minute && (!clockView.FlowMinuteHand || !clockView.FlowSecondHand))
+                    var animator = new WidgetAnimator_ClockAnalog(clockView, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
+                        .SetStart(tAnimateFrom)
+                        .SetEnd(tAnimateTo)
+                        .SetPushFrame((h, m, s) =>
                         {
-                            clockView.FlowMinuteHand = true;
-                            clockView.FlowSecondHand = true;
-                        }
+                            if ((m) != tAnimateFrom.Minute && (!clockView.FlowMinuteHand || !clockView.FlowSecondHand))
+                            {
+                                clockView.FlowMinuteHand = true;
+                                clockView.FlowSecondHand = true;
+                            }
 
-                        var rv = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, tNow, uBackgroundImage, bmpBackgroundColor, false, nSecondHandOverrideSecond);
-                        rv.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
-                        manager.UpdateAppWidget(iWidgetId, rv);
-
-                        Task.Delay(1000 / 60).Wait();
-                    }
-
-                    clockView.ReadConfig(cfgNew);
-                    var final = sys.GetTimeWithoutSeconds(tAnimateTo).AddSeconds(iDestSecond);
-                    var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, final, uBackgroundImage, bmpBackgroundColor, false);
-                    rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
-                    manager.UpdateAppWidget(iWidgetId, rvf);
-
-                    StartWidgetTask(iWidgetId);
+                            var rv = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
+                            rv.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                            manager.UpdateAppWidget(iWidgetId, rv);
+                        })
+                        .SetLastRun((h, m, s) =>
+                        {
+                            clockView.ReadConfig(cfgNew);
+                            var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
+                            rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                            manager.UpdateAppWidget(iWidgetId, rvf);                
+                        })
+                        .SetFinally(() =>
+                        {
+                            StartWidgetTask(iWidgetId);
+                        })
+                        .StartAnimation();
 
 #if DEfBUG
                     Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
@@ -838,12 +836,18 @@ namespace iChronoMe.Droid
         }
 
         public static RemoteViews GetClockAnalogRemoteView(Context ctx, WidgetCfg_ClockAnalog cfg, WidgetView_ClockAnalog clockView, int iClockSize,
-            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll, float? nSecondHandOverrideSecond = null)
+            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll)
+        {
+            return GetClockAnalogRemoteView(ctx, cfg, clockView, iClockSize, lth, tNow.TimeOfDay.TotalHours % 12, tNow.TimeOfDay.TotalMinutes % 60, tNow.TimeOfDay.TotalSeconds % 60, uBackgroundImage, bmpBackgroundColor, bUpdateAll);
+        }
+
+        public static RemoteViews GetClockAnalogRemoteView(Context ctx, WidgetCfg_ClockAnalog cfg, WidgetView_ClockAnalog clockView, int iClockSize,
+            LocationTimeHolder lth, double nHour, double nMinute, double nSecond, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll)
         {
             int iWidgetId = cfg.WidgetId;
             var tType = cfg.ShowTimeType;
 
-            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, iClockSize, iClockSize, false, nSecondHandOverrideSecond));
+            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(nHour, nMinute, nSecond, iClockSize, iClockSize, false));
 
             RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_clock);
 

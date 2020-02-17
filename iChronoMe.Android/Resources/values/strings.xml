@@ -70,6 +70,8 @@
 	<string name="action_search_location">search for location</string>
 	<string name="search_hint">the hint so search ;-)</string>
 
+	<string name="action_send_testlog">send log</string>
+
 	<string name="label_error">error</string>
 	<string name="label_errorlog">error log</string>
 	<string name="label_sceenshot">screenshot</string>

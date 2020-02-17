@@ -19,7 +19,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 {
     [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity", Theme = "@style/TransparentTheme")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
-
+    
     public class LifetimeWidgetConfigActivity : BaseWidgetActivity
     {
         int appWidgetId;
