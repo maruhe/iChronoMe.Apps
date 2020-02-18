@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
-using Android.Graphics.Drawables;
-using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
 
@@ -19,7 +18,7 @@ namespace iChronoMe.Droid.Widgets.Clock
     public class AnalogClockWidgetConfigActivity : BaseWidgetActivity
     {
         AlertDialog pDlg;
-        
+
         protected override void OnResume()
         {
             base.OnResume();

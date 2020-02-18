@@ -21,7 +21,7 @@ namespace iChronoMe.Droid.Adapters
 
             var logS = new List<string>(Directory.GetFiles(sys.ErrorLogPath));
             logS.Sort();
-            
+
             foreach (string log in logS)
             {
                 string cTitle = Path.GetFileNameWithoutExtension(log);

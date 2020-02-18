@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Android;
@@ -19,6 +15,7 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
@@ -186,10 +183,6 @@ namespace iChronoMe.Droid
                 else if (id == Resource.Id.nav_world_time_map)
                 {
                     fr = new WorldTimeMapFragment();
-                }
-                else if (id == Resource.Id.nav_share)
-                {
-
                 }
                 else if (id == Resource.Id.nav_settings)
                 {

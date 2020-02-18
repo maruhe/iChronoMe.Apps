@@ -5,7 +5,6 @@ using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core;
-using iChronoMe.Droid.Widgets;
 
 namespace iChronoMe.Droid.Adapters
 {
@@ -14,7 +13,7 @@ namespace iChronoMe.Droid.Adapters
         List<SimpleObject> items;
         Activity mContext;
         bool IsSpinner;
-        
+
         public TimeTypeAdapter(Activity context, bool bIsSpinner = false) : base()
         {
             this.items = new List<SimpleObject>();

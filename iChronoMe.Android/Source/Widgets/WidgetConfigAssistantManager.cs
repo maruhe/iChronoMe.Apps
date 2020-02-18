@@ -15,7 +15,9 @@ using iChronoMe.Core.Types;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
+
 using Net.ArcanaStudio.ColorPicker;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
@@ -54,7 +56,7 @@ namespace iChronoMe.Droid.Widgets
             init();
         }
 
-        private void init() 
+        private void init()
         {
             if (typeof(T) == typeof(WidgetCfg_ActionButton))
                 wSize = new Point(100, 100);

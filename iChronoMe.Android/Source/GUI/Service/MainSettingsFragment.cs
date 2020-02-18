@@ -60,7 +60,8 @@ namespace iChronoMe.Droid.GUI.Service
             AlertDialog dialog = new AlertDialog.Builder(Context)
             .SetTitle(Resource.String.progress_systemtest_title)
             .SetView(view)
-            .SetPositiveButton(Resource.String.action_send_testlog, (s, e) => {
+            .SetPositiveButton(Resource.String.action_send_testlog, (s, e) =>
+            {
                 adapter.SendTestLog();
             })
             .SetNegativeButton(Resource.String.action_close, (s, e) => { })

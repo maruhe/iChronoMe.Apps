@@ -3,7 +3,6 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Widget;
 
 namespace iChronoMe.Droid.Widgets
@@ -17,7 +16,7 @@ namespace iChronoMe.Droid.Widgets
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
+
             Intent launchIntent = Intent;
             Bundle extras = launchIntent.Extras;
 

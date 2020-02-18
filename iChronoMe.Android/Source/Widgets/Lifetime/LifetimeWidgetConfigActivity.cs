@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
-using Android.OS;
 using Android.Runtime;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -19,7 +18,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 {
     [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity", Theme = "@style/TransparentTheme")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
-    
+
     public class LifetimeWidgetConfigActivity : BaseWidgetActivity
     {
         protected override void OnResume()

@@ -20,6 +20,7 @@ using iChronoMe.Droid.Widgets;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI
@@ -87,7 +88,7 @@ namespace iChronoMe.Droid.GUI
             PopupMenu popup = new PopupMenu(Activity, sender as View);
             foreach (var style in Enum.GetValues(typeof(ClockAnalog_AnimationStyle)))
                 popup.Menu.Add(0, (int)style, 0, style.ToString());
-            
+
 
             popup.MenuItemClick += (s, e) =>
             {
@@ -136,7 +137,7 @@ namespace iChronoMe.Droid.GUI
                     .StartAnimation();
 
             };
-        
+
             popup.Show();
         }
         private void btnLocate_Click(object sender, EventArgs e)
@@ -209,7 +210,7 @@ namespace iChronoMe.Droid.GUI
                                         mContext.RunOnUiThread(() =>
                                         {
                                             nManualHour = nManualMinute = nManualSecond = null;
-                                            bNoClockUpdate = false;                                            
+                                            bNoClockUpdate = false;
                                         });
                                     })
                                     .StartAnimation();
@@ -404,7 +405,7 @@ namespace iChronoMe.Droid.GUI
                 {
                     nLastLatitude = lth.Latitude;
                     nLastLongitude = lth.Longitude;
-                } 
+                }
                 else
                 {
                     if (Xamarin.Essentials.Location.CalculateDistance(nLastLatitude, nLastLongitude, lth.Latitude, lth.Longitude, DistanceUnits.Kilometers) > 5)
@@ -576,7 +577,7 @@ namespace iChronoMe.Droid.GUI
                 mContext.RunOnUiThread(() => fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth)));
 
                 lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
-                { 
+                {
                     mContext.RunOnUiThread(() => UpdateTime(lTime1, lTimeInfo1, TimeType.RealSunTime));
                 });
                 lth.StartTimeChangedHandler(this, TimeType.MiddleSunTime, (s, e) =>

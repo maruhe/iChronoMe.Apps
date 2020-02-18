@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Android;
@@ -7,16 +6,14 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
-using Android.Graphics.Drawables;
-using Android.OS;
 using Android.Support.V4.App;
-using Android.Views.InputMethods;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
 using iChronoMe.Widgets;
+
 using Net.ArcanaStudio.ColorPicker;
 
 namespace iChronoMe.Droid.Widgets.ActionButton
@@ -80,7 +77,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 }
             });
         }
-        
+
         private void ShowWidgetTypeSelector()
         {
             if (sys.AllDrawables.Count == 0)
@@ -124,7 +121,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 }
             });
         }
-            
+
         public void löklöklöShowTextColorSelector(WidgetCfg_ActionButton cfgTemplate)
         {
             var listAdapter = new WidgetPreviewListAdapter(this, wSize, CalendarModel, null, null, wallpaperDrawable);

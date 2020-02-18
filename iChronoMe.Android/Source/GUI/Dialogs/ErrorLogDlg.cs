@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
@@ -11,6 +12,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Adapters;
 
@@ -28,7 +30,8 @@ namespace iChronoMe.Droid.GUI.Dialogs
                 .SetTitle(Resource.String.title_send_errorlog)
                 .SetSingleChoiceItems(adapter, 0, ItemClicked)
                 .SetPositiveButton(Resource.String.action_send_errorlog_once, (s, e) => { SendLogs(); })
-                .SetNegativeButton(Resource.String.action_close, (s, e) => {
+                .SetNegativeButton(Resource.String.action_close, (s, e) =>
+                {
                     OnDialogCancel?.Invoke(e, new EventArgs());
                 })
                 .Create();

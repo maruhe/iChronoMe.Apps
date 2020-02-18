@@ -14,8 +14,6 @@ using Android.Widget;
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 
-using static iChronoMe.Core.Classes.GeoInfo;
-
 namespace iChronoMe.Droid.Adapters
 {
     public class SystemTestAdapter : BaseAdapter
@@ -97,7 +95,7 @@ namespace iChronoMe.Droid.Adapters
 
         internal void SendTestLog()
         {
-            new Thread(async() =>
+            new Thread(async () =>
             {
                 string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
                 try
@@ -116,8 +114,8 @@ namespace iChronoMe.Droid.Adapters
                 }
                 catch (Exception ex)
                 {
-                    Tools.ShowToast(mContext, "error sending log\n"+ex.Message);
-                }                
+                    Tools.ShowToast(mContext, "error sending log\n" + ex.Message);
+                }
             }).Start();
         }
 
@@ -317,7 +315,7 @@ namespace iChronoMe.Droid.Adapters
 
                         if (ts.Value.TotalSeconds > 10)
                         {
-                            SetInfo(test, "parsing slow: "+ts.Value.TotalSeconds+"sec.");
+                            SetInfo(test, "parsing slow: " + ts.Value.TotalSeconds + "sec.");
                             cErrors.Add("parsing slow: " + ts.Value.TotalSeconds + "sec.");
                             await Task.Delay(1500);
                         }
@@ -435,7 +433,7 @@ namespace iChronoMe.Droid.Adapters
                             if (cal.IsPrimary)
                                 iPrimary++;
                         }
-                        SetInfo(test, calendars.Count + " calendars found, " +iPrimary+" primary, "+ calendarsw.Count + " editable, default is " + def.Name);
+                        SetInfo(test, calendars.Count + " calendars found, " + iPrimary + " primary, " + calendarsw.Count + " editable, default is " + def.Name);
                         await Task.Delay(500);
                         break;
 

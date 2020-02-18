@@ -17,7 +17,7 @@ namespace iChronoMe.Droid
             string cType = Intent.GetStringExtra("shortcut");
             string cExtra = Intent.GetStringExtra("extra");
 
-            Tools.ShowToast(this, "ShortCut: " + cType + " : " + cExtra+": noNITausprogrammiert");
+            Tools.ShowToast(this, "ShortCut: " + cType + " : " + cExtra + ": noNITausprogrammiert");
         }
 
         protected override void OnStop()

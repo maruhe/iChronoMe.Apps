@@ -196,9 +196,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         if (cfg.ShowLocationSunOffset)
                         {
                             //if (ColorUtils.CalculateLuminance(cfg.ColorEventSymbols.ToAndroid()) < 0.3)
-                                rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_sun_18);
+                            rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_sun_18);
                             //else
-                              //  rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_sun_white);
+                            //  rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_sun_white);
 
                             iShapeHeigth = 45;
                             string cPosInfo = (extEvent.LocationString.Equals(calEvent.Location) ? "Position und Ortszeit unklar: " : "Position wird ermittelt: ");
@@ -253,9 +253,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         else
                         {
                             //if (ColorUtils.CalculateLuminance(cfg.ColorEventSymbols.ToAndroid()) < 0.3)
-                                rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_marker);
+                            rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_marker);
                             //else
-                              //  rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_marker_white);
+                            //  rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_marker_white);
                         }
                         rv.SetViewVisibility(Resource.Id.item_poslayout, ViewStates.Visible);
                         rv.SetTextViewText(Resource.Id.item_location, calEvent.Location);

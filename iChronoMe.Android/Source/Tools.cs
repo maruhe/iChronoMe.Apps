@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views.InputMethods;
 using Android.Widget;
+
 using iChronoMe.Core;
-using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 
 using Java.Lang;
@@ -274,7 +272,7 @@ namespace iChronoMe.Droid
             switch (tType)
             {
                 case TimeType.RealSunTime:
-                    return "real_sun_time";                    
+                    return "real_sun_time";
                 case TimeType.MiddleSunTime:
                     return "middle_sun_time";
                 case TimeType.TimeZoneTime:

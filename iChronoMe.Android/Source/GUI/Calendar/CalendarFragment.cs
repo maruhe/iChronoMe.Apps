@@ -27,7 +27,6 @@ using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.ViewModels;
-using iChronoMe.Droid.Widgets;
 
 using Xamarin.Essentials;
 
@@ -133,11 +132,11 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void Schedule_CellTapped(object sender, CellTappedEventArgs e)
         {
-            if (e.ScheduleAppointment != null)
+            if (e.Appointment is CalendarEvent)
             {
                 try
                 {
-                    var evnt = calEvents.ListedDates[0];
+                    var evnt = (CalendarEvent)e.Appointment;
                     new CalendarEventDialog().Show(FragmentManager, evnt.ExternalID);
                 }
                 catch (Exception ex)

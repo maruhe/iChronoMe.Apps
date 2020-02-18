@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
+
 using static Android.App.AlarmManager;
 
 namespace iChronoMe.Droid.GUI.Buzzer
@@ -41,12 +37,12 @@ namespace iChronoMe.Droid.GUI.Buzzer
             btn.Click += Btn_Click;
             ll.AddView(btn);
 
-            SetContentView(ll);         
+            SetContentView(ll);
         }
 
         private async void Btn_Click(object sender, EventArgs e)
         {
-          
+
         }
     }
 }

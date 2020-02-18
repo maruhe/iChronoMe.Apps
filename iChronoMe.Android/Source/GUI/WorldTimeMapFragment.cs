@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Android.App;
+using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Gms.Maps.Utils.Data.GeoJson;
@@ -13,13 +14,14 @@ using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
-using iChronoMe.Droid.Widgets;
+
 using Org.Json;
+
 using static iChronoMe.Core.Classes.GeoInfo;
-using Android.Content;
 
 namespace iChronoMe.Droid.GUI
 {
@@ -84,14 +86,14 @@ namespace iChronoMe.Droid.GUI
                 blRestore = new Bundle(savedInstanceState);
         }
 
-        private void RestoreItems(Bundle savedInstanceState) 
+        private void RestoreItems(Bundle savedInstanceState)
         {
             if (savedInstanceState == null)
                 return;
             RemoveAllItems();
             bIsFirstClick = false;
             int iCount = savedInstanceState.GetInt("marker_count", 0);
-            for (int i = 0;i<iCount;i++)
+            for (int i = 0; i < iCount; i++)
             {
                 var lat = savedInstanceState.GetDouble("marker_" + i + "_lat", 0);
                 var lng = savedInstanceState.GetDouble("marker_" + i + "_lng", 0);
@@ -195,7 +197,7 @@ namespace iChronoMe.Droid.GUI
                     Task.Delay(100).Wait();
                     mActivity.RunOnUiThread(() => FocusItem(marker.Id, false));
                 });
-            } 
+            }
             catch (Exception ex)
             {
                 sys.LogException(ex);
@@ -369,14 +371,14 @@ namespace iChronoMe.Droid.GUI
                         var cGeoJ = System.IO.File.ReadAllText(filePath);
                         var oJson = new JSONObject(cGeoJ);
                         GeoJsonLayer layer = new GeoJsonLayer(mGoogleMap, oJson);
-                        
+
                         foreach (GeoJsonFeature f in layer.Features.ToEnumerable())
                         {
                             f.PolygonStyle = new GeoJsonPolygonStyle
                             {
                                 StrokeWidth = 2,
                                 StrokeColor = xColor.MaterialPink.ToAndroid(),
-                                FillColor = clrS[rnd.Next(clrS.Length-1)].WithAlpha(80).ToAndroid()
+                                FillColor = clrS[rnd.Next(clrS.Length - 1)].WithAlpha(80).ToAndroid()
                             };
                         }
 
@@ -455,7 +457,8 @@ namespace iChronoMe.Droid.GUI
                         layer.AddLayerToMap();
                         pDlg.SetProgressDone();
                     });
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     Tools.ShowMessage(mActivity, ex.GetType().Name, ex.Message);
                     pDlg.SetProgressDone();
@@ -512,7 +515,7 @@ namespace iChronoMe.Droid.GUI
                             }
                         });
                     }
-                    catch(Exception exx)
+                    catch (Exception exx)
                     {
                         Tools.ShowToast(mActivity, "Loader: " + exx.Message);
                     }

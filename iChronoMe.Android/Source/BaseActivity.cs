@@ -12,9 +12,9 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Interfaces;
@@ -65,8 +65,8 @@ namespace iChronoMe.Droid
                 string cThemeName = GetPreferences(FileCreationMode.Private).GetString("_user_theme", nameof(Resource.Style.AppTheme_iChronoMe_Dark));
                 int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
                 SetTheme(iThemeId);
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 sys.LogException(ex);
                 SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
@@ -184,7 +184,7 @@ namespace iChronoMe.Droid
         public void ShowFirstStartAssistant()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle(base.Resources.GetString(Resource.String.welcome_ichronomy)+"\n"+ base.Resources.GetString(Resource.String.label_choose_default_timetype))
+                .SetTitle(base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_default_timetype))
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
                 {
                     var tt = TimeType.RealSunTime;

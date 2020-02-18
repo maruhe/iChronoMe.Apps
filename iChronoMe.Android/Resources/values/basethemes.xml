@@ -42,7 +42,7 @@
 		<item name="android:statusBarColor">@android:color/transparent</item>
 
 		<item name="colorAccent">@color/highlightBlue</item>
-		<item name="iconTint">@color/black</item>
+		<item name="iconTint">@android:color/black</item>
 		<item name="iconTitleTint">@android:color/black</item>
 
 		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Light</item>

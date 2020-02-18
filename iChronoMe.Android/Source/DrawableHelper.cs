@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.Content;
 using Android.Support.V4.Graphics.Drawable;
-using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 
@@ -45,7 +39,7 @@ namespace iChronoMe.Droid
                     xLog.Error(ex);
                     return mDrawable;
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 xLog.Error(ex);
@@ -80,7 +74,7 @@ namespace iChronoMe.Droid
                 drw.SetBounds(0, 0, iShapeWidth, iShapeHeigth);
                 drw.Draw(canvas);
                 return bmp;
-            } 
+            }
             catch (Exception ex)
             {
                 xLog.Error(ex);

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Content;
 using Android.Media;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
@@ -49,7 +45,8 @@ namespace iChronoMe.Droid.GUI.Buzzer
                 e.Handled = false;
             };
 
-            Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() =>
+            {
                 Task.Delay(1000).Wait();
                 xLog.Debug("AlarmClockReceiverActivity start sound");
                 playSound(this, getAlarmUri());
@@ -107,7 +104,7 @@ namespace iChronoMe.Droid.GUI.Buzzer
 
         protected override void OnStop()
         {
-            base.OnStop();           
+            base.OnStop();
 
             if (ringtone != null)
             {

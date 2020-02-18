@@ -29,7 +29,7 @@ namespace iChronoMe.Droid
 
         SupportMapFragment mapFragment;
         GoogleMap googleMap;
-        
+
         public void Initialize()
         {
             this.Id = 123125;

@@ -783,7 +783,7 @@ namespace iChronoMe.Droid
                             clockView.ReadConfig(cfgNew);
                             var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
                             rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
-                            manager.UpdateAppWidget(iWidgetId, rvf);                
+                            manager.UpdateAppWidget(iWidgetId, rvf);
                         })
                         .SetFinally(() =>
                         {
