@@ -14,23 +14,51 @@ namespace iChronoMe.Droid
 {
     public static class DrawableHelper
     {
+        private static List<int> _coloredIcons = null;
+        public static List<int> ColoredIcons
+        {
+            get
+            {
+                if (_coloredIcons == null)
+                {
+                    List<int> list = new List<int>();
+                    foreach (var prop in typeof(Resource.Drawable).GetFields())
+                    {
+                        if (prop.Name.Contains("_clrd") || "real_sun_time".Equals(prop.Name))
+                            list.Add((int)prop.GetValue(null));
+                    }
+                    _coloredIcons = list;
+                }
+                return _coloredIcons;
+            }
+        }
+
         public static Drawable GetIconDrawable(Context context, string drawableName, xColor color)
+        {
+            return GetIconDrawable(context, (int)typeof(Resource.Drawable).GetField(drawableName).GetValue(null), color);
+        }
+        public static Drawable GetIconDrawable(Context context, string drawableName, Color color)
         {
             return GetIconDrawable(context, (int)typeof(Resource.Drawable).GetField(drawableName).GetValue(null), color);
         }
 
         public static Drawable GetIconDrawable(Context context, int drawableRes, xColor color)
         {
+            return GetIconDrawable(context, drawableRes, color.ToAndroid());
+        }
+
+        public static Drawable GetIconDrawable(Context context, int drawableRes, Color color)
+        {
             try
             {
                 var mDrawable = ContextCompat.GetDrawable(context, drawableRes);
-                if (!(mDrawable is VectorDrawable))
+                if (!(mDrawable is VectorDrawable) || ColoredIcons.Contains(drawableRes))
                     return mDrawable;
                 try
                 {
                     var mWrappedDrawable = mDrawable.Mutate();
                     mWrappedDrawable = DrawableCompat.Wrap(mWrappedDrawable);
-                    DrawableCompat.SetTint(mWrappedDrawable, color.ToAndroid());
+                    DrawableCompat.SetTint(mWrappedDrawable, color);
                     DrawableCompat.SetTintMode(mWrappedDrawable, PorterDuff.Mode.SrcIn);
                     return mWrappedDrawable;
                 }
@@ -54,8 +82,6 @@ namespace iChronoMe.Droid
 
         public static Bitmap GetIconBitmap(Context context, string drawableName, double nSizeDP, xColor color)
         {
-            if (drawableName.Contains("_clrd") || "real_sun_time".Equals(drawableName))
-                return GetDrawableBmp(ContextCompat.GetDrawable(context, (int)typeof(Resource.Drawable).GetField(drawableName).GetValue(null)), nSizeDP, nSizeDP);
             return GetDrawableBmp(GetIconDrawable(context, drawableName, color), nSizeDP, nSizeDP);
         }
 

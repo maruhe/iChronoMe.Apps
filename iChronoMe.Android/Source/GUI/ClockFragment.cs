@@ -55,7 +55,7 @@ namespace iChronoMe.Droid.GUI
             Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             imgClockBack = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background);
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
-            skiaView.PaintSurface += OnPaintSurface;
+            skiaView.PaintSurface += skiaView_OnPaintSurface;
 
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
             lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
@@ -512,6 +512,9 @@ namespace iChronoMe.Droid.GUI
             DateTime tAnimateFrom = DateTime.Today;
             DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
 
+            if (lth.Latitude == 0 || lth.Longitude == 0)
+                return;
+
             animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
             .SetStart(tAnimateFrom)
             .SetEnd(tAnimateTo)
@@ -550,7 +553,6 @@ namespace iChronoMe.Droid.GUI
                 });
             })
             .StartAnimation();
-
         }
 
         public override void OnPause()
@@ -593,6 +595,8 @@ namespace iChronoMe.Droid.GUI
                 {
                     if (bNoClockUpdate)
                         return;
+                    if (lth.Latitude == 0 || lth.Longitude == 0)
+                        return;
 
                     mContext.RunOnUiThread(() =>
                     {
@@ -609,6 +613,8 @@ namespace iChronoMe.Droid.GUI
         private void UpdateTime(TextView tvTime, TextView tvOffset, TimeType typeType)
         {
             if (lth == null)
+                return;
+            if (lth.Latitude == 0 || lth.Longitude == 0)
                 return;
             DateTime tCurrent = lth.GetTime(this.TimeType);
             DateTime tInfo = lth.GetTime(typeType);
@@ -648,9 +654,8 @@ namespace iChronoMe.Droid.GUI
             base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
-            //var icon = VectorDrawableCompat.Create(Activity.Resources, Resource.Drawable.icons8_alarm_3, Activity.Theme);
-            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, xColor.FromHex("#FFFFFFFF")));
-            item.SetShowAsAction(ShowAsAction.Always);
+            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+            item.SetShowAsAction(ShowAsAction.IfRoom);
             item.SetOnMenuItemClickListener(this);
         }
 
@@ -816,13 +821,15 @@ namespace iChronoMe.Droid.GUI
         double? nManualSecond = null;
         DateTime tLastClockTime = DateTime.MinValue;
 
-        private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        private void skiaView_OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             try
             {
                 if (nManualSecond == null)
                 {
                     tLastClockTime = lth.GetTime(this.TimeType);
+                    if (lth.Latitude == 0 || lth.Longitude == 0)
+                        tLastClockTime = DateTime.Today;
                     vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
                 }
                 else

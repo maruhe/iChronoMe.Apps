@@ -17,6 +17,8 @@
 	<string name="progress_clearcache_title">clear cache?</string>
 	<string name="progress_clearcache_message">you will have to restart iChronome after continue</string>
 
+	<string name="AppTheme_iChronoMe_Gray">not to light</string>
+
 	<string name="progress_preparing_data">preparing data...</string>
 	<string name="error_message_paramers">parameter error, try again</string>
 

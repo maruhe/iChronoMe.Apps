@@ -321,7 +321,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 */
 #if DEBUG
                 var sub = menu.AddSubMenu(0, 0, 0, "Debug");
-                sub.SetIcon(Resource.Drawable.icons8_services);
+                sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
                 sub.Item.SetShowAsAction(ShowAsAction.Always);
 
                 item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
@@ -649,6 +649,16 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 var theme = Context.Theme;
                 //Tools.GetAllThemeColors(theme);
+
+                /*
+                Color clTitleText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TitleTextColor).Value;
+                Color clTitleBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimary).Value;//Color.ParseColor("#2c3e50");
+                Color clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColor).Value;
+                Color clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
+                Color clTodayText = clTitleText;
+                Color clAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
+
+                 */
 
                 Color clTitleText = Color.White;
                 Color clTitleBack = Color.ParseColor("#2c3e50");

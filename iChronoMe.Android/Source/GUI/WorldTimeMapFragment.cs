@@ -236,8 +236,8 @@ namespace iChronoMe.Droid.GUI
 
 #if DEBUG
             var dsub = menu.AddSubMenu(0, 0, 10, "Debug");
-            dsub.Item.SetShowAsAction(ShowAsAction.Always);
-
+            dsub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+            dsub.Item.SetShowAsAction(ShowAsAction.IfRoom);
 
             var ditem = dsub.Add(0, menu_typetype_Debug_AreaCache, 0, "AreaCache");
             ditem.SetShowAsAction(ShowAsAction.Always);
@@ -253,7 +253,7 @@ namespace iChronoMe.Droid.GUI
 #endif
 
             var sub = menu.AddSubMenu(0, 0, 100, Resources.GetString(Resource.String.TimeType));
-            sub.SetIcon(Tools.GetTimeTypeIconID(mTimeType, LocationTimeHolder.LocalInstance));
+            sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Tools.GetTimeTypeIconName(mTimeType, LocationTimeHolder.LocalInstance), Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
             sub.Item.SetShowAsAction(ShowAsAction.Always);
             IMenuItem item;
             if (mTimeType != TimeType.RealSunTime)

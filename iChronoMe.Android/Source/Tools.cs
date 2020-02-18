@@ -145,7 +145,25 @@ namespace iChronoMe.Droid
             {
                 var builder = new AlertDialog.Builder(context).SetTitle(title);
                 if (bAllowAbort)
-                    builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_yes), (s, e) => { tcsYnMsg.TrySetResult(false); });
+                    builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsYnMsg.TrySetResult(false); });
+                builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
+                builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                var dlg = builder.Create();
+
+                dlg.Show();
+            });
+            await tskScDlg;
+            return tskScDlg.Result;
+        }
+        public static async Task<int> ShowSingleChoiseDlg(Context context, string title, IListAdapter items, bool bAllowAbort = true)
+        {
+            tcsScDlg = new TaskCompletionSource<int>();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var builder = new AlertDialog.Builder(context).SetTitle(title);
+                if (bAllowAbort)
+                    builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsYnMsg.TrySetResult(false); });
                 builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
                 builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
                 var dlg = builder.Create();
@@ -224,7 +242,6 @@ namespace iChronoMe.Droid
                 TypedValue val = new TypedValue();
                 theme.ResolveAttribute(attrId, val, true);
 
-
                 if (val.Type >= DataType.FirstColorInt && val.Type <= DataType.LastColorInt)
                 {
                     //simple colors
@@ -248,8 +265,6 @@ namespace iChronoMe.Droid
                         themeArray.Recycle();
                     }
                 }
-
-
             }
             catch { }
             return null;

@@ -28,12 +28,12 @@ namespace iChronoMe.Droid.Adapters
                 int iIcon = -1;
                 if (log.EndsWith(".png"))
                 {
-                    iIcon = Resource.Drawable.icons8_edit;
+                    iIcon = Resource.Drawable.icons8_screenshot;
                     cTitle = mContext.Resources.GetString(Resource.String.label_sceenshot) + " " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
                 }
                 else
                 {
-                    iIcon = Resource.Drawable.icons8_delete;
+                    iIcon = Resource.Drawable.icons8_error;
                     cTitle = mContext.Resources.GetString(Resource.String.label_errorlog) + " " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
                 }
 

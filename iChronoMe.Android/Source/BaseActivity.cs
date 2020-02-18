@@ -62,12 +62,16 @@ namespace iChronoMe.Droid
         {
             try
             {
-                string cThemeName = GetPreferences(FileCreationMode.Private).GetString("_user_theme", nameof(Resource.Style.AppTheme_iChronoMe_Dark));
+                string cThemeName = AppConfigHolder.MainConfig.AppThemeName;
+                if (string.IsNullOrEmpty(cThemeName))
+                    cThemeName = nameof(Resource.Style.AppTheme_iChronoMe_Dark);
                 int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
                 SetTheme(iThemeId);
             }
             catch (Exception ex)
             {
+                AppConfigHolder.MainConfig.AppThemeName = string.Empty;
+                AppConfigHolder.SaveMainConfig();
                 sys.LogException(ex);
                 SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
             }
@@ -76,17 +80,30 @@ namespace iChronoMe.Droid
         public async void ShowThemeSelector()
         {
             List<string> themes = new List<string>();
+            List<string> titles = new List<string>();
             foreach (var prop in typeof(Resource.Style).GetFields())
             {
                 if (prop.Name.StartsWith("AppTheme_iChronoMe_"))
+                {
                     themes.Add(prop.Name);
+                    if (typeof(Resource.String).GetField(prop.Name) != null)
+                        titles.Add(Resources.GetString((int)typeof(Resource.String).GetField(prop.Name).GetValue(null)));
+                    else
+                        titles.Add(prop.Name.Replace("AppTheme_iChronoMe_", ""));
+
+                }
             }
-            var theme = await Tools.ShowSingleChoiseDlg(this, Resources.GetString(Resource.String.action_change_theme), themes.ToArray());
+            var theme = await Tools.ShowSingleChoiseDlg(this, Resources.GetString(Resource.String.action_change_theme), titles.ToArray(), false);
             if (theme >= 0)
             {
-                var editor = GetPreferences(FileCreationMode.Private).Edit();
-                editor.PutString("_user_theme", themes[theme]);
-                editor.Commit();
+                AppConfigHolder.MainConfig.AppThemeName = themes[theme];
+                AppConfigHolder.SaveMainConfig();
+                if (bStartAssistantActive)
+                {
+                    AppConfigHolder.MainConfig.InitScreenTheme = 1;
+                    AppConfigHolder.SaveMainConfig();
+                    SetAssistantDone();
+                }
                 RunOnUiThread(() => Recreate());
             }
         }
@@ -160,7 +177,10 @@ namespace iChronoMe.Droid
         const float nStartAssistantMaxStep = 1.4F;
         public bool NeedsStartAssistant()
         {
-            return AppConfigHolder.MainConfig.WelcomeScreenDone < nStartAssistantMaxStep;
+            return (AppConfigHolder.MainConfig.InitScreenTheme < 1 && (this is MainActivity)) ||
+                AppConfigHolder.MainConfig.InitScreenTimeType < 1 ||
+                AppConfigHolder.MainConfig.InitScreenPermission < 1 ||
+                AppConfigHolder.MainConfig.InitScreenPrivacy < 2;
         }
 
         bool bStartAssistantActive = false;
@@ -169,19 +189,24 @@ namespace iChronoMe.Droid
             if (bStartAssistantActive)
                 return;
             bStartAssistantActive = true;
-            if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.1F)
-                ShowFirstStartAssistant();
-            else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.2F)
-                ShowPermissionsAssistant();
-            else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.3F)
-                ShowPrivacyAssistant();
-            else if (AppConfigHolder.MainConfig.WelcomeScreenDone < 1.4F)
-                ShowPrivacyNotice();
+            if (AppConfigHolder.MainConfig.InitScreenTheme < 1)// && (this is MainActivity))
+                ShowThemeSelector();
+            else if (AppConfigHolder.MainConfig.InitScreenTimeType < 1)
+                ShowInitScreen_TimeType();
+            else if (AppConfigHolder.MainConfig.InitScreenPermission < 1)
+                ShowInitScreen_Permissions();
+            else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 1)
+                ShowInitScreen_PrivacyAssistant();
+            else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 2)
+                ShowInitScreen_PrivacyNotice();
             else
-                SetAssistantDone();
+            {
+                bStartAssistantActive = false;
+                RunOnUiThread(() => OnResume());
+            }
         }
 
-        public void ShowFirstStartAssistant()
+        public void ShowInitScreen_TimeType()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
                 .SetTitle(base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_default_timetype))
@@ -198,16 +223,15 @@ namespace iChronoMe.Droid
                             break;
                     }
                     AppConfigHolder.MainConfig.DefaultTimeType = tt;
-                    AppConfigHolder.MainConfig.WelcomeScreenDone = 1.1F;
+                    AppConfigHolder.MainConfig.InitScreenTimeType = 1;
                     AppConfigHolder.SaveMainConfig();
-                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
-                    ShowPermissionsAssistant();
+                    SetAssistantDone();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
         }
 
-        public void ShowPermissionsAssistant()
+        public void ShowInitScreen_Permissions()
         {
             String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_calendar), Resources.GetString(Resource.String.assistant_permission_storage) };
             bool[] checks = new bool[] { true, true, true };
@@ -243,69 +267,59 @@ namespace iChronoMe.Droid
                     }
                     Task.Factory.StartNew(async () =>
                     {
+                        bStartAssistantActive = false;
                         await this.RequestPermissionsAsync(req.ToArray(), 2);
 
                         if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
                         {
-                            AppConfigHolder.MainConfig.WelcomeScreenDone = 1.2F;
+                            AppConfigHolder.MainConfig.InitScreenPermission = 1;
                             AppConfigHolder.SaveMainConfig();
-                            RunOnUiThread(() => ShowPrivacyAssistant());
-                        }
-                        else
-                        {
-                            RunOnUiThread(() => ShowPermissionsAssistant());
                         }
                     });
-                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
         }
 
-        public void ShowPrivacyAssistant()
+        public void ShowInitScreen_PrivacyAssistant()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
                 .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_question))
                 .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
                 {
-                    AppConfigHolder.MainConfig.WelcomeScreenDone = 1.3F;
+                    AppConfigHolder.MainConfig.InitScreenPrivacy = 1;
                     AppConfigHolder.SaveMainConfig();
-                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
-                    ShowPrivacyNotice();
+                    SetAssistantDone();
                 })
                 .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                 {
-                    AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
+                    AppConfigHolder.MainConfig.InitScreenPrivacy = 2;
                     AppConfigHolder.SaveMainConfig();
-                    //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                     SetAssistantDone();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
         }
 
-        public void ShowPrivacyNotice()
+        public void ShowInitScreen_PrivacyNotice()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
                         .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_title))
                         .SetMessage(Resources.GetString(Resource.String.assistant_privacy_message))
                         .SetPositiveButton(Resources.GetString(Resource.String.action_accept), (s, e) =>
                         {
-                            AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
+                            AppConfigHolder.MainConfig.InitScreenPrivacy = 2;
                             AppConfigHolder.SaveMainConfig();
-                            //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             SetAssistantDone();
                         })
                         .SetNeutralButton(Resources.GetString(Resource.String.action_ignore), (s, e) =>
                         {
-                            AppConfigHolder.MainConfig.WelcomeScreenDone = 1.4F;
+                            AppConfigHolder.MainConfig.InitScreenPrivacy = 2;
                             AppConfigHolder.SaveMainConfig();
-                            //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             SetAssistantDone();
                         })
                         .SetNegativeButton(Resources.GetString(Resource.String.action_decline), (s, e) =>
                         {
-                            //(s as Android.Support.V7.App.AlertDialog)?.Dismiss();
                             FinishAndRemoveTask();
                         })
                         .SetOnCancelListener(new QuitOnCancelListener(this))
@@ -315,9 +329,7 @@ namespace iChronoMe.Droid
         public void SetAssistantDone()
         {
             bStartAssistantActive = false;
-            AppConfigHolder.MainConfig.WelcomeScreenDone = nStartAssistantMaxStep;
-            AppConfigHolder.SaveMainConfig();
-            OnResume();
+            ShowStartAssistant();
         }
 
         public Task<bool> RequestPermissionsTask { get { return tcsRP == null ? Task.FromResult(false) : tcsRP.Task; } }

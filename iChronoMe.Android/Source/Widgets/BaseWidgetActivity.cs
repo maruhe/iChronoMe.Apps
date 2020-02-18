@@ -34,6 +34,8 @@ namespace iChronoMe.Droid.Widgets
                 FinishAndRemoveTask();
                 return;
             }
+            LoadAppTheme();
+            SetTheme(Resource.Style.TransparentTheme);
         }
 
         protected void TryGetWallpaper()

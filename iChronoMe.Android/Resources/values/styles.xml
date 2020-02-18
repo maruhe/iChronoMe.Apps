@@ -7,6 +7,11 @@
 
   <style name="Text" />
 
+	<style name="navHeaderTitle">
+		<item name="android:textColor">@color/smokyWhite</item>
+		<item name="android:textStyle">bold</item>
+  </style>
+
   <style name="Text.Loading">
     <item name="android:textSize">14sp</item>
     <item name="android:textColor">@android:color/white</item>
