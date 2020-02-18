@@ -62,14 +62,14 @@ namespace iChronoMe.Droid
         {
             try
             {
-                string cThemeName = GetPreferences(FileCreationMode.Private).GetString("_user_theme", nameof(Resource.Style.Theme_iChronoMe_Dark));
+                string cThemeName = GetPreferences(FileCreationMode.Private).GetString("_user_theme", nameof(Resource.Style.AppTheme_iChronoMe_Dark));
                 int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
                 SetTheme(iThemeId);
             } 
             catch(Exception ex)
             {
                 sys.LogException(ex);
-                SetTheme(Resource.Style.Theme_iChronoMe_Dark);
+                SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
             }
         }
 
@@ -78,7 +78,7 @@ namespace iChronoMe.Droid
             List<string> themes = new List<string>();
             foreach (var prop in typeof(Resource.Style).GetFields())
             {
-                if (prop.Name.StartsWith("Theme_iChronoMe_"))
+                if (prop.Name.StartsWith("AppTheme_iChronoMe_"))
                     themes.Add(prop.Name);
             }
             var theme = await Tools.ShowSingleChoiseDlg(this, Resources.GetString(Resource.String.action_change_theme), themes.ToArray());

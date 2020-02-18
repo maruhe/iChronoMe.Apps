@@ -5,7 +5,7 @@
 	<attr name="AppBarOverlay" format="reference" />
 	<attr name="PopupOverlay" format="reference" />
 
-	<style name="Theme.iChronoMe.Dark" parent="Theme.AppCompat">
+	<style name="BaseTheme.iChronoMe.Dark" parent="Theme.AppCompat">
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
@@ -20,7 +20,7 @@
 		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
 	</style>
 
-	<style name="Theme.iChronoMe.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+	<style name="BaseTheme.iChronoMe.Light" parent="Theme.AppCompat.Light.DarkActionBar">
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
@@ -30,13 +30,25 @@
 		<item name="colorAccent">@color/highlightBlue</item>
 		<item name="iconTint">@color/deepDarkGray</item>
 		<item name="iconTitleTint">@android:color/white</item>
-		<item name="android:windowBackground">@color/smokyWhite</item>
 
 		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
 
 	</style>
 
+	<style name="BaseTheme.iChronoMe.White" parent="Theme.AppCompat.Light">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+
+		<item name="colorAccent">@color/highlightBlue</item>
+		<item name="iconTint">@color/black</item>
+		<item name="iconTitleTint">@android:color/black</item>
+
+		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Light</item>
+		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
+
+	</style>
 
 	<style name="splashscreen" parent="Theme.AppCompat">
 		<item name="android:windowBackground">@drawable/splash_screen</item>
