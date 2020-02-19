@@ -41,6 +41,11 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"/>
 
+            <ImageView
+                android:id="@+id/shape_5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
         </TableRow>
     </TableLayout>
 </LinearLayout>

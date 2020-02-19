@@ -690,7 +690,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 };
 
                 schedule.TimelineViewSettings.Color = clSlotBack;
-                schedule.TimelineViewSettings.LabelSettings.TimeLabelColor = clText;
+                schedule.TimelineViewSettings.LabelSettings.TimeLabelColor = clTitleText;
 
                 //schedule.DayViewSettings.TimeSlotColor = clSlotBack;
                 //schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent; 
@@ -698,11 +698,11 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 schedule.WeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
-                schedule.WeekViewSettings.WeekLabelSettings.TimeLabelColor = clText;
+                schedule.WeekViewSettings.WeekLabelSettings.TimeLabelColor = clTitleText;
 
                 schedule.WorkWeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WorkWeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
-                schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeLabelColor = clText;
+                schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeLabelColor = clTitleText;
 
                 schedule.MonthViewSettings.AgendaViewStyle = new AgendaViewStyle
                 {
@@ -724,7 +724,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 schedule.MonthViewSettings.WeekNumberStyle = new WeekNumberStyle
                 {
-                    TextColor = clText,
+                    TextColor = clTitleText,
                     BackgroundColor = clBack
                 };
             }

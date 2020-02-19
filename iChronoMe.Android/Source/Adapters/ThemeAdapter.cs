@@ -45,10 +45,13 @@ namespace iChronoMe.Droid.Adapters
             view.SetBackgroundColor(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.WindowBackground));
 
             view.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
+            view.FindViewById<TextView>(Resource.Id.title).SetTextColor(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary));
 
-            view.FindViewById<ImageView>(Resource.Id.shape_1).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColor)));
-            view.FindViewById<ImageView>(Resource.Id.shape_2).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary)));
-            view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.WindowBackground)));
+            view.FindViewById<ImageView>(Resource.Id.shape_1).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Resource.Attribute.titleTextColor)));
+            view.FindViewById<ImageView>(Resource.Id.shape_2).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimary)));
+            view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary)));
+            view.FindViewById<ImageView>(Resource.Id.shape_4).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorAccent)));
+            view.FindViewById<ImageView>(Resource.Id.shape_5).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimaryDark)));
 
             return view;
         }
@@ -58,7 +61,7 @@ namespace iChronoMe.Droid.Adapters
             GradientDrawable gd = new GradientDrawable();
             gd.SetShape(ShapeType.Rectangle);
             gd.SetColor(clr);
-            gd.SetStroke(2, Color.Red);
+            gd.SetStroke(2, Color.Black);
             gd.SetCornerRadius(15.0f);
             return gd;
         }

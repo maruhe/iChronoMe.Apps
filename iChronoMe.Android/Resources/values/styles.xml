@@ -8,9 +8,9 @@
   <style name="Text" />
 
 	<style name="navHeaderTitle">
+		<item name="android:textSize">@dimen/abc_text_size_body_1_material</item>
 		<item name="android:textColor">@color/smokyWhite</item>
-		<item name="android:textStyle">bold</item>
-  </style>
+	</style>
 
   <style name="Text.Loading">
     <item name="android:textSize">14sp</item>

@@ -6,12 +6,15 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_clock"
+            android:icon="@drawable/icons8_clock"
             android:title="@string/menu_clock" />
 			<item
 					android:id="@+id/nav_calendar"
+          android:icon="@drawable/icons8_calendar"
 					android:title="@string/menu_calendar" />
 			<item
 					android:id="@+id/nav_world_time_map"
+          android:icon="@drawable/icons8_worldwide_location"
 					android:title="@string/menu_world_time_map" />
 		</group>
 
@@ -19,16 +22,19 @@
         <menu>
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/icons8_settings_3"
                 android:title="@string/menu_settings" />
             <item
                 android:id="@+id/nav_faq"
+                android:icon="@drawable/icons8_faq"
                 android:title="@string/menu_faq" />
             <item
                 android:id="@+id/nav_about"
+                android:icon="@drawable/icons8_about"
                 android:title="@string/menu_about" />
             <item
                 android:id="@+id/nav_theme"
+                android:icon="@drawable/icons8_change_theme"
                 android:title="@string/action_change_theme"/>
         </menu>
     </item>

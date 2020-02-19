@@ -198,7 +198,7 @@ namespace iChronoMe.Droid
 #if DEBUG
                     fr = new DebugFragment();
 #else
-                    fr = AboutFragment();
+                    fr = new AboutFragment();
 #endif
                 }
                 else if (id == Resource.Id.nav_theme)
