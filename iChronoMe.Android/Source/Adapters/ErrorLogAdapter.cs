@@ -33,7 +33,7 @@ namespace iChronoMe.Droid.Adapters
                 }
                 else
                 {
-                    iIcon = Resource.Drawable.icons8_error;
+                    iIcon = Resource.Drawable.icons8_error_clrd;
                     cTitle = mContext.Resources.GetString(Resource.String.label_errorlog) + " " + File.GetCreationTime(log).ToShortDateString() + " " + File.GetCreationTime(log).ToShortTimeString();
                 }
 

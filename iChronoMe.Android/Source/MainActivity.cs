@@ -19,6 +19,7 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
+using iChronoMe.Droid.GUI.Debug;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.GUI.Service;
 
@@ -194,7 +195,11 @@ namespace iChronoMe.Droid
                 }
                 else if (id == Resource.Id.nav_about)
                 {
-                    fr = new AboutFragment();
+#if DEBUG
+                    fr = new DebugFragment();
+#else
+                    fr = AboutFragment();
+#endif
                 }
                 else if (id == Resource.Id.nav_theme)
                 {
@@ -268,6 +273,7 @@ namespace iChronoMe.Droid
                                     .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
                                     {
                                         try { Directory.Delete(cErrorPath, true); } catch { };
+                                        Tools.ShowToast(this, Resource.String.progress_deleteerrorlog_done);
                                     })
                                     .SetNeutralButton(Resource.String.progress_senderrorlog_more, (s, e) =>
                                     {

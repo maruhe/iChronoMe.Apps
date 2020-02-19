@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using Android.App;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
 
@@ -18,7 +20,7 @@ namespace iChronoMe.Droid.Adapters
             {
                 if (prop.Name.StartsWith("AppTheme_iChronoMe_"))
                 {
-                    var o = new SimpleObject { Title1 = prop.Name.Replace("AppTheme_iChronoMe_", ""), Tag = prop.GetValue(null) };
+                    var o = new SimpleObject { Title1 = prop.Name.Replace("AppTheme_iChronoMe_", ""), Tag = prop.GetValue(null), Text1 = prop.Name };
                     Items.Add(o);
                 }
             }
@@ -34,15 +36,31 @@ namespace iChronoMe.Droid.Adapters
         {
             var item = Items[position];
 
-            //var view = new LinearLayout(new ContextThemeWrapper(mContext, (int)item.Tag));
+            var wrapper = new ContextThemeWrapper(mContext, (int)item.Tag);
+            var inflater = mContext.LayoutInflater.CloneInContext(wrapper);
+            //getContext().getTheme().applyStyle(styleId, true); can be used tu load a style into a theme before Inflate
 
-            var view = (TableLayout)mContext.LayoutInflater.Inflate(Resource.Layout.listitem_themetemplate, null);
+            var view = inflater.Inflate(Resource.Layout.listitem_themetemplate, null);
 
-            view.FindViewById<Button>(Resource.Id.button1).SetTextAppearance((int)item.Tag);
+            view.SetBackgroundColor(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.WindowBackground));
 
+            view.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
 
+            view.FindViewById<ImageView>(Resource.Id.shape_1).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColor)));
+            view.FindViewById<ImageView>(Resource.Id.shape_2).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary)));
+            view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.WindowBackground)));
 
             return view;
+        }
+
+        private GradientDrawable GetShape(Color clr)
+        {
+            GradientDrawable gd = new GradientDrawable();
+            gd.SetShape(ShapeType.Rectangle);
+            gd.SetColor(clr);
+            gd.SetStroke(2, Color.Red);
+            gd.SetCornerRadius(15.0f);
+            return gd;
         }
     }
 }

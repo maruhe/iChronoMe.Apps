@@ -76,8 +76,10 @@ namespace iChronoMe.Droid.Adapters
                         int imgRes = Resource.Drawable.real_sun_time;
                         if (status == TestStatus.OK)
                             imgRes = Resource.Drawable.icons8_approval;
+                        else if (status == TestStatus.Warning)
+                            imgRes = Resource.Drawable.icons8_warning_clrd;
                         else if (status == TestStatus.Error)
-                            imgRes = Resource.Drawable.icons8_error;
+                            imgRes = Resource.Drawable.icons8_error_clrd;
                         icon.SetImageResource(imgRes);
                     }
                 }
@@ -508,7 +510,9 @@ namespace iChronoMe.Droid.Adapters
             None = 0,
             Running = 10,
             OK = 15,
-            Error = 20
+            Info = 30,
+            Warning = 50,
+            Error = 80
         }
     }
 }

@@ -40,7 +40,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private Spinner ViewTypeSpinner;
         private AppCompatActivity mContext = null;
         private EventCollection calEvents = null;
-        private ArrayAdapter<string> ViewTypeAdapter = null;
+        private TitleSpinnerAdapter ViewTypeAdapter = null;
         private FloatingActionButton fabTimeType;
         private CalendarConfigViewModel ConfigModel;
         private DataBinder ConfigBinder;
@@ -68,7 +68,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             Drawer.DrawerStateChanged += Drawer_DrawerStateChanged;
             coordinator = view.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
-            ViewTypeAdapter = new ArrayAdapter<string>(Context, Android.Resource.Layout.SimpleSpinnerDropDownItem, new List<string>(new string[] { "init.." }));
+            ViewTypeAdapter = new TitleSpinnerAdapter(mContext, new string[] { "init.." });
             ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (ViewTypeSpinner != null)
             {
@@ -292,7 +292,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             try
             {
                 var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
-                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, xColor.FromHex("#FFFFFFFF")));
+                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_services, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
                 item.SetShowAsAction(ShowAsAction.Always);
                 item.SetOnMenuItemClickListener(this);
 
@@ -523,9 +523,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 var lst = new List<string>();
                 lst.Add(ViewTypeSpinner.Prompt);
                 lst.AddRange(Resources.GetStringArray(Resource.Array.calendar_viewtypes));
-                ViewTypeAdapter.Clear();
-                ViewTypeAdapter.AddAll(lst);
-                ViewTypeAdapter.NotifyDataSetChanged();
+                ViewTypeAdapter.UpdateItems(lst);
                 ViewTypeSpinner.PerformClick();
             }
             catch { }
@@ -558,10 +556,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 }
 
                 ViewTypeSpinner.Prompt = cTitle;
-                ViewTypeAdapter.Clear();
-                ViewTypeAdapter.Add(cTitle);
-                ViewTypeAdapter.NotifyDataSetChanged();
-
+                ViewTypeAdapter.UpdateItems(new string[] { cTitle });
             }
         }
 
@@ -650,15 +645,14 @@ namespace iChronoMe.Droid.GUI.Calendar
                 var theme = Context.Theme;
                 //Tools.GetAllThemeColors(theme);
 
-                /*
-                Color clTitleText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TitleTextColor).Value;
+                Color clTitleText = Tools.GetThemeColor(theme, Resource.Attribute.titleTextColor).Value;
                 Color clTitleBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimary).Value;//Color.ParseColor("#2c3e50");
-                Color clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColor).Value;
+                Color clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColorPrimary).Value;
                 Color clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
-                Color clTodayText = clTitleText;
-                Color clAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
+                Color clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
+                //Color clAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
 
-                 */
+                /*
 
                 Color clTitleText = Color.White;
                 Color clTitleBack = Color.ParseColor("#2c3e50");
@@ -666,6 +660,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 Color clBack = Color.ParseColor("#2c3e50");
                 Color clTodayText = clTitleText;
                 Color clAccent = Color.ParseColor("#1B3147");
+                 */
 
                 Color clSlotBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.WindowBackground).Value;
                 Color clSlotAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorSecondary).Value;
@@ -674,8 +669,8 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 schedule.ViewHeaderStyle = new ViewHeaderStyle
                 {
-                    DayTextColor = clText,
-                    DateTextColor = clText,
+                    DayTextColor = clTitleText,
+                    DateTextColor = clTitleText,
                     CurrentDateTextColor = clTodayText,
                     CurrentDayTextColor = clTodayText,
                     BackgroundColor = clBack

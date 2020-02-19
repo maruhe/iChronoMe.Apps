@@ -78,10 +78,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
+    <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
     <Compile Include="Source\DrawableHelper.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerClockReceiverActivity.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerManagerActivity.cs" />
+    <Compile Include="Source\GUI\Debug\DebugFragment.cs" />
     <Compile Include="Source\IOUtil.cs" />
     <Compile Include="Source\Adapters\SystemTestAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarListAdapter.cs" />
@@ -259,25 +261,7 @@
     <AndroidResource Include="Resources\drawable\dummy_wallpaper.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_close.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\icons8_date_to.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_geo_fence.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_location.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_location_small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_screenshot.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\main_background.xml" />
@@ -823,9 +807,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_cancel.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_error.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_ok.xml" />

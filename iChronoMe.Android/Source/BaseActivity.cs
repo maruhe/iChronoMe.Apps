@@ -79,24 +79,12 @@ namespace iChronoMe.Droid
 
         public async void ShowThemeSelector()
         {
-            List<string> themes = new List<string>();
-            List<string> titles = new List<string>();
-            foreach (var prop in typeof(Resource.Style).GetFields())
-            {
-                if (prop.Name.StartsWith("AppTheme_iChronoMe_"))
-                {
-                    themes.Add(prop.Name);
-                    if (typeof(Resource.String).GetField(prop.Name) != null)
-                        titles.Add(Resources.GetString((int)typeof(Resource.String).GetField(prop.Name).GetValue(null)));
-                    else
-                        titles.Add(prop.Name.Replace("AppTheme_iChronoMe_", ""));
-
-                }
-            }
-            var theme = await Tools.ShowSingleChoiseDlg(this, Resources.GetString(Resource.String.action_change_theme), titles.ToArray(), false);
+            var adapter = new ThemeAdapter(this);
+            string title = bStartAssistantActive ? base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_theme_firsttime) : Resources.GetString(Resource.String.action_change_theme);
+            var theme = await Tools.ShowSingleChoiseDlg(this, title, adapter, false);
             if (theme >= 0)
             {
-                AppConfigHolder.MainConfig.AppThemeName = themes[theme];
+                AppConfigHolder.MainConfig.AppThemeName = adapter[theme].Text1;
                 AppConfigHolder.SaveMainConfig();
                 if (bStartAssistantActive)
                 {
@@ -209,7 +197,7 @@ namespace iChronoMe.Droid
         public void ShowInitScreen_TimeType()
         {
             new Android.Support.V7.App.AlertDialog.Builder(this)
-                .SetTitle(base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_default_timetype))
+                .SetTitle(Resource.String.label_choose_default_timetype)
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
                 {
                     var tt = TimeType.RealSunTime;

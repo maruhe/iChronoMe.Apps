@@ -24,6 +24,7 @@
 
 	<string name="progress_systemtest_action">system test</string>
 	<string name="progress_systemtest_title">system test</string>
+	<string name="progress_deleteerrorlog_done">error-logs wave been deleted</string>
 
 	<string name="progress_overlay_timezones_title">preparing timezones...</string>
 
@@ -108,6 +109,7 @@
 
 	<string name="TimeType">time-type</string>
 	<string name="welcome_ichronomy">"welcome to iChronoMe!"</string>
+	<string name="label_choose_theme_firsttime">"at first choose your colors:"</string>
 	<string name="label_choose_default_timetype">"choose your default Time-Type:"</string>
 	<string name="TimeType_RealSunTime">real sun time</string>
 	<string name="TimeType_RealSunTime_Desc">

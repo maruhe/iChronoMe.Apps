@@ -508,7 +508,7 @@ namespace iChronoMe.Droid.GUI
                 catch { }
             });
 
-            TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
+            TimeSpan tsDuriation = TimeSpan.FromSeconds(.5);
             DateTime tAnimateFrom = DateTime.Today;
             DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
 
@@ -654,7 +654,7 @@ namespace iChronoMe.Droid.GUI
             base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
-            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_view_quilt, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+            item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_services, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
             item.SetShowAsAction(ShowAsAction.IfRoom);
             item.SetOnMenuItemClickListener(this);
         }

@@ -2,6 +2,7 @@
 <resources>
 	<attr name="iconTint" format="color" />
 	<attr name="iconTitleTint" format="color" />
+	<attr name="titleTextColor" format="color" />
 	<attr name="AppBarOverlay" format="reference" />
 	<attr name="PopupOverlay" format="reference" />
 
@@ -13,6 +14,7 @@
 		<item name="colorPrimary">@color/medDarkGray</item>
 		<item name="colorPrimaryDark">@color/deepDarkGray</item>
 		<item name="colorAccent">@color/highlightBlue</item>
+		<item name="titleTextColor">@android:color/white</item>
 		<item name="iconTint">@color/smokyWhite</item>
 		<item name="iconTitleTint">@android:color/white</item>
 
@@ -28,12 +30,19 @@
 		<item name="colorPrimary">@color/medDarkGray</item>
 		<item name="colorPrimaryDark">@color/deepDarkGray</item>
 		<item name="colorAccent">@color/highlightBlue</item>
+		<item name="titleTextColor">@android:color/white</item>
 		<item name="iconTint">@color/deepDarkGray</item>
 		<item name="iconTitleTint">@android:color/white</item>
+		<item name="android:windowBackground">@color/smokyWhite</item>
 
 		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
+		<item name="alertDialogTheme">@style/greyDlg</item>
 
+	</style>
+
+	<style name="greyDlg" parent="Theme.AppCompat.Light.Dialog">
+		<item name="android:windowBackground">@color/smokyWhite</item>
 	</style>
 
 	<style name="BaseTheme.iChronoMe.White" parent="Theme.AppCompat.Light">
@@ -41,9 +50,13 @@
 		<item name="windowNoTitle">true</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 
-		<item name="colorAccent">@color/highlightBlue</item>
-		<item name="iconTint">@android:color/black</item>
+		<item name="colorAccent">@color/darkHighlightBlue</item>
+		<item name="titleTextColor">@android:color/black</item>
+		<item name="iconTint">@color/deepDarkGray</item>
+		<item name="android:textColor">@android:color/black</item>
 		<item name="iconTitleTint">@android:color/black</item>
+
+		<item name="android:windowBackground">@android:color/white</item>
 
 		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Light</item>
 		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>

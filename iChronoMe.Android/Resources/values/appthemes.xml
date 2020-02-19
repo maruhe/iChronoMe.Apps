@@ -2,44 +2,12 @@
 <resources>
 
 	<style name="AppTheme.iChronoMe.Dark" parent="BaseTheme.iChronoMe.Dark">
-		<item name="colorPrimary">@color/medDarkGray</item>
-		<item name="colorPrimaryDark">@color/deepDarkGray</item>
-		<item name="colorAccent">@color/highlightBlue</item>
-		<item name="iconTint">@color/smokyWhite</item>
-		<item name="iconTitleTint">@android:color/white</item>
-
-		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
 	</style>
 
-	<style name="AppTheme.iChronoMe.Gray" parent="BaseTheme.iChronoMe.Light">
-		<item name="colorPrimary">@color/medDarkGray</item>
-		<item name="colorPrimaryDark">@color/deepDarkGray</item>
-		<item name="colorAccent">@color/highlightBlue</item>
-		<item name="iconTint">@color/deepDarkGray</item>
-		<item name="iconTitleTint">@android:color/white</item>
-		<item name="android:windowBackground">@color/smokyWhite</item>
-
-		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
-		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
-		<item name="alertDialogTheme">@style/greyDlg</item>
-	</style>
-
-	<style name="greyDlg" parent="Theme.AppCompat.Light.Dialog">
-		<item name="android:windowBackground">@color/smokyWhite</item>
+	<style name="AppTheme.iChronoMe.Medium" parent="BaseTheme.iChronoMe.Light">
 	</style>
 
 	<style name="AppTheme.iChronoMe.White" parent="BaseTheme.iChronoMe.White">
-
-		<item name="colorAccent">@color/highlightBlue</item>
-		<item name="iconTint">@color/deepDarkGray</item>
-		<item name="android:textColor">@android:color/black</item>
-		<item name="iconTitleTint">@android:color/black</item>
-
-		<item name="android:windowBackground">@android:color/white</item>
-
-		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Light</item>
-		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>
 
 	</style>
 
