@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
@@ -121,7 +121,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                 try
                 {
                     var evnt = calEvents.ListedDates[0];
-                    new CalendarEventDialog().Show(FragmentManager, evnt.ExternalID);
+                    var intent = new Intent(Activity, typeof(EventEditActivity));
+                    intent.PutExtra("EventId", evnt.ExternalID);
+                    Activity.StartActivity(intent);
                 }
                 catch (Exception ex)
                 {
@@ -137,7 +139,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                 try
                 {
                     var evnt = (CalendarEvent)e.Appointment;
-                    new CalendarEventDialog().Show(FragmentManager, evnt.ExternalID);
+                    var intent = new Intent(Activity, typeof(EventEditActivity));
+                    intent.PutExtra("EventId", evnt.ExternalID);
+                    Activity.StartActivity(intent);
                 }
                 catch (Exception ex)
                 {

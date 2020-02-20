@@ -42,12 +42,20 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Spinner>(Resource.Id.sp_calendar_timetype).Adapter = new TimeTypeAdapter(Activity, true);
 
             RootView.FindViewById<Button>(Resource.Id.btn_notification_config).Click += btnNotifyCfg_Click;
+            RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Click += btnLiveWallpaper_Click;
             RootView.FindViewById<Button>(Resource.Id.btn_clear_cache).Click += btnClearCache_Click;
             RootView.FindViewById<Button>(Resource.Id.btn_system_test).Click += btnSystemTest_Click;
 
             binder.UserChangedProperty += Binder_UserChangedProperty;
 
             return RootView;
+        }
+
+        private void btnLiveWallpaper_Click(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(Android.App.WallpaperManager.ActionChangeLiveWallpaper);
+            intent.PutExtra(Android.App.WallpaperManager.ExtraLiveWallpaperComponent, new ComponentName(Context, Java.Lang.Class.FromType(typeof(LiveWallpapers.WallpaperClockService))));
+            Context.StartActivity(intent);
         }
 
         private void btnSystemTest_Click(object sender, EventArgs e)

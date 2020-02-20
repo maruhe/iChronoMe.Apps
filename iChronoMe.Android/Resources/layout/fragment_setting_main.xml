@@ -59,6 +59,18 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/btn_widgets_config"
+        android:text="widgets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_livewallpaper_config"
+        android:text="wallpaper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
         android:id="@+id/btn_system_test"
         android:text="@string/progress_systemtest_action"
         android:layout_width="match_parent"

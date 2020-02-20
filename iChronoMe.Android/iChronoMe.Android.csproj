@@ -62,7 +62,6 @@
     <BundleAssemblies>false</BundleAssemblies>
     <MandroidI18n />
     <AndroidPackageFormat>apk</AndroidPackageFormat>
-    <AndroidLinkTool>proguard</AndroidLinkTool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Net.ArcanaStudio.ColorPicker">
@@ -83,6 +82,7 @@
     <Compile Include="Source\DrawableHelper.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerClockReceiverActivity.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerManagerActivity.cs" />
+    <Compile Include="Source\GUI\Calendar\EventEditActivity.cs" />
     <Compile Include="Source\GUI\Debug\DebugFragment.cs" />
     <Compile Include="Source\IOUtil.cs" />
     <Compile Include="Source\Adapters\SystemTestAdapter.cs" />
@@ -107,6 +107,8 @@
     <Compile Include="Source\GUI\Service\MainSettingsFragment.cs" />
     <Compile Include="Source\GUI\Service\BackgroundServiceSettingsFragment.cs" />
     <Compile Include="Source\GUI\WorldTimeMapFragment.cs" />
+    <Compile Include="Source\LiveWallpapers\WallpaperClockConfigActivity.cs" />
+    <Compile Include="Source\LiveWallpapers\WallpaperClockView.cs" />
     <Compile Include="Source\MainActivity.cs" />
     <Compile Include="Source\MapsView.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="Source\Tools.cs" />
     <Compile Include="Source\ViewModels\CalendarConfigViewModel.cs" />
     <Compile Include="Source\ViewModels\ClockNotificationViewModel.cs" />
+    <Compile Include="Source\LiveWallpapers\WallpaperClockService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidget.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidgetConfigActivity.cs" />
@@ -925,6 +928,28 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_overtime.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_datetime_selector.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_calendar_event.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\wallpaper_analogclock.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\wallpaper_clock_setting.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_wallpaper_config.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

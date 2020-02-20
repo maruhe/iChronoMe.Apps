@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="?android:attr/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.design.widget.TabLayout
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorFullWidth="true"
+        android:padding="@dimen/frame_padding"
+        android:id="@+id/tabLayout">
+        <android.support.design.widget.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:id="@+id/tiStart">       
+        </android.support.design.widget.TabItem>
+        <android.support.design.widget.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="End"
+            android:id="@+id/tiEnd">       
+        </android.support.design.widget.TabItem>
+    </android.support.design.widget.TabLayout>
+
+    <LinearLayout
+        android:id="@+id/llStart"
+        android:background="?android:attr/windowBackground"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:id="@+id/datePickerStart" />
+        <TimePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+            android:id="@+id/timePickerStart" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llEnd"
+        android:background="?android:attr/windowBackground"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:id="@+id/datePickerEnd" />
+        <TimePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+            android:id="@+id/timePickerEnd" />
+
+    </LinearLayout>
+
+</LinearLayout>
