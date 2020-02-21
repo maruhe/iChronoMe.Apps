@@ -8,6 +8,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Support.Graphics.Drawable;
 using Android.Views;
 using Android.Widget;
 
@@ -110,6 +111,7 @@ namespace iChronoMe.Droid.Widgets
             public LinearLayout colors;
             public ProgressBar progress;
             public ImageView wallpaper;
+            public ImageView backimag;
             public ImageView preview;
 
             public ViewHolder(View view)
@@ -120,6 +122,7 @@ namespace iChronoMe.Droid.Widgets
                 colors = view.FindViewById<LinearLayout>(Resource.Id.color_layout);
                 progress = view.FindViewById<ProgressBar>(Resource.Id.loading_progress);
                 wallpaper = view.FindViewById<ImageView>(Resource.Id.wallpaper_image);
+                backimag = view.FindViewById<ImageView>(Resource.Id.background_image);
                 preview = view.FindViewById<ImageView>(Resource.Id.preview_image);
             }
 
@@ -232,7 +235,7 @@ namespace iChronoMe.Droid.Widgets
                         }
                     }
                 }
-
+                
                 if (viewHolder.preview.Drawable is BitmapDrawable && false)
                     ((BitmapDrawable)viewHolder.preview.Drawable).Bitmap?.Recycle();
 

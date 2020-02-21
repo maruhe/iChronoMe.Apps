@@ -29,6 +29,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
         public override void OnCreate()
         {
             base.OnCreate();
+
+            SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
         }
 
         public static bool ResetData = false;

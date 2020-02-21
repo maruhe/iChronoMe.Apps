@@ -15,10 +15,10 @@ using Android.Widget;
 using iChronoMe.Core;
 using iChronoMe.Core.Types;
 
-namespace iChronoMe.Droid.LiveWallpapers
+namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 {
 #if DEBUG
-	[Service(Label = "@string/widget_title_clock_analog", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
+	[Service(Label = "@string/wallpaper_title_clock_analog", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
 	[IntentFilter(new string[] { "android.service.wallpaper.WallpaperService" })]
 	[MetaData("android.service.wallpaper", Resource = "@xml/wallpaper_analogclock")]
 	public class WallpaperClockService : WallpaperService
@@ -197,11 +197,10 @@ namespace iChronoMe.Droid.LiveWallpapers
 				if (is_visible)
 				{
 					if (tstAnimationEnd > DateTime.Now)
-						mHandler.PostDelayed(mDrawCube, 1);
-					else
 						mHandler.PostDelayed(mDrawCube, 1000 / 60);
+					else
+						mHandler.PostDelayed(mDrawCube, 1000 - lth.RealSunTime.Millisecond);
 				}
-				//mHandler.PostDelayed(mDrawCube, 1000 - lth.RealSunTime.Millisecond);
 			}
 
 			DateTime tstAnimationStart = DateTime.MinValue;

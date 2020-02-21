@@ -25,6 +25,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
         public override void OnCreate()
         {
             base.OnCreate();
+
+            SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
         }
 
         public static bool ResetData = false;

@@ -13,7 +13,7 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 
-namespace iChronoMe.Droid.LiveWallpapers
+namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 {
     public class WallpaperClockView
     {

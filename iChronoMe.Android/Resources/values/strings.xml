@@ -262,19 +262,4 @@
     <string name="progress_senderrorlog_title">something got wrong or the App crashed last time</string>
     <string name="question_create_new_calendar">you like to create a new Calendar?</string>
 
-
-	<string name="cube2_settings">Settings</string>
-	<string name="cube2_settings_title">Select shape</string>
-	<string name="cube2_settings_summary">Choose whether to display a cube or a dodecahedron</string>
-
-	<string-array name="cube2_shapenames">
-		<item>"Cube"</item>
-		<item>"Dodecahedron"</item>
-	</string-array>
-
-	<string-array name="cube2_shapeprefix">
-		<item>"cube"</item>
-		<item>"dodecahedron"</item>
-	</string-array>
-
 </resources>

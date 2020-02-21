@@ -6,11 +6,11 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Android.Support.V4.Graphics.Drawable;
-using Android.Support.V7.View;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 
-namespace iChronoMe.Droid
+namespace iChronoMe.Droid.Wallpaper
 {
     public static class DrawableHelper
     {
@@ -51,17 +51,9 @@ namespace iChronoMe.Droid
         {
             try
             {
-                if (!(context is ContextWrapper))
-                {
-                    context = new ContextThemeWrapper(context, Resource.Style.AppTheme_iChronoMe_Dark);
-                }
-                else
-                    context.Theme.ToString();
-                 
                 var mDrawable = ContextCompat.GetDrawable(context, drawableRes);
                 if (!(mDrawable is VectorDrawable) || ColoredIcons.Contains(drawableRes))
                     return mDrawable;
-
                 try
                 {
                     var mWrappedDrawable = mDrawable.Mutate();

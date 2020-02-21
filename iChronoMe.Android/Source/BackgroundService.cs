@@ -50,6 +50,7 @@ namespace iChronoMe.Droid
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
             manager = AppWidgetManager.GetInstance(this);
+            SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
 
             IntentFilter intentFilter = new IntentFilter(ClockUpdateBroadcastReceiver.intentFilter);
             mReceiver = new ClockUpdateBroadcastReceiver();

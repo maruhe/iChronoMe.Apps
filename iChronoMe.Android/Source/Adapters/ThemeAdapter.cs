@@ -52,7 +52,7 @@ namespace iChronoMe.Droid.Adapters
             view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary)));
             view.FindViewById<ImageView>(Resource.Id.shape_4).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorAccent)));
             view.FindViewById<ImageView>(Resource.Id.shape_5).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimaryDark)));
-
+            
             return view;
         }
 
@@ -61,7 +61,7 @@ namespace iChronoMe.Droid.Adapters
             GradientDrawable gd = new GradientDrawable();
             gd.SetShape(ShapeType.Rectangle);
             gd.SetColor(clr);
-            gd.SetStroke(2, Color.Black);
+            gd.SetStroke(2, clr.GetBrightness() > 0.5 ? Color.Black : Color.White);
             gd.SetCornerRadius(15.0f);
             return gd;
         }

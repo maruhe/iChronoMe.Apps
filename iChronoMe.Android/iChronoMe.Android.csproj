@@ -944,10 +944,13 @@
     <AndroidResource Include="Resources\xml\wallpaper_analogclock.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\wallpaper_clock_setting.xml" />
+    <AndroidResource Include="Resources\layout\activity_wallpaper_config.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_wallpaper_config.xml">
+    <AndroidResource Include="Resources\layout\activity_calendar_event_content.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

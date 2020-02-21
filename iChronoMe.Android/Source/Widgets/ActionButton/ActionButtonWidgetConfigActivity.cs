@@ -27,6 +27,21 @@ namespace iChronoMe.Droid.Widgets.ActionButton
         protected override void OnResume()
         {
             base.OnResume();
+
+#if DExxxBUG
+            var cfg = new WidgetCfg_ActionButton();
+            cfg.WidgetId = appWidgetId;
+            cfg.ColorBackground = xColor.Aqua;
+            new WidgetConfigHolder().SetWidgetCfg(cfg);
+
+            Intent resultValue = new Intent();
+            resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
+            resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
+            SetResult(Result.Ok, resultValue);
+            FinishAndRemoveTask();
+            return;
+#endif
+
             if (NeedsStartAssistant())
                 ShowStartAssistant();
             else

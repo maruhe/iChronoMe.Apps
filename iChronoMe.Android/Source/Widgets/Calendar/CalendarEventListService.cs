@@ -44,6 +44,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
         public CalendarEventListRemoteViewsFactory(Context context, Intent intent)
         {
             mContext = context;
+            mContext.SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
             iMyWidgetId = intent.GetIntExtra(AppWidgetManager.ExtraAppwidgetId, -1);
             cfg = new WidgetConfigHolder().GetWidgetCfg<WidgetCfg_CalendarTimetable>(iMyWidgetId);
         }
