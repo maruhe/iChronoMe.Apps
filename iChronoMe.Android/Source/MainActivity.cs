@@ -256,32 +256,35 @@ namespace iChronoMe.Droid
                         {
                             RunOnUiThread(() =>
                             {
-                                var cb = new CheckBox(this);
-                                cb.SetText(Resource.String.action_deny_error_screentshot);
-                                cb.Checked = AppConfigHolder.MainConfig.DenyErrorScreens;
-                                cb.CheckedChange += Cb_CheckedChange;
-                                new AlertDialog.Builder(this)
-                                    .SetTitle(Resource.String.progress_senderrorlog_title)
-                                    .SetMessage(Resource.String.progress_senderrorlog_message)
-                                    .SetView(cb)
-                                    .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
-                                    {
-                                        AppConfigHolder.MainConfig.SendErrorLogs = true;
-                                        AppConfigHolder.SaveMainConfig();
-                                        ErrorLogDlg.SendLogs();
-                                    })
-                                    .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
-                                    {
-                                        try { Directory.Delete(cErrorPath, true); } catch { };
-                                        Tools.ShowToast(this, Resource.String.progress_deleteerrorlog_done);
-                                    })
-                                    .SetNeutralButton(Resource.String.progress_senderrorlog_more, (s, e) =>
-                                    {
-                                        var logDlg = new ErrorLogDlg();
-                                        logDlg.OnDialogCancel += LogDlg_OnDialogCancel;
-                                        logDlg.Show(SupportFragmentManager, "");
-                                    })
-                                    .Create().Show();
+                                try
+                                {
+                                    var cb = new CheckBox(this);
+                                    cb.SetText(Resource.String.action_deny_error_screentshot);
+                                    cb.Checked = AppConfigHolder.MainConfig.DenyErrorScreens;
+                                    cb.CheckedChange += Cb_CheckedChange;
+                                    new AlertDialog.Builder(this)
+                                        .SetTitle(Resource.String.progress_senderrorlog_title)
+                                        .SetMessage(Resource.String.progress_senderrorlog_message)
+                                        .SetView(cb)
+                                        .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
+                                        {
+                                            AppConfigHolder.MainConfig.SendErrorLogs = true;
+                                            AppConfigHolder.SaveMainConfig();
+                                            ErrorLogDlg.SendLogs();
+                                        })
+                                        .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
+                                        {
+                                            try { Directory.Delete(cErrorPath, true); } catch { };
+                                            Tools.ShowToast(this, Resource.String.progress_deleteerrorlog_done);
+                                        })
+                                        .SetNeutralButton(Resource.String.progress_senderrorlog_more, (s, e) =>
+                                        {
+                                            var logDlg = new ErrorLogDlg();
+                                            logDlg.OnDialogCancel += LogDlg_OnDialogCancel;
+                                            logDlg.Show(SupportFragmentManager, "");
+                                        })
+                                        .Create().Show();
+                                } catch { }
                             });
                             return;
                         }

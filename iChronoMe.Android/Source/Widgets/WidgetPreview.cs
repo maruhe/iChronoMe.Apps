@@ -25,7 +25,10 @@ namespace iChronoMe.Droid.Widgets
 {
     public class WidgetPreviewListAdapter : BaseAdapter
     {
-        Activity mContext;
+        public static string GlobalCachePath { get; } = System.IO.Path.Combine(sys.PathCache, "WidgetPreview");
+        public string AdapterCachePath { get; }
+
+        public Activity mContext;
         Point wSize;
         EventCollection myEventsMonth, myEventsList;
         DynamicCalendarModel CalendarModel;
@@ -33,12 +36,16 @@ namespace iChronoMe.Droid.Widgets
         LinearLayout llDummy;
         LayoutInflater inflater;
         float nScale;
-        float nImgScale = 0.5F;
+        //float nImgScale = 0.5F;
         int iHeightPreview;
         int iHeightPreviewWallpaper;
 
         public WidgetPreviewListAdapter(Activity context, System.Drawing.Point size, DynamicCalendarModel calendarModel, EventCollection eventsMonth, EventCollection eventsList, Drawable wallpaperDrawable)
         {
+            AdapterCachePath = System.IO.Path.Combine(GlobalCachePath, this.GetHashCode().ToString());
+            System.IO.Directory.CreateDirectory(AdapterCachePath);
+            WidgetPreviewLoaderFS.StartTimes.Clear();
+
             mContext = context;
             wSize = new Point(size.X, size.Y);
             CalendarModel = calendarModel;
@@ -71,24 +78,26 @@ namespace iChronoMe.Droid.Widgets
             llDummy = null;
             Items.Clear();
             Items = null;
-            ViewsToLoad.Clear();
-            ViewsToLoad = null;
-            ViewsInLoading.Clear();
-            ViewsInLoading = null;
-            PreviewCache.Clear();
-            PreviewCache = null;
+            //ViewsToLoad.Clear();
+            //ViewsToLoad = null;
+            //ViewsInLoading.Clear();
+            //ViewsInLoading = null;
+            //PreviewCache.Clear();
+            //PreviewCache = null;
             ViewHolders.Clear();
             ViewHolders = null;
             inflater = null;
+
+            try { System.IO.Directory.Delete(AdapterCachePath, true); } catch { };
         }
 
         public Dictionary<string, WidgetCfg> Items { get; private set; } = new Dictionary<string, WidgetCfg>();
-        OrderedDictionary ViewsToLoad = new OrderedDictionary();
-        List<int> ViewsInLoading = new List<int>();
-        OrderedDictionary PreviewCache = new OrderedDictionary();
+        //OrderedDictionary ViewsToLoad = new OrderedDictionary();
+        //List<int> ViewsInLoading = new List<int>();
+        //OrderedDictionary PreviewCache = new OrderedDictionary();
         Dictionary<int, int> Times = new Dictionary<int, int>();
         Dictionary<int, ViewHolder> ViewHolders = new Dictionary<int, ViewHolder>();
-        int RunningWidgetLoader = 0;
+        //int RunningWidgetLoader = 0;
 
         public override int Count => Items.Count;
 
@@ -102,9 +111,10 @@ namespace iChronoMe.Droid.Widgets
             return position;
         }
 
-        private class ViewHolder : Java.Lang.Object
+        public class ViewHolder : Java.Lang.Object
         {
             public int Position = -1;
+            public long ConfigID = -1;
             public View View;
             public LinearLayout rowlayout;
             public TextView title;
@@ -137,7 +147,7 @@ namespace iChronoMe.Droid.Widgets
             }
         }
 
-        public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
+        public override View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
             xLog.Debug("GetView Widget " + position);
             ViewHolder viewHolder = null;
@@ -162,6 +172,7 @@ namespace iChronoMe.Droid.Widgets
                     if (viewHolder.Position >= 0)
                         ViewHolders.Remove(viewHolder.Position);
                     viewHolder.Position = position;
+                    viewHolder.ConfigID = -1;
                     ViewHolders.Remove(viewHolder.Position);
                     ViewHolders.Add(viewHolder.Position, viewHolder);
                 }
@@ -181,6 +192,7 @@ namespace iChronoMe.Droid.Widgets
 
                 var cfg = Items[cTitle];
 
+                viewHolder.ConfigID = cfg.GetHashCode();
                 viewHolder.colors.RemoveAllViews();
                 viewHolder.colors.Visibility = ViewStates.Gone;
                 if (cTitle.StartsWith("#"))
@@ -247,50 +259,10 @@ namespace iChronoMe.Droid.Widgets
                     return convertView;
                 }
 
-                byte[] byteArray = null;
-                lock (PreviewCache)
-                {
-                    if (PreviewCache.Contains(position))
-                        byteArray = (byte[])PreviewCache[(object)position];
-                }
+                viewHolder.progress.Visibility = ViewStates.Visible;
+                viewHolder.preview.SetImageBitmap(null);
 
-                //byteArray = new byte[0];
-
-                if (byteArray != null)
-                {
-                    viewHolder.progress.Visibility = ViewStates.Invisible;
-
-                    if (byteArray.Length > 0)
-                    {
-                        Bitmap bmp = BitmapFactory.DecodeByteArray(byteArray, 0, byteArray.Length);//, new BitmapFactory.Options() { InSampleSize = 2 });
-                        viewHolder.preview.ScaleX = viewHolder.preview.ScaleY = 1;// .7F / nImgScale;
-                        viewHolder.preview.SetImageBitmap(bmp);
-                        viewHolder.title.Text = cTitle;// + ", " + Times[position] + "ms";
-                        //if (sys.Debugmode)
-                        //  viewHolder.title.Text = byteArray.Length.ToString("N0") + " : " + bmp.AllocationByteCount.ToString("N0") + ", " + Times[position] + "ms";
-                    }
-                    else
-                    {
-                        viewHolder.preview.SetImageResource(Resource.Drawable.icons8_delete);
-                        viewHolder.title.Text = "empty..";
-                    }
-                }
-                else
-                {
-                    viewHolder.progress.Visibility = ViewStates.Visible;
-                    viewHolder.preview.SetImageBitmap(null);
-
-                    if (!ViewsToLoad.Contains(position) && !ViewsInLoading.Contains(position))
-                    {
-                        xLog.Debug("Add generate Widget " + position);
-                        lock (ViewsToLoad)
-                        {
-                            ViewsToLoad.Add(position, viewHolder);
-                        }
-
-                        StartALoader(parent);
-                    }
-                }
+                new WidgetPreviewLoaderFS().Execute(this, viewHolder, cfg);
             }
             catch (Exception ex)
             {
@@ -299,6 +271,8 @@ namespace iChronoMe.Droid.Widgets
             return convertView;
         }
 
+        #region obosled
+        /*
         void StartALoader(ViewGroup parent)
         {
             if (RunningWidgetLoader < Math.Max(1, System.Environment.ProcessorCount - 1))
@@ -350,7 +324,7 @@ namespace iChronoMe.Droid.Widgets
                                     try
                                     {
                                         if (parent is ListView && (ViewsInLoading.Count == 0 || ViewsToLoad.Count == 0 || xHolder.Position == iPos))
-                                            (parent as ListView).InvalidateViews();
+                                            this.NotifyDataSetChanged();
                                         vWidget.Recycle();
                                         return;
 
@@ -510,8 +484,8 @@ namespace iChronoMe.Droid.Widgets
                                         (v as ViewGroup).LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, 25 * sys.DisplayDensity);
                                     list.AddView(v);
                                 }
-                                */
-                                xLog.Debug("Generate new Widget Preview " + position + " TimeTableData " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                                * /
+        xLog.Debug("Generate new Widget Preview " + position + " TimeTableData " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                                 swStart = DateTime.Now;
                                 vWidget.FindViewById(Resource.Id.empty_view).Visibility = ViewStates.Gone;
                                 vWidget.FindViewById(Resource.Id.event_list).Visibility = ViewStates.Visible;
@@ -604,6 +578,118 @@ namespace iChronoMe.Droid.Widgets
             }
             return null;
         }
+        */
+        #endregion
+
+        public Bitmap GenerateWidgetPreview(WidgetCfg cfg)
+        {
+            var swStart = DateTime.Now;
+
+            int iWidthPx = (int)(wSize.X * sys.DisplayDensity);
+            int iHeightPx = (int)(wSize.Y * sys.DisplayDensity);
+
+            Bitmap bmp = null;
+            RemoteViews rv = null;
+            if (cfg is WidgetCfg_ActionButton)
+            {
+                var dToday = CalendarModel.GetDateFromUtcDate(DateTime.Now);
+                int iDayCount = CalendarModel.GetDaysOfMonth(dToday.Year, dToday.Month);
+                int iDay = dToday.DayOfYear;
+                iDayCount = CalendarModel.GetDaysOfYear(dToday.Year);
+                float nHour = (float)DateTime.Now.TimeOfDay.TotalHours;
+
+                rv = ActionButtonService.DrawButton(mContext, cfg as WidgetCfg_ActionButton, wSize, null, -1, nHour, iDay, iDayCount, true);
+                xLog.Debug("Generate new Widget Preview RVActionButton " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                swStart = DateTime.Now;
+            }
+            else if (cfg is WidgetCfg_Clock)
+            {
+                if (cfg is WidgetCfg_ClockAnalog)
+                {
+                    WidgetView_ClockAnalog wv = new WidgetView_ClockAnalog();
+                    wv.ReadConfig((WidgetCfg_ClockAnalog)cfg);
+                    bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, true));
+                }
+            }
+            else if (cfg is WidgetCfg_Calendar)
+            {
+                if (cfg is WidgetCfg_CalendarTimetable && myEventsList.EventsCheckerIsActive)
+                {
+                    (cfg as WidgetCfg_CalendarTimetable).ShowLocationSunOffset = false;
+                }
+                rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_calendar_universal);
+                xLog.Debug("Generate new Widget Preview Start RVCalendarHeader");
+                CalendarWidgetService.GenerateWidgetTitle(mContext, rv, cfg as WidgetCfg_Calendar, wSize, CalendarModel);
+                xLog.Debug("Generate new Widget Preview RVCalendarHeader " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                swStart = DateTime.Now;
+                if (cfg is WidgetCfg_CalendarTimetable)
+                {
+                    //CalendarWidgetService.AddDummyListEvents(mContext, rv, cfg as WidgetCfg_CalendarTimetable, wSize, CalendarModel, myEventsList);
+                }
+                else if (cfg is WidgetCfg_CalendarMonthView)
+                {
+                    rv.SetViewVisibility(Resource.Id.header_layout, ViewStates.Visible);
+                    rv.SetViewVisibility(Resource.Id.list_layout, ViewStates.Visible);
+                    CalendarWidgetService.GenerateWidgetMonthView(mContext, rv, cfg as WidgetCfg_CalendarMonthView, wSize, 42, CalendarModel, null, myEventsMonth);
+                    xLog.Debug("Generate new Widget Preview RVMonthView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    swStart = DateTime.Now;
+                }
+                else if (cfg is WidgetCfg_CalendarCircleWave)
+                {
+                    CalendarWidgetService.GenerateCircleWaveView(mContext, null, rv, cfg as WidgetCfg_CalendarCircleWave, wSize, 42, CalendarModel, null, myEventsMonth);
+                    xLog.Debug("Generate new Widget Preview RVCircleWave " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    swStart = DateTime.Now;
+                }
+            }
+            if (bmp == null)
+            {
+                if (rv != null)
+                {
+                    swStart = DateTime.Now;
+                    var vWidget = rv.Apply(mContext.ApplicationContext, llDummy);
+                    rv.Dispose();
+
+                    rv = null;
+                    xLog.Debug("Generate new Widget Preview RvToView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    swStart = DateTime.Now;
+
+                    if (cfg is WidgetCfg_CalendarTimetable)
+                    {
+                        if (myEventsList.Count > 0)
+                        {
+                            xLog.Debug("Generate new Widget Preview TimeTableData " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                            swStart = DateTime.Now;
+                            vWidget.FindViewById(Resource.Id.empty_view).Visibility = ViewStates.Gone;
+                            vWidget.FindViewById(Resource.Id.event_list).Visibility = ViewStates.Visible;
+                            vWidget.FindViewById<ListView>(Resource.Id.event_list).Adapter = new EventListFakeAdapter(mContext, cfg as WidgetCfg_CalendarTimetable, wSize, CalendarModel, myEventsList);
+                        }
+                    }
+
+                    var iLp = new RelativeLayout.LayoutParams(iWidthPx, iHeightPx);
+                    vWidget.LayoutParameters = iLp;
+
+                    vWidget.Measure(View.MeasureSpec.MakeMeasureSpec(View.MeasureSpec.GetSize(iWidthPx), MeasureSpecMode.Exactly), View.MeasureSpec.MakeMeasureSpec(View.MeasureSpec.GetSize(iHeightPx), MeasureSpecMode.Exactly));
+                    vWidget.Layout(0, 0, iWidthPx, iHeightPx);
+
+                    xLog.Debug("Generate new Widget Preview MeasureView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    swStart = DateTime.Now;
+
+
+                    bmp = Bitmap.CreateBitmap(iWidthPx, iHeightPx, Bitmap.Config.Argb8888);
+                    Canvas canvas = new Canvas(bmp);
+                    vWidget.Draw(canvas);
+                    vWidget.Dispose();
+                    vWidget = null;
+
+                    xLog.Debug("Generate new Widget Preview DrawView " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    swStart = DateTime.Now;
+                    GC.Collect();
+                    xLog.Debug("Generate new Widget Preview GC.Collect " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
+                    swStart = DateTime.Now;
+                }
+            }
+            return bmp;
+        }
 
         public static void RemoveClickListeners(View v)
         {
@@ -649,7 +735,7 @@ namespace iChronoMe.Droid.Widgets
         public override Android.Views.View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
             var v = viewsFactory.GetViewAt(position, false).Apply(mContext.ApplicationContext, parent);
-            WidgetPreviewListAdapter.RemoveClickListeners(v);
+            //WidgetPreviewListAdapter.RemoveClickListeners(v);
             return v;
         }
 

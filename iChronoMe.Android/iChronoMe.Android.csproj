@@ -142,7 +142,8 @@
     <Compile Include="Source\Widgets\WidgetConfigAssistantManager.cs" />
     <Compile Include="Source\Widgets\WidgetItemClickActivity.cs" />
     <Compile Include="Source\Widgets\WidgetPreview.cs" />
-    <Compile Include="Source\Widgets\WidgetPreview2.cs" />
+    <Compile Include="Source\Widgets\WidgetPreviewLoader.cs" />
+    <Compile Include="Source\Widgets\WidgetPreviewLoaderFS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

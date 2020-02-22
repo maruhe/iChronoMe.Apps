@@ -1,0 +1,139 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using Android.App;
+using Android.Content;
+using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using iChronoMe.Core.Classes;
+using static iChronoMe.Droid.Widgets.WidgetPreviewListAdapter;
+
+namespace iChronoMe.Droid.Widgets
+{
+    public class WidgetPreviewLoaderFS : AsyncTask<object, int, bool>
+    {
+        private string ImagePath;
+        private ViewHolder viewHolder;
+        private WidgetCfg myCfg;
+        private WidgetPreviewListAdapter adapter;
+        string cInfo = string.Empty;
+        public static Dictionary<int, DateTime> StartTimes { get; } = new Dictionary<int, DateTime>();
+
+        protected override bool RunInBackground(params object[] @params)
+        {
+            Bitmap bmp = null;
+            try
+            {
+                adapter = (WidgetPreviewListAdapter)@params[0];
+                viewHolder = (ViewHolder)@params[1];
+                myCfg = (WidgetCfg)@params[2];
+
+                if (viewHolder.ConfigID != myCfg.GetHashCode())
+                    return false;
+
+                if (!Directory.Exists(adapter.AdapterCachePath))
+                    return false;
+
+                ImagePath = System.IO.Path.Combine(adapter.AdapterCachePath, myCfg.GetHashCode() + ".png");
+                if (File.Exists(ImagePath))
+                {
+                    cInfo += "+";
+                    return true;
+                }
+                lock (StartTimes)
+                {
+                    if (StartTimes.ContainsKey(myCfg.GetHashCode()) && StartTimes[myCfg.GetHashCode()].AddSeconds(1) > DateTime.Now)
+                        return false; // another tread is already preparing..
+
+                    if (StartTimes.ContainsKey(myCfg.GetHashCode()))
+                        StartTimes.Remove(myCfg.GetHashCode());
+                    StartTimes.Add(myCfg.GetHashCode(), DateTime.Now);
+                }
+
+                var swStart = DateTime.Now;
+                
+                bmp = adapter.GenerateWidgetPreview(myCfg);
+                
+                cInfo = (int)(DateTime.Now - swStart).TotalMilliseconds + "gen ";
+                swStart = DateTime.Now;
+                
+                var stream = new FileStream(ImagePath, FileMode.Create);
+                bmp.Compress(Bitmap.CompressFormat.Png, 100, stream);
+                stream.Close();
+
+                cInfo += (int)(DateTime.Now - swStart).TotalMilliseconds + "sav ";
+                swStart = DateTime.Now;
+
+                bmp.Recycle();
+                bmp = null;
+
+                cInfo += (int)(DateTime.Now - swStart).TotalMilliseconds + "cln ";
+
+                swStart = DateTime.Now;
+                GC.Collect();
+                cInfo += (int)(DateTime.Now - swStart).TotalMilliseconds + "gc ";
+
+                if (viewHolder.ConfigID != myCfg.GetHashCode())
+                    return false;
+
+                return true;
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                xLog.Error(e);
+                Tools.ShowToast(adapter.mContext, e.Message);
+            }
+            finally
+            {
+                lock (StartTimes)
+                {
+                    if (StartTimes.ContainsKey(myCfg.GetHashCode()))
+                        StartTimes.Remove(myCfg.GetHashCode());
+                }
+                bmp?.Recycle(); //to be sure in case of exeption while saving file etc..
+            }
+            return false;
+        }
+
+        protected override void OnPostExecute(bool result)
+        {
+            base.OnPostExecute(result);
+
+            try
+            {
+                if (viewHolder.ConfigID != myCfg.GetHashCode())
+                    return;
+
+                if (!result)
+                    return;
+
+                var file = new Java.IO.File(ImagePath);
+
+                if (file.Exists())
+                    viewHolder.preview.SetImageURI(Android.Net.Uri.FromFile(file));
+                else
+                    viewHolder.preview.SetImageResource(Resource.Drawable.icons8_error_clrd);
+                //viewHolder.title.Text = cInfo;
+                viewHolder.progress.Visibility = ViewStates.Gone;
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception e)
+            {
+                xLog.Error(e);
+                Tools.ShowToast(adapter.mContext, e.Message);
+            }
+
+            viewHolder = null;
+            myCfg = null;
+            adapter = null;
+        }
+    }
+}

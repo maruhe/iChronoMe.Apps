@@ -24,7 +24,7 @@
 
 	<string name="progress_systemtest_action">system test</string>
 	<string name="progress_systemtest_title">system test</string>
-	<string name="progress_deleteerrorlog_done">error-logs wave been deleted</string>
+	<string name="progress_deleteerrorlog_done">all error-logs have been deleted</string>
 
 	<string name="progress_overlay_timezones_title">preparing timezones...</string>
 

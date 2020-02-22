@@ -367,7 +367,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 {
                     rv.SetViewVisibility(Resource.Id.time_switcher, ViewStates.Visible);
 
-                    rv.SetImageViewResource(Resource.Id.time_switcher, Tools.GetTimeTypeIconID(cfg.ShowTimeType, LocationTimeHolder.LocalInstance));
+                    rv.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(context, cfg.ShowTimeType, LocationTimeHolder.LocalInstance, 24, cfg.ColorTitleButtons.HexString));
 
                     if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
                     {
