@@ -76,6 +76,9 @@
 	<string name="action_search_location">search for location</string>
 	<string name="search_hint">the hint so search ;-)</string>
 
+	<string name="action_handcolors">hand colors</string>
+	<string name="action_tickmarks">tick marks</string>
+
 	<string name="action_send_testlog">send log</string>
 	
 	<string name="action_send_errorlog_once">send this time</string>
@@ -150,7 +153,10 @@
 	<string name="calendar_viewtype_WorkWeek">work-week</string>
 	<string name="calendar_viewtype_MonthView">month-view</string>
 
+	<string name="action_today">today</string>
+
 	<string-array name="calendar_viewtypes">
+		<item>@string/action_today</item>
 		<item>@string/calendar_viewtype_Timeline</item>
 		<item>@string/calendar_viewtype_DayView</item>
 		<item>@string/calendar_viewtype_WeekView</item>

@@ -80,7 +80,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
 				clockView.FlowMinuteHand = true;
 				clockView.FlowSecondHand = false;
-				clockView.ColorTickMarks = clockView.ColorHourHandStorke = clockView.ColorMinuteHandStorke = clockView.ColorSecondHandStorke = xColor.WhiteSmoke;
+				clockView.ColorTickMarks = clockView.ColorHourHandStroke = clockView.ColorMinuteHandStroke = clockView.ColorSecondHandStroke = xColor.WhiteSmoke;
 				clockView.ColorHourHandFill = clockView.ColorMinuteHandFill = xColor.Transparent;
 
 				// Set up the paint to draw the lines for our cube
@@ -196,8 +196,10 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
 				if (is_visible)
 				{
-					if (tstAnimationEnd > DateTime.Now)
+					if (clockView.FlowSecondHand)
 						mHandler.PostDelayed(mDrawCube, 1000 / 60);
+					else if (clockView.FlowMinuteHand)
+						mHandler.PostDelayed(mDrawCube, 1000 / 10);
 					else
 						mHandler.PostDelayed(mDrawCube, 1000 - lth.RealSunTime.Millisecond);
 				}
@@ -298,6 +300,12 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 					p.Color = Color.Red;
 					c.DrawColor(Color.White);
 					c.DrawText(ex.Message, 0, 0, p);
+				}
+
+				if (tstAnimationEnd != DateTime.MinValue && tstAnimationEnd < DateTime.Now)
+				{
+					tstAnimationStart = DateTime.MinValue;
+					tstAnimationEnd = DateTime.MinValue;
 				}
 			}
 		}

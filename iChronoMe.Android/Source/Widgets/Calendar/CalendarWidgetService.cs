@@ -348,7 +348,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             rv.SetViewVisibility(Resource.Id.time_switcher, ViewStates.Gone);
             rv.SetViewVisibility(Resource.Id.layout_buttons, ViewStates.Visible);
 
-            if (wSize.Y < 300 || wSize.X < 120)
+            if (wSize.Y <= 240 || wSize.X < 120)
             {
                 rv.SetViewVisibility(Resource.Id.widget_title, ViewStates.Gone);
                 rv.SetViewVisibility(Resource.Id.header_line, ViewStates.Gone);

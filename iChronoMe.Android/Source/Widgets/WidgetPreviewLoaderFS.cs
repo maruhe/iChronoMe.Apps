@@ -13,16 +13,14 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using iChronoMe.Core.Classes;
-using static iChronoMe.Droid.Widgets.WidgetPreviewListAdapter;
-
 namespace iChronoMe.Droid.Widgets
 {
     public class WidgetPreviewLoaderFS : AsyncTask<object, int, bool>
     {
         private string ImagePath;
-        private ViewHolder viewHolder;
+        private IWidgetViewHolder viewHolder;
         private WidgetCfg myCfg;
-        private WidgetPreviewListAdapter adapter;
+        private IWidgetPreviewListAdapter adapter;
         string cInfo = string.Empty;
         public static Dictionary<int, DateTime> StartTimes { get; } = new Dictionary<int, DateTime>();
 
@@ -31,8 +29,8 @@ namespace iChronoMe.Droid.Widgets
             Bitmap bmp = null;
             try
             {
-                adapter = (WidgetPreviewListAdapter)@params[0];
-                viewHolder = (ViewHolder)@params[1];
+                adapter = (IWidgetPreviewListAdapter)@params[0];
+                viewHolder = (IWidgetViewHolder)@params[1];
                 myCfg = (WidgetCfg)@params[2];
 
                 if (viewHolder.ConfigID != myCfg.GetHashCode())

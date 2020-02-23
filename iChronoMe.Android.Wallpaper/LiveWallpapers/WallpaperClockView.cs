@@ -22,11 +22,11 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
         public xColor ColorBackground { get; set; } = xColor.Transparent;
         public xColor ColorTickMarks { get; set; } = xColor.Black;
-        public xColor ColorHourHandStorke { get; set; } = xColor.Black;
+        public xColor ColorHourHandStroke { get; set; } = xColor.Black;
         public xColor ColorHourHandFill { get; set; } = xColor.Blue;
-        public xColor ColorMinuteHandStorke { get; set; } = xColor.Black;
+        public xColor ColorMinuteHandStroke { get; set; } = xColor.Black;
         public xColor ColorMinuteHandFill { get; set; } = xColor.Blue;
-        public xColor ColorSecondHandStorke { get; set; } = xColor.Black;
+        public xColor ColorSecondHandStroke { get; set; } = xColor.Black;
         public xColor ColorSecondHandFill { get; set; } = xColor.Blue;
 
         public bool ShowHourHand { get; set; } = true;
@@ -50,11 +50,11 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
             ColorBackground = cfg.ColorBackground;
             ColorTickMarks = cfg.ColorTickMarks;
-            ColorHourHandStorke = cfg.ColorHourHandStorke;
+            ColorHourHandStroke = cfg.ColorHourHandStroke;
             ColorHourHandFill = cfg.ColorHourHandFill;
-            ColorMinuteHandStorke = cfg.ColorMinuteHandStorke;
+            ColorMinuteHandStroke = cfg.ColorMinuteHandStroke;
             ColorMinuteHandFill = cfg.ColorMinuteHandFill;
-            ColorSecondHandStorke = cfg.ColorSecondHandStorke;
+            ColorSecondHandStroke = cfg.ColorSecondHandStroke;
             ColorSecondHandFill = cfg.ColorSecondHandFill;
 
             ShowHourHand = cfg.ShowHours;
@@ -174,7 +174,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 paint.Color = ColorHourHandFill.ToAndroid();
                 paint.SetStyle(Paint.Style.Fill);
                 canvas.DrawPath(hourHand, paint);
-                paint.Color = ColorHourHandStorke.ToAndroid();
+                paint.Color = ColorHourHandStroke.ToAndroid();
                 paint.SetStyle(Paint.Style.Stroke);
                 canvas.DrawPath(hourHand, paint);
                 canvas.Restore();
@@ -188,7 +188,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 paint.Color = ColorMinuteHandFill.ToAndroid();
                 paint.SetStyle(Paint.Style.Fill);
                 canvas.DrawPath(minuteHand, paint);
-                paint.Color = ColorMinuteHandStorke.ToAndroid();
+                paint.Color = ColorMinuteHandStroke.ToAndroid();
                 paint.SetStyle(Paint.Style.Stroke);
                 canvas.DrawPath(minuteHand, paint);
                 canvas.Restore();
@@ -200,7 +200,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 // Draw second hand.
                 canvas.Save();
                 canvas.Rotate(this.secondAngle);
-                paint.Color = ColorSecondHandStorke.ToAndroid();
+                paint.Color = ColorSecondHandStroke.ToAndroid();
                 paint.SetStyle(Paint.Style.Stroke);
                 canvas.DrawPath(secondHand, paint);
                 canvas.Restore();

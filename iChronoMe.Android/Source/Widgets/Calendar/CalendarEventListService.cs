@@ -27,7 +27,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
         public override IRemoteViewsFactory OnGetViewFactory(Intent intent)
         {
-            return new CalendarEventListRemoteViewsFactory(Application.Context, intent);
+            SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
+            return new CalendarEventListRemoteViewsFactory(this, intent);
         }
     }
 
@@ -194,12 +195,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     {
                         Color clLocation = cfg.ColorEventLocationText.ToAndroid();
                         iShapeHeigth = 45;
-                        if (cfg.ShowLocationSunOffset)
+                        if (IsRealWidget && cfg.ShowLocationSunOffset)
                         {
-                            //if (ColorUtils.CalculateLuminance(cfg.ColorEventSymbols.ToAndroid()) < 0.3)
-                            rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_sun_18);
-                            //else
-                            //  rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_sun_white);
+                            rv.SetImageViewBitmap(Resource.Id.item_posicon, DrawableHelper.GetIconBitmap(mContext, Resource.Drawable.icons8_sun_18, 16, cfg.ColorEventSymbols));
 
                             iShapeHeigth = 45;
                             string cPosInfo = (extEvent.LocationString.Equals(calEvent.Location) ? "Position und Ortszeit unklar: " : "Position wird ermittelt: ");
@@ -253,10 +251,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         }
                         else
                         {
-                            //if (ColorUtils.CalculateLuminance(cfg.ColorEventSymbols.ToAndroid()) < 0.3)
-                            rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_marker);
-                            //else
-                            //  rv.SetImageViewResource(Resource.Id.item_posicon, Resource.Drawable.icons8_marker_white);
+                            rv.SetImageViewBitmap(Resource.Id.item_posicon, DrawableHelper.GetIconBitmap(mContext, Resource.Drawable.icons8_marker, 16, cfg.ColorEventSymbols));
                         }
                         rv.SetViewVisibility(Resource.Id.item_poslayout, ViewStates.Visible);
                         rv.SetTextViewText(Resource.Id.item_location, calEvent.Location);

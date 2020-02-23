@@ -31,7 +31,8 @@
                     android:id="@+id/shape_overlay_text_h"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10"
+                    android:text="14"
+                    android:letterSpacing="-0.12"
                     android:textSize="20dp"
                     android:singleLine="true" />
                 <TextView

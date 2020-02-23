@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"    
     android:id="@+id/rootView"
     tools:showIn="@layout/activity_calendar_event"    
+    android:padding="@dimen/frame_padding"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TableRow
+    <TableRow       
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView 
@@ -14,15 +16,26 @@
             android:text="Appointment Title"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/Subject"
             android:inputType="text"
             android:layout_span="2"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spTimeType"
+            android:layout_span="2"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </TableRow>
@@ -33,7 +46,7 @@
             android:layout_span="2"
             android:text="Begin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
@@ -41,12 +54,31 @@
         <EditText
             android:id="@+id/StartDate"
             android:inputType="date"
+            android:layout_weight="60"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/StartTime"
             android:inputType="time"
+            android:layout_weight="40"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow       
+        android:id="@+id/row_start_helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView 
+            android:text="in timezone:"
+            android:textAlignment="viewEnd"
+            android:layout_weight="60"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView 
+            android:id="@+id/StartHelper"
+            android:layout_weight="40"
+            android:paddingStart="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
@@ -56,7 +88,7 @@
             android:layout_span="2"
             android:text="End"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
@@ -64,23 +96,43 @@
         <EditText
             android:id="@+id/EndDate"
             android:inputType="date"
+            android:layout_weight="60"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/EndTime"
             android:inputType="time"
+            android:layout_weight="40"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow       
+        android:id="@+id/row_end_helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView 
+            android:text="in timezone:"
+            android:textAlignment="viewEnd"
+            android:layout_weight="60"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView 
+            android:id="@+id/EndHelper"
+            android:layout_weight="40"
+            android:paddingStart="5dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <Switch
+            android:id="@+id/AllDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <TextView android:text="All Day"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Switch
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
@@ -90,27 +142,76 @@
             android:layout_span="2"
             android:text="Location"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+        <EditText
             android:id="@+id/location"
-            android:text="Homestreet 23\n12345 MagicVillage"
-            android:gravity="center_vertical"
+            android:inputType="text"
+            android:layout_weight="1"
             android:layout_span="2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow       
+        android:id="@+id/row_location_helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/icons8_marker"
+                android:layout_width="32dp"
+                android:layout_height="32dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView 
+                    android:id="@+id/location_helper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView 
+                        android:id="@+id/location_time_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <ImageButton
+                        android:id="@+id/btn_location_time_info"
+                        android:src="@drawable/icons8_info_blue_clrd"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/location_progress"
+            android:layout_gravity="center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+        <EditText
             android:id="@+id/description"
-            android:text="Line 1\nLine2\nLine3\nLine4\nLine5"
-            android:gravity="center_vertical"
+            android:inputType="text"
+            android:minLines="2"
+            android:maxLines="5"
+            android:layout_weight="1"
             android:layout_span="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -120,21 +221,20 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/timezone"
-            android:text="timezone 5"
-            android:gravity="center_vertical"
+            android:text="timezone 5 .. becomes a spinner?"
+            android:layout_weight="1"
             android:layout_span="2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/recurrence"
-            android:text="Recurrence"
-            android:gravity="center_vertical"
+            android:text="Recurrence\n...may follows"
             android:layout_span="2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
     </TableRow>
 </TableLayout>

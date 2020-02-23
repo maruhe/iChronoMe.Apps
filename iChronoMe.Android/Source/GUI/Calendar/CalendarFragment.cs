@@ -68,7 +68,8 @@ namespace iChronoMe.Droid.GUI.Calendar
             Drawer.DrawerStateChanged += Drawer_DrawerStateChanged;
             coordinator = view.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
-            ViewTypeAdapter = new TitleSpinnerAdapter(mContext, new string[] { "init.." });
+            ViewTypeAdapter = new TitleSpinnerAdapter(mContext, "init..", Resources.GetStringArray(Resource.Array.calendar_viewtypes));
+            ViewTypeAdapter.UpdateIcons(new int[] { Resource.Drawable.icons8_today, Resource.Drawable.icons8_timeline, Resource.Drawable.icons8_day_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_month_view });
             ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (ViewTypeSpinner != null)
             {
@@ -93,7 +94,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 mContext.Title = "";
                 ViewTypeSpinner.Visibility = ViewStates.Visible;
-                ViewTypeSpinner.Touch += ViewTypeSpinner_Touch;
+                //ViewTypeSpinner.Touch += ViewTypeSpinner_Touch;
             }
             if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
                 SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
@@ -494,13 +495,13 @@ namespace iChronoMe.Droid.GUI.Calendar
             catch (Exception ex) { sys.LogException(ex); }
         }
 
-        bool bViewSpinnerActive = false;
         private void ViewTypeSpinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            if (!bViewSpinnerActive)
-                return;
             switch (e.Position)
             {
+                case 0:
+                    GotDate(DateTime.Today);
+                    break;
                 case 1:
                     SetViewType(ScheduleView.Timeline);
                     break;
@@ -519,23 +520,15 @@ namespace iChronoMe.Droid.GUI.Calendar
             }
         }
 
-        private void ViewTypeSpinner_Touch(object sender, View.TouchEventArgs e)
+        private void GotDate(DateTime date)
         {
-            try
-            {
-                bViewSpinnerActive = true;
-                var lst = new List<string>();
-                lst.Add(ViewTypeSpinner.Prompt);
-                lst.AddRange(Resources.GetStringArray(Resource.Array.calendar_viewtypes));
-                ViewTypeAdapter.UpdateItems(lst);
-                ViewTypeSpinner.PerformClick();
-            }
-            catch { }
+            Java.Util.Calendar moveToSpecificDate = Java.Util.Calendar.Instance;
+            moveToSpecificDate.Set(date.Year, date.Month, date.Day);
+            schedule.MoveToDate = moveToSpecificDate;
         }
 
         private void ResetTitleSpinner(DateTime tFirstVisible, DateTime tLastVisible)
         {
-            bViewSpinnerActive = false;
             if (ViewTypeSpinner != null)
             {
                 string cTitle = tFirstVisible.ToString("MMM yyyy");
@@ -559,8 +552,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     }
                 }
 
-                ViewTypeSpinner.Prompt = cTitle;
-                ViewTypeAdapter.UpdateItems(new string[] { cTitle });
+                ViewTypeAdapter.UpdateTitle(cTitle);
             }
         }
 

@@ -7,10 +7,13 @@
       <item
           android:id="@+id/clock_TimeType"
           android:title="@string/TimeType" />
-      <item
-          android:id="@+id/clock_Colors"
-          android:title="@string/action_colors" />
-      <item
+			<item
+          android:id="@+id/clock_HandColors"
+          android:title="@string/action_handcolors" />
+			<item
+          android:id="@+id/clock_TickMarks"
+          android:title="@string/action_tickmarks" />
+			<item
           android:id="@+id/clock_Background"
           android:title="@string/action_background" />
     </group>

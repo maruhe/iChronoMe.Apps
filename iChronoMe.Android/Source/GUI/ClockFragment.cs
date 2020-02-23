@@ -747,13 +747,28 @@ namespace iChronoMe.Droid.GUI
                     })
                     .Create().Show();
             }
-            else if (id == Resource.Id.clock_Colors)
+            else if (id == Resource.Id.clock_HandColors)
             {
                 var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandColorType), AppConfigHolder.MainConfig.MainClock);
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandColorType), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    if (cfg != null)
+                    {
+                        AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
+                        AppConfigHolder.SaveMainConfig();
+                        RefreshClockCfg();
+                    }
+                });
+            }
+            else if (id == Resource.Id.clock_TickMarks)
+            {
+                var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);
+
+                Task.Factory.StartNew(async () =>
+                {
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_TickMarks), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
@@ -768,7 +783,7 @@ namespace iChronoMe.Droid.GUI
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_HandColorType) }));
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
                         AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();

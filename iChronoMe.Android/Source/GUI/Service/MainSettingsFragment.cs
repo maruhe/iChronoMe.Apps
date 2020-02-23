@@ -42,7 +42,12 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Spinner>(Resource.Id.sp_calendar_timetype).Adapter = new TimeTypeAdapter(Activity, true);
 
             RootView.FindViewById<Button>(Resource.Id.btn_notification_config).Click += btnNotifyCfg_Click;
+#if DEBUG
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Click += btnLiveWallpaper_Click;
+#else
+            RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Visibility = ViewStates.Gone;
+#endif
+
             RootView.FindViewById<Button>(Resource.Id.btn_clear_cache).Click += btnClearCache_Click;
             RootView.FindViewById<Button>(Resource.Id.btn_system_test).Click += btnSystemTest_Click;
 
@@ -51,12 +56,14 @@ namespace iChronoMe.Droid.GUI.Service
             return RootView;
         }
 
+#if DEBUG
         private void btnLiveWallpaper_Click(object sender, EventArgs e)
         {
-            Intent intent = new Intent(Android.App.WallpaperManager.ActionChangeLiveWallpaper);
-            intent.PutExtra(Android.App.WallpaperManager.ExtraLiveWallpaperComponent, new ComponentName(Context, Java.Lang.Class.FromType(typeof(LiveWallpapers.WallpaperClockService))));
-            Context.StartActivity(intent);
+            //Intent intent = new Intent(Android.App.WallpaperManager.ActionChangeLiveWallpaper);
+            //intent.PutExtra(Android.App.WallpaperManager.ExtraLiveWallpaperComponent, new ComponentName(Context, Java.Lang.Class.FromType(typeof(LiveWallpapers.WallpaperClockService))));
+            //Context.StartActivity(intent);
         }
+#endif
 
         private void btnSystemTest_Click(object sender, EventArgs e)
         {

@@ -103,13 +103,7 @@ namespace iChronoMe.Droid.Widgets
                     return;
                 }
 
-                var textItems = new List<string>();
-                var listAdapter = new WidgetPreviewListAdapter(mContext, wSize, CalendarModel, myEventsMonth, myEventsList, WallpaperDrawable);
-                foreach (var sample in currentAssi.Samples)
-                {
-                    textItems.Add(sample.Title);
-                    (listAdapter as WidgetPreviewListAdapter).Items.Add(sample.Title, sample.PreviewConfig == null ? sample.WidgetConfig : sample.PreviewConfig);
-                }
+                var listAdapter = new WidgetPreviewListAdapter<T>(mContext, currentAssi, wSize, WallpaperDrawable, CalendarModel, myEventsMonth, myEventsList);
 
                 tcsUI = new TaskCompletionSource<bool>();
                 MainThread.BeginInvokeOnMainThread(() =>
@@ -117,11 +111,8 @@ namespace iChronoMe.Droid.Widgets
                     var dlg = new AlertDialog.Builder(mContext)
                         .SetTitle(currentAssi.Title)
                         .SetNegativeButton("abbrechen", new myNegativeButtonClickListener<T>(this))
-                        .SetOnCancelListener(new myDialogCancelListener<T>(this));
-                    if (currentAssi.ShowPreviewImage)
-                        dlg.SetSingleChoiceItems(listAdapter, -1, new SingleChoiceClickListener<T>(this, listAdapter));
-                    else
-                        dlg.SetSingleChoiceItems(textItems.ToArray(), -1, new SingleChoiceClickListener<T>(this, listAdapter));
+                        .SetOnCancelListener(new myDialogCancelListener<T>(this))
+                        .SetSingleChoiceItems(listAdapter, -1, new SingleChoiceClickListener<T>(this, listAdapter));
 
                     if (currentAssi.AllowCustom)
                         dlg.SetNeutralButton(currentAssi.CurstumButtonText, DlgCustomButtonClick);
@@ -269,9 +260,9 @@ namespace iChronoMe.Droid.Widgets
         where T : WidgetCfg
     {
         WidgetConfigAssistantManager<T> mManager;
-        WidgetPreviewListAdapter ListItems;
+        WidgetPreviewListAdapter<T> ListItems;
 
-        public SingleChoiceClickListener(WidgetConfigAssistantManager<T> manager, WidgetPreviewListAdapter items)
+        public SingleChoiceClickListener(WidgetConfigAssistantManager<T> manager, WidgetPreviewListAdapter<T> items)
         {
             mManager = manager;
             ListItems = items;

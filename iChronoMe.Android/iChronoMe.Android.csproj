@@ -79,6 +79,7 @@
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
+    <Compile Include="Source\Controls\TitleBarSpinner.cs" />
     <Compile Include="Source\DrawableHelper.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerClockReceiverActivity.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerManagerActivity.cs" />
@@ -107,8 +108,6 @@
     <Compile Include="Source\GUI\Service\MainSettingsFragment.cs" />
     <Compile Include="Source\GUI\Service\BackgroundServiceSettingsFragment.cs" />
     <Compile Include="Source\GUI\WorldTimeMapFragment.cs" />
-    <Compile Include="Source\LiveWallpapers\WallpaperClockConfigActivity.cs" />
-    <Compile Include="Source\LiveWallpapers\WallpaperClockView.cs" />
     <Compile Include="Source\MainActivity.cs" />
     <Compile Include="Source\MapsView.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
@@ -122,7 +121,6 @@
     <Compile Include="Source\Tools.cs" />
     <Compile Include="Source\ViewModels\CalendarConfigViewModel.cs" />
     <Compile Include="Source\ViewModels\ClockNotificationViewModel.cs" />
-    <Compile Include="Source\LiveWallpapers\WallpaperClockService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonService.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidget.cs" />
     <Compile Include="Source\Widgets\ActionButton\ActionButtonWidgetConfigActivity.cs" />
@@ -142,7 +140,7 @@
     <Compile Include="Source\Widgets\WidgetConfigAssistantManager.cs" />
     <Compile Include="Source\Widgets\WidgetItemClickActivity.cs" />
     <Compile Include="Source\Widgets\WidgetPreview.cs" />
-    <Compile Include="Source\Widgets\WidgetPreviewLoader.cs" />
+    <Compile Include="Source\Widgets\WidgetPreviewLoaderUncached.cs" />
     <Compile Include="Source\Widgets\WidgetPreviewLoaderFS.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -942,9 +940,6 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\wallpaper_analogclock.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_wallpaper_config.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -952,6 +947,11 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_calendar_event_content.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_titlespinner.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

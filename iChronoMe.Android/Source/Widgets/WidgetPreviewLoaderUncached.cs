@@ -12,23 +12,22 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using iChronoMe.Core.Classes;
-using static iChronoMe.Droid.Widgets.WidgetPreviewListAdapter;
 
 namespace iChronoMe.Droid.Widgets
 {
     public class WidgetPreviewLoaderUncached : AsyncTask<object, int, bool>
     {
         private Bitmap bmp = null;
-        private ViewHolder viewHolder;
+        private IWidgetViewHolder viewHolder;
         private WidgetCfg myCfg;
-        private WidgetPreviewListAdapter adapter;
+        private IWidgetPreviewListAdapter adapter;
 
         protected override bool RunInBackground(params object[] @params)
         {
             try
             {
-                adapter = (WidgetPreviewListAdapter)@params[0];
-                viewHolder = (ViewHolder)@params[1];
+                adapter = (IWidgetPreviewListAdapter)@params[0];
+                viewHolder = (IWidgetViewHolder)@params[1];
                 myCfg = (WidgetCfg)@params[2];
 
                 if (viewHolder.ConfigID != myCfg.GetHashCode())

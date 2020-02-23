@@ -18,10 +18,11 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="?attr/PopupOverlay">
 
-            <Spinner
+            <me.ichrono.droid.Controls.TitleBarSpinner
                 android:id="@+id/toolbar_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="-20dp"
                 android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             />

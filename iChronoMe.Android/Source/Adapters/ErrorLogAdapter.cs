@@ -25,7 +25,7 @@ namespace iChronoMe.Droid.Adapters
             foreach (string log in logS)
             {
                 string cTitle = Path.GetFileNameWithoutExtension(log);
-                int iIcon = -1;
+                int iIcon = 0;
                 if (log.EndsWith(".png"))
                 {
                     iIcon = Resource.Drawable.icons8_screenshot;
@@ -72,7 +72,7 @@ namespace iChronoMe.Droid.Adapters
                 convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
             }
 
-            if (item.IconRes > 0)
+            if (item.IconRes != 0)
                 convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(item.IconRes);
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
 
