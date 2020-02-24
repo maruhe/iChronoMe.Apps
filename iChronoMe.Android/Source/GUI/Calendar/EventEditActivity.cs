@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -24,8 +24,10 @@ namespace iChronoMe.Droid.GUI.Calendar
     [Activity(Label = "EventEditActivity", Name = "me.ichrono.droid.GUI.Calendar.EventEditActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "")]
     public class EventEditActivity : BaseActivity
     {
-        TextView dateStart, dateEnd;
-        TextView timeStart, timeEnd;
+        ViewGroup rootView;
+        AutoCompleteTextView eSubject, eLocation;
+        EditText dateStart, dateEnd;
+        EditText timeStart, timeEnd;
         CalendarEventPopupViewModel mModel;
         DataBinder mBinder;
         string cEventId;
@@ -40,10 +42,13 @@ namespace iChronoMe.Droid.GUI.Calendar
             Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(Toolbar);
 
-            dateStart = FindViewById<TextView>(Resource.Id.StartDate);
-            timeStart = FindViewById<TextView>(Resource.Id.StartTime);
-            dateEnd = FindViewById<TextView>(Resource.Id.EndDate);
-            timeEnd = FindViewById<TextView>(Resource.Id.EndTime);
+            rootView = FindViewById<ViewGroup>(Resource.Id.rootView);
+            eSubject = FindViewById<AutoCompleteTextView>(Resource.Id.Subject);
+            dateStart = FindViewById<EditText>(Resource.Id.StartDate);
+            timeStart = FindViewById<EditText>(Resource.Id.StartTime);
+            dateEnd = FindViewById<EditText>(Resource.Id.EndDate);
+            timeEnd = FindViewById<EditText>(Resource.Id.EndTime);
+            eLocation = FindViewById<AutoCompleteTextView>(Resource.Id.location);
 
             dateStart.FocusChange += DateStart_FocusChange;
             dateStart.Click += DateStart_Click;
@@ -53,13 +58,13 @@ namespace iChronoMe.Droid.GUI.Calendar
             dateEnd.Click += DateEnd_Click;
             timeEnd.FocusChange += TimeEnd_FocusChange;
             timeEnd.Click += TimeEnd_Click;
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
     
             cEventId = Intent.HasExtra("EventId") ? Intent.GetStringExtra("EventId") : "";
+
+            eSubject.Adapter = new CalendarEventTitleAdapter(this, null);
+            eSubject.Threshold = 3;
+            eLocation.Adapter = new CalendarEventLocationAdapter(this, null);
+            eLocation.Threshold = 3;
 
             mModel = new CalendarEventPopupViewModel(cEventId, this);
             mBinder = new DataBinder(this, FindViewById<ViewGroup>(Resource.Id.rootView));
@@ -79,21 +84,41 @@ namespace iChronoMe.Droid.GUI.Calendar
             mBinder.BindViewProperty(Resource.Id.AllDay, nameof(Switch.Checked), mModel, nameof(CalendarEventPopupViewModel.AllDay), BindMode.TwoWay);
             mBinder.BindViewProperty(Resource.Id.StartTime, nameof(EditText.Visibility), mModel, nameof(CalendarEventPopupViewModel.NotAllDay));
             mBinder.BindViewProperty(Resource.Id.EndTime, nameof(EditText.Visibility), mModel, nameof(CalendarEventPopupViewModel.NotAllDay));
-            
+
+            mBinder.BindViewProperty(Resource.Id.row_timetype, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.NotAllDay));
             mBinder.BindViewProperty(Resource.Id.spTimeType, nameof(Spinner.SelectedItemPosition), mModel, nameof(CalendarEventPopupViewModel.TimeTypeSpinnerPos), BindMode.TwoWay);
             FindViewById<Spinner>(Resource.Id.spTimeType).Adapter = ttAdapter;
             
             mBinder.BindViewProperty(Resource.Id.location, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.Location), BindMode.TwoWay);
             mBinder.BindViewProperty(Resource.Id.location_progress, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.IsSearchingForLocation));
             mBinder.BindViewProperty(Resource.Id.location_helper, nameof(TextView.Text), mModel, nameof(CalendarEventPopupViewModel.LocationHelper));
+            mBinder.BindViewProperty(Resource.Id.location_time_info, nameof(TextView.Text), mModel, nameof(CalendarEventPopupViewModel.LocationTimeInfo));
 
-            mBinder.BindViewProperty(Resource.Id.description, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.Description), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.description, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.Description));
 
             mBinder.BindViewProperty(Resource.Id.row_start_helper, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.ShowTimeHelpers));
             mBinder.BindViewProperty(Resource.Id.row_end_helper, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.ShowTimeHelpers));
             mBinder.BindViewProperty(Resource.Id.row_location_helper, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.ShowLocationHelper));
 
+            FindViewById<LinearLayout>(Resource.Id.row_location_helper).Click += llLocationHelper_Click;
+        }
+
+        private void llLocationHelper_Click(object sender, EventArgs e)
+        {
+            Tools.ShowToast(this, "here could be some nice information");
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            mBinder.PushedValuesToView += MBinder_PushedValuesToView;
             mBinder.Start();
+        }
+
+        private void MBinder_PushedValuesToView(object sender, PushedValuesToViewEventArgs e)
+        {
+            rootView.Invalidate();
+            rootView.ForceLayout();
         }
 
         private void MModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -190,6 +215,12 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             mBinder.Stop();
             base.OnPause();
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            FinishAndRemoveTask();
         }
     }
 }

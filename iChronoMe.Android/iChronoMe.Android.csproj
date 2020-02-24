@@ -76,6 +76,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Adapters\CalendarEventLocationAdapter.cs" />
+    <Compile Include="Source\Adapters\CalendarEventTitleAdapter.cs" />
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
@@ -952,6 +954,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_titlespinner.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_calendar_event_content_bak_table.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

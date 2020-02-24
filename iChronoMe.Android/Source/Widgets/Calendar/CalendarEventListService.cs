@@ -329,12 +329,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                     if (IsRealWidget)
                     {
-                        // Set the onClickFillInIntent
-                        Intent fillInIntent = new Intent();
-                        fillInIntent.PutExtra("_ClickCommand", "ActionView");
-                        fillInIntent.SetData(Android.Net.Uri.Parse("content://com.android.calendar/events/" + calEvent.ExternalID.ToString(System.Globalization.CultureInfo.InvariantCulture)));
-                        //rv.SetOnClickFillInIntent(Resource.Id.item_layout, fillInIntent);
-
+                        // Set the onClickFillInIntent  
                         Intent xxIntent = new Intent();
                         xxIntent.PutExtra("_ClickCommand", "StartActivityByComponentName");
                         xxIntent.PutExtra("_ComponentName", "me.ichrono.droid/me.ichrono.droid.ShortCutActivity");

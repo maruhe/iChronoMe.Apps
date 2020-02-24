@@ -13,7 +13,7 @@ using iChronoMe.Droid.Widgets.Calendar;
 
 namespace iChronoMe.Droid.Widgets
 {
-    [Activity(Label = "WidgetItemClickActivity", Name = "me.ichrono.droid.Widgets.WidgetItemClickActivity", Theme = "@style/TransparentTheme", NoHistory = true)]
+    [Activity(Label = "WidgetItemClickActivity", Name = "me.ichrono.droid.Widgets.WidgetItemClickActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     public class WidgetItemClickActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -70,7 +70,7 @@ namespace iChronoMe.Droid.Widgets
             {
                 Toast.MakeText(this, ex.Message, ToastLength.Long).Show();
             }
-            Finish();
+            FinishAndRemoveTask();
         }
 
         int iGotPermissionResult = 0;
@@ -80,7 +80,7 @@ namespace iChronoMe.Droid.Widgets
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             CalendarWidget.updateWidgets(this);
             if (iGotPermissionResult >= requestCode)
-                Finish();
+                FinishAndRemoveTask();
         }
     }
 }
