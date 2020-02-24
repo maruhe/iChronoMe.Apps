@@ -14,14 +14,22 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using Java.Interop;
 
+using Android.Gms.Location.Places;
+using Android.Gms.Maps.Model;
+using System.Threading.Tasks;
+using Android.Gms.Common.Data;
+using System.Collections;
+
 namespace iChronoMe.Droid.Adapters
 {
     public class CalendarEventLocationAdapter : CursorAdapter
     {
+        Context mContext;
         ContentResolver mContent;
 
         public CalendarEventLocationAdapter(Context context, ICursor c) : base(context, c, true)
         {
+            mContext = context;
             mContent = context.ContentResolver;
         }
 
@@ -79,6 +87,13 @@ namespace iChronoMe.Droid.Adapters
                     args = new String[] { cSearch };
 
                     var cur = mContent.Query(CalendarContract.Events.ContentUri, new string[] { CalendarContract.Events.InterfaceConsts.Id, CalendarContract.Events.InterfaceConsts.EventLocation }, buffer == null ? null : buffer.ToString(), args, CalendarContract.Events.InterfaceConsts.EventLocation);
+
+                    ClearOnlineResult();
+                    if (cur.Count < 5)
+                    {
+                        StartOnlineSearch(constraint);
+                    }
+
                     return cur;
                 } 
                 catch (Exception ex)
@@ -89,5 +104,89 @@ namespace iChronoMe.Droid.Adapters
 
             return null;
         }
+
+        #region GoogleOnlineSearch
+        private GeoDataClient mGeoDataClient;
+        private LatLngBounds mBounds;
+        private AutocompleteFilter mPlaceFilter;
+
+        private void StartOnlineSearch(string constraint)
+        {
+            return;
+            Task.Factory.StartNew(() =>
+            {
+                var data = getGoogleAutocomplete(constraint);
+                data.ToString();
+            });
+        }
+
+
+        private void ClearOnlineResult()
+        {
+
+        }
+
+        private IList getGoogleAutocomplete(string constraint)
+        {
+            xLog.Info("Starting google autocomplete query for: " + constraint);
+
+            if (mGeoDataClient == null)
+                mGeoDataClient = PlacesClass.GetGeoDataClient(mContext);
+
+            try
+            {
+
+                // Submit the query to the autocomplete API and retrieve a PendingResult that will
+                // contain the results when the query completes.
+                var task = mGeoDataClient.GetAutocompletePredictions(constraint, mBounds, mPlaceFilter);
+
+                while (!task.IsCanceled && !task.IsComplete && !task.IsSuccessful)
+                    Task.Delay(100).Wait();
+
+                /*lock (this)
+                {
+                    Looper.Prepare();
+                    lock (task)
+                    {
+                        task.Wait();
+                    }
+                }*/
+                               
+                var result = task.Result;
+
+                /*// This method should have been called off the main UI thread. Block and wait for at most
+                // 60s for a result from the API.
+                lock (task)
+                {
+                    try
+                    {
+                        task.Wait(60 * 1000);
+                    }
+                    catch (Exception e)
+                    {
+                        xLog.Error(e);
+                    }
+                }
+                */
+
+                //AutocompletePredictionBufferResponse
+                IDataBuffer autocompletePredictions = result as IDataBuffer;
+
+                xLog.Info("Query completed. Received " + "?" + " predictions.");
+
+                // Freeze the results immutable representation that can be stored safely.
+                return DataBufferUtils.FreezeAndClose(autocompletePredictions);
+            }
+            catch (Exception e)
+            {
+                // If the query did not complete successfully return null
+                Tools.ShowToast(mContext, "Error contacting API: " + e.Message);
+                xLog.Error(e, "Error getting autocomplete prediction API call");
+                return null;
+            }
+        }
+
+
+        #endregion
     }
 }

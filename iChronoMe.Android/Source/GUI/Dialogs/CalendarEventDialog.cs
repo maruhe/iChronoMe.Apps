@@ -13,7 +13,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
 {
     public class CalendarEventDialog : DialogFragment
     {
-        CalendarEventPopupViewModel mViewModel;
+        CalendarEventEditViewModel mViewModel;
         DataBinder mBinder;
         string cEventId;
 
@@ -23,14 +23,14 @@ namespace iChronoMe.Droid.GUI.Dialogs
             {
                 LinearLayout vRoot = (LinearLayout)Activity.LayoutInflater.Inflate(Resource.Layout.fragment_calendar_event_popup, null);
 
-                mViewModel = new CalendarEventPopupViewModel(cEventId, Activity as IUserIO);
+                mViewModel = new CalendarEventEditViewModel(cEventId, Activity as IUserIO);
                 mBinder = new DataBinder(Activity, vRoot);
 
-                mBinder.BindViewProperty(Resource.Id.title, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.Title), BindMode.TwoWay);
-                mBinder.BindViewProperty(Resource.Id.StartDate, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.DisplayStartDate), BindMode.TwoWay);
-                mBinder.BindViewProperty(Resource.Id.StartTime, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.DisplayStartTime), BindMode.TwoWay);
-                mBinder.BindViewProperty(Resource.Id.EndDate, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.DisplayEndDate), BindMode.TwoWay);
-                mBinder.BindViewProperty(Resource.Id.EndTime, nameof(TextView.Text), mViewModel, nameof(CalendarEventPopupViewModel.DisplayEndTime), BindMode.TwoWay);
+                mBinder.BindViewProperty(Resource.Id.title, nameof(TextView.Text), mViewModel, nameof(CalendarEventEditViewModel.Title), BindMode.TwoWay);
+                mBinder.BindViewProperty(Resource.Id.StartDate, nameof(TextView.Text), mViewModel, nameof(CalendarEventEditViewModel.DisplayStartDate), BindMode.TwoWay);
+                mBinder.BindViewProperty(Resource.Id.StartTime, nameof(TextView.Text), mViewModel, nameof(CalendarEventEditViewModel.DisplayStartTime), BindMode.TwoWay);
+                mBinder.BindViewProperty(Resource.Id.EndDate, nameof(TextView.Text), mViewModel, nameof(CalendarEventEditViewModel.DisplayEndDate), BindMode.TwoWay);
+                mBinder.BindViewProperty(Resource.Id.EndTime, nameof(TextView.Text), mViewModel, nameof(CalendarEventEditViewModel.DisplayEndTime), BindMode.TwoWay);
 
                 vRoot.FindViewById<TableRow>(Resource.Id.row_start).Click += CalendarEventDialog_Click;
 

@@ -14,7 +14,15 @@ namespace iChronoMe.Droid.Adapters
         Activity mContext;
         bool IsSpinner;
         LocationTimeHolder lth = null;
-        public LocationTimeHolder LocationTimeHolder { get => lth; set { lth = value; NotifyDataSetChanged(); } }
+        public LocationTimeHolder LocationTimeHolder
+        {
+            get => lth;
+            set
+            {
+                lth = value;
+                mContext.RunOnUiThread(() => NotifyDataSetChanged());
+            }
+        }
 
         public TimeTypeAdapter(Activity context, bool bIsSpinner = false) : base()
         {

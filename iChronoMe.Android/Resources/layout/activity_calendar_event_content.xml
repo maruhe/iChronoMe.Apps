@@ -11,11 +11,12 @@
         android:padding="@dimen/frame_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TableRow       
+        <TableRow  
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView 
                 android:layout_span="2"
+                android:layout_weight="1"
                 android:text="Appointment Title"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
@@ -27,6 +28,8 @@
             <AutoCompleteTextView
                 android:id="@+id/Subject"
                 android:inputType="none"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:layout_span="2"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -46,8 +49,19 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/spTimeType2"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <TextView                 
                 android:layout_span="2"
+                android:layout_weight="1"
                 android:text="Begin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -90,6 +104,7 @@
             android:layout_height="wrap_content">
             <TextView                 
                 android:layout_span="2"
+                android:layout_weight="1"
                 android:text="End"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -150,6 +165,7 @@
             android:layout_height="wrap_content">
             <TextView                 
                 android:layout_span="2"
+                android:layout_weight="1"
                 android:text="Location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -161,6 +177,8 @@
             <AutoCompleteTextView
                 android:id="@+id/location"
                 android:inputType="none"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"
@@ -174,6 +192,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:layout_span="2"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -223,6 +242,7 @@
             android:layout_height="wrap_content">
             <TextView                 
                 android:layout_span="2"
+                android:layout_weight="1"
                 android:text="Description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -233,8 +253,8 @@
             <EditText
                 android:id="@+id/description"
                 android:inputType="text"
-                android:minLines="2"
                 android:maxLines="5"
+                android:singleLine="false"
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"
@@ -257,6 +277,7 @@
             <TextView
                 android:id="@+id/recurrence"
                 android:text="Recurrence\n...may follows"
+                android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

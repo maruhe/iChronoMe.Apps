@@ -28,7 +28,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         AutoCompleteTextView eSubject, eLocation;
         EditText dateStart, dateEnd;
         EditText timeStart, timeEnd;
-        CalendarEventPopupViewModel mModel;
+        CalendarEventEditViewModel mModel;
         DataBinder mBinder;
         string cEventId;
         TimeTypeAdapter ttAdapter = null;
@@ -66,39 +66,42 @@ namespace iChronoMe.Droid.GUI.Calendar
             eLocation.Adapter = new CalendarEventLocationAdapter(this, null);
             eLocation.Threshold = 3;
 
-            mModel = new CalendarEventPopupViewModel(cEventId, this);
+            mModel = new CalendarEventEditViewModel(cEventId, this);
             mBinder = new DataBinder(this, FindViewById<ViewGroup>(Resource.Id.rootView));
             ttAdapter = new TimeTypeAdapter(this, true);
             ttAdapter.LocationTimeHolder = mModel.LocationTimeHolder;
             mModel.PropertyChanged += MModel_PropertyChanged;
 
-            mBinder.BindViewProperty(Resource.Id.Subject, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.Title), BindMode.TwoWay);
-            mBinder.BindViewProperty(Resource.Id.StartDate, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.DisplayStartDate), BindMode.TwoWay);
-            mBinder.BindViewProperty(Resource.Id.StartTime, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.DisplayStartTime), BindMode.TwoWay);
-            mBinder.BindViewProperty(Resource.Id.EndDate, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.DisplayEndDate), BindMode.TwoWay);
-            mBinder.BindViewProperty(Resource.Id.EndTime, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.DisplayEndTime), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.Subject, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.Title), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.StartDate, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.DisplayStartDate), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.StartTime, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.DisplayStartTime), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.EndDate, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.DisplayEndDate), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.EndTime, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.DisplayEndTime), BindMode.TwoWay);
 
-            mBinder.BindViewProperty(Resource.Id.StartHelper, nameof(TextView.Text), mModel, nameof(CalendarEventPopupViewModel.StartTimeHelper));
-            mBinder.BindViewProperty(Resource.Id.EndHelper, nameof(TextView.Text), mModel, nameof(CalendarEventPopupViewModel.EndTimeHelper));
+            mBinder.BindViewProperty(Resource.Id.StartHelper, nameof(TextView.Text), mModel, nameof(CalendarEventEditViewModel.StartTimeHelper));
+            mBinder.BindViewProperty(Resource.Id.EndHelper, nameof(TextView.Text), mModel, nameof(CalendarEventEditViewModel.EndTimeHelper));
 
-            mBinder.BindViewProperty(Resource.Id.AllDay, nameof(Switch.Checked), mModel, nameof(CalendarEventPopupViewModel.AllDay), BindMode.TwoWay);
-            mBinder.BindViewProperty(Resource.Id.StartTime, nameof(EditText.Visibility), mModel, nameof(CalendarEventPopupViewModel.NotAllDay));
-            mBinder.BindViewProperty(Resource.Id.EndTime, nameof(EditText.Visibility), mModel, nameof(CalendarEventPopupViewModel.NotAllDay));
+            mBinder.BindViewProperty(Resource.Id.AllDay, nameof(Switch.Checked), mModel, nameof(CalendarEventEditViewModel.AllDay), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.StartTime, nameof(EditText.Visibility), mModel, nameof(CalendarEventEditViewModel.NotAllDay));
+            mBinder.BindViewProperty(Resource.Id.EndTime, nameof(EditText.Visibility), mModel, nameof(CalendarEventEditViewModel.NotAllDay));
 
-            mBinder.BindViewProperty(Resource.Id.row_timetype, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.NotAllDay));
-            mBinder.BindViewProperty(Resource.Id.spTimeType, nameof(Spinner.SelectedItemPosition), mModel, nameof(CalendarEventPopupViewModel.TimeTypeSpinnerPos), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.row_timetype, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.NotAllDay));
+            mBinder.BindViewProperty(Resource.Id.spTimeType, nameof(Spinner.SelectedItemPosition), mModel, nameof(CalendarEventEditViewModel.TimeTypeSpinnerPos), BindMode.TwoWay);
             FindViewById<Spinner>(Resource.Id.spTimeType).Adapter = ttAdapter;
-            
-            mBinder.BindViewProperty(Resource.Id.location, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.Location), BindMode.TwoWay);
-            mBinder.BindViewProperty(Resource.Id.location_progress, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.IsSearchingForLocation));
-            mBinder.BindViewProperty(Resource.Id.location_helper, nameof(TextView.Text), mModel, nameof(CalendarEventPopupViewModel.LocationHelper));
-            mBinder.BindViewProperty(Resource.Id.location_time_info, nameof(TextView.Text), mModel, nameof(CalendarEventPopupViewModel.LocationTimeInfo));
 
-            mBinder.BindViewProperty(Resource.Id.description, nameof(EditText.Text), mModel, nameof(CalendarEventPopupViewModel.Description));
+            mBinder.BindViewProperty(Resource.Id.spTimeType2, nameof(Spinner.SelectedItemPosition), mModel, nameof(CalendarEventEditViewModel.TimeTypeSpinnerPos));
+            FindViewById<Spinner>(Resource.Id.spTimeType2).Adapter = new TimeTypeAdapter(this, true);
 
-            mBinder.BindViewProperty(Resource.Id.row_start_helper, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.ShowTimeHelpers));
-            mBinder.BindViewProperty(Resource.Id.row_end_helper, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.ShowTimeHelpers));
-            mBinder.BindViewProperty(Resource.Id.row_location_helper, nameof(View.Visibility), mModel, nameof(CalendarEventPopupViewModel.ShowLocationHelper));
+            mBinder.BindViewProperty(Resource.Id.location, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.Location), BindMode.TwoWay);
+            mBinder.BindViewProperty(Resource.Id.location_progress, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.IsSearchingForLocation));
+            mBinder.BindViewProperty(Resource.Id.location_helper, nameof(TextView.Text), mModel, nameof(CalendarEventEditViewModel.LocationHelper));
+            mBinder.BindViewProperty(Resource.Id.location_time_info, nameof(TextView.Text), mModel, nameof(CalendarEventEditViewModel.LocationTimeInfo));
+
+            mBinder.BindViewProperty(Resource.Id.description, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.Description));
+
+            mBinder.BindViewProperty(Resource.Id.row_start_helper, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.ShowTimeHelpers));
+            mBinder.BindViewProperty(Resource.Id.row_end_helper, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.ShowTimeHelpers));
+            mBinder.BindViewProperty(Resource.Id.row_location_helper, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.ShowLocationHelper));
 
             FindViewById<LinearLayout>(Resource.Id.row_location_helper).Click += llLocationHelper_Click;
         }
@@ -111,64 +114,68 @@ namespace iChronoMe.Droid.GUI.Calendar
         protected override void OnResume()
         {
             base.OnResume();
-            mBinder.PushedValuesToView += MBinder_PushedValuesToView;
-            mBinder.Start();
+            //mBinder.PushedValuesToView += MBinder_PushedValuesToView;
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(750).Wait();
+                mBinder.Start();
+            });
         }
-
+        
         private void MBinder_PushedValuesToView(object sender, PushedValuesToViewEventArgs e)
         {
-            rootView.Invalidate();
-            rootView.ForceLayout();
+            //rootView.Invalidate();
+            //rootView.ForceLayout();
         }
 
         private void MModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (nameof(CalendarEventPopupViewModel.Location).Equals(e.PropertyName))
+            if (nameof(CalendarEventEditViewModel.Location).Equals(e.PropertyName))
                 ttAdapter.LocationTimeHolder = mModel.LocationTimeHolder;
         }
 
         private void DateStart_FocusChange(object sender, View.FocusChangeEventArgs e)
         {
             if (e.HasFocus)
-                ShowDateDialog(nameof(CalendarEventPopupViewModel.DisplayStartDate));
+                ShowDateDialog(nameof(CalendarEventEditViewModel.DisplayStartDate));
         }
 
         private void DateStart_Click(object sender, EventArgs e)
         {
-            ShowDateDialog(nameof(CalendarEventPopupViewModel.DisplayStartDate));
+            ShowDateDialog(nameof(CalendarEventEditViewModel.DisplayStartDate));
         }
 
         private void DateEnd_FocusChange(object sender, View.FocusChangeEventArgs e)
         {
             if (e.HasFocus)
-                ShowDateDialog(nameof(CalendarEventPopupViewModel.DisplayEndDate));
+                ShowDateDialog(nameof(CalendarEventEditViewModel.DisplayEndDate));
         }
 
         private void DateEnd_Click(object sender, EventArgs e)
         {
-            ShowDateDialog(nameof(CalendarEventPopupViewModel.DisplayEndDate));
+            ShowDateDialog(nameof(CalendarEventEditViewModel.DisplayEndDate));
         }
 
         private void TimeStart_FocusChange(object sender, View.FocusChangeEventArgs e)
         {
             if (e.HasFocus)
-                ShowTimeDialog(nameof(CalendarEventPopupViewModel.DisplayStartTime));
+                ShowTimeDialog(nameof(CalendarEventEditViewModel.DisplayStartTime));
         }
 
         private void TimeStart_Click(object sender, EventArgs e)
         {
-            ShowTimeDialog(nameof(CalendarEventPopupViewModel.DisplayStartTime));
+            ShowTimeDialog(nameof(CalendarEventEditViewModel.DisplayStartTime));
         }
 
         private void TimeEnd_FocusChange(object sender, View.FocusChangeEventArgs e)
         {
             if (e.HasFocus)
-                ShowTimeDialog(nameof(CalendarEventPopupViewModel.DisplayEndTime));
+                ShowTimeDialog(nameof(CalendarEventEditViewModel.DisplayEndTime));
         }
 
         private void TimeEnd_Click(object sender, EventArgs e)
         {
-            ShowTimeDialog(nameof(CalendarEventPopupViewModel.DisplayEndTime));
+            ShowTimeDialog(nameof(CalendarEventEditViewModel.DisplayEndTime));
         }
 
         string dateDlgProp = string.Empty;
@@ -178,7 +185,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             dateDlgProp = property;
             var prop = mModel.GetType().GetProperty(property);
             var date = (DateTime)prop.GetValue(mModel);
-            var dlg = new DatePickerDialog(this, DateDlgChaged, date.Year, date.Month, date.Day);
+            var dlg = new DatePickerDialog(this, DateDlgChaged, date.Year, date.Month - 1, date.Day);
             dlg.Show();
         }
 

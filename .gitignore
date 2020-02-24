@@ -342,3 +342,4 @@ healthchecksdb
 #Secrets
 secrets.cs
 secrets.*.cs
+secrets.xml

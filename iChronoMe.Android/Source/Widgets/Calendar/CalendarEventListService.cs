@@ -144,7 +144,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 {
                     RemoteViews rv = new RemoteViews(mContext.PackageName, Resource.Layout.widget_calendar_timetable_item);
                     CalendarEvent calEvent = (CalendarEvent)data;
-                    CalendarEventExtention extEvent = CalendarEventExtention.GetExtention(calEvent.ExternalID);
+                    CalendarEventExtention extEvent = calEvent.Extention;
 
                     DateTime tStart = calEvent.DisplayStart;
                     DateTime tEnd = calEvent.DisplayEnd;
