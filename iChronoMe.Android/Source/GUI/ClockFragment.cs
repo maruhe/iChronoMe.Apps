@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
@@ -25,7 +26,7 @@ using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.GUI
 {
-    public class ClockFragment : ActivityFragment, IMenuItemOnMenuItemClickListener, NavigationView.IOnNavigationItemSelectedListener
+    public class ClockFragment : ActivityFragment, IMenuItemOnMenuItemClickListener, NavigationView.IOnNavigationItemSelectedListener, ILocationListener
     {
         public TimeType TimeType { get; set; } = sys.DefaultTimeType;
         private DrawerLayout Drawer;
@@ -40,6 +41,7 @@ namespace iChronoMe.Droid.GUI
         private LocationTimeHolder lth;
         private FloatingActionButton fabTimeType;
         private WidgetAnimator_ClockAnalog animator;
+        private LocationManager locationManager;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -83,430 +85,24 @@ namespace iChronoMe.Droid.GUI
             return RootView;
         }
 
-        private void btnAnimate_Click(object sender, EventArgs e)
-        {
-            PopupMenu popup = new PopupMenu(Activity, sender as View);
-            foreach (var style in Enum.GetValues(typeof(ClockAnalog_AnimationStyle)))
-                popup.Menu.Add(0, (int)style, 0, style.ToString());
-
-
-            popup.MenuItemClick += (s, e) =>
-            {
-                ClockAnalog_AnimationStyle style = (ClockAnalog_AnimationStyle)Enum.ToObject(typeof(ClockAnalog_AnimationStyle), e.Item.ItemId);
-
-                TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
-                DateTime tAnimateFrom = lth.GetTime(this.TimeType);
-                DateTime tAnimateTo = tAnimateFrom.Add(tsDuriation);
-
-                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, style)
-                    .SetStart(tAnimateFrom)
-                    .SetEnd(tAnimateTo)
-                    .SetPushFrame((h, m, s) =>
-                    {
-                        nManualHour = h;
-                        nManualMinute = m;
-                        nManualSecond = s;
-                        mContext.RunOnUiThread(() =>
-                        {
-                            bNoClockUpdate = true;
-                            vClock.FlowMinuteHand = true;
-                            vClock.FlowSecondHand = true;
-                            skiaView.Invalidate();
-                        });
-                    })
-                    .SetLastRun((h, m, s) =>
-                    {
-                        nManualHour = h;
-                        nManualMinute = m;
-                        nManualSecond = s;
-
-                        mContext.RunOnUiThread(() =>
-                        {
-                            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-                            skiaView.Invalidate();
-                        });
-                    })
-                    .SetFinally(() =>
-                    {
-                        mContext.RunOnUiThread(() =>
-                        {
-                            nManualHour = nManualMinute = nManualSecond = null;
-                            bNoClockUpdate = false;
-                        });
-                    })
-                    .StartAnimation();
-
-            };
-
-            popup.Show();
-        }
-        private void btnLocate_Click(object sender, EventArgs e)
-        {
-            PopupMenu popup = new PopupMenu(Activity, sender as View);
-            popup.Menu.Add(0, 1, 0, Resource.String.action_refresh_location);
-            popup.Menu.Add(0, 2, 0, Resource.String.action_select_location);
-
-            string clr = xColor.FromUint((uint)lTimeInfo1.CurrentTextColor).HexString;
-            clr.ToString();
-
-            popup.MenuItemClick += (s, e) =>
-            {
-                if (e.Item.ItemId == 1)
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        try
-                        {
-                            var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
-
-                            var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
-                            if (lastLocation == null)
-                                lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
-
-                            if (lastLocation != null)
-                            {
-                                Activity.RunOnUiThread(() =>
-                                {
-                                    StopClockUpdates();
-                                    TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
-                                    DateTime tAnimateFrom = lth.GetTime(this.TimeType);
-                                    lth = LocationTimeHolder.LocalInstance;
-                                    nLastLatitude = lastLocation.Latitude;//to prevent standard-Animation
-                                    nLastLongitude = lastLocation.Longitude;
-                                    lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
-                                    DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
-                                    StartClockUpdates();
-
-                                    animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
-                                    .SetStart(tAnimateFrom)
-                                    .SetEnd(tAnimateTo)
-                                    .SetPushFrame((h, m, s) =>
-                                    {
-                                        nManualHour = h;
-                                        nManualMinute = m;
-                                        nManualSecond = s;
-                                        mContext.RunOnUiThread(() =>
-                                        {
-                                            bNoClockUpdate = true;
-                                            vClock.FlowMinuteHand = true;
-                                            vClock.FlowSecondHand = true;
-                                            skiaView.Invalidate();
-                                        });
-                                    })
-                                    .SetLastRun((h, m, s) =>
-                                    {
-                                        nManualHour = h;
-                                        nManualMinute = m;
-                                        nManualSecond = s;
-
-                                        mContext.RunOnUiThread(() =>
-                                        {
-                                            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-                                            skiaView.Invalidate();
-                                        });
-                                    })
-                                    .SetFinally(() =>
-                                    {
-                                        mContext.RunOnUiThread(() =>
-                                        {
-                                            nManualHour = nManualMinute = nManualSecond = null;
-                                            bNoClockUpdate = false;
-                                        });
-                                    })
-                                    .StartAnimation();
-                                });
-
-                            }
-                        }
-                        catch { }
-                    });
-                }
-                else if (e.Item.ItemId == 2)
-                {
-                    Task.Factory.StartNew(async () =>
-                    {
-                        var sel = await LocationPickerDialog.SelectLocation((AppCompatActivity)Activity);
-                        if (sel != null)
-                        {
-                            Activity.RunOnUiThread(() =>
-                            {
-                                StopClockUpdates();
-                                TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
-                                DateTime tAnimateFrom = lth.GetTime(this.TimeType);
-                                lth = LocationTimeHolder.LocalInstanceClone;
-                                nLastLatitude = sel.Latitude;//to prevent standard-Animation
-                                nLastLongitude = sel.Longitude;
-                                lth.ChangePositionDelay(sel.Latitude, sel.Longitude, true, true);
-                                DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
-                                StartClockUpdates();
-
-                                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
-                                .SetStart(tAnimateFrom)
-                                .SetEnd(tAnimateTo)
-                                .SetPushFrame((h, m, s) =>
-                                {
-                                    nManualHour = h;
-                                    nManualMinute = m;
-                                    nManualSecond = s;
-                                    mContext.RunOnUiThread(() =>
-                                    {
-                                        bNoClockUpdate = true;
-                                        vClock.FlowMinuteHand = true;
-                                        vClock.FlowSecondHand = true;
-                                        skiaView.Invalidate();
-                                    });
-                                })
-                                .SetLastRun((h, m, s) =>
-                                {
-                                    nManualHour = h;
-                                    nManualMinute = m;
-                                    nManualSecond = s;
-
-                                    mContext.RunOnUiThread(() =>
-                                    {
-                                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-                                        skiaView.Invalidate();
-                                    });
-                                })
-                                .SetFinally(() =>
-                                {
-                                    mContext.RunOnUiThread(() =>
-                                    {
-                                        nManualHour = nManualMinute = nManualSecond = null;
-                                        bNoClockUpdate = false;
-                                    });
-                                })
-                                .StartAnimation();
-                            });
-                        }
-                    });
-                }
-            };
-
-            popup.Show();
-        }
-
-        bool isFABOpen = false;
-        private void Fab_Click(object sender, EventArgs e)
-        {
-            if (!isFABOpen)
-            {
-                showFABMenu();
-            }
-            else
-            {
-                closeFABMenu();
-            }
-        }
-
-        List<FloatingActionButton> fabs;
-
-        private void showFABMenu()
-        {
-            isFABOpen = true;
-            List<TimeType> menu = new List<TimeType>(new TimeType[] { TimeType.TimeZoneTime, TimeType.MiddleSunTime, TimeType.RealSunTime });
-            menu.Remove(this.TimeType);
-
-            int margin = (int)Resources.GetDimension(Resource.Dimension.fab_margin);
-            var lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.WrapContent, CoordinatorLayout.LayoutParams.WrapContent);
-            lp.Gravity = (int)(GravityFlags.Bottom | GravityFlags.End);
-            lp.SetMargins(margin, margin, margin, margin);
-
-            float fAnimate = Resources.GetDimension(Resource.Dimension.standard_60);
-
-            fabs = new List<FloatingActionButton>();
-            foreach (TimeType tt in menu)
-            {
-                var fab = new FloatingActionButton(mContext);
-                fab.SetImageResource(Tools.GetTimeTypeIconID(tt, lth));
-                fab.Tag = new Java.Lang.String(tt.ToString());
-                fab.Click += FabMenu_Click;
-                coordinator.AddView(fab, lp);
-                fabs.Add(fab);
-
-                fab.Animate().TranslationY(-(fAnimate));
-                fAnimate += Resources.GetDimension(Resource.Dimension.standard_60);
-            }
-            fabTimeType.BringToFront();
-        }
-
-        private void FabMenu_Click(object sender, EventArgs e)
-        {
-            string tag = (string)(sender as FloatingActionButton).Tag;
-            var tt = Enum.Parse<TimeType>(tag);
-
-            TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
-            DateTime tAnimateFrom = lth.GetTime(this.TimeType);
-            DateTime tAnimateTo = lth.GetTime(tt).Add(tsDuriation);
-
-            SetTimeType(tt);
-
-            animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
-            .SetStart(tAnimateFrom)
-            .SetEnd(tAnimateTo)
-            .SetPushFrame((h, m, s) =>
-            {
-                nManualHour = h;
-                nManualMinute = m;
-                nManualSecond = s;
-                mContext.RunOnUiThread(() =>
-                {
-                    bNoClockUpdate = true;
-                    vClock.FlowMinuteHand = true;
-                    vClock.FlowSecondHand = true;
-                    skiaView.Invalidate();
-                });
-            })
-            .SetLastRun((h, m, s) =>
-            {
-                nManualHour = h;
-                nManualMinute = m;
-                nManualSecond = s;
-
-                mContext.RunOnUiThread(() =>
-                {
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-                    skiaView.Invalidate();
-                });
-            })
-            .SetFinally(() =>
-            {
-                mContext.RunOnUiThread(() =>
-                {
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-                    nManualHour = nManualMinute = nManualSecond = null;
-                    bNoClockUpdate = false;
-                });
-            })
-            .StartAnimation();
-
-            closeFABMenu();
-        }
-
-        private void closeFABMenu()
-        {
-            isFABOpen = false;
-            if (fabs == null)
-                return;
-            foreach (var fab in fabs)
-            {
-                fab.Animate().TranslationY(0).WithEndAction(new Java.Lang.Runnable(() => { coordinator.RemoveView(fab); }));
-            }
-        }
-
         double nLastLatitude = 0;
         double nLastLongitude = 0;
-
-        private void Lth_AreaChanged(object sender, AreaChangedEventArgs e)
-        {
-            mContext.RunOnUiThread(() =>
-            {
-                if (tLastClockTime == DateTime.MinValue)
-                {
-                    nLastLatitude = lth.Latitude;
-                    nLastLongitude = lth.Longitude;
-                }
-                else
-                {
-                    if (Xamarin.Essentials.Location.CalculateDistance(nLastLatitude, nLastLongitude, lth.Latitude, lth.Longitude, DistanceUnits.Kilometers) > 5)
-                    {
-                        //Animate Time-Change on Area-Change
-                        animator?.AbortAnimation();
-
-                        //Tools.ShowToast(mContext, "AreaChangedAnimation :-)");
-
-                        TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
-                        DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
-
-                        animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect);
-                        if (nManualHour != null && nManualMinute != null && nManualSecond != null)
-                            animator.SetStart(nManualHour.Value, nManualMinute.Value, nManualSecond.Value);
-                        else
-                            animator.SetStart(tLastClockTime);
-                        animator.SetEnd(tAnimateTo)
-                        .SetPushFrame((h, m, s) =>
-                        {
-                            nManualHour = h;
-                            nManualMinute = m;
-                            nManualSecond = s;
-                            mContext.RunOnUiThread(() =>
-                            {
-                                bNoClockUpdate = true;
-                                vClock.FlowMinuteHand = true;
-                                vClock.FlowSecondHand = true;
-                                skiaView.Invalidate();
-                            });
-                        })
-                        .SetLastRun((h, m, s) =>
-                        {
-                            nManualHour = h;
-                            nManualMinute = m;
-                            nManualSecond = s;
-
-                            mContext.RunOnUiThread(() =>
-                            {
-                                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-                                skiaView.Invalidate();
-                            });
-                        })
-                        .SetFinally(() =>
-                        {
-                            mContext.RunOnUiThread(() =>
-                            {
-                                nManualHour = nManualMinute = nManualSecond = null;
-                                bNoClockUpdate = false;
-                            });
-                        })
-                        .StartAnimation();
-                    }
-                }
-                nLastLatitude = lth.Latitude;
-                nLastLongitude = lth.Longitude;
-                imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
-                lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
-                if (lth.Latitude == 0 && lth.Longitude == 0)
-                    lGeoPos.Text = Resources.GetString(Resource.String.unknown_position);
-                else
-                {
-                    lGeoPos.Text = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) + "\nGMT " + lth.TimeZoneOffsetGmt.ToString("+#;-#;0");
-                    if (lth.TimeZoneOffset != lth.TimeZoneOffsetGmt)
-                        lGeoPos.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
-                }
-            });
-        }
-
-        public void SetTimeType(TimeType tt)
-        {
-            StopClockUpdates();
-            this.TimeType = tt;
-            StartClockUpdates();
-        }
-
-        private void BtnMaps_Click(object sender, EventArgs e)
-        {
-            LocationPickerDialog.NewInstance(null).Show(ChildFragmentManager, "");
-        }
+        int minTime = 15000;
+        int minDistance = 25;
+        DateTime tStopLocationUpdates = DateTime.MinValue;
+        DateTime tLastLocationUpdate = DateTime.MinValue;
+        Task tskStopLocationUpdates = null;
 
         public override void OnResume()
         {
             base.OnResume();
 
             StartClockUpdates();
-            Task.Factory.StartNew(() =>
-            {
-                try
-                {
-                    var locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
-
-                    var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
-                    if (lastLocation == null)
-                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
-
-                    if (lastLocation != null)
-                        lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
-                }
-                catch { }
-            });
+            if (AppConfigHolder.MainConfig.ContinuousLocationUpdates)
+                tStopLocationUpdates = DateTime.MaxValue;
+            else
+                tStopLocationUpdates = DateTime.MinValue;
+            StartLocationUpdate();
 
             TimeSpan tsDuriation = TimeSpan.FromSeconds(.5);
             DateTime tAnimateFrom = DateTime.Today;
@@ -515,6 +111,7 @@ namespace iChronoMe.Droid.GUI
             if (lth.Latitude == 0 || lth.Longitude == 0)
                 return;
 
+            animator?.AbortAnimation();
             animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
             .SetStart(tAnimateFrom)
             .SetEnd(tAnimateTo)
@@ -559,6 +156,7 @@ namespace iChronoMe.Droid.GUI
         {
             base.OnPause();
             StopClockUpdates();
+            locationManager?.RemoveUpdates(this);
         }
 
         bool bNoClockUpdate = false;
@@ -647,6 +245,54 @@ namespace iChronoMe.Droid.GUI
             lth.StopTimeChangedHandler(skiaView);
         }
 
+        double? nManualHour = null;
+        double? nManualMinute = null;
+        double? nManualSecond = null;
+        DateTime tLastClockTime = DateTime.MinValue;
+
+        private void skiaView_OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+            try
+            {
+                if (nManualSecond == null)
+                {
+                    tLastClockTime = lth.GetTime(this.TimeType);
+                    if (lth.Latitude == 0 || lth.Longitude == 0)
+                        tLastClockTime = DateTime.Today;
+                    vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
+                }
+                else
+                    vClock.DrawCanvas(e.Surface.Canvas, nManualHour.Value, nManualMinute.Value, nManualSecond.Value, (int)e.Info.Width, (int)e.Info.Height, false);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
+        }
+
+        private void RefreshClockCfg()
+        {
+            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+            try
+            {
+                if (string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage) || !System.IO.File.Exists(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
+                    imgClockBack.SetImageBitmap(null);
+                else
+                    imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(AppConfigHolder.MainConfig.MainClock.BackgroundImage)));
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
+        }
+
+        public void SetTimeType(TimeType tt)
+        {
+            StopClockUpdates();
+            this.TimeType = tt;
+            StartClockUpdates();
+        }
+
         const int menu_options = 1001;
 
         public override void OnPrepareOptionsMenu(IMenu menu)
@@ -703,6 +349,7 @@ namespace iChronoMe.Droid.GUI
 
                         SetTimeType(tt);
 
+                        animator?.AbortAnimation();
                         animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
                         .SetStart(tAnimateFrom)
                         .SetEnd(tAnimateTo)
@@ -797,22 +444,6 @@ namespace iChronoMe.Droid.GUI
             return true;
         }
 
-        private void RefreshClockCfg()
-        {
-            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-            try
-            {
-                if (string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage) || !System.IO.File.Exists(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
-                    imgClockBack.SetImageBitmap(null);
-                else
-                    imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(AppConfigHolder.MainConfig.MainClock.BackgroundImage)));
-            }
-            catch (Exception ex)
-            {
-                xLog.Error(ex);
-            }
-        }
-
         private void unCheckAllMenuItems(IMenu menu)
         {
             int size = menu.Size();
@@ -831,29 +462,523 @@ namespace iChronoMe.Droid.GUI
             }
         }
 
-        double? nManualHour = null;
-        double? nManualMinute = null;
-        double? nManualSecond = null;
-        DateTime tLastClockTime = DateTime.MinValue;
-
-        private void skiaView_OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        bool isFABOpen = false;
+        private void Fab_Click(object sender, EventArgs e)
         {
-            try
+            if (!isFABOpen)
             {
-                if (nManualSecond == null)
+                showFABMenu();
+            }
+            else
+            {
+                closeFABMenu();
+            }
+        }
+
+        List<FloatingActionButton> fabs;
+
+        private void showFABMenu()
+        {
+            isFABOpen = true;
+            List<TimeType> menu = new List<TimeType>(new TimeType[] { TimeType.TimeZoneTime, TimeType.MiddleSunTime, TimeType.RealSunTime });
+            menu.Remove(this.TimeType);
+
+            int margin = (int)Resources.GetDimension(Resource.Dimension.fab_margin);
+            var lp = new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.WrapContent, CoordinatorLayout.LayoutParams.WrapContent);
+            lp.Gravity = (int)(GravityFlags.Bottom | GravityFlags.End);
+            lp.SetMargins(margin, margin, margin, margin);
+
+            float fAnimate = Resources.GetDimension(Resource.Dimension.standard_60);
+
+            fabs = new List<FloatingActionButton>();
+            foreach (TimeType tt in menu)
+            {
+                var fab = new FloatingActionButton(mContext);
+                fab.SetImageResource(Tools.GetTimeTypeIconID(tt, lth));
+                fab.Tag = new Java.Lang.String(tt.ToString());
+                fab.Click += FabMenu_Click;
+                coordinator.AddView(fab, lp);
+                fabs.Add(fab);
+
+                fab.Animate().TranslationY(-(fAnimate));
+                fAnimate += Resources.GetDimension(Resource.Dimension.standard_60);
+            }
+            fabTimeType.BringToFront();
+        }
+
+        private void FabMenu_Click(object sender, EventArgs e)
+        {
+            string tag = (string)(sender as FloatingActionButton).Tag;
+            var tt = Enum.Parse<TimeType>(tag);
+
+            TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
+            DateTime tAnimateFrom = lth.GetTime(this.TimeType);
+            DateTime tAnimateTo = lth.GetTime(tt).Add(tsDuriation);
+
+            SetTimeType(tt);
+
+            animator?.AbortAnimation();
+            animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
+            .SetStart(tAnimateFrom)
+            .SetEnd(tAnimateTo)
+            .SetPushFrame((h, m, s) =>
+            {
+                nManualHour = h;
+                nManualMinute = m;
+                nManualSecond = s;
+                mContext.RunOnUiThread(() =>
                 {
-                    tLastClockTime = lth.GetTime(this.TimeType);
-                    if (lth.Latitude == 0 || lth.Longitude == 0)
-                        tLastClockTime = DateTime.Today;
-                    vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
+                    bNoClockUpdate = true;
+                    vClock.FlowMinuteHand = true;
+                    vClock.FlowSecondHand = true;
+                    skiaView.Invalidate();
+                });
+            })
+            .SetLastRun((h, m, s) =>
+            {
+                nManualHour = h;
+                nManualMinute = m;
+                nManualSecond = s;
+
+                mContext.RunOnUiThread(() =>
+                {
+                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    skiaView.Invalidate();
+                });
+            })
+            .SetFinally(() =>
+            {
+                mContext.RunOnUiThread(() =>
+                {
+                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    nManualHour = nManualMinute = nManualSecond = null;
+                    bNoClockUpdate = false;
+                });
+            })
+            .StartAnimation();
+
+            closeFABMenu();
+        }
+
+        private void closeFABMenu()
+        {
+            isFABOpen = false;
+            if (fabs == null)
+                return;
+            foreach (var fab in fabs)
+            {
+                fab.Animate().TranslationY(0).WithEndAction(new Java.Lang.Runnable(() => { coordinator.RemoveView(fab); }));
+            }
+        }
+
+        private void btnAnimate_Click(object sender, EventArgs e)
+        {
+            PopupMenu popup = new PopupMenu(Activity, sender as View);
+            foreach (var style in Enum.GetValues(typeof(ClockAnalog_AnimationStyle)))
+                popup.Menu.Add(0, (int)style, 0, style.ToString());
+
+
+            popup.MenuItemClick += (s, e) =>
+            {
+                ClockAnalog_AnimationStyle style = (ClockAnalog_AnimationStyle)Enum.ToObject(typeof(ClockAnalog_AnimationStyle), e.Item.ItemId);
+
+                TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
+                DateTime tAnimateFrom = lth.GetTime(this.TimeType);
+                DateTime tAnimateTo = tAnimateFrom.Add(tsDuriation);
+
+                animator?.AbortAnimation();
+                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, style)
+                    .SetStart(tAnimateFrom)
+                    .SetEnd(tAnimateTo)
+                    .SetPushFrame((h, m, s) =>
+                    {
+                        nManualHour = h;
+                        nManualMinute = m;
+                        nManualSecond = s;
+                        mContext.RunOnUiThread(() =>
+                        {
+                            bNoClockUpdate = true;
+                            vClock.FlowMinuteHand = true;
+                            vClock.FlowSecondHand = true;
+                            skiaView.Invalidate();
+                        });
+                    })
+                    .SetLastRun((h, m, s) =>
+                    {
+                        nManualHour = h;
+                        nManualMinute = m;
+                        nManualSecond = s;
+
+                        mContext.RunOnUiThread(() =>
+                        {
+                            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                            skiaView.Invalidate();
+                        });
+                    })
+                    .SetFinally(() =>
+                    {
+                        mContext.RunOnUiThread(() =>
+                        {
+                            nManualHour = nManualMinute = nManualSecond = null;
+                            bNoClockUpdate = false;
+                        });
+                    })
+                    .StartAnimation();
+
+            };
+
+            popup.Show();
+        }
+
+        private void btnLocate_Click(object sender, EventArgs e)
+        {
+            PopupMenu popup = new PopupMenu(Activity, sender as View);
+            popup.Menu.Add(0, 1, 0, Resource.String.action_select_location);
+            popup.Menu.Add(0, 2, 0, Resource.String.action_refresh_location);
+            var item = popup.Menu.Add(0, 3, 0, Resource.String.action_refresh_location_continuous);
+            item.SetCheckable(true);
+            item.SetChecked(AppConfigHolder.MainConfig.ContinuousLocationUpdates);
+            
+            string clr = xColor.FromUint((uint)lTimeInfo1.CurrentTextColor).HexString;
+            clr.ToString();
+
+            popup.MenuItemClick += (s, e) =>
+            {
+                if (e.Item.ItemId == 1)
+                {
+                    Task.Factory.StartNew(async () =>
+                    {
+                        var sel = await LocationPickerDialog.SelectLocation((AppCompatActivity)Activity);
+                        if (sel != null)
+                        {
+                            Activity.RunOnUiThread(() =>
+                            {
+                                StopClockUpdates();
+                                TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
+                                DateTime tAnimateFrom = lth.GetTime(this.TimeType);
+                                lth = LocationTimeHolder.LocalInstanceClone;
+                                nLastLatitude = sel.Latitude;//to prevent standard-Animation
+                                nLastLongitude = sel.Longitude;
+                                lth.ChangePositionDelay(sel.Latitude, sel.Longitude, true, true);
+                                DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
+                                StartClockUpdates();
+
+                                animator?.AbortAnimation();
+                                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
+                                .SetStart(tAnimateFrom)
+                                .SetEnd(tAnimateTo)
+                                .SetPushFrame((h, m, s) =>
+                                {
+                                    nManualHour = h;
+                                    nManualMinute = m;
+                                    nManualSecond = s;
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        bNoClockUpdate = true;
+                                        vClock.FlowMinuteHand = true;
+                                        vClock.FlowSecondHand = true;
+                                        skiaView.Invalidate();
+                                    });
+                                })
+                                .SetLastRun((h, m, s) =>
+                                {
+                                    nManualHour = h;
+                                    nManualMinute = m;
+                                    nManualSecond = s;
+
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                        skiaView.Invalidate();
+                                    });
+                                })
+                                .SetFinally(() =>
+                                {
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        nManualHour = nManualMinute = nManualSecond = null;
+                                        bNoClockUpdate = false;
+                                    });
+                                })
+                                .StartAnimation();
+                            });
+                        }
+                    });
+                }
+                else if (e.Item.ItemId == 2)
+                {
+                    StartLocationUpdate(true);
+                }
+                else if (e.Item.ItemId == 3)
+                {
+                    AppConfigHolder.MainConfig.ContinuousLocationUpdates = !AppConfigHolder.MainConfig.ContinuousLocationUpdates;
+                    AppConfigHolder.SaveMainConfig();
+                    if (AppConfigHolder.MainConfig.ContinuousLocationUpdates)
+                    {
+                        tStopLocationUpdates = DateTime.MaxValue;
+                        StartLocationUpdate(true);
+                    }
+                    else
+                    {
+                        tStopLocationUpdates = DateTime.MinValue;
+                        locationManager?.RemoveUpdates(this);
+                    }
+                }
+            };
+
+            popup.Show();
+        }
+
+        private void StartLocationUpdate(bool forceUpdate = false, string forceProvider = null)
+        {
+            if (tLastLocationUpdate.AddMinutes(5) > DateTime.Now && !forceUpdate)
+                return;
+
+            Task.Factory.StartNew(async () =>
+            {
+                try
+                {
+                    if (Looper.MyLooper() == null)
+                        Looper.Prepare();
+                    if (locationManager == null)
+                        locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
+
+                    if (!locationManager.IsProviderEnabled(LocationManager.NetworkProvider) && !locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                    {
+                        tLastClockTime = DateTime.Now;
+                        if (!forceUpdate)
+                        {
+                            Tools.ShowToast(Context, Resource.String.location_provider_disabled_alert);
+                            return;
+                        }
+                        if (await Tools.ShowYesNoMessage(Context, Resource.String.location_provider_disabled_alert, Resource.String.location_provider_disabled_question))
+                        {
+                            tLastClockTime = DateTime.MinValue;
+                            Context.StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                        }
+                        return;
+                    }
+
+                    lastReceivedLocation = null;
+                    var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+                    if (locationManager.IsProviderEnabled(LocationManager.NetworkProvider))
+                    {
+                        locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, minTime, minDistance, this);
+                    }
+                    
+                    if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                    {
+                        locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
+                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+                    }
+                    else
+                        Tools.ShowToast(Context, Resource.String.location_provider_disabled_alert);
+
+                    //stop location-updates after some time
+                    if (tStopLocationUpdates < DateTime.MaxValue)
+                        tStopLocationUpdates = DateTime.Now.AddSeconds(30);
+                    {
+                        if (tskStopLocationUpdates == null)
+                        {
+                            tskStopLocationUpdates = Task.Factory.StartNew(() =>
+                            {
+                                while (tStopLocationUpdates > DateTime.Now)
+                                {
+                                    if (tStopLocationUpdates < DateTime.MaxValue)
+                                    {
+                                        if (lastReceivedLocation != null && lastReceivedLocation.HasAccuracy && lastReceivedLocation.Accuracy < 25)
+                                            break;
+                                        Task.Delay(1000).Wait();
+                                    }
+                                    else
+                                    {
+                                        tskStopLocationUpdates = null;
+                                        return;
+                                    }
+                                }
+                                tskStopLocationUpdates = null;
+                                locationManager?.RemoveUpdates(this);
+                                Tools.ShowDebugToast(Context, "LocationUpdates stopped..");
+                            });
+                        }
+                    }
+
+                    //update last known location in meanwhile
+                    if (lastLocation == null)
+                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+
+                    if (lastLocation != null)
+                    {
+                        if (lastLocation.Latitude == lth.Latitude && lastLocation.Longitude == lth.Longitude)
+                            return;
+
+                        if (forceUpdate)
+                        {
+                            Activity.RunOnUiThread(() =>
+                            {
+                                StopClockUpdates();
+                                TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
+                                DateTime tAnimateFrom = lth.GetTime(this.TimeType);
+                                lth = LocationTimeHolder.LocalInstance;
+                                nLastLatitude = lastLocation.Latitude;//to prevent standard-Animation
+                                nLastLongitude = lastLocation.Longitude;
+                                lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
+                                DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
+                                StartClockUpdates();
+
+                                animator?.AbortAnimation();
+                                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.Over12)
+                                .SetStart(tAnimateFrom)
+                                .SetEnd(tAnimateTo)
+                                .SetPushFrame((h, m, s) =>
+                                {
+                                    nManualHour = h;
+                                    nManualMinute = m;
+                                    nManualSecond = s;
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        bNoClockUpdate = true;
+                                        vClock.FlowMinuteHand = true;
+                                        vClock.FlowSecondHand = true;
+                                        skiaView.Invalidate();
+                                    });
+                                })
+                                .SetLastRun((h, m, s) =>
+                                {
+                                    nManualHour = h;
+                                    nManualMinute = m;
+                                    nManualSecond = s;
+
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                        skiaView.Invalidate();
+                                    });
+                                })
+                                .SetFinally(() =>
+                                {
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        nManualHour = nManualMinute = nManualSecond = null;
+                                        bNoClockUpdate = false;
+                                    });
+                                })
+                                .StartAnimation();
+                            });
+                        }
+                        else
+                            lth.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude, false, true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    xLog.Error(ex);
+                    Tools.ShowDebugToast(Context, ex.Message);
+                }
+            });
+        }
+
+        private void Lth_AreaChanged(object sender, AreaChangedEventArgs e)
+        {
+            mContext.RunOnUiThread(() =>
+            {
+                if (tLastClockTime == DateTime.MinValue)
+                {
+                    nLastLatitude = lth.Latitude;
+                    nLastLongitude = lth.Longitude;
                 }
                 else
-                    vClock.DrawCanvas(e.Surface.Canvas, nManualHour.Value, nManualMinute.Value, nManualSecond.Value, (int)e.Info.Width, (int)e.Info.Height, false);
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
+                {
+                    var nDist = Xamarin.Essentials.Location.CalculateDistance(nLastLatitude, nLastLongitude, lth.Latitude, lth.Longitude, DistanceUnits.Kilometers);
+                    if (nDist > 5)
+                    {
+                        //Animate Time-Change on Area-Change
+
+                        //Tools.ShowToast(mContext, "AreaChangedAnimation :-)");
+
+                        TimeSpan tsDuriation = TimeSpan.FromSeconds(2);
+                        DateTime tAnimateTo = lth.GetTime(this.TimeType).Add(tsDuriation);
+
+                        animator?.AbortAnimation();
+                        animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, nDist > 100 ? ClockAnalog_AnimationStyle.Over12 : ClockAnalog_AnimationStyle.HandsDirect);
+                        if (nManualHour != null && nManualMinute != null && nManualSecond != null)
+                            animator.SetStart(nManualHour.Value, nManualMinute.Value, nManualSecond.Value);
+                        else
+                            animator.SetStart(tLastClockTime);
+                        animator.SetEnd(tAnimateTo)
+                        .SetPushFrame((h, m, s) =>
+                        {
+                            nManualHour = h;
+                            nManualMinute = m;
+                            nManualSecond = s;
+                            mContext.RunOnUiThread(() =>
+                            {
+                                bNoClockUpdate = true;
+                                vClock.FlowMinuteHand = true;
+                                vClock.FlowSecondHand = true;
+                                skiaView.Invalidate();
+                            });
+                        })
+                        .SetLastRun((h, m, s) =>
+                        {
+                            nManualHour = h;
+                            nManualMinute = m;
+                            nManualSecond = s;
+
+                            mContext.RunOnUiThread(() =>
+                            {
+                                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                skiaView.Invalidate();
+                            });
+                        })
+                        .SetFinally(() =>
+                        {
+                            mContext.RunOnUiThread(() =>
+                            {
+                                nManualHour = nManualMinute = nManualSecond = null;
+                                bNoClockUpdate = false;
+                            });
+                        })
+                        .StartAnimation();
+                    }
+                }
+                nLastLatitude = lth.Latitude;
+                nLastLongitude = lth.Longitude;
+                imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
+                lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
+                if (lth.Latitude == 0 && lth.Longitude == 0)
+                    lGeoPos.Text = Resources.GetString(Resource.String.unknown_position);
+                else
+                {
+                    lGeoPos.Text = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) + "\nGMT " + lth.TimeZoneOffsetGmt.ToString("+#;-#;0");
+                    if (lth.TimeZoneOffset != lth.TimeZoneOffsetGmt)
+                        lGeoPos.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
+                }
+            });
+        }
+
+        Android.Locations.Location lastReceivedLocation = null;
+        public void OnLocationChanged(Android.Locations.Location location)
+        {
+            lastReceivedLocation = location;
+            Tools.ShowDebugToast(Context, "got a location update");
+            
+            lth.ChangePositionDelay(location.Latitude, location.Longitude);
+        }
+
+        public void OnProviderDisabled(string provider)
+        {
+            this.ToString();
+        }
+
+        public void OnProviderEnabled(string provider)
+        {
+            this.ToString();
+        }
+
+        public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
+        {
+            this.ToString();
         }
     }
 }

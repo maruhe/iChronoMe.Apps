@@ -964,13 +964,10 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_calendar_event_content_bak_table.xml">
-      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
+    <AndroidResource Include="Resources\values\secrets.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\secrets.xml" />
+    <AndroidResource Include="Resources\drawable\icons8_save.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

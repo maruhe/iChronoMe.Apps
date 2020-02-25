@@ -856,6 +856,22 @@ namespace iChronoMe.Droid
             if (string.IsNullOrEmpty(cTitle))
                 cTitle = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
 
+#if DEBUG
+            if (mSpeedS.Count > 0)
+            {
+                var nAvgSpeed = (sys.Sum(mSpeedS.ToArray()) / mSpeedS.Count * 3.6);
+                if (nAvgSpeed > 50)
+                {
+                    cTitle = (int)nAvgSpeed + "km/h";
+                    if (tLastSpeed.AddSeconds(30) < DateTime.Now)
+                    {
+                        mSpeedS.Clear();
+                        tLastSpeed = DateTime.MinValue;
+                    }
+                }
+            }
+#endif
+
             updateViews.SetImageViewBitmap(Resource.Id.analog_clock, bitmap);
             updateViews.SetTextViewText(Resource.Id.clock_title, cTitle);
             updateViews.SetTextColor(Resource.Id.clock_title, cfg.ColorTitleText.ToAndroid());
@@ -986,9 +1002,9 @@ namespace iChronoMe.Droid
                         locationManager = (LocationManager)ctx.GetSystemService(Context.LocationService);
 
                         if (lastLocation == null)
-                            lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
-                        if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+                        if (lastLocation == null)
+                            lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
                         xLog.Debug("EnableLocationUpdate: got last: " + (lastLocation != null ? lastLocation.Provider : "false"));
 
@@ -1014,7 +1030,7 @@ namespace iChronoMe.Droid
                             xLog.Debug("EnableLocationUpdate: network: " + e.Message);
                         }
 
-                        if (!bGetNetworkLocation)
+                        if (!bGetNetworkLocation || sys.Debugmode)
                         {
                             try
                             {
@@ -1048,6 +1064,10 @@ namespace iChronoMe.Droid
             }
             bGetNetworkLocation = false;
         }
+
+        static DateTime tLastSpeed = DateTime.MinValue;
+        static List<double> mSpeedS = new List<double>();
+
         public void OnLocationChanged(Location location)
         {
             if (lastLocation?.Latitude == location.Latitude && lastLocation?.Longitude == location.Longitude)
@@ -1055,6 +1075,24 @@ namespace iChronoMe.Droid
             lastLocation = location;
             BackgroundService.EffectedWidges.Clear();
             xLog.Debug("GotLocation; " + location.Provider);
+            if (lastLocation.HasSpeed || tLastSpeed > DateTime.MinValue)
+            {
+                lock (mSpeedS)
+                {
+                    if (lastLocation.HasSpeed)
+                    {
+                        tLastSpeed = DateTime.Now;
+                        mSpeedS.Add(lastLocation.Speed);
+                        while (mSpeedS.Count > 5)
+                            mSpeedS.RemoveAt(0);
+                    }
+                    else if (tLastSpeed.AddSeconds(30) < DateTime.Now)
+                    {
+                        mSpeedS.Clear();
+                        tLastSpeed = DateTime.MinValue;
+                    }
+                }
+            }
         }
 
         public void OnProviderDisabled(string provider)

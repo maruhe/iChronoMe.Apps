@@ -523,7 +523,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private void GotDate(DateTime date)
         {
             Java.Util.Calendar moveToSpecificDate = Java.Util.Calendar.Instance;
-            moveToSpecificDate.Set(date.Year, date.Month, date.Day);
+            moveToSpecificDate.Set(date.Year, date.Month - 1, date.Day);
             schedule.MoveToDate = moveToSpecificDate;
         }
 

@@ -22,7 +22,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 {
 
     [Activity(Label = "EventEditActivity", Name = "me.ichrono.droid.GUI.Calendar.EventEditActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "")]
-    public class EventEditActivity : BaseActivity
+    public class EventEditActivity : BaseActivity, IMenuItemOnMenuItemClickListener
     {
         ViewGroup rootView;
         AutoCompleteTextView eSubject, eLocation;
@@ -88,9 +88,8 @@ namespace iChronoMe.Droid.GUI.Calendar
             mBinder.BindViewProperty(Resource.Id.row_timetype, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.NotAllDay));
             mBinder.BindViewProperty(Resource.Id.spTimeType, nameof(Spinner.SelectedItemPosition), mModel, nameof(CalendarEventEditViewModel.TimeTypeSpinnerPos), BindMode.TwoWay);
             FindViewById<Spinner>(Resource.Id.spTimeType).Adapter = ttAdapter;
-
-            mBinder.BindViewProperty(Resource.Id.spTimeType2, nameof(Spinner.SelectedItemPosition), mModel, nameof(CalendarEventEditViewModel.TimeTypeSpinnerPos));
-            FindViewById<Spinner>(Resource.Id.spTimeType2).Adapter = new TimeTypeAdapter(this, true);
+            //FindViewById<Spinner>(Resource.Id.spTimeType).DispatchSetSelected(false);
+            //FindViewById<Spinner>(Resource.Id.spTimeType).SetSelection(0, false);
 
             mBinder.BindViewProperty(Resource.Id.location, nameof(EditText.Text), mModel, nameof(CalendarEventEditViewModel.Location), BindMode.TwoWay);
             mBinder.BindViewProperty(Resource.Id.location_progress, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.IsSearchingForLocation));
@@ -113,19 +112,43 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         protected override void OnResume()
         {
+
             base.OnResume();
-            //mBinder.PushedValuesToView += MBinder_PushedValuesToView;
+            mBinder.Start();
+            return;
             Task.Factory.StartNew(() =>
             {
-                Task.Delay(750).Wait();
+                Task.Delay(250).Wait();
                 mBinder.Start();
             });
         }
-        
-        private void MBinder_PushedValuesToView(object sender, PushedValuesToViewEventArgs e)
+
+        public override bool OnPrepareOptionsMenu(IMenu menu)
         {
-            //rootView.Invalidate();
-            //rootView.ForceLayout();
+            base.OnPrepareOptionsMenu(menu);
+
+            var item = menu.Add(0, 1, 0, Resource.String.action_save);
+            item.SetIcon(Resource.Drawable.icons8_save);
+            item.SetShowAsAction(ShowAsAction.Always);
+            item.SetOnMenuItemClickListener(this);
+
+            return true;
+        }
+
+        public bool OnMenuItemClick(IMenuItem item)
+        {
+            if (item.ItemId == 1)
+            {
+                Task.Factory.StartNew(async() =>
+                {
+                    if (await mModel.SaveEvent())
+                        FinishAndRemoveTask();
+                    else
+                        Tools.ShowMessage(this, Resources.GetString(Resource.String.error_saving_event), mModel.ErrorText);
+                });
+                return true;
+            }
+            return false;
         }
 
         private void MModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

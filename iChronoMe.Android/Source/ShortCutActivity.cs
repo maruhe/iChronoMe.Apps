@@ -10,7 +10,6 @@ namespace iChronoMe.Droid
     [Activity(Label = "ShortCutActivity", Name = "me.ichrono.droid.ShortCutActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     public class ShortCutActivity : AppCompatActivity
     {
-
         /*
          Shortcuts:
 
@@ -25,7 +24,7 @@ namespace iChronoMe.Droid
             {
                 string cType = Intent.GetStringExtra("shortcut");
                 string cExtra = Intent.GetStringExtra("extra");
-
+                
                 if ("create_calender_event".Equals(cType.ToLower()))
                 {
                     var intent = new Intent(this, typeof(EventEditActivity));

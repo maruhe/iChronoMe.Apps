@@ -23,27 +23,60 @@ namespace iChronoMe.Droid
 {
     public static class Tools
     {
-        public static void ShowToast(Context context, string text, bool bShowLong = false)
-            => MainThread.BeginInvokeOnMainThread(() => Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show());
-        public static void ShowToast(Context context, ICharSequence text, bool bShowLong = false)
-            => MainThread.BeginInvokeOnMainThread(() => Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show());
 
+        public static void ShowDebugToast(Context context, string text, bool bShowLong = false)
+        {
+#if DEBUG
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try { Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show(); } catch { }
+            });
+#endif
+        }
+
+        public static void ShowToast(Context context, string text, bool bShowLong = false)
+            => MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try { Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show(); } catch { }
+            });
+        public static void ShowToast(Context context, ICharSequence text, bool bShowLong = false)
+            => MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try { Toast.MakeText(context, text, bShowLong ? ToastLength.Long : ToastLength.Short).Show(); } catch { }
+            });
         public static void ShowToast(Context context, int resId, bool bShowLong = false)
-            => MainThread.BeginInvokeOnMainThread(() => Toast.MakeText(context, resId, bShowLong ? ToastLength.Long : ToastLength.Short).Show());
+            => MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try { Toast.MakeText(context, resId, bShowLong ? ToastLength.Long : ToastLength.Short).Show(); } catch { }
+            });
 
         public static void ShowMessage(Context context, string title, string text)
-            => MainThread.BeginInvokeOnMainThread(() => new AlertDialog.Builder(context).
-            SetTitle(title)
-            .SetMessage(text)
-            .SetPositiveButton(context.Resources.GetString(Resource.String.action_ok), (s, e) => { })
-            .Create().Show());
+            => MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    new AlertDialog.Builder(context).
+                SetTitle(title)
+                .SetMessage(text)
+                .SetPositiveButton(context.Resources.GetString(Resource.String.action_ok), (s, e) => { })
+                .Create().Show();
+                }
+                catch { }
+            });
 
         public static void ShowMessage(Context context, int title, int text)
-            => MainThread.BeginInvokeOnMainThread(() => new AlertDialog.Builder(context).
-            SetTitle(title)
-            .SetMessage(text)
-            .SetPositiveButton(context.Resources.GetString(Resource.String.action_ok), (s, e) => { })
-            .Create().Show());
+            => MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    new AlertDialog.Builder(context).
+                SetTitle(title)
+                .SetMessage(text)
+                .SetPositiveButton(context.Resources.GetString(Resource.String.action_ok), (s, e) => { })
+                .Create().Show();
+                }
+                catch { }
+            });
 
         private static Task<bool> tskYnMsg { get { return tcsYnMsg == null ? Task.FromResult(false) : tcsYnMsg.Task; } }
         private static TaskCompletionSource<bool> tcsYnMsg = null;
@@ -57,6 +90,9 @@ namespace iChronoMe.Droid
 
         public static async Task<bool> ShowYesNoMessage(Context context, string title, string text, string cYes = null, string cNo = null)
         {
+            if (context == null)
+                return false;
+
             tcsYnMsg = new TaskCompletionSource<bool>();
             if (string.IsNullOrEmpty(cYes))
                 cYes = context.Resources.GetString(Resource.String.action_yes);
@@ -65,15 +101,22 @@ namespace iChronoMe.Droid
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                var dlg = new AlertDialog.Builder(context).
-                SetTitle(title)
-                .SetMessage(text)
-                .SetPositiveButton(cYes, (s, e) => { tcsYnMsg.TrySetResult(true); })
-                .SetNegativeButton(cNo, (s, e) => { tcsYnMsg.TrySetResult(false); })
-                .SetOnCancelListener(new myDialogCancelListener<bool>(tcsYnMsg))
-                .Create();
+                try
+                {
+                    var dlg = new AlertDialog.Builder(context).
+                    SetTitle(title)
+                    .SetMessage(text)
+                    .SetPositiveButton(cYes, (s, e) => { tcsYnMsg.TrySetResult(true); })
+                    .SetNegativeButton(cNo, (s, e) => { tcsYnMsg.TrySetResult(false); })
+                    .SetOnCancelListener(new myDialogCancelListener<bool>(tcsYnMsg))
+                    .Create();
 
-                dlg.Show();
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsYnMsg.TrySetResult(false);
+                }
             });
             await tskYnMsg;
             return tskYnMsg.Result;
@@ -84,30 +127,40 @@ namespace iChronoMe.Droid
 
         public static async Task<string> UserInputText(Context context, string title, string message, string placeholder)
         {
+            if (context == null)
+                return null;
+
             tcsTxtDlg = new TaskCompletionSource<string>();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
 
-                EditText edit = new EditText(context) { Text = placeholder };
-                edit.InputType = Android.Text.InputTypes.TextFlagNoSuggestions;
-                var dlg = new AlertDialog.Builder(context)
-                .SetTitle(title)
-                //SetEditTextStylings(userInput);
-                .SetMessage(message)
-                .SetView(edit)
-                .SetPositiveButton(
-                    Resource.String.action_continue,
-                    (s, e) =>
-                    {
-                        tcsTxtDlg.TrySetResult(edit.Text);
-                        HideKeyboard(context, edit);
-                    })
-                .SetNegativeButton(context.Resources.GetString(Resource.String.action_cancel), (s, e) => { tcsTxtDlg.TrySetResult(null); })
-                .SetOnCancelListener(new myDialogCancelListener<string>(tcsTxtDlg));
-                ShowKeyboard(context, edit);
+                try
+                {
+                    EditText edit = new EditText(context) { Text = placeholder };
+                    edit.InputType = Android.Text.InputTypes.TextFlagNoSuggestions;
+                    var dlg = new AlertDialog.Builder(context)
+                    .SetTitle(title)
+                    //SetEditTextStylings(userInput);
+                    .SetMessage(message)
+                    .SetView(edit)
+                    .SetPositiveButton(
+                        Resource.String.action_continue,
+                        (s, e) =>
+                        {
+                            tcsTxtDlg.TrySetResult(edit.Text);
+                            HideKeyboard(context, edit);
+                        })
+                    .SetNegativeButton(context.Resources.GetString(Resource.String.action_cancel), (s, e) => { tcsTxtDlg.TrySetResult(null); })
+                    .SetOnCancelListener(new myDialogCancelListener<string>(tcsTxtDlg));
+                    ShowKeyboard(context, edit);
 
-                dlg.Create().Show();
+                    dlg.Create().Show();
+                }
+                catch
+                {
+                    tcsTxtDlg.TrySetResult(null);
+                }
             });
             await tskTxtDlg;
             return tskTxtDlg.Result;
@@ -139,36 +192,56 @@ namespace iChronoMe.Droid
 
         public static async Task<int> ShowSingleChoiseDlg(Context context, string title, string[] items, bool bAllowAbort = true)
         {
+            if (context == null)
+                return -1;
+
             tcsScDlg = new TaskCompletionSource<int>();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                var builder = new AlertDialog.Builder(context).SetTitle(title);
-                if (bAllowAbort)
-                    builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsYnMsg.TrySetResult(false); });
-                builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
-                builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
-                var dlg = builder.Create();
+                try
+                {
+                    var builder = new AlertDialog.Builder(context).SetTitle(title);
+                    if (bAllowAbort)
+                        builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsScDlg.TrySetResult(-1); });
+                    builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
+                    builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    var dlg = builder.Create();
 
-                dlg.Show();
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsScDlg.TrySetResult(-1);
+                }
             });
             await tskScDlg;
             return tskScDlg.Result;
         }
         public static async Task<int> ShowSingleChoiseDlg(Context context, string title, IListAdapter items, bool bAllowAbort = true)
         {
+            if (context == null)
+                return -1;
+
             tcsScDlg = new TaskCompletionSource<int>();
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                var builder = new AlertDialog.Builder(context).SetTitle(title);
-                if (bAllowAbort)
-                    builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsYnMsg.TrySetResult(false); });
-                builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
-                builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
-                var dlg = builder.Create();
+                try
+                {
+                    var builder = new AlertDialog.Builder(context).SetTitle(title);
+                    if (bAllowAbort)
+                        builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsScDlg.TrySetResult(-1); });
+                    builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
+                    builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    var dlg = builder.Create();
 
-                dlg.Show();
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsScDlg.TrySetResult(-1);
+                }
             });
             await tskScDlg;
             return tskScDlg.Result;
@@ -176,6 +249,9 @@ namespace iChronoMe.Droid
 
         public static async Task<object> ShowSingleChoiseDlg(Context context, string title, object[] items, string textProperty, bool bAllowAbort = true)
         {
+            if (context == null)
+                return -1;
+
             tcsScDlg = new TaskCompletionSource<int>();
 
             List<string> textS = new List<string>();
@@ -196,14 +272,21 @@ namespace iChronoMe.Droid
 
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                var builder = new AlertDialog.Builder(context).SetTitle(title);
-                if (bAllowAbort)
-                    builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_yes), (s, e) => { tcsYnMsg.TrySetResult(false); });
-                builder = builder.SetSingleChoiceItems(textS.ToArray(), -1, new SingleChoiceClickListener(tcsScDlg));
-                builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
-                var dlg = builder.Create();
+                try
+                {
+                    var builder = new AlertDialog.Builder(context).SetTitle(title);
+                    if (bAllowAbort)
+                        builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_yes), (s, e) => { tcsScDlg.TrySetResult(-1); });
+                    builder = builder.SetSingleChoiceItems(textS.ToArray(), -1, new SingleChoiceClickListener(tcsScDlg));
+                    builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    var dlg = builder.Create();
 
-                dlg.Show();
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsScDlg.TrySetResult(-1);
+                }
             });
             await tskScDlg;
             int iRes = tskScDlg.Result;
@@ -351,7 +434,6 @@ namespace iChronoMe.Droid
             }
             return "";
         }
-
 
         private class myDialogCancelListener<T> : Java.Lang.Object, IDialogInterfaceOnCancelListener
         {
