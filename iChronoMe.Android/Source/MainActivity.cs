@@ -167,66 +167,80 @@ namespace iChronoMe.Droid
         {
             Task.Factory.StartNew(() =>
             {
-                ActivityFragment fr = null;
+                try
+                {
+                    ActivityFragment fr = null;
 
-                if (id == Resource.Id.nav_clock)
-                {
-                    //if (frClock == null)
-                    frClock = new ClockFragment();
-                    fr = frClock;
-                }
-                else if (id == Resource.Id.nav_calendar)
-                {
-                    //if (frCalendar == null)
-                    frCalendar = new CalendarFragment();
-                    fr = frCalendar;
-                }
-                else if (id == Resource.Id.nav_world_time_map)
-                {
-                    fr = new WorldTimeMapFragment();
-                }
-                else if (id == Resource.Id.nav_settings)
-                {
-                    fr = new MainSettingsFragment();
-                }
-                else if (id == Resource.Id.nav_faq)
-                {
-                    fr = new FaqFragment();
-                }
-                else if (id == Resource.Id.nav_about)
-                {
+                    if (id == Resource.Id.nav_clock)
+                    {
+                        //if (frClock == null)
+                        frClock = new ClockFragment();
+                        fr = frClock;
+                    }
+                    else if (id == Resource.Id.nav_calendar)
+                    {
+                        if (ActiveFragment is CalendarFragment)
+                            return;
+                        //if (frCalendar == null)
+                        frCalendar = new CalendarFragment();
+                        fr = frCalendar;
+                    }
+                    else if (id == Resource.Id.nav_world_time_map)
+                    {
+                        fr = new WorldTimeMapFragment();
+                    }
+                    else if (id == Resource.Id.nav_settings)
+                    {
+                        fr = new MainSettingsFragment();
+                    }
+                    else if (id == Resource.Id.nav_faq)
+                    {
+                        fr = new FaqFragment();
+                    }
+                    else if (id == Resource.Id.nav_about)
+                    {
 #if DEBUG
-                    fr = new DebugFragment();
+                        fr = new DebugFragment();
 #else
                     fr = new AboutFragment();
 #endif
-                }
-                else if (id == Resource.Id.nav_theme)
-                {
-                    ShowThemeSelector();
-                }
-                if (fr != null && blRestoreFragment != null)
-                    fr.OnViewStateRestored(blRestoreFragment);
-                blRestoreFragment = null;
-
-                RunOnUiThread(() =>
-                {
-                    try
-                    {
-                        if (fr != null)
-                        {
-                            iNavigationItem = id;
-                            SupportFragmentManager.BeginTransaction()
-                            .Replace(Resource.Id.main_frame, fr)
-                            .Commit();
-                            ActiveFragment = fr;
-                        }
-
-                        DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-                        drawer.CloseDrawer(GravityCompat.Start);
                     }
-                    catch { }
-                });
+                    else if (id == Resource.Id.nav_theme)
+                    {
+                        ShowThemeSelector();
+                    }
+                    if (fr != null && blRestoreFragment != null)
+                        fr.OnViewStateRestored(blRestoreFragment);
+                    blRestoreFragment = null;
+
+                    RunOnUiThread(() =>
+                    {
+                        try
+                        {
+                            if (fr != null)
+                            {
+                                iNavigationItem = id;
+                                SupportFragmentManager.BeginTransaction()
+                                .Replace(Resource.Id.main_frame, fr)
+                                .Commit();
+                                ActiveFragment = fr;
+                            }
+                        }
+                        catch { }
+                    });
+                }
+                finally
+                {
+                    RunOnUiThread(() =>
+                    {
+                        try
+                        {
+                            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+                            drawer.CloseDrawer(GravityCompat.Start);
+                        }
+                        catch { }
+                    });
+                }
             });
             return true;
         }

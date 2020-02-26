@@ -93,6 +93,14 @@ namespace iChronoMe.Droid
                     SetAssistantDone();
                 }
                 RunOnUiThread(() => Recreate());
+                return;
+
+                ProgressDlg.NewInstance(Resources.GetString(Resource.String.just_a_moment)).Show(SupportFragmentManager, "");
+                _=Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(100).Wait();
+                    RunOnUiThread(() => Recreate());
+                });
             }
         }
 

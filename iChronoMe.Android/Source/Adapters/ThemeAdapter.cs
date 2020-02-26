@@ -42,26 +42,28 @@ namespace iChronoMe.Droid.Adapters
 
             var view = inflater.Inflate(Resource.Layout.listitem_themetemplate, null);
 
-            view.SetBackgroundColor(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.WindowBackground));
+            var clrBack = Tools.GetThemeColor(wrapper, Android.Resource.Attribute.WindowBackground);
+            view.SetBackgroundColor(clrBack);
 
+            var clrText = Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary);
             view.FindViewById<TextView>(Resource.Id.title).Text = item.Title1;
-            view.FindViewById<TextView>(Resource.Id.title).SetTextColor(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary));
+            view.FindViewById<TextView>(Resource.Id.title).SetTextColor(clrText);
 
-            view.FindViewById<ImageView>(Resource.Id.shape_1).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Resource.Attribute.titleTextColor)));
-            view.FindViewById<ImageView>(Resource.Id.shape_2).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimary)));
-            view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary)));
-            view.FindViewById<ImageView>(Resource.Id.shape_4).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorAccent)));
-            view.FindViewById<ImageView>(Resource.Id.shape_5).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimaryDark)));
+            view.FindViewById<ImageView>(Resource.Id.shape_1).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Resource.Attribute.titleTextColor), clrText));
+            view.FindViewById<ImageView>(Resource.Id.shape_2).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimary), clrText));
+            view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary), clrText));
+            view.FindViewById<ImageView>(Resource.Id.shape_4).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorAccent), clrText));
+            view.FindViewById<ImageView>(Resource.Id.shape_5).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimaryDark), clrText));
             
             return view;
         }
 
-        private GradientDrawable GetShape(Color clr)
+        private GradientDrawable GetShape(Color clr, Color clrStroke)
         {
             GradientDrawable gd = new GradientDrawable();
             gd.SetShape(ShapeType.Rectangle);
             gd.SetColor(clr);
-            gd.SetStroke(2, clr.GetBrightness() > 0.5 ? Color.Black : Color.White);
+            gd.SetStroke(2, clrStroke);// clrBack.GetBrightness() > 0.5 ? Color.Black : Color.White);
             gd.SetCornerRadius(15.0f);
             return gd;
         }

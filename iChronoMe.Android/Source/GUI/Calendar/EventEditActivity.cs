@@ -7,14 +7,18 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using iChronoMe.Core.DataBinding;
+using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
+using Net.ArcanaStudio.ColorPicker;
 using static Android.App.DatePickerDialog;
 using static Android.App.TimePickerDialog;
 
@@ -114,12 +118,11 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
 
             base.OnResume();
-            mBinder.Start();
-            return;
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartNew(async() =>
             {
-                Task.Delay(250).Wait();
+                await mModel.WaitForReady();
                 mBinder.Start();
+                InvalidateOptionsMenu();
             });
         }
 
@@ -127,17 +130,48 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             base.OnPrepareOptionsMenu(menu);
 
-            var item = menu.Add(0, 1, 0, Resource.String.action_save);
+            if (!mModel.IsReady)
+                return true;
+
+            var item = menu.Add(0, 10, 0, Resource.String.action_colors);
+            item.SetIcon(DrawableHelper.GetIconDrawable(this, Resource.Drawable.circle_shape, mModel.DisplayColor));
+            item.SetShowAsAction(ShowAsAction.Always);
+            item.SetOnMenuItemClickListener(this);
+            
+            item = menu.Add(0, 100, 0, Resource.String.action_save);
             item.SetIcon(Resource.Drawable.icons8_save);
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
-
+             
             return true;
         }
 
         public bool OnMenuItemClick(IMenuItem item)
         {
-            if (item.ItemId == 1)
+            if (item.ItemId == 10)
+            {
+                Task.Factory.StartNew(async () =>
+                {
+                    var clrDlg = ColorPickerDialog.NewBuilder()
+                 .SetDialogType(ColorPickerDialog.DialogType.Preset)
+                 .SetAllowCustom(false)
+                 .SetShowColorShades(true)
+                 .SetColor(mModel.DisplayColor.ToAndroid())
+                 .SetColorShape(ColorShape.Circle)
+                 .SetShowAlphaSlider(false)
+                 .SetDialogTitle(Resource.String.action_colors);
+
+                    var clr = await clrDlg.ShowAsyncNullable(this);
+                    if (clr.HasValue)
+                    {
+                        mModel.DisplayColor = clr.Value.ToColor();
+                        InvalidateOptionsMenu();
+                    }
+                });
+                return true;
+            }
+
+            if (item.ItemId == 100)
             {
                 Task.Factory.StartNew(async() =>
                 {

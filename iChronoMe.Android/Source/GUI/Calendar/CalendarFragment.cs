@@ -22,7 +22,9 @@ using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.DynamicCalendar;
+using iChronoMe.Core.Interfaces;
 using iChronoMe.Core.Types;
+using iChronoMe.Core.ViewModels;
 using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
@@ -89,13 +91,10 @@ namespace iChronoMe.Droid.GUI.Calendar
             schedule.CellTapped += Schedule_CellTapped;
             schedule.CellDoubleTapped += Schedule_CellDoubleTapped;
             schedule.MonthInlineAppointmentTapped += Schedule_MonthInlineAppointmentTapped;
+            schedule.AppointmentDrop += Schedule_AppointmentDrop;
+            schedule.AppointmentDragStarting += Schedule_AppointmentDragStarting;
+            schedule.AppointmentLoaded += Schedule_AppointmentLoaded;
 
-            if (ViewTypeSpinner != null)
-            {
-                mContext.Title = "";
-                ViewTypeSpinner.Visibility = ViewStates.Visible;
-                //ViewTypeSpinner.Touch += ViewTypeSpinner_Touch;
-            }
             if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
                 SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
             else
@@ -113,6 +112,59 @@ namespace iChronoMe.Droid.GUI.Calendar
             cColorTree.ToString();
 
             return view;
+        }
+
+        private void Schedule_AppointmentLoaded(object sender, AppointmentLoadedEventArgs e)
+        {
+            e.View?.ToString();
+        }
+
+        private void Schedule_AppointmentDragStarting(object sender, AppointmentDragStartingEventArgs e)
+        {
+            e.Cancel = false;
+        }
+
+        private void Schedule_AppointmentDrop(object sender, AppointmentDropEventArgs e)
+        {
+            e.Cancel = false;
+            if (e.Appointment is CalendarEvent)
+            {
+                var calEvent = e.Appointment as CalendarEvent;
+                var dropTime = sys.DateTimeFromJava(e.DropTime);
+                Task.Factory.StartNew(async () =>
+                {
+                    try
+                    {
+                        var model = new CalendarEventEditViewModel(calEvent.ExternalID, Activity as IUserIO);
+                        await model.WaitForReady();
+
+                        if (model.TimeType != calEvents.timeType)
+                        {
+                            model.TimeType = calEvents.timeType;
+                            Tools.ShowToast(Context, "!!! event-time-type has been changed !!!");
+                        }
+
+                        model.DisplayStart = dropTime;
+                        if (model.AllDay && model.DisplayStart.TimeOfDay.TotalHours != 0)
+                        {
+                            model.AllDay = false;
+                            model.DisplayEnd = model.DisplayStart.AddHours(2);
+                        }
+                        else if (!model.AllDay && model.DisplayStart.TimeOfDay.TotalHours == 0)
+                        {
+                            model.AllDay = true;
+                        }
+
+                        if (!await model.SaveEvent())
+                            Tools.ShowToast(Context, Resources.GetString(Resource.String.error_saving_event) + "\n" + model.ErrorText);
+                    } 
+                    catch (Exception ex) 
+                    {
+                        sys.LogException(ex);
+                    }
+                    LoadEvents();
+                });
+            }
         }
 
         private void Schedule_MonthInlineAppointmentTapped(object sender, MonthInlineAppointmentTappedEventArgs e)
@@ -154,7 +206,10 @@ namespace iChronoMe.Droid.GUI.Calendar
         private void Schedule_CellDoubleTapped(object sender, CellTappedEventArgs e)
         {
             if (e.ScheduleAppointment != null)
+            {
+                Schedule_CellTapped(sender, e);
                 return;
+            }
             switch (schedule.ScheduleView)
             {
                 case ScheduleView.MonthView:
@@ -186,6 +241,13 @@ namespace iChronoMe.Droid.GUI.Calendar
         public override void OnResume()
         {
             base.OnResume();
+
+            if (ViewTypeSpinner != null)
+            {
+                mContext.Title = "";
+                ViewTypeSpinner.Visibility = ViewStates.Visible;
+            }
+
             bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
             if (bPermissionCheckOk)
             {
@@ -200,6 +262,8 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                     lvCalendars.Touch += LvCalendars_Touch;
                 }
+                if (tFirstVisible != DateTime.MinValue && tLastVisible != DateTime.MinValue)
+                    LoadEvents();
             }
         }
 
@@ -237,7 +301,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             LoadEvents(tFirst, tLast);
         }
 
-        DateTime tFirstVisible, tLastVisible;
+        DateTime tFirstVisible = DateTime.MinValue, tLastVisible = DateTime.MinValue;
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
@@ -635,6 +699,20 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeFormat = "HH";
                 schedule.MonthViewSettings.AgendaViewStyle.TimeTextFormat = "HH:mm";
             }
+
+            schedule.AllowAppointmentDrag = true;
+
+            var timeIndicatorStyle = new TimeIndicatorStyle();
+            //timeIndicatorStyle.TextColor = Color.Red;
+            //timeIndicatorStyle.TextSize = 15;
+            if (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"))
+                timeIndicatorStyle.TextFormat = "HH:mm";
+
+            schedule.DragDropSettings = new DragDropSettings
+            {
+                TimeIndicatorStyle = timeIndicatorStyle
+            };
+
 
             try
             {
