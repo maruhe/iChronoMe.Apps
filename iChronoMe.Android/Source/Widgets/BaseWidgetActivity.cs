@@ -65,33 +65,5 @@ namespace iChronoMe.Droid.Widgets
             if (wallpaperDrawable == null)
                 wallpaperDrawable = Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, Theme);
         }
-
-        protected void ShowExitMessage(string cMessage)
-        {
-            var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
-               .SetMessage(cMessage)
-               .SetCancelable(false);
-            alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
-            {
-                (senderAlert as IDialogInterface).Dismiss();
-                FinishAndRemoveTask();
-            });
-
-            alert.Show();
-        }
-
-        protected void ShowExitMessage(int iMessage)
-        {
-            var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
-               .SetMessage(iMessage)
-               .SetCancelable(false);
-            alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
-            {
-                (senderAlert as IDialogInterface).Dismiss();
-                FinishAndRemoveTask();
-            });
-
-            alert.Show();
-        }
     }
 }

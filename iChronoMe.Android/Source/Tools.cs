@@ -122,6 +122,36 @@ namespace iChronoMe.Droid
             return tskYnMsg.Result;
         }
 
+        public static async Task<bool> ShowMessageAndWait(Context context, int title, int text)
+        {
+            if (context == null)
+                return false;
+
+            tcsYnMsg = new TaskCompletionSource<bool>();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    var dlg = new AlertDialog.Builder(context).
+                    SetTitle(title)
+                    .SetMessage(text)
+                    .SetPositiveButton(Resource.String.action_ok, (s, e) => { tcsYnMsg.TrySetResult(true); })
+                    .SetOnCancelListener(new myDialogCancelListener<bool>(tcsYnMsg))
+                    .Create();
+
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsYnMsg.TrySetResult(false);
+                }
+            });
+            await tskYnMsg;
+            return tskYnMsg.Result;
+        }
+
+
         private static Task<string> tskTxtDlg { get { return tcsTxtDlg == null ? Task.FromResult((string)null) : tcsTxtDlg.Task; } }
         private static TaskCompletionSource<string> tcsTxtDlg = null;
 

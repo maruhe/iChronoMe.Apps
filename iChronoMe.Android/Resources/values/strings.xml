@@ -268,11 +268,14 @@
 	</string-array>
 
 	<string name="No_Appointments">your are free</string>
-	<string name="NoSelectedDate">" no selected date"</string>
+	<string name="NoSelectedDate">"no selected date"</string>
 	<string name="all_day">all day</string>
     <string name="ezmz_runningwidgets_zero">no aktiv widget</string>
     <string name="progress_senderrorlog_message">do you allow to send error-logs to help solving such problems? theese logs contain tecnical parameters of you device and as you allow a screenshot, but no other kind of personal information</string>
     <string name="progress_senderrorlog_title">something got wrong or the App crashed last time</string>
     <string name="question_create_new_calendar">you like to create a new Calendar?</string>
+
+	<string name="error_location_is_needet">"this app need's a location to work"</string>
+	<string name="app_needs_location_description">"only with a location-information it is possible to calculate correct solar times"</string>
 
 </resources>

@@ -6,6 +6,7 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -20,6 +21,7 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Core.Interfaces;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
+using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Receivers;
 
 namespace iChronoMe.Droid
@@ -49,13 +51,20 @@ namespace iChronoMe.Droid
                     Xamarin.Essentials.Platform.Init(this, savedInstanceState);
                     Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
 
-                    sys.MainUserIO = this;
+                    if (sys.MainUserIO == null || this is MainActivity)
+                        sys.MainUserIO = this;
                 }
             }
             catch (Exception ex)
             {
                 sys.LogException(ex);
             }
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+            outState.Clear();
         }
 
         public void LoadAppTheme()
@@ -94,13 +103,6 @@ namespace iChronoMe.Droid
                 }
                 RunOnUiThread(() => Recreate());
                 return;
-
-                ProgressDlg.NewInstance(Resources.GetString(Resource.String.just_a_moment)).Show(SupportFragmentManager, "");
-                _=Task.Factory.StartNew(() =>
-                {
-                    Task.Delay(100).Wait();
-                    RunOnUiThread(() => Recreate());
-                });
             }
         }
 
@@ -175,8 +177,9 @@ namespace iChronoMe.Droid
         {
             return (AppConfigHolder.MainConfig.InitScreenTheme < 1 && (this is MainActivity)) ||
                 AppConfigHolder.MainConfig.InitScreenTimeType < 1 ||
+                AppConfigHolder.MainConfig.InitScreenPrivacy < 2 ||
                 AppConfigHolder.MainConfig.InitScreenPermission < 1 ||
-                AppConfigHolder.MainConfig.InitScreenPrivacy < 2;
+                AppConfigHolder.MainConfig.InitScreenUserLocation < 1;
         }
 
         bool bStartAssistantActive = false;
@@ -189,12 +192,14 @@ namespace iChronoMe.Droid
                 ShowThemeSelector();
             else if (AppConfigHolder.MainConfig.InitScreenTimeType < 1)
                 ShowInitScreen_TimeType();
-            else if (AppConfigHolder.MainConfig.InitScreenPermission < 1)
-                ShowInitScreen_Permissions();
             else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 1)
                 ShowInitScreen_PrivacyAssistant();
             else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 2)
                 ShowInitScreen_PrivacyNotice();
+            else if (AppConfigHolder.MainConfig.InitScreenPermission < 1)
+                ShowInitScreen_Permissions();
+            else if (AppConfigHolder.MainConfig.InitScreenUserLocation < 1)
+                ShowInitScreen_UserLocation();
             else
             {
                 bStartAssistantActive = false;
@@ -275,6 +280,85 @@ namespace iChronoMe.Droid
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
                 .Create().Show();
+        }
+
+        public void ShowInitScreen_UserLocation()
+        {
+            var pDlg = ProgressDlg.NewInstance("~~location~~");
+            pDlg.Show(SupportFragmentManager, null);
+
+            Task.Factory.StartNew(async () =>
+            {
+                await Task.Delay(1000);
+                if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
+                {
+                    var locationManager = (LocationManager)GetSystemService(Context.LocationService);
+
+                    bool bIsPassive = locationManager.IsProviderEnabled(LocationManager.PassiveProvider);
+
+                    if (!locationManager.IsProviderEnabled(LocationManager.NetworkProvider) && !locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                    {
+                        pDlg.SetProgressDone();
+                        if (await Tools.ShowYesNoMessage(this, Resource.String.location_provider_disabled_alert, Resource.String.location_provider_disabled_question))
+                        {
+                            bStartAssistantActive = false;
+                            StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                            return;
+                        }
+                    }
+
+                    try
+                    {
+                        var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+                        if (lastLocation == null)
+                            lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+
+                        if (lastLocation != null)
+                        {
+                            LocationTimeHolder.LocalInstance.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
+                            LocationTimeHolder.LocalInstance.SaveLocal();
+                            AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
+                            AppConfigHolder.SaveMainConfig();
+                            pDlg.SetProgressDone();
+                            SetAssistantDone();
+                            return;
+                        }
+                    } 
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+
+                var loc = await LocationPickerDialog.SelectLocation(this);
+
+                if (loc != null)
+                {
+                    LocationTimeHolder.LocalInstance.ChangePositionDelay(loc.Latitude, loc.Longitude);
+                    LocationTimeHolder.LocalInstance.SaveLocal();
+                    AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
+                    AppConfigHolder.SaveMainConfig();
+                    SetAssistantDone();
+                    return;
+                }
+
+                await Tools.ShowMessageAndWait(this, Resource.String.error_location_is_needet, Resource.String.app_needs_location_description);
+
+                loc = await LocationPickerDialog.SelectLocation(this);
+
+                if (loc != null)
+                {
+                    LocationTimeHolder.LocalInstance.ChangePositionDelay(loc.Latitude, loc.Longitude);
+                    LocationTimeHolder.LocalInstance.SaveLocal();
+                    AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
+                    AppConfigHolder.SaveMainConfig();
+                    SetAssistantDone();
+                    return;
+                }
+
+                ShowExitMessage(Resource.String.error_location_is_needet);
+
+            });
         }
 
         public void ShowInitScreen_PrivacyAssistant()
@@ -393,6 +477,34 @@ namespace iChronoMe.Droid
                     });
                 });
             });
+        }
+
+        protected void ShowExitMessage(string cMessage)
+        {
+            var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
+               .SetMessage(cMessage)
+               .SetCancelable(false);
+            alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
+            {
+                (senderAlert as IDialogInterface).Dismiss();
+                FinishAndRemoveTask();
+            });
+
+            alert.Show();
+        }
+
+        protected void ShowExitMessage(int iMessage)
+        {
+            var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
+               .SetMessage(iMessage)
+               .SetCancelable(false);
+            alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
+            {
+                (senderAlert as IDialogInterface).Dismiss();
+                FinishAndRemoveTask();
+            });
+
+            alert.Show();
         }
     }
 

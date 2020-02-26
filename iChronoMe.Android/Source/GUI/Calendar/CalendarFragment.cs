@@ -479,7 +479,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                             }
                             catch { }
                         }
-                        Toast.MakeText(Context, iDeleted + " events deleted", ToastLength.Short).Show();
+                        Tools.ShowDebugToast(Context, iDeleted + " events deleted");
                         LoadEvents();
                     });
                 })

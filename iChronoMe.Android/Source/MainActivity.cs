@@ -112,6 +112,7 @@ namespace iChronoMe.Droid
                 var blFragment = new Bundle();
                 ActiveFragment.OnSaveInstanceState(blFragment);
                 outState.PutBundle("ActiveFragment", blFragment);
+                blRestoreFragment = blFragment;
             }
         }
 

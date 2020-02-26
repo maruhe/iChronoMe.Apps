@@ -22,7 +22,7 @@ namespace iChronoMe.Droid.Widgets
         public const string ActionAnimate = "_local.intent.action.Animate";
         public const string ExtraTimeType = "_TimeType";
         public const string ExtraDuriation = "_Duriation";
-
+         
         public override void OnAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions)
         {
             base.OnAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);

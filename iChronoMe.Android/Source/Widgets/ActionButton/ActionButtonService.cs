@@ -255,7 +255,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 else
                     rv.SetViewVisibility(Resource.Id.background_image, ViewStates.Gone);
 
-                int iIconRes = Resource.Drawable.clockface_sun_junior_icon;
+                int iIconRes = Resource.Mipmap.ic_launcher;
                 try
                 {
                     rv.SetImageViewBitmap(Resource.Id.circle_image, DrawableHelper.GetIconBitmap(context, cfg.IconName, iIconSize, cfg.IconColor));

@@ -237,7 +237,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                 catch (ThreadAbortException) { }
                                 catch (Exception ex)
                                 {
-                                    sys.DebugLogException(ex);
+                                    sys.LogException(ex);
                                     xLog.Error(ex, "Update Widget Error: " + iWidgetId);
                                     RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
                                     rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message + "\n" + ex.StackTrace);

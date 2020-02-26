@@ -98,6 +98,9 @@ namespace iChronoMe.Droid.GUI
             base.OnResume();
 
             StartClockUpdates();
+            if (AppConfigHolder.MainConfig.InitScreenUserLocation < 1)
+                return;
+
             if (AppConfigHolder.MainConfig.ContinuousLocationUpdates)
                 tStopLocationUpdates = DateTime.MaxValue;
             else
@@ -743,6 +746,8 @@ namespace iChronoMe.Droid.GUI
                     if (locationManager == null)
                         locationManager = (LocationManager)Context.GetSystemService(Context.LocationService);
 
+                    bool bIsPassive = locationManager.IsProviderEnabled(LocationManager.PassiveProvider);
+
                     if (!locationManager.IsProviderEnabled(LocationManager.NetworkProvider) && !locationManager.IsProviderEnabled(LocationManager.GpsProvider))
                     {
                         tLastClockTime = DateTime.Now;
@@ -765,8 +770,7 @@ namespace iChronoMe.Droid.GUI
                     {
                         locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, minTime, minDistance, this);
                     }
-                    
-                    if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                    else if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
                     {
                         locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
