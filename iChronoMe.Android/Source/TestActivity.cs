@@ -13,6 +13,13 @@ namespace iChronoMe.Droid
     }
 }
 /*
+ * 
+ * 
+ * dd 
+ * 
+ *
+ * 
+ * * 
             var llColorList = new LinearLayout(this) { Orientation = Orientation.Vertical };
             int size = 20 * sys.DisplayDensity;
             foreach (var clrs in DynamicColors.SampleColorSetS)

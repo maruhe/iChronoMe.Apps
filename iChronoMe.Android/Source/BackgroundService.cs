@@ -524,7 +524,7 @@ namespace iChronoMe.Droid
                 clockView.ReadConfig(cfg);
 
                 DateTime tBackgroundUpdate = DateTime.MinValue;
-                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfg);
+                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfg, iClockSize);
 
                 Bitmap bmpBackgroundColor = null;
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
@@ -743,7 +743,7 @@ namespace iChronoMe.Droid
                     clockView.ReadConfig(cfgNew);
 
                     DateTime tBackgroundUpdate = DateTime.MinValue;
-                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfgNew);
+                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfgNew, iClockSize);
 
                     Bitmap bmpBackgroundColor = null;
                     if (cfgNew.ColorBackground.ToAndroid() != Color.Transparent)
@@ -812,7 +812,7 @@ namespace iChronoMe.Droid
             }
         }
 
-        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetCfg_ClockAnalog cfg)
+        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetCfg_ClockAnalog cfg, int sizePX)
         {
             try
             {
@@ -820,8 +820,8 @@ namespace iChronoMe.Droid
                 {
                     string cBackImgPath = cfg.BackgroundImage;
                     if (!cfg.BackgroundImage.Contains("/"))
-                        cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockface"), cfg.BackgroundImage);
-                    Java.IO.File fBack = new Java.IO.File(cfg.BackgroundImage);
+                        cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockfaces"), cfg.BackgroundImage);
+                    Java.IO.File fBack = new Java.IO.File(WidgetView_ClockAnalog.GetClockFacePng(cfg.BackgroundImage, sizePX));
                     bool bBackEx = fBack.Exists();
                     if (bBackEx)
                     {

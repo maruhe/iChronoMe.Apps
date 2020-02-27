@@ -23,6 +23,7 @@ using iChronoMe.Widgets;
 using SkiaSharp.Views.Android;
 
 using Xamarin.Essentials;
+//using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
 
 namespace iChronoMe.Droid.GUI
 {
@@ -252,20 +253,72 @@ namespace iChronoMe.Droid.GUI
         double? nManualMinute = null;
         double? nManualSecond = null;
         DateTime tLastClockTime = DateTime.MinValue;
+        static int ClockSize = 400;
 
         private void skiaView_OnPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             try
             {
-                if (nManualSecond == null)
+                /*if (false && vClock.svgHourHand != null)
                 {
                     tLastClockTime = lth.GetTime(this.TimeType);
-                    if (lth.Latitude == 0 || lth.Longitude == 0)
-                        tLastClockTime = DateTime.Today;
-                    vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
+                    var t = tLastClockTime.TimeOfDay;
+                    double hour = t.TotalHours;
+                    double minute = t.TotalMinutes % 60;
+                    double second = t.TotalSeconds % 60;
+
+                    var canvas = e.Surface.Canvas;
+                    canvas.Clear();
+
+                    int width = (int)e.Info.Width;
+                    int height = (int)e.Info.Height;
+                    int x = Math.Min(width, height);
+
+                    if (vClock.BackgroundImage.EndsWith(".svg"))
+                    {
+                        var svg = new SKSvg();
+                        svg.Load(vClock.BackgroundImage);
+
+                        _svgRect = svg.Picture.CullRect;
+
+                        SKMatrix scaleMatrix = GetScaleMatrix(e.Info);
+                        SKMatrix translationMatrix = GetTranslationMatrix(e.Info, scaleMatrix);
+                        SKMatrix.PostConcat(ref scaleMatrix, translationMatrix);
+
+                        canvas.DrawPicture(svg.Picture, ref scaleMatrix);
+                    }
+                    if (vClock.svgHourHand != null)
+                    {
+                        float scale = (float)x / Math.Max(vClock.svgHourHand.Picture.CullRect.Width, vClock.svgHourHand.Picture.CullRect.Height);
+                        var matrix = new SKMatrix
+                        {
+                            ScaleX = scale,
+                            ScaleY = scale,
+                            TransX = (width - x) / 2,
+                            TransY = (height - x) / 2,
+                            Persp2 = 1,
+                        };
+
+                        canvas.Save();
+                        canvas.RotateDegrees((float)(30 * hour));
+                        canvas.DrawPicture(vClock.svgHourHand.Picture, ref matrix);
+                        canvas.Restore();
+                    }
                 }
-                else
-                    vClock.DrawCanvas(e.Surface.Canvas, nManualHour.Value, nManualMinute.Value, nManualSecond.Value, (int)e.Info.Width, (int)e.Info.Height, false);
+                else*/
+                {
+
+                    if (nManualSecond == null)
+                    {
+                        tLastClockTime = lth.GetTime(this.TimeType);
+                        if (lth.Latitude == 0 || lth.Longitude == 0)
+                            tLastClockTime = DateTime.Today;
+                        ClockSize = Math.Min((int)e.Info.Width, (int)e.Info.Height);
+                        vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
+                    }
+                    else
+                        vClock.DrawCanvas(e.Surface.Canvas, nManualHour.Value, nManualMinute.Value, nManualSecond.Value, (int)e.Info.Width, (int)e.Info.Height, false);
+                }
             }
             catch (Exception ex)
             {
@@ -281,7 +334,7 @@ namespace iChronoMe.Droid.GUI
                 if (string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage) || !System.IO.File.Exists(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
                     imgClockBack.SetImageBitmap(null);
                 else
-                    imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(AppConfigHolder.MainConfig.MainClock.BackgroundImage)));
+                    imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(WidgetView_ClockAnalog.GetClockFacePng(AppConfigHolder.MainConfig.MainClock.BackgroundImage, ClockSize))));
             }
             catch (Exception ex)
             {
@@ -984,5 +1037,32 @@ namespace iChronoMe.Droid.GUI
         {
             this.ToString();
         }
+
+        /*
+        private SKRect _svgRect;
+        private SKMatrix GetScaleMatrix(SKImageInfo canvasInfo)
+        {
+            float widthRatio = canvasInfo.Width / _svgRect.Width;
+            float heightRatio = canvasInfo.Height / _svgRect.Height;
+            widthRatio = heightRatio = Math.Min(widthRatio, heightRatio);
+            
+            return SKMatrix.MakeScale(widthRatio, heightRatio);
+        }
+
+        private SKMatrix GetTranslationMatrix(SKImageInfo canvasInfo, SKMatrix scaleMatrix)
+        {
+            SKRect scaledSvgBounds = scaleMatrix.MapRect(_svgRect);
+            float xTranslation = GetTranslation(canvasInfo.Width, scaledSvgBounds.Width);
+            float yTranslation = GetTranslation(canvasInfo.Height, scaledSvgBounds.Height);
+            return SKMatrix.MakeTranslation(xTranslation, yTranslation);
+        }
+
+        private float GetTranslation(float canvasDimension, float svgDimension)
+        {
+            float remainingSpace = canvasDimension - svgDimension;
+            float translation;
+            translation = remainingSpace / 2;
+            return translation;
+        }*/
     }
 }
