@@ -63,7 +63,7 @@ namespace iChronoMe.Droid.Widgets
             }
 
             if (wallpaperDrawable == null)
-                wallpaperDrawable = Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, Theme);
+                wallpaperDrawable = Resources.GetDrawable(Resource.Mipmap.dummy_wallpaper, Theme);
         }
     }
 }

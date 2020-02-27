@@ -60,208 +60,215 @@ namespace iChronoMe.Droid.Widgets.Calendar
         static bool bHasPermissions = false;
         static EventCollection myEvents = null;
 
+        static object oLock = new object();
+
         protected override void OnHandleWork(Intent intent)
         {
             xLog.Debug("OnHandleWork");
 
-            var cfgHolder = new WidgetConfigHolder();
-
-            var appWidgetManager = AppWidgetManager.GetInstance(this);
-            int[] appWidgetIDs = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
-            if (appWidgetIDs == null || appWidgetIDs.Length < 1)
-                appWidgetIDs = appWidgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
-
-            if (!bHasPermissions)
+            lock (oLock)
             {
-                xLog.Debug("PermissionCheck");
-                try
-                {
-                    bool bPermissionError = false;
-                    if (this.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Android.Content.PM.Permission.Granted)
-                        bPermissionError = true;
+                CalendarModelCfgHolder.BaseGregorian.BaseSample.ToString();
 
-                    if (this.CheckSelfPermission(Android.Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted)
-                        bPermissionError = true;
+                var cfgHolder = new WidgetConfigHolder();
 
-                    if (!bPermissionError)
-                        bHasPermissions = true;
-                }
-                catch { }
+                var appWidgetManager = AppWidgetManager.GetInstance(this);
+                int[] appWidgetIDs = intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
+                if (appWidgetIDs == null || appWidgetIDs.Length < 1)
+                    appWidgetIDs = appWidgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
 
                 if (!bHasPermissions)
                 {
-                    xLog.Debug("Missing Permissions!");
-                    foreach (int iWidgetId in appWidgetIDs)
+                    xLog.Debug("PermissionCheck");
+                    try
                     {
-                        RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_permission_error);
+                        bool bPermissionError = false;
+                        if (this.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Android.Content.PM.Permission.Granted)
+                            bPermissionError = true;
 
-                        Intent cfgIntent = new Intent(Intent.ActionMain);
-                        cfgIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.WidgetItemClickActivity"));
-                        cfgIntent.SetFlags(ActivityFlags.NoHistory);
-                        cfgIntent.PutExtra("_ClickCommand", "CheckCalendarWidget");
-                        cfgIntent.PutExtra("_ConfigComponent", "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity");
-                        cfgIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                        if (this.CheckSelfPermission(Android.Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted)
+                            bPermissionError = true;
 
-                        PendingIntent cfgPendingIntent = PendingIntent.GetActivity(this, 11, cfgIntent, PendingIntentFlags.UpdateCurrent);
-                        rv.SetOnClickPendingIntent(Resource.Id.widget, cfgPendingIntent);
-
-                        appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                        if (!bPermissionError)
+                            bHasPermissions = true;
                     }
-                    return;
-                }
-            }
+                    catch { }
 
-            new Thread(() =>
-            {
-                xLog.Debug("Start update " + appWidgetIDs.Length + " Widgets");
-                if (myEvents == null)
-                    InitEvents();
+                    if (!bHasPermissions)
+                    {
+                        xLog.Debug("Missing Permissions!");
+                        foreach (int iWidgetId in appWidgetIDs)
+                        {
+                            RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_permission_error);
+
+                            Intent cfgIntent = new Intent(Intent.ActionMain);
+                            cfgIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.WidgetItemClickActivity"));
+                            cfgIntent.SetFlags(ActivityFlags.NoHistory);
+                            cfgIntent.PutExtra("_ClickCommand", "CheckCalendarWidget");
+                            cfgIntent.PutExtra("_ConfigComponent", "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity");
+                            cfgIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+
+                            PendingIntent cfgPendingIntent = PendingIntent.GetActivity(this, 11, cfgIntent, PendingIntentFlags.UpdateCurrent);
+                            rv.SetOnClickPendingIntent(Resource.Id.widget, cfgPendingIntent);
+
+                            appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                        }
+                        return;
+                    }
+                }
+
+                new Thread(() =>
+                {
+                    xLog.Debug("Start update " + appWidgetIDs.Length + " Widgets");
+                    if (myEvents == null)
+                        InitEvents();
 
                 //lock (calendarsImpl)
                 {
-                    foreach (int iWidgetId in appWidgetIDs)
-                    {
-                        try
+                        foreach (int iWidgetId in appWidgetIDs)
                         {
-                            lock (RunningTaskS)
+                            try
                             {
-                                if (RunningTaskS.ContainsKey(iWidgetId))
+                                lock (RunningTaskS)
+                                {
+                                    if (RunningTaskS.ContainsKey(iWidgetId))
+                                    {
+                                        try
+                                        {
+                                            ResetData = false;
+                                            RunningTaskS[iWidgetId].Abort();
+                                        }
+                                        catch { };
+                                        if (RunningTaskS.ContainsKey(iWidgetId))
+                                            RunningTaskS.Remove(iWidgetId);
+                                    }
+                                }
+
+                                xLog.Debug("Start update Widget " + iWidgetId);
+                                var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_Calendar>(iWidgetId, false);
+                                if (cfg == null)
+                                    continue;
+
+                                if (ResetData && cfg is WidgetCfg_CalendarTimetable)
+                                {
+                                    xLog.Debug("Send ResetData to ListService: " + cfg.GetType().Name);
+                                    CalendarEventListService.ResetData = true;
+                                    appWidgetManager.NotifyAppWidgetViewDataChanged(iWidgetId, Resource.Id.event_list);
+                                    ResetData = false;
+                                    continue;
+                                }
+
+                                var tr = new Thread(() =>
                                 {
                                     try
                                     {
-                                        ResetData = false;
-                                        RunningTaskS[iWidgetId].Abort();
+
+                                        Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
+
+                                        xLog.Debug("Widget Type: " + cfg.GetType().Name + ", Size: " + wSize.X + "x" + wSize.Y);
+
+                                        RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_calendar_universal);
+
+                                        if (NewWidget)
+                                        {
+                                            NewWidget = false;
+                                            appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                                        }
+
+                                        DynamicCalendarModel calendarModel = new CalendarModelCfgHolder().GetModelCfg(cfg.CalendarModelId);
+
+                                        var titleInfo = GenerateWidgetTitle(this, rv, cfg, wSize, calendarModel);
+
+                                        rv.SetViewVisibility(Resource.Id.header_layout, ViewStates.Gone);
+                                        rv.SetViewVisibility(Resource.Id.list_layout, ViewStates.Gone);
+                                        rv.SetViewVisibility(Resource.Id.event_list, ViewStates.Gone);
+                                        rv.SetViewVisibility(Resource.Id.circle_image, ViewStates.Gone);
+                                        rv.SetViewVisibility(Resource.Id.empty_view, ViewStates.Visible);
+                                        if (cfg is WidgetCfg_CalendarCircleWave)
+                                            rv.SetViewPadding(Resource.Id.empty_view, 0, 0, 0, titleInfo.iHeaderHeight * (int)sys.DisplayDensity);
+                                        else
+                                            rv.SetViewPadding(Resource.Id.empty_view, 0, 0, 0, 0);
+
+                                        if (cfg is WidgetCfg_CalendarMonthView)
+                                        {
+                                            rv.SetViewVisibility(Resource.Id.header_layout, ViewStates.Visible);
+                                            rv.SetViewVisibility(Resource.Id.list_layout, ViewStates.Visible);
+                                            rv.RemoveAllViews(Resource.Id.header_layout);
+                                            rv.RemoveAllViews(Resource.Id.list_layout);
+                                        }
+
+                                        if (ResetData && !(cfg is WidgetCfg_CalendarCircleWave))
+                                        {
+                                            ResetData = false;
+                                            appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                                            Thread.Sleep(250);
+                                        }
+
+                                        if (cfg is WidgetCfg_CalendarTimetable)
+                                        {
+                                            rv.SetViewVisibility(Resource.Id.event_list, ViewStates.Visible);
+
+                                            Intent adapterIntent = new Intent(this, typeof(CalendarEventListService));
+                                            adapterIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                                            adapterIntent.SetData(Android.Net.Uri.Parse(adapterIntent.ToUri(IntentUriType.Scheme)));
+                                            rv.SetRemoteAdapter(Resource.Id.event_list, adapterIntent);
+
+                                            Intent itemClickIntent = new Intent(Intent.ActionMain);
+                                            itemClickIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.WidgetItemClickActivity"));
+                                            itemClickIntent.SetFlags(ActivityFlags.NoHistory);
+
+                                            PendingIntent itemClickPendingIntent = PendingIntent.GetActivity(this, iWidgetId, itemClickIntent, PendingIntentFlags.UpdateCurrent);
+
+                                            rv.SetPendingIntentTemplate(Resource.Id.event_list, itemClickPendingIntent);
+                                            rv.SetEmptyView(Resource.Id.event_list, Resource.Id.empty_view);
+                                            appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                                        }
+                                        else if (cfg is WidgetCfg_CalendarMonthView)
+                                        {
+                                            GenerateWidgetMonthView(this, rv, cfg as WidgetCfg_CalendarMonthView, wSize, titleInfo.iHeaderHeight, calendarModel);
+                                        }
+                                        else if (cfg is WidgetCfg_CalendarCircleWave)
+                                        {
+                                            GenerateCircleWaveView(this, appWidgetManager, rv, cfg as WidgetCfg_CalendarCircleWave, wSize, titleInfo.iHeaderHeight, calendarModel);
+                                        }
+                                        if (sys.Debugmode)
+                                            rv.SetViewVisibility(Resource.Id.debug_text, ViewStates.Visible);
+                                        appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+
+                                        if (cfg is WidgetCfg_CalendarTimetable)
+                                            appWidgetManager.NotifyAppWidgetViewDataChanged(iWidgetId, Resource.Id.event_list);
+
+                                        xLog.Debug("Update Widget done: " + iWidgetId);
                                     }
-                                    catch { };
-                                    if (RunningTaskS.ContainsKey(iWidgetId))
-                                        RunningTaskS.Remove(iWidgetId);
-                                }
-                            }
-
-                            xLog.Debug("Start update Widget " + iWidgetId);
-                            var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_Calendar>(iWidgetId, false);
-                            if (cfg == null)
-                                continue;
-
-                            if (ResetData && cfg is WidgetCfg_CalendarTimetable)
-                            {
-                                xLog.Debug("Send ResetData to ListService: " + cfg.GetType().Name);
-                                CalendarEventListService.ResetData = true;
-                                appWidgetManager.NotifyAppWidgetViewDataChanged(iWidgetId, Resource.Id.event_list);
-                                ResetData = false;
-                                continue;
-                            }
-
-                            var tr = new Thread(() =>
-                            {
-                                try
-                                {
-
-                                    Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
-
-                                    xLog.Debug("Widget Type: " + cfg.GetType().Name + ", Size: " + wSize.X + "x" + wSize.Y);
-
-                                    RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_calendar_universal);
-
-                                    if (NewWidget)
+                                    catch (ThreadAbortException) { }
+                                    catch (Exception ex)
                                     {
-                                        NewWidget = false;
+                                        sys.LogException(ex);
+                                        xLog.Error(ex, "Update Widget Error: " + iWidgetId);
+                                        RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
+                                        rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message + "\n" + ex.StackTrace);
+                                        rv.SetTextColor(Resource.Id.message, Color.IndianRed);
                                         appWidgetManager.UpdateAppWidget(iWidgetId, rv);
                                     }
-
-                                    DynamicCalendarModel calendarModel = new CalendarModelCfgHolder().GetModelCfg(cfg.CalendarModelId);
-
-                                    var titleInfo = GenerateWidgetTitle(this, rv, cfg, wSize, calendarModel);
-
-                                    rv.SetViewVisibility(Resource.Id.header_layout, ViewStates.Gone);
-                                    rv.SetViewVisibility(Resource.Id.list_layout, ViewStates.Gone);
-                                    rv.SetViewVisibility(Resource.Id.event_list, ViewStates.Gone);
-                                    rv.SetViewVisibility(Resource.Id.circle_image, ViewStates.Gone);
-                                    rv.SetViewVisibility(Resource.Id.empty_view, ViewStates.Visible);
-                                    if (cfg is WidgetCfg_CalendarCircleWave)
-                                        rv.SetViewPadding(Resource.Id.empty_view, 0, 0, 0, titleInfo.iHeaderHeight * (int)sys.DisplayDensity);
-                                    else
-                                        rv.SetViewPadding(Resource.Id.empty_view, 0, 0, 0, 0);
-
-                                    if (cfg is WidgetCfg_CalendarMonthView)
+                                    lock (RunningTaskS)
                                     {
-                                        rv.SetViewVisibility(Resource.Id.header_layout, ViewStates.Visible);
-                                        rv.SetViewVisibility(Resource.Id.list_layout, ViewStates.Visible);
-                                        rv.RemoveAllViews(Resource.Id.header_layout);
-                                        rv.RemoveAllViews(Resource.Id.list_layout);
+                                        if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
+                                            RunningTaskS.Remove(iWidgetId);
                                     }
-
-                                    if (ResetData && !(cfg is WidgetCfg_CalendarCircleWave))
-                                    {
-                                        ResetData = false;
-                                        appWidgetManager.UpdateAppWidget(iWidgetId, rv);
-                                        Thread.Sleep(250);
-                                    }
-
-                                    if (cfg is WidgetCfg_CalendarTimetable)
-                                    {
-                                        rv.SetViewVisibility(Resource.Id.event_list, ViewStates.Visible);
-
-                                        Intent adapterIntent = new Intent(this, typeof(CalendarEventListService));
-                                        adapterIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                                        adapterIntent.SetData(Android.Net.Uri.Parse(adapterIntent.ToUri(IntentUriType.Scheme)));
-                                        rv.SetRemoteAdapter(Resource.Id.event_list, adapterIntent);
-
-                                        Intent itemClickIntent = new Intent(Intent.ActionMain);
-                                        itemClickIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.WidgetItemClickActivity"));
-                                        itemClickIntent.SetFlags(ActivityFlags.NoHistory);
-
-                                        PendingIntent itemClickPendingIntent = PendingIntent.GetActivity(this, iWidgetId, itemClickIntent, PendingIntentFlags.UpdateCurrent);
-
-                                        rv.SetPendingIntentTemplate(Resource.Id.event_list, itemClickPendingIntent);
-                                        rv.SetEmptyView(Resource.Id.event_list, Resource.Id.empty_view);
-                                        appWidgetManager.UpdateAppWidget(iWidgetId, rv);
-                                    }
-                                    else if (cfg is WidgetCfg_CalendarMonthView)
-                                    {
-                                        GenerateWidgetMonthView(this, rv, cfg as WidgetCfg_CalendarMonthView, wSize, titleInfo.iHeaderHeight, calendarModel);
-                                    }
-                                    else if (cfg is WidgetCfg_CalendarCircleWave)
-                                    {
-                                        GenerateCircleWaveView(this, appWidgetManager, rv, cfg as WidgetCfg_CalendarCircleWave, wSize, titleInfo.iHeaderHeight, calendarModel);
-                                    }
-                                    if (sys.Debugmode)
-                                        rv.SetViewVisibility(Resource.Id.debug_text, ViewStates.Visible);
-                                    appWidgetManager.UpdateAppWidget(iWidgetId, rv);
-
-                                    if (cfg is WidgetCfg_CalendarTimetable)
-                                        appWidgetManager.NotifyAppWidgetViewDataChanged(iWidgetId, Resource.Id.event_list);
-
-                                    xLog.Debug("Update Widget done: " + iWidgetId);
-                                }
-                                catch (ThreadAbortException) { }
-                                catch (Exception ex)
-                                {
-                                    sys.LogException(ex);
-                                    xLog.Error(ex, "Update Widget Error: " + iWidgetId);
-                                    RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
-                                    rv.SetTextViewText(Resource.Id.message, "error loading widget:\n" + ex.Message + "\n" + ex.StackTrace);
-                                    rv.SetTextColor(Resource.Id.message, Color.IndianRed);
-                                    appWidgetManager.UpdateAppWidget(iWidgetId, rv);
-                                }
+                                });
+                                tr.IsBackground = true;
                                 lock (RunningTaskS)
-                                {
-                                    if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
-                                        RunningTaskS.Remove(iWidgetId);
-                                }
-                            });
-                            tr.IsBackground = true;
-                            lock (RunningTaskS)
-                                RunningTaskS.Add(iWidgetId, tr);
+                                    RunningTaskS.Add(iWidgetId, tr);
 
-                            tr.Start();
-                            tr.Join();
+                                tr.Start();
+                                tr.Join();
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
-                }
-            })
-            { IsBackground = true }.Start();
+                })
+                { IsBackground = true }.Start();
+            }
         }
 
         public static (bool bAllDone, int iHeaderHeight) GenerateWidgetTitle(Context context, RemoteViews rv, WidgetCfg_Calendar cfg, Point wSize, DynamicCalendarModel calendarModel, DynamicDate? dCurrent = null)

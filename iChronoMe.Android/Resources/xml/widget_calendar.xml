@@ -8,4 +8,4 @@
     android:configure="me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity"
     android:resizeMode="horizontal|vertical"
     android:initialLayout="@layout/widget_calendar_universal" 
-    android:previewImage="@drawable/widgetprev_calendar"/>
+    android:previewImage="@mipmap/widgetprev_calendar"/>

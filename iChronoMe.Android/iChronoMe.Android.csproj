@@ -250,25 +250,22 @@
     <AndroidResource Include="Resources\drawable\widget_dummy_shape.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\widgetprev_calendar.png" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_calendar.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\widgetprev_clock_analog.png" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_clock_analog.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\widgetprev_lifetime.png" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_lifetime.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\dummy_wallpaper.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\main_background.xml" />
+    <AndroidResource Include="Resources\mipmap\dummy_wallpaper.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\middle_sun_time.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\moon1.png" />
+    <AndroidResource Include="Resources\mipmap\moon1.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\main_drawer.xml" />
@@ -414,7 +411,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\overlay_click.png" />
+    <AndroidResource Include="Resources\mipmap\overlay_click.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\fragment_calendar_configpanel.xml">
@@ -967,7 +964,16 @@
     <AndroidResource Include="Resources\drawable-v21\circle_shape.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\clockface_sun_junior.xml" />
+    <AndroidResource Include="Resources\mipmap\clockface_sun_junior.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-anydpi-v26\clockface_sun_junior.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_screen_iuc.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

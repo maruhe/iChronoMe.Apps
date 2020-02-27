@@ -7,4 +7,4 @@
     android:updatePeriodMillis="7200000"
     android:resizeMode="horizontal|vertical"    
     android:initialLayout="@layout/widget_moon"
-    android:previewImage="@drawable/moon1" />
+    android:previewImage="@mipmap/moon1" />

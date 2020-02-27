@@ -10,7 +10,7 @@
         android:scaleType="fitCenter" />
     <ImageView 
         android:id="@+id/background_image"
-        android:src="@drawable/moon1"
+        android:src="@mipmap/moon1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter" />
