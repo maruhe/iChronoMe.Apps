@@ -587,6 +587,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                 int iWeekDay = iX + calendarModel.FirstDayOfWeek;
                 var wd = calendarModel.GetWeekDay(iWeekDay);
+                if (wd == null)
+                    throw new Exception("no week day: " + iWeekDay);
 
                 Color clText = cfg.ColorDayText.ToAndroid();
                 Color clBack = cfg.ColorDayBackground.ToAndroid();
