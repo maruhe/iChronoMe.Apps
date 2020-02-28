@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V7.App;
+
 using iChronoMe.Droid.GUI.Calendar;
 
 namespace iChronoMe.Droid
@@ -24,7 +25,7 @@ namespace iChronoMe.Droid
             {
                 string cType = Intent.GetStringExtra("shortcut");
                 string cExtra = Intent.GetStringExtra("extra");
-                
+
                 if ("create_calender_event".Equals(cType.ToLower()))
                 {
                     var intent = new Intent(this, typeof(EventEditActivity));

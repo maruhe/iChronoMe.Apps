@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Android.App;
-using Android.Content;
+
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets
@@ -96,7 +91,8 @@ namespace iChronoMe.Droid.Widgets
                 viewHolder = null;
                 myCfg = null;
                 adapter = null;
-            } catch { }
-        }        
+            }
+            catch { }
+        }
     }
 }

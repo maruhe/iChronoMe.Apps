@@ -31,7 +31,7 @@ namespace iChronoMe.Droid
     public class MainActivity : BaseActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         int iNavigationItem = Resource.Id.nav_clock;
-         
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -68,7 +68,7 @@ namespace iChronoMe.Droid
                     CheckErrorLog();
                     TimeZoneMap.GetTimeZone(1, 1);
                     //sys.DebugLogException(new Exception("lalaaa"));
-                });                
+                });
             }
             catch (Exception ex)
             {
@@ -298,7 +298,8 @@ namespace iChronoMe.Droid
                                             logDlg.Show(SupportFragmentManager, "");
                                         })
                                         .Create().Show();
-                                } catch { }
+                                }
+                                catch { }
                             });
                             return;
                         }

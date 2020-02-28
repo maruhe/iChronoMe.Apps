@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
 using System.Text;
+using System.Threading.Tasks;
 
-using Android.App;
 using Android.Content;
 using Android.Database;
-using Android.OS;
-using Android.Provider;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using iChronoMe.Core.Classes;
-using Java.Interop;
-
+using Android.Gms.Common.Data;
 using Android.Gms.Location.Places;
 using Android.Gms.Maps.Model;
-using System.Threading.Tasks;
-using Android.Gms.Common.Data;
-using System.Collections;
+using Android.Provider;
+using Android.Views;
+using Android.Widget;
+
+using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Adapters
 {
@@ -37,7 +31,7 @@ namespace iChronoMe.Droid.Adapters
         {
             return new Java.Lang.String(cursor.GetString(1));
         }
-        
+
         public override void BindView(View view, Context context, ICursor cursor)
         {
             ((TextView)view).Text = cursor.GetString(1);
@@ -95,7 +89,7 @@ namespace iChronoMe.Droid.Adapters
                     }
 
                     return cur;
-                } 
+                }
                 catch (Exception ex)
                 {
                     sys.LogException(ex);
@@ -151,7 +145,7 @@ namespace iChronoMe.Droid.Adapters
                         task.Wait();
                     }
                 }*/
-                               
+
                 var result = task.Result;
 
                 /*// This method should have been called off the main UI thread. Block and wait for at most

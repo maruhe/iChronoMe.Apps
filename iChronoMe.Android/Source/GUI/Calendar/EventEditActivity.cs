@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.DataBinding;
-using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
+
 using Net.ArcanaStudio.ColorPicker;
+
 using static Android.App.DatePickerDialog;
 using static Android.App.TimePickerDialog;
 
@@ -62,7 +58,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             dateEnd.Click += DateEnd_Click;
             timeEnd.FocusChange += TimeEnd_FocusChange;
             timeEnd.Click += TimeEnd_Click;
-    
+
             cEventId = Intent.HasExtra("EventId") ? Intent.GetStringExtra("EventId") : "";
 
             eSubject.Adapter = new CalendarEventTitleAdapter(this, null);
@@ -118,7 +114,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
 
             base.OnResume();
-            Task.Factory.StartNew(async() =>
+            Task.Factory.StartNew(async () =>
             {
                 await mModel.WaitForReady();
                 mBinder.Start();
@@ -137,12 +133,12 @@ namespace iChronoMe.Droid.GUI.Calendar
             item.SetIcon(DrawableHelper.GetIconDrawable(this, Resource.Drawable.circle_shape, mModel.DisplayColor));
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
-            
+
             item = menu.Add(0, 100, 0, Resource.String.action_save);
             item.SetIcon(Resource.Drawable.icons8_save);
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
-             
+
             return true;
         }
 
@@ -173,7 +169,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             if (item.ItemId == 100)
             {
-                Task.Factory.StartNew(async() =>
+                Task.Factory.StartNew(async () =>
                 {
                     if (await mModel.SaveEvent())
                         FinishAndRemoveTask();
@@ -274,7 +270,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             timeDlgProp = string.Empty;
         }
-        
+
         protected override void OnPause()
         {
             mBinder.Stop();

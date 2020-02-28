@@ -393,7 +393,7 @@ namespace iChronoMe.Droid
             manager = AppWidgetManager.GetInstance(ctx);
             pm = (PowerManager)ctx.GetSystemService(Context.PowerService);
             cfgHolder = new WidgetConfigHolder();
-            
+
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(ctx, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             List<int> iS = new List<int>();
             iS.AddRange(appWidgetID2s);
@@ -461,7 +461,7 @@ namespace iChronoMe.Droid
             var tsk = new Thread(() =>
             {
                 xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
-                
+
                 DateTime swStart = DateTime.Now;
                 WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
                 if (cfg == null)
@@ -751,7 +751,7 @@ namespace iChronoMe.Droid
 
                     DateTime tBackgroundUpdate = DateTime.MinValue;
                     Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfgNew, iClockSize);
-                     
+
                     Bitmap bmpBackgroundColor = null;
                     if (cfgNew.ColorBackground.ToAndroid() != Color.Transparent)
                     {

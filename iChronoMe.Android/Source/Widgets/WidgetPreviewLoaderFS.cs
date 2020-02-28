@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Android.App;
-using Android.Content;
+
 using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Core.Classes;
 namespace iChronoMe.Droid.Widgets
 {
@@ -56,12 +51,12 @@ namespace iChronoMe.Droid.Widgets
                 }
 
                 var swStart = DateTime.Now;
-                
+
                 bmp = adapter.GenerateWidgetPreview(myCfg);
-                
+
                 cInfo = (int)(DateTime.Now - swStart).TotalMilliseconds + "gen ";
                 swStart = DateTime.Now;
-                
+
                 var stream = new FileStream(ImagePath, FileMode.Create);
                 bmp.Compress(Bitmap.CompressFormat.Png, 100, stream);
                 stream.Close();

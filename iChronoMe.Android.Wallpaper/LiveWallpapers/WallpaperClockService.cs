@@ -1,314 +1,312 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
 using Android.Service.Wallpaper;
 using Android.Views;
-using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Types;
 
 namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 {
 #if DEBUG
-	[Service(Label = "@string/wallpaper_title_clock_analog", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
-	[IntentFilter(new string[] { "android.service.wallpaper.WallpaperService" })]
-	[MetaData("android.service.wallpaper", Resource = "@xml/wallpaper_analogclock")]
-	public class WallpaperClockService : WallpaperService
-	{
-		public override Engine OnCreateEngine()
-		{
-			return new WallpaperClockEngine(this);
-		}
+    [Service(Label = "@string/wallpaper_title_clock_analog", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
+    [IntentFilter(new string[] { "android.service.wallpaper.WallpaperService" })]
+    [MetaData("android.service.wallpaper", Resource = "@xml/wallpaper_analogclock")]
+    public class WallpaperClockService : WallpaperService
+    {
+        public override Engine OnCreateEngine()
+        {
+            return new WallpaperClockEngine(this);
+        }
 
-		class WallpaperClockEngine : WallpaperService.Engine
-		{
-			private Handler mHandler = new Handler();
-			Context mContext;
+        class WallpaperClockEngine : WallpaperService.Engine
+        {
+            private Handler mHandler = new Handler();
+            Context mContext;
 
-			private Paint paint = new Paint();
-			private Point size = new Point();
-			private PointF touch_point = new PointF(-1, -1);
-			private float offset;
-			private long start_time;
-			protected Drawable wallpaperDrawable;
+            private Paint paint = new Paint();
+            private Point size = new Point();
+            private PointF touch_point = new PointF(-1, -1);
+            private float offset;
+            private long start_time;
+            protected Drawable wallpaperDrawable;
 
-			private Action mDrawCube;
-			private bool is_visible;
+            private Action mDrawCube;
+            private bool is_visible;
 
-			KeyguardManager myKM;
-			private bool bIsLockScreen = false;
+            KeyguardManager myKM;
+            private bool bIsLockScreen = false;
 
-			private LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
-			private WallpaperClockView clockView = new WallpaperClockView();
+            private LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
+            private WallpaperClockView clockView = new WallpaperClockView();
 
-			public WallpaperClockEngine(WallpaperClockService wall) : base(wall)
-			{
-				mContext = wall;
-				start_time = SystemClock.ElapsedRealtime();
-				try
-				{
-					WallpaperManager wpMgr = WallpaperManager.GetInstance(wall);
-					wallpaperDrawable = wpMgr.Drawable;
-					wpMgr.Dispose();
-				}
-				catch (System.Exception ex)
-				{
-					try
-					{
-						WallpaperManager wpMgr = WallpaperManager.GetInstance(wall);
-						wallpaperDrawable = wpMgr.BuiltInDrawable;
-						wpMgr.Dispose();
-					}
-					catch (System.Exception ex2)
-					{
-						ex2.ToString();
-					}
+            public WallpaperClockEngine(WallpaperClockService wall) : base(wall)
+            {
+                mContext = wall;
+                start_time = SystemClock.ElapsedRealtime();
+                try
+                {
+                    WallpaperManager wpMgr = WallpaperManager.GetInstance(wall);
+                    wallpaperDrawable = wpMgr.Drawable;
+                    wpMgr.Dispose();
+                }
+                catch (System.Exception ex)
+                {
+                    try
+                    {
+                        WallpaperManager wpMgr = WallpaperManager.GetInstance(wall);
+                        wallpaperDrawable = wpMgr.BuiltInDrawable;
+                        wpMgr.Dispose();
+                    }
+                    catch (System.Exception ex2)
+                    {
+                        ex2.ToString();
+                    }
 
-					ex.ToString();
-				}
+                    ex.ToString();
+                }
 
-				if (wallpaperDrawable == null)
-					wallpaperDrawable = wall.Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, null);
+                if (wallpaperDrawable == null)
+                    wallpaperDrawable = wall.Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, null);
 
-				clockView.FlowMinuteHand = true;
-				clockView.FlowSecondHand = false;
-				clockView.ColorTickMarks = clockView.ColorHourHandStroke = clockView.ColorMinuteHandStroke = clockView.ColorSecondHandStroke = xColor.WhiteSmoke;
-				clockView.ColorHourHandFill = clockView.ColorMinuteHandFill = xColor.Transparent;
+                clockView.FlowMinuteHand = true;
+                clockView.FlowSecondHand = false;
+                clockView.ColorTickMarks = clockView.ColorHourHandStroke = clockView.ColorMinuteHandStroke = clockView.ColorSecondHandStroke = xColor.WhiteSmoke;
+                clockView.ColorHourHandFill = clockView.ColorMinuteHandFill = xColor.Transparent;
 
-				// Set up the paint to draw the lines for our cube
-				paint.Color = Color.White;
-				paint.AntiAlias = true;
-				paint.StrokeWidth = 2;
-				paint.StrokeCap = Paint.Cap.Round;
-				paint.SetStyle(Paint.Style.Stroke);
+                // Set up the paint to draw the lines for our cube
+                paint.Color = Color.White;
+                paint.AntiAlias = true;
+                paint.StrokeWidth = 2;
+                paint.StrokeCap = Paint.Cap.Round;
+                paint.SetStyle(Paint.Style.Stroke);
 
-				mDrawCube = delegate { DrawFrame(); };
-			}
+                mDrawCube = delegate { DrawFrame(); };
+            }
 
-			public override void OnCreate(ISurfaceHolder surfaceHolder)
-			{
-				base.OnCreate(surfaceHolder);
+            public override void OnCreate(ISurfaceHolder surfaceHolder)
+            {
+                base.OnCreate(surfaceHolder);
 
-				// By default we don't get touch events, so enable them.
-				SetTouchEventsEnabled(true);
-			}
+                // By default we don't get touch events, so enable them.
+                SetTouchEventsEnabled(true);
+            }
 
-			public override void OnDestroy()
-			{
-				base.OnDestroy();
+            public override void OnDestroy()
+            {
+                base.OnDestroy();
 
-				mHandler.RemoveCallbacks(mDrawCube);
-			}
+                mHandler.RemoveCallbacks(mDrawCube);
+            }
 
-			public override void OnVisibilityChanged(bool visible)
-			{
-				is_visible = visible;
+            public override void OnVisibilityChanged(bool visible)
+            {
+                is_visible = visible;
 
-				bIsLockScreen = false;
-				if (is_visible)
-				{
-					if (myKM == null)
-						myKM = (KeyguardManager)mContext.GetSystemService(Context.KeyguardService);
-					if (myKM.IsDeviceLocked || myKM.IsKeyguardLocked)
-					{
-						bIsLockScreen = true;
-						//Tools.ShowToast(mContext, "Start LockScreenMode");
-					}
-				}
-				//Tools.ShowToast(mContext, "IsVisible: " + visible + "\nIsDeviceLocked: " + myKM.IsDeviceLocked + "\nIsDeviceLocked: " + myKM.IsKeyguardLocked);
-				
-				if (visible)
-					DrawFrame();
-				else
-					mHandler.RemoveCallbacks(mDrawCube);
-			}
+                bIsLockScreen = false;
+                if (is_visible)
+                {
+                    if (myKM == null)
+                        myKM = (KeyguardManager)mContext.GetSystemService(Context.KeyguardService);
+                    if (myKM.IsDeviceLocked || myKM.IsKeyguardLocked)
+                    {
+                        bIsLockScreen = true;
+                        //Tools.ShowToast(mContext, "Start LockScreenMode");
+                    }
+                }
+                //Tools.ShowToast(mContext, "IsVisible: " + visible + "\nIsDeviceLocked: " + myKM.IsDeviceLocked + "\nIsDeviceLocked: " + myKM.IsKeyguardLocked);
 
-			public override void OnSurfaceChanged(ISurfaceHolder holder, Format format, int width, int height)
-			{
-				base.OnSurfaceChanged(holder, format, width, height);
+                if (visible)
+                    DrawFrame();
+                else
+                    mHandler.RemoveCallbacks(mDrawCube);
+            }
 
-				//store the size of the frame
-				size.Set(width, height);
+            public override void OnSurfaceChanged(ISurfaceHolder holder, Format format, int width, int height)
+            {
+                base.OnSurfaceChanged(holder, format, width, height);
 
-				DrawFrame();
-			}
+                //store the size of the frame
+                size.Set(width, height);
 
-			public override void OnSurfaceDestroyed(ISurfaceHolder holder)
-			{
-				base.OnSurfaceDestroyed(holder);
+                DrawFrame();
+            }
 
-				is_visible = false;
-				mHandler.RemoveCallbacks(mDrawCube);
-			}
+            public override void OnSurfaceDestroyed(ISurfaceHolder holder)
+            {
+                base.OnSurfaceDestroyed(holder);
 
-			public override void OnOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset)
-			{
-				offset = xOffset;
+                is_visible = false;
+                mHandler.RemoveCallbacks(mDrawCube);
+            }
 
-				DrawFrame();
-			}
+            public override void OnOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset)
+            {
+                offset = xOffset;
 
-			// Store the position of the touch event so we can use it for drawing later
-			public override void OnTouchEvent(MotionEvent e)
-			{
-				if (e.Action == MotionEventActions.Move)
-					touch_point.Set(e.GetX(), e.GetY());
-				else
-					touch_point.Set(-1, -1);
+                DrawFrame();
+            }
 
-				base.OnTouchEvent(e);
-			}
+            // Store the position of the touch event so we can use it for drawing later
+            public override void OnTouchEvent(MotionEvent e)
+            {
+                if (e.Action == MotionEventActions.Move)
+                    touch_point.Set(e.GetX(), e.GetY());
+                else
+                    touch_point.Set(-1, -1);
 
-			// Draw one frame of the animation. This method gets called repeatedly
-			// by posting a delayed Runnable. You can do any drawing you want in
-			// here. This example draws a wireframe cube.
-			void DrawFrame()
-			{
-				ISurfaceHolder holder = SurfaceHolder;
+                base.OnTouchEvent(e);
+            }
 
-				Canvas c = null;
+            // Draw one frame of the animation. This method gets called repeatedly
+            // by posting a delayed Runnable. You can do any drawing you want in
+            // here. This example draws a wireframe cube.
+            void DrawFrame()
+            {
+                ISurfaceHolder holder = SurfaceHolder;
 
-				try
-				{
-					c = holder.LockCanvas();
+                Canvas c = null;
 
-					if (c != null)
-					{
-						DrawWallpaper(c);
-					}
-				}
-				finally
-				{
-					if (c != null)
-						holder.UnlockCanvasAndPost(c);
-				}
+                try
+                {
+                    c = holder.LockCanvas();
 
-				// Reschedule the next redraw
-				mHandler.RemoveCallbacks(mDrawCube);
+                    if (c != null)
+                    {
+                        DrawWallpaper(c);
+                    }
+                }
+                finally
+                {
+                    if (c != null)
+                        holder.UnlockCanvasAndPost(c);
+                }
 
-				if (is_visible)
-				{
-					if (clockView.FlowSecondHand)
-						mHandler.PostDelayed(mDrawCube, 1000 / 60);
-					else if (clockView.FlowMinuteHand)
-						mHandler.PostDelayed(mDrawCube, 1000 / 10);
-					else
-						mHandler.PostDelayed(mDrawCube, 1000 - lth.RealSunTime.Millisecond);
-				}
-			}
+                // Reschedule the next redraw
+                mHandler.RemoveCallbacks(mDrawCube);
 
-			DateTime tstAnimationStart = DateTime.MinValue;
-			DateTime tstAnimationEnd = DateTime.MinValue;
+                if (is_visible)
+                {
+                    if (clockView.FlowSecondHand)
+                        mHandler.PostDelayed(mDrawCube, 1000 / 60);
+                    else if (clockView.FlowMinuteHand)
+                        mHandler.PostDelayed(mDrawCube, 1000 / 10);
+                    else
+                        mHandler.PostDelayed(mDrawCube, 1000 - lth.RealSunTime.Millisecond);
+                }
+            }
 
-			// Draw a wireframe cube by drawing 12 3 dimensional lines between
-			// adjacent corners of the cube
-			Bitmap background = null;
-			void DrawWallpaper(Canvas c)
-			{
-				try
-				{
-					if (bIsLockScreen)
-					{
-						if (!myKM.IsDeviceLocked && !myKM.IsKeyguardLocked)
-						{
-							bIsLockScreen = false;
-							tstAnimationStart = DateTime.Now;
-							tstAnimationEnd = tstAnimationStart.AddSeconds(.5);
-							//Tools.ShowToast(mContext, "LockScreenMode end");
-						}
-					}
-				} catch { }
+            DateTime tstAnimationStart = DateTime.MinValue;
+            DateTime tstAnimationEnd = DateTime.MinValue;
 
-				try
-				{
-					if (background == null)
-					{
-						if (wallpaperDrawable != null)
-						{
-							var drw = new ScaleDrawable(wallpaperDrawable, GravityFlags.Center, size.X, size.Y).Drawable;
-							Bitmap bmp = Bitmap.CreateBitmap(size.X, size.Y, Bitmap.Config.Argb8888);
-							Canvas canvas = new Canvas(bmp);
-							drw.SetBounds(0, 0, size.X, size.Y);
-							drw.Draw(canvas);
-							background = bmp;
-						}
-					}
-				} catch { }
+            // Draw a wireframe cube by drawing 12 3 dimensional lines between
+            // adjacent corners of the cube
+            Bitmap background = null;
+            void DrawWallpaper(Canvas c)
+            {
+                try
+                {
+                    if (bIsLockScreen)
+                    {
+                        if (!myKM.IsDeviceLocked && !myKM.IsKeyguardLocked)
+                        {
+                            bIsLockScreen = false;
+                            tstAnimationStart = DateTime.Now;
+                            tstAnimationEnd = tstAnimationStart.AddSeconds(.5);
+                            //Tools.ShowToast(mContext, "LockScreenMode end");
+                        }
+                    }
+                }
+                catch { }
 
-				try
-				{					
-					c.DrawColor(Color.White);
-					if (wallpaperDrawable != null)
-						wallpaperDrawable.Draw(c);
+                try
+                {
+                    if (background == null)
+                    {
+                        if (wallpaperDrawable != null)
+                        {
+                            var drw = new ScaleDrawable(wallpaperDrawable, GravityFlags.Center, size.X, size.Y).Drawable;
+                            Bitmap bmp = Bitmap.CreateBitmap(size.X, size.Y, Bitmap.Config.Argb8888);
+                            Canvas canvas = new Canvas(bmp);
+                            drw.SetBounds(0, 0, size.X, size.Y);
+                            drw.Draw(canvas);
+                            background = bmp;
+                        }
+                    }
+                }
+                catch { }
 
-					int x = 0;
-					int y = 0;
-					int w = size.X;
-					int h = size.Y;
+                try
+                {
+                    c.DrawColor(Color.White);
+                    if (wallpaperDrawable != null)
+                        wallpaperDrawable.Draw(c);
 
-					if (bIsLockScreen)
-					{
-						y = size.Y / 10;
-						h -= y;
-					} 
-					else
-					{
-						w -= size.X / 2;
-						y = size.Y * 3 / 11;
-						h -= size.Y / 2;
-					}
+                    int x = 0;
+                    int y = 0;
+                    int w = size.X;
+                    int h = size.Y;
 
-					if (tstAnimationEnd > DateTime.Now)
-					{
-						double nTotal = (tstAnimationEnd - tstAnimationStart).TotalMilliseconds;
-						double nDone = (DateTime.Now - tstAnimationStart).TotalMilliseconds;
+                    if (bIsLockScreen)
+                    {
+                        y = size.Y / 10;
+                        h -= y;
+                    }
+                    else
+                    {
+                        w -= size.X / 2;
+                        y = size.Y * 3 / 11;
+                        h -= size.Y / 2;
+                    }
 
-						double x1 = 0;
-						double y1 = size.Y / 10;
-						double w1 = size.X;
-						double h1 = size.Y - y;
+                    if (tstAnimationEnd > DateTime.Now)
+                    {
+                        double nTotal = (tstAnimationEnd - tstAnimationStart).TotalMilliseconds;
+                        double nDone = (DateTime.Now - tstAnimationStart).TotalMilliseconds;
 
-						double x2 = 0;
-						double y2 = size.Y  * 3 / 11;
-						double w2 = size.X - size.X / 2;
-						double h2 = size.Y - size.Y / 2;
+                        double x1 = 0;
+                        double y1 = size.Y / 10;
+                        double w1 = size.X;
+                        double h1 = size.Y - y;
 
-						double nx = x1 + (x2 - x1) * nDone / nTotal;
-						double ny = y1 + (y2 - y1) * nDone / nTotal;
-						double nw = w1 + (w2 - w1) * nDone / nTotal;
-						double nh = h1 + (h2 - h1) * nDone / nTotal;
+                        double x2 = 0;
+                        double y2 = size.Y * 3 / 11;
+                        double w2 = size.X - size.X / 2;
+                        double h2 = size.Y - size.Y / 2;
 
-						x = (int)nx;
-						y = (int)ny;
-						w = (int)nw;
-						h = (int)nh;
-					}
+                        double nx = x1 + (x2 - x1) * nDone / nTotal;
+                        double ny = y1 + (y2 - y1) * nDone / nTotal;
+                        double nw = w1 + (w2 - w1) * nDone / nTotal;
+                        double nh = h1 + (h2 - h1) * nDone / nTotal;
 
-					clockView.DrawClock(c, lth.RealSunTime, x, y, w, h);
-				}
-				catch (Exception ex)
-				{
-					Paint p = new Paint();
-					p.Color = Color.Red;
-					c.DrawColor(Color.White);
-					c.DrawText(ex.Message, 0, 0, p);
-				}
+                        x = (int)nx;
+                        y = (int)ny;
+                        w = (int)nw;
+                        h = (int)nh;
+                    }
 
-				if (tstAnimationEnd != DateTime.MinValue && tstAnimationEnd < DateTime.Now)
-				{
-					tstAnimationStart = DateTime.MinValue;
-					tstAnimationEnd = DateTime.MinValue;
-				}
-			}
-		}
-	}
+                    clockView.DrawClock(c, lth.RealSunTime, x, y, w, h);
+                }
+                catch (Exception ex)
+                {
+                    Paint p = new Paint();
+                    p.Color = Color.Red;
+                    c.DrawColor(Color.White);
+                    c.DrawText(ex.Message, 0, 0, p);
+                }
+
+                if (tstAnimationEnd != DateTime.MinValue && tstAnimationEnd < DateTime.Now)
+                {
+                    tstAnimationStart = DateTime.MinValue;
+                    tstAnimationEnd = DateTime.MinValue;
+                }
+            }
+        }
+    }
 #endif
 }

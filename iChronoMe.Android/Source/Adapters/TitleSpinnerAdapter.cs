@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Types;
 
 namespace iChronoMe.Droid.Adapters
@@ -21,7 +16,7 @@ namespace iChronoMe.Droid.Adapters
         xColor clTitleText;
         string Title;
 
-        public TitleSpinnerAdapter(Activity context, string title) : this (context, title, new string[0]) { }
+        public TitleSpinnerAdapter(Activity context, string title) : this(context, title, new string[0]) { }
 
         public TitleSpinnerAdapter(Activity context, string title, ICollection<string> items)
         {

@@ -54,7 +54,7 @@ namespace iChronoMe.Droid.Adapters
             view.FindViewById<ImageView>(Resource.Id.shape_3).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.TextColorPrimary), clrText));
             view.FindViewById<ImageView>(Resource.Id.shape_4).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorAccent), clrText));
             view.FindViewById<ImageView>(Resource.Id.shape_5).SetImageDrawable(GetShape(Tools.GetThemeColor(wrapper, Android.Resource.Attribute.ColorPrimaryDark), clrText));
-            
+
             return view;
         }
 

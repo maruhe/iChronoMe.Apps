@@ -11,10 +11,7 @@ using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
-using iChronoMe.Core.Types;
 using iChronoMe.Widgets;
-
-using Net.ArcanaStudio.ColorPicker;
 
 namespace iChronoMe.Droid.Widgets.ActionButton
 {

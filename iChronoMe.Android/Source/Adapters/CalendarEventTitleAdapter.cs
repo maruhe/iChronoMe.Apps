@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
+﻿using Android.Content;
 using Android.Database;
-using Android.OS;
 using Android.Provider;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
-using Java.Interop;
 
 namespace iChronoMe.Droid.Adapters
 {
@@ -80,7 +72,7 @@ namespace iChronoMe.Droid.Adapters
 
                     var cur = mContent.Query(CalendarContract.Events.ContentUri, new string[] { CalendarContract.Events.InterfaceConsts.Id, CalendarContract.Events.InterfaceConsts.Title }, buffer == null ? null : buffer.ToString(), args, CalendarContract.Events.InterfaceConsts.Title);
                     return cur;
-                } 
+                }
                 catch (System.Exception ex)
                 {
                     sys.LogException(ex);

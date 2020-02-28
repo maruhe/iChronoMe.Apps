@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
@@ -27,7 +28,6 @@ using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Adapters;
-using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.ViewModels;
 
 using Xamarin.Essentials;
@@ -157,8 +157,8 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                         if (!await model.SaveEvent())
                             Tools.ShowToast(Context, Resources.GetString(Resource.String.error_saving_event) + "\n" + model.ErrorText);
-                    } 
-                    catch (Exception ex) 
+                    }
+                    catch (Exception ex)
                     {
                         sys.LogException(ex);
                     }

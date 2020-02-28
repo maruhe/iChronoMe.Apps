@@ -323,7 +323,7 @@ namespace iChronoMe.Droid
                             SetAssistantDone();
                             return;
                         }
-                    } 
+                    }
                     catch (Exception ex)
                     {
 

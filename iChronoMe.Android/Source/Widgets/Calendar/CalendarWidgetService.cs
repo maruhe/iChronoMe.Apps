@@ -123,8 +123,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     if (myEvents == null)
                         InitEvents();
 
-                //lock (calendarsImpl)
-                {
+                    //lock (calendarsImpl)
+                    {
                         foreach (int iWidgetId in appWidgetIDs)
                         {
                             try

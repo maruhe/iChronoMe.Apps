@@ -708,7 +708,7 @@ namespace iChronoMe.Droid.GUI
             var item = popup.Menu.Add(0, 3, 0, Resource.String.action_refresh_location_continuous);
             item.SetCheckable(true);
             item.SetChecked(AppConfigHolder.MainConfig.ContinuousLocationUpdates);
-            
+
             string clr = xColor.FromUint((uint)lTimeInfo1.CurrentTextColor).HexString;
             clr.ToString();
 
@@ -1033,7 +1033,7 @@ namespace iChronoMe.Droid.GUI
         {
             lastReceivedLocation = location;
             Tools.ShowDebugToast(Context, "got a location update");
-            
+
             lth.ChangePositionDelay(location.Latitude, location.Longitude);
         }
 

@@ -7,6 +7,7 @@ using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Android.Support.V4.Graphics.Drawable;
 using Android.Support.V7.View;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 
@@ -57,7 +58,7 @@ namespace iChronoMe.Droid
                 }
                 else
                     context.Theme.ToString();
-                 
+
                 var mDrawable = ContextCompat.GetDrawable(context, drawableRes);
                 if (!(mDrawable is VectorDrawable) || ColoredIcons.Contains(drawableRes))
                     return mDrawable;

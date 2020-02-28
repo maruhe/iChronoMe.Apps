@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Support.Graphics.Drawable;
 using Android.Views;
 using Android.Widget;
 
@@ -18,8 +14,6 @@ using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
-
-using Java.IO;
 
 namespace iChronoMe.Droid.Widgets
 {
