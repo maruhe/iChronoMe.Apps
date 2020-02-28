@@ -64,12 +64,11 @@ namespace iChronoMe.Droid
                 Task.Factory.StartNew(() =>
                 {
                     Task.Delay(2500).Wait();
+                    BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
                     CheckErrorLog();
                     TimeZoneMap.GetTimeZone(1, 1);
                     //sys.DebugLogException(new Exception("lalaaa"));
-                });
-
-                BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
+                });                
             }
             catch (Exception ex)
             {

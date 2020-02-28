@@ -393,7 +393,7 @@ namespace iChronoMe.Droid
             manager = AppWidgetManager.GetInstance(ctx);
             pm = (PowerManager)ctx.GetSystemService(Context.PowerService);
             cfgHolder = new WidgetConfigHolder();
-
+            
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(ctx, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             List<int> iS = new List<int>();
             iS.AddRange(appWidgetID2s);
@@ -461,6 +461,7 @@ namespace iChronoMe.Droid
             var tsk = new Thread(() =>
             {
                 xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
+                
                 DateTime swStart = DateTime.Now;
                 WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
                 if (cfg == null)
@@ -521,10 +522,11 @@ namespace iChronoMe.Droid
                 int iClockSize = (int)(iClockSizeDp * sys.DisplayDensity);
 
                 WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
+                clockView.ClockFaceLoaded += ClockView_ClockFaceLoaded;
                 clockView.ReadConfig(cfg);
 
                 DateTime tBackgroundUpdate = DateTime.MinValue;
-                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfg, iClockSize);
+                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfg, iClockSize);
 
                 Bitmap bmpBackgroundColor = null;
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
@@ -700,6 +702,11 @@ namespace iChronoMe.Droid
             tsk.Start();
         }
 
+        private void ClockView_ClockFaceLoaded(object sender, EventArgs e)
+        {
+            BackgroundService.RestartService(ctx, AppWidgetManager.ActionAppwidgetUpdate);
+        }
+
         public void UpdateSingleWidget(int iWidgetId)
         {
             try
@@ -743,8 +750,8 @@ namespace iChronoMe.Droid
                     clockView.ReadConfig(cfgNew);
 
                     DateTime tBackgroundUpdate = DateTime.MinValue;
-                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, cfgNew, iClockSize);
-
+                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfgNew, iClockSize);
+                     
                     Bitmap bmpBackgroundColor = null;
                     if (cfgNew.ColorBackground.ToAndroid() != Color.Transparent)
                     {
@@ -812,7 +819,7 @@ namespace iChronoMe.Droid
             }
         }
 
-        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetCfg_ClockAnalog cfg, int sizePX)
+        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetView_ClockAnalog vClock, WidgetCfg_ClockAnalog cfg, int sizePX)
         {
             try
             {
@@ -821,7 +828,7 @@ namespace iChronoMe.Droid
                     string cBackImgPath = cfg.BackgroundImage;
                     if (!cfg.BackgroundImage.Contains("/"))
                         cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockfaces"), cfg.BackgroundImage);
-                    Java.IO.File fBack = new Java.IO.File(WidgetView_ClockAnalog.GetClockFacePng(cfg.BackgroundImage, sizePX));
+                    Java.IO.File fBack = new Java.IO.File(vClock.GetClockFacePng(cfg.BackgroundImage, sizePX));
                     bool bBackEx = fBack.Exists();
                     if (bBackEx)
                     {

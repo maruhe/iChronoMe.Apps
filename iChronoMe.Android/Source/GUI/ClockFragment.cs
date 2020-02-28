@@ -170,7 +170,10 @@ namespace iChronoMe.Droid.GUI
             {
                 bNoClockUpdate = false;
                 if (vClock == null)
+                {
                     vClock = new WidgetView_ClockAnalog();
+                    vClock.ClockFaceLoaded += VClock_ClockFaceLoaded;
+                }
                 RefreshClockCfg();
                 if (lth == null)
                     lth = LocationTimeHolder.LocalInstance;
@@ -210,6 +213,11 @@ namespace iChronoMe.Droid.GUI
             {
                 ex.ToString();
             }
+        }
+
+        private void VClock_ClockFaceLoaded(object sender, EventArgs e)
+        {
+            RefreshClockCfg();
         }
 
         private void UpdateTime(TextView tvTime, TextView tvOffset, TimeType typeType)
@@ -329,17 +337,23 @@ namespace iChronoMe.Droid.GUI
         private void RefreshClockCfg()
         {
             vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
-            try
+            Activity.RunOnUiThread(() =>
             {
-                if (string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage) || !System.IO.File.Exists(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
-                    imgClockBack.SetImageBitmap(null);
-                else
-                    imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(WidgetView_ClockAnalog.GetClockFacePng(AppConfigHolder.MainConfig.MainClock.BackgroundImage, ClockSize))));
-            }
-            catch (Exception ex)
-            {
-                xLog.Error(ex);
-            }
+                try
+                {
+                    imgClockBack.SetImageURI(null);
+                    if (!string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
+                    {
+                        string cFile = vClock.GetClockFacePng(AppConfigHolder.MainConfig.MainClock.BackgroundImage, ClockSize);
+                        imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    xLog.Error(ex);
+                    Tools.ShowToast(Context, ex.Message, true);
+                }
+            });
         }
 
         public void SetTimeType(TimeType tt)
