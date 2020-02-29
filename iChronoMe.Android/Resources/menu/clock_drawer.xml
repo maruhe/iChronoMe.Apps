@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
       <item
           android:id="@+id/clock_TimeType"
           android:title="@string/TimeType" />
@@ -17,5 +17,23 @@
           android:id="@+id/clock_Background"
           android:title="@string/action_background" />
     </group>
+		<item android:title="floating" android:visible="false">
+			<menu>
+				<group android:checkableBehavior="all" >
+					<item
+						android:id="@+id/clock_floating_hour"
+						android:title="hours"
+						android:checkable="true" />
+					<item
+						android:id="@+id/clock_floating_minute"
+						android:title="minutes"
+						android:checkable="true" />
+					<item
+						android:id="@+id/clock_floating_second"
+						android:title="seconds"
+						android:checkable="true" />
+				</group>
+			</menu>
+		</item>
 
 </menu>

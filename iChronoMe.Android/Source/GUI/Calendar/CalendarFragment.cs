@@ -141,7 +141,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                         if (model.TimeType != calEvents.timeType)
                         {
                             model.TimeType = calEvents.timeType;
-                            Tools.ShowToast(Context, "!!! event-time-type has been changed !!!");
+                            Tools.ShowToast(Context, "WARNING\n!!! event-time-type has been changed !!!");
                         }
 
                         model.DisplayStart = dropTime;

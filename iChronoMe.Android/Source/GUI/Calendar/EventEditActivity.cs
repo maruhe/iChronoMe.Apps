@@ -10,6 +10,7 @@ using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core.DataBinding;
+using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
 
@@ -149,13 +150,13 @@ namespace iChronoMe.Droid.GUI.Calendar
                 Task.Factory.StartNew(async () =>
                 {
                     var clrDlg = ColorPickerDialog.NewBuilder()
-                 .SetDialogType(ColorPickerDialog.DialogType.Preset)
-                 .SetAllowCustom(false)
-                 .SetShowColorShades(true)
-                 .SetColor(mModel.DisplayColor.ToAndroid())
-                 .SetColorShape(ColorShape.Circle)
-                 .SetShowAlphaSlider(false)
-                 .SetDialogTitle(Resource.String.action_colors);
+                        .SetDialogType(ColorPickerDialog.DialogType.Preset)
+                        .SetAllowCustom(false)
+                        .SetShowColorShades(true)
+                        .SetColor(mModel.DisplayColor.ToAndroid())
+                        .SetColorShape(ColorShape.Circle)
+                        .SetShowAlphaSlider(false)
+                        .SetDialogTitle(Resource.String.action_colors);
 
                     var clr = await clrDlg.ShowAsyncNullable(this);
                     if (clr.HasValue)

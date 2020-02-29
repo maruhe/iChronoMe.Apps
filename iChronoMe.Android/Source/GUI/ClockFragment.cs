@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Android.Content;
@@ -43,6 +44,7 @@ namespace iChronoMe.Droid.GUI
         private FloatingActionButton fabTimeType;
         private WidgetAnimator_ClockAnalog animator;
         private LocationManager locationManager;
+        private IMenuItem miFlowClock;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -163,11 +165,13 @@ namespace iChronoMe.Droid.GUI
             locationManager?.RemoveUpdates(this);
         }
 
+        Thread trClock = null;
         bool bNoClockUpdate = false;
         private void StartClockUpdates()
         {
             try
             {
+                trClock?.Abort();
                 bNoClockUpdate = false;
                 if (vClock == null)
                 {
@@ -181,7 +185,13 @@ namespace iChronoMe.Droid.GUI
                 lth.AreaChanged += Lth_AreaChanged;
                 Lth_AreaChanged(null, null);
 
-                mContext.RunOnUiThread(() => fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth)));
+                mContext.RunOnUiThread(() =>
+                {
+                    fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth));
+                    navigationView.Menu.FindItem(Resource.Id.clock_floating_hour).SetChecked(AppConfigHolder.MainConfig.MainClock.ShowSeconds);
+                    navigationView.Menu.FindItem(Resource.Id.clock_floating_minute).SetChecked(AppConfigHolder.MainConfig.MainClock.FlowMinuteHand);
+                    navigationView.Menu.FindItem(Resource.Id.clock_floating_second).SetChecked(AppConfigHolder.MainConfig.MainClock.FlowSecondHand);
+                });
 
                 lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
                 {
@@ -196,23 +206,77 @@ namespace iChronoMe.Droid.GUI
                     mContext.RunOnUiThread(() => UpdateTime(lTime3, lTimeInfo3, TimeType.TimeZoneTime));
                 });
 
-                lth.StartTimeChangedHandler(skiaView, this.TimeType, (s, e) =>
+                if (AppConfigHolder.MainConfig.MainClock.FlowSecondHand || AppConfigHolder.MainConfig.MainClock.FlowMinuteHand)
                 {
-                    if (bNoClockUpdate)
-                        return;
-                    if (lth.Latitude == 0 || lth.Longitude == 0)
-                        return;
-
-                    mContext.RunOnUiThread(() =>
+                    //floating hands
+                    trClock = new Thread(() =>
                     {
-                        skiaView.Invalidate();
+                        if (Looper.MyLooper() == null)
+                            Looper.Prepare();
+
+                        try
+                        {
+                            while (Thread.CurrentThread.IsAlive)
+                            {
+                                if (AppConfigHolder.MainConfig.MainClock.FlowSecondHand)
+                                    Thread.Sleep(1000 / 60);
+                                else if (lth.GetTime(this.TimeType).Millisecond > 800)
+                                    Thread.Sleep(1000 - lth.GetTime(this.TimeType).Millisecond);
+                                else
+                                    Thread.Sleep(1000 / 5);
+                                try
+                                {
+                                    if (bNoClockUpdate)
+                                        continue;
+                                    if (lth.Latitude == 0 || lth.Longitude == 0)
+                                        continue;
+                                    mContext.RunOnUiThread(() =>
+                                    {
+                                        skiaView.Invalidate();
+                                    });
+                                }
+                                catch { }
+                            }
+                        }
+                        catch { }
+                        finally
+                        {
+                            if (Equals(Thread.CurrentThread, trClock))
+                                trClock = null;
+                        }
                     });
-                });
+                    trClock.Start();
+
+                }
+                else
+                {
+                    //update every second
+                    lth.StartTimeChangedHandler(skiaView, this.TimeType, (s, e) =>
+                    {
+                        if (bNoClockUpdate)
+                            return;
+                        if (lth.Latitude == 0 || lth.Longitude == 0)
+                            return;
+
+                        mContext.RunOnUiThread(() =>
+                        {
+                            skiaView.Invalidate();
+                        });
+                    });
+                }
             }
             catch (Exception ex)
             {
                 ex.ToString();
             }
+        }
+
+        private void StopClockUpdates()
+        {
+            trClock?.Abort();
+            lth.AreaChanged -= Lth_AreaChanged;
+            lth.StopTimeChangedHandler(this);
+            lth.StopTimeChangedHandler(skiaView);
         }
 
         private void VClock_ClockFaceLoaded(object sender, EventArgs e)
@@ -248,13 +312,6 @@ namespace iChronoMe.Droid.GUI
             }
             else
                 tvOffset.Text = "";
-        }
-
-        private void StopClockUpdates()
-        {
-            lth.AreaChanged -= Lth_AreaChanged;
-            lth.StopTimeChangedHandler(this);
-            lth.StopTimeChangedHandler(skiaView);
         }
 
         double? nManualHour = null;
@@ -509,27 +566,36 @@ namespace iChronoMe.Droid.GUI
                     }
                 });
             }
-            unCheckAllMenuItems(navigationView.Menu);
+            else if (id == Resource.Id.clock_floating_hour)
+            {
+                AppConfigHolder.MainConfig.MainClock.FlowHourHand = !AppConfigHolder.MainConfig.MainClock.FlowHourHand;
+                AppConfigHolder.SaveMainConfig();
+
+                StopClockUpdates();
+                StartClockUpdates();
+                return true;
+            }
+            else if (id == Resource.Id.clock_floating_minute)
+            {
+                AppConfigHolder.MainConfig.MainClock.FlowMinuteHand = !AppConfigHolder.MainConfig.MainClock.FlowMinuteHand;
+                AppConfigHolder.SaveMainConfig();
+
+                StopClockUpdates();
+                StartClockUpdates();
+                return true;
+            }
+            else if (id == Resource.Id.clock_floating_second)
+            {
+                AppConfigHolder.MainConfig.MainClock.FlowSecondHand = !AppConfigHolder.MainConfig.MainClock.FlowSecondHand;
+                AppConfigHolder.SaveMainConfig();
+
+                StopClockUpdates();
+                StartClockUpdates();
+                return true;
+            }
+            navigationView.Selected = false;
             Drawer.CloseDrawer((int)GravityFlags.Right);
             return true;
-        }
-
-        private void unCheckAllMenuItems(IMenu menu)
-        {
-            int size = menu.Size();
-            for (int i = 0; i < size; i++)
-            {
-                IMenuItem item = menu.GetItem(i);
-                if (item.HasSubMenu)
-                {
-                    // Un check sub menu items
-                    unCheckAllMenuItems(item.SubMenu);
-                }
-                else
-                {
-                    item.SetChecked(false);
-                }
-            }
         }
 
         bool isFABOpen = false;
