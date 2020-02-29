@@ -221,7 +221,7 @@ namespace iChronoMe.Droid
         private static Task<int> tskScDlg { get { return tcsScDlg == null ? Task.FromResult(-1) : tcsScDlg.Task; } }
         private static TaskCompletionSource<int> tcsScDlg = null;
 
-        public static async Task<int> ShowSingleChoiseDlg(Context context, string title, string[] items, bool bAllowAbort = true)
+        public static async Task<int> ShowSingleChoiseDlg(Context context, string title, string[] items, bool allowAbort = true, string message = null)
         {
             if (context == null)
                 return -1;
@@ -233,10 +233,12 @@ namespace iChronoMe.Droid
                 try
                 {
                     var builder = new AlertDialog.Builder(context).SetTitle(title);
-                    if (bAllowAbort)
+                    if (allowAbort)
                         builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsScDlg.TrySetResult(-1); });
                     builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
                     builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    if (!string.IsNullOrEmpty(message))
+                        builder.SetMessage(message);
                     var dlg = builder.Create();
 
                     dlg.Show();

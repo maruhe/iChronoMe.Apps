@@ -29,8 +29,9 @@ using iChronoMe.Core.ViewModels;
 using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.ViewModels;
-
+using Java.Util;
 using Xamarin.Essentials;
+using Random = System.Random;
 
 namespace iChronoMe.Droid.GUI.Calendar
 {
@@ -85,14 +86,14 @@ namespace iChronoMe.Droid.GUI.Calendar
             schedule.ItemsSource = null;
 
             schedule.HeaderHeight = 0;
-            schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.javaDisplayStart), EndTime = nameof(CalendarEvent.javaDisplayEnd), IsAllDay = nameof(CalendarEvent.AllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.Description), Color = nameof(CalendarEvent.javaColor) };
+            schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.guiDisplayStart), EndTime = nameof(CalendarEvent.guiDisplayEnd), IsAllDay = nameof(CalendarEvent.guiAllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.Description), Color = nameof(CalendarEvent.javaColor) };
 
             schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
             schedule.CellTapped += Schedule_CellTapped;
             schedule.CellDoubleTapped += Schedule_CellDoubleTapped;
             schedule.MonthInlineAppointmentTapped += Schedule_MonthInlineAppointmentTapped;
             schedule.AppointmentDrop += Schedule_AppointmentDrop;
-            schedule.AppointmentDragStarting += Schedule_AppointmentDragStarting;
+            schedule.AppointmentDragOver += Schedule_AppointmentDragOver;
             schedule.AppointmentLoaded += Schedule_AppointmentLoaded;
 
             if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
@@ -114,14 +115,33 @@ namespace iChronoMe.Droid.GUI.Calendar
             return view;
         }
 
+        private void Schedule_AppointmentDragOver(object sender, AppointmentDragEventArgs e)
+        {
+            roundDraggingTime(e.DraggingTime);
+        }
+
+        private void roundDraggingTime(Java.Util.Calendar draggingTime, int intervallMinutes = 15)
+        {
+            int hour = draggingTime.Get(CalendarField.HourOfDay);
+            int minute = draggingTime.Get(CalendarField.Minute);
+            minute = (int)(Math.Round((float)minute / intervallMinutes, 0) * intervallMinutes);
+            if (minute >= 60)
+            {
+                hour++;
+                minute = 0;
+            }
+            draggingTime.Set(draggingTime.Get(CalendarField.Year),
+                draggingTime.Get(CalendarField.Month),
+                draggingTime.Get(CalendarField.DayOfMonth),
+                hour, minute, 0);
+
+            if (sys.Debugmode)
+                Activity.RunOnUiThread(() => { Activity.Title = hour + ":" + minute; });
+        }
+
         private void Schedule_AppointmentLoaded(object sender, AppointmentLoadedEventArgs e)
         {
             e.View?.ToString();
-        }
-
-        private void Schedule_AppointmentDragStarting(object sender, AppointmentDragStartingEventArgs e)
-        {
-            e.Cancel = false;
         }
 
         private void Schedule_AppointmentDrop(object sender, AppointmentDropEventArgs e)
@@ -130,30 +150,33 @@ namespace iChronoMe.Droid.GUI.Calendar
             if (e.Appointment is CalendarEvent)
             {
                 var calEvent = e.Appointment as CalendarEvent;
+                roundDraggingTime(e.DropTime);
                 var dropTime = sys.DateTimeFromJava(e.DropTime);
-                Task.Factory.StartNew(async () =>
+
+                calEvent.guiPropertiesChanged = (async () =>
                 {
                     try
                     {
                         var model = new CalendarEventEditViewModel(calEvent.ExternalID, Activity as IUserIO);
                         await model.WaitForReady();
 
-                        if (model.TimeType != calEvents.timeType)
+                        if (model.TimeType != calEvents.timeType && ! calEvent.AllDay)
                         {
-                            model.TimeType = calEvents.timeType;
-                            Tools.ShowToast(Context, "WARNING\n!!! event-time-type has been changed !!!");
+                            var items = new string[] { calEvent.DisplayStart.ToString("HH:mm") + " " + model.TimeType, calEvent.DisplayStart.ToString("HH:mm") + " " + calEvents.timeType };
+
+                            var go = await Tools.ShowSingleChoiseDlg(Activity, "choose a time-type", items);
+
+                            if (go < 0)
+                                return;
+
+                            if (go == 1)
+                            {
+                                model.TimeType = calEvents.timeType;
+                                Tools.ShowToast(Context, "event-time-type has been changed");
+                            }
                         }
 
-                        model.DisplayStart = dropTime;
-                        if (model.AllDay && model.DisplayStart.TimeOfDay.TotalHours != 0)
-                        {
-                            model.AllDay = false;
-                            model.DisplayEnd = model.DisplayStart.AddHours(2);
-                        }
-                        else if (!model.AllDay && model.DisplayStart.TimeOfDay.TotalHours == 0)
-                        {
-                            model.AllDay = true;
-                        }
+                        model.ChangeDisplayTime(calEvent.DisplayStart, calEvent.DisplayEnd, calEvent.AllDay);
 
                         if (!await model.SaveEvent())
                             Tools.ShowToast(Context, Resources.GetString(Resource.String.error_saving_event) + "\n" + model.ErrorText);
@@ -162,7 +185,10 @@ namespace iChronoMe.Droid.GUI.Calendar
                     {
                         sys.LogException(ex);
                     }
-                    LoadEvents();
+                    finally
+                    {
+                        LoadEvents();
+                    }
                 });
             }
         }
