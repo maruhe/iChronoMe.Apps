@@ -2,6 +2,8 @@
 
 using Android.OS;
 using Android.Views;
+using Android.Widget;
+using iChronoMe.Droid.Source.Adapters;
 
 namespace iChronoMe.Droid.GUI.Service
 {
@@ -11,11 +13,7 @@ namespace iChronoMe.Droid.GUI.Service
         {
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_service_about, container, false);
 
-            Task.Factory.StartNew(() =>
-            {
-                Task.Delay(250).Wait();
-                Tools.ShowToast(Context, "NotImplementedException");
-            });
+            RootView.FindViewById<ListView>(Resource.Id.lv_contributors).Adapter = new ContributorAdapter(Activity);
 
             return RootView;
         }

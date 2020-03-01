@@ -79,9 +79,11 @@
 	<string name="action_search_location">search for location</string>
 	<string name="search_hint">the hint so search ;-)</string>
 	<string name="action_save">save</string>
+	<string name="action_webpage">web-page</string>
 
 	<string name="error_saving_event">error saving event</string>
 
+	<string name="action_handtypes">hand types</string>
 	<string name="action_handcolors">hand colors</string>
 	<string name="action_tickmarks">tick marks</string>
 

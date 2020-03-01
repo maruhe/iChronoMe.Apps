@@ -521,6 +521,21 @@ namespace iChronoMe.Droid.GUI
                     })
                     .Create().Show();
             }
+            else if (id == Resource.Id.clock_HandTypes)
+            {
+                var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);
+
+                Task.Factory.StartNew(async () =>
+                {
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandType), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    if (cfg != null)
+                    {
+                        AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
+                        AppConfigHolder.SaveMainConfig();
+                        RefreshClockCfg();
+                    }
+                });
+            }
             else if (id == Resource.Id.clock_HandColors)
             {
                 var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);

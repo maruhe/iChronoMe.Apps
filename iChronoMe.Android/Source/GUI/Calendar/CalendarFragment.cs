@@ -117,7 +117,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void Schedule_AppointmentDragOver(object sender, AppointmentDragEventArgs e)
         {
-            roundDraggingTime(e.DraggingTime);
+            //roundDraggingTime(e.DraggingTime);
         }
 
         private void roundDraggingTime(Java.Util.Calendar draggingTime, int intervallMinutes = 15)
@@ -134,9 +134,6 @@ namespace iChronoMe.Droid.GUI.Calendar
                 draggingTime.Get(CalendarField.Month),
                 draggingTime.Get(CalendarField.DayOfMonth),
                 hour, minute, 0);
-
-            if (sys.Debugmode)
-                Activity.RunOnUiThread(() => { Activity.Title = hour + ":" + minute; });
         }
 
         private void Schedule_AppointmentLoaded(object sender, AppointmentLoadedEventArgs e)

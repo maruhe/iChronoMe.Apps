@@ -8,6 +8,9 @@
           android:id="@+id/clock_TimeType"
           android:title="@string/TimeType" />
 			<item
+          android:id="@+id/clock_HandTypes"
+          android:title="@string/action_handtypes" />
+			<item
           android:id="@+id/clock_HandColors"
           android:title="@string/action_handcolors" />
 			<item

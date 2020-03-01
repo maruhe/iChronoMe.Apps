@@ -23,6 +23,7 @@ using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Receivers;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid
 {
@@ -91,16 +92,16 @@ namespace iChronoMe.Droid
             var adapter = new ThemeAdapter(this);
             string title = bStartAssistantActive ? base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_theme_firsttime) : Resources.GetString(Resource.String.action_change_theme);
             var theme = await Tools.ShowSingleChoiseDlg(this, title, adapter, false);
+            if (bStartAssistantActive)
+            {
+                AppConfigHolder.MainConfig.InitScreenTheme = 1;
+                AppConfigHolder.SaveMainConfig();
+                SetAssistantDone();
+            }
             if (theme >= 0)
             {
                 AppConfigHolder.MainConfig.AppThemeName = adapter[theme].Text1;
                 AppConfigHolder.SaveMainConfig();
-                if (bStartAssistantActive)
-                {
-                    AppConfigHolder.MainConfig.InitScreenTheme = 1;
-                    AppConfigHolder.SaveMainConfig();
-                    SetAssistantDone();
-                }
                 RunOnUiThread(() => Recreate());
                 return;
             }
@@ -178,6 +179,7 @@ namespace iChronoMe.Droid
             return (AppConfigHolder.MainConfig.InitScreenTheme < 1 && (this is MainActivity)) ||
                 AppConfigHolder.MainConfig.InitScreenTimeType < 1 ||
                 AppConfigHolder.MainConfig.InitScreenPrivacy < 2 ||
+                AppConfigHolder.MainConfig.InitBaseDataDownload < 1 ||
                 AppConfigHolder.MainConfig.InitScreenPermission < 1 ||
                 AppConfigHolder.MainConfig.InitScreenUserLocation < 1;
         }
@@ -196,6 +198,8 @@ namespace iChronoMe.Droid
                 ShowInitScreen_PrivacyAssistant();
             else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 2)
                 ShowInitScreen_PrivacyNotice();
+            else if (AppConfigHolder.MainConfig.InitBaseDataDownload < 1)
+                InitBaseDataDownload();
             else if (AppConfigHolder.MainConfig.InitScreenPermission < 1)
                 ShowInitScreen_Permissions();
             else if (AppConfigHolder.MainConfig.InitScreenUserLocation < 1)
@@ -205,6 +209,17 @@ namespace iChronoMe.Droid
                 bStartAssistantActive = false;
                 RunOnUiThread(() => OnResume());
             }
+        }
+
+        private void InitBaseDataDownload()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                ClockHandConfig.CheckUpdateLocalData(this);
+                AppConfigHolder.MainConfig.InitBaseDataDownload = 1;
+                AppConfigHolder.SaveMainConfig();
+                SetAssistantDone();
+            });
         }
 
         public void ShowInitScreen_TimeType()

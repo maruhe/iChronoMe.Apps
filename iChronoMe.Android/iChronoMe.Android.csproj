@@ -83,6 +83,8 @@
   <ItemGroup>
     <Compile Include="Source\Adapters\CalendarEventLocationAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventTitleAdapter.cs" />
+    <Compile Include="Source\Adapters\ContributorAdapter.cs" />
+    <Compile Include="Source\Adapters\ExpandableMenuAdapter.cs" />
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
@@ -982,6 +984,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap\inspired.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_contributor.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

@@ -34,7 +34,7 @@ namespace iChronoMe.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(savedInstanceState); 
 
             try
             {
@@ -59,7 +59,7 @@ namespace iChronoMe.Droid
                 {
                     iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
                     blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
-                }
+                }               
 
                 Task.Factory.StartNew(() =>
                 {
@@ -199,7 +199,7 @@ namespace iChronoMe.Droid
                     }
                     else if (id == Resource.Id.nav_about)
                     {
-#if DEBUG
+#if DExxBUG
                         fr = new DebugFragment();
 #else
                     fr = new AboutFragment();
