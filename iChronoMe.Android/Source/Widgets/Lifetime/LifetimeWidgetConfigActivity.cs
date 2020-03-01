@@ -11,7 +11,7 @@ using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataModels;
-
+using iChronoMe.Widgets;
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.Widgets.Lifetime

@@ -10,6 +10,7 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.GUI.Dialogs;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.ViewModels
 {

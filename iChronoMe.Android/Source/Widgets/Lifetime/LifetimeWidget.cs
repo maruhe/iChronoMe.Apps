@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
 {

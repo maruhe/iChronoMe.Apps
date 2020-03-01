@@ -75,8 +75,15 @@ namespace iChronoMe.Droid.GUI
 
         public void SetProgressDone()
         {
-            if (this.Dialog != null)
-                MainThread.BeginInvokeOnMainThread(() => this.Dialog.Cancel());
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    if (this.Dialog != null)
+                        this.Dialog.Cancel();
+                }
+                catch { }
+            });
         }
     }
 }

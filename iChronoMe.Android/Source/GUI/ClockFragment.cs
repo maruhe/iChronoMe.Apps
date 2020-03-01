@@ -20,7 +20,7 @@ using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Widgets;
-
+using SkiaSharp;
 using SkiaSharp.Views.Android;
 
 using Xamarin.Essentials;
@@ -38,6 +38,8 @@ namespace iChronoMe.Droid.GUI
         private ImageView imgTZ;
         private ImageView imgClockBack;
         private SKCanvasView skiaView;
+        private WidgetConfigHolder cfgHolder;
+        private WidgetCfg_ClockAnalog clockCfg;
         private WidgetView_ClockAnalog vClock;
         private AppCompatActivity mContext = null;
         private LocationTimeHolder lth;
@@ -54,6 +56,13 @@ namespace iChronoMe.Droid.GUI
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             mContext = (AppCompatActivity)container.Context;
+
+            cfgHolder = new WidgetConfigHolder("InAppClocks.cfg");
+            clockCfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-1, false);
+            if (clockCfg == null)
+                clockCfg = new WidgetCfg_ClockAnalog() { 
+                    ShowSeconds = true, FlowHourHand = true, FlowMinuteHand = false, FlowSecondHand = false,
+                    TickMarkStyle = TickMarkStyle.Circle};
 
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_clock, container, false);
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
@@ -142,7 +151,7 @@ namespace iChronoMe.Droid.GUI
 
                 mContext.RunOnUiThread(() =>
                 {
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    vClock.ReadConfig(clockCfg);
                     skiaView.Invalidate();
                 });
             })
@@ -150,7 +159,7 @@ namespace iChronoMe.Droid.GUI
             {
                 mContext.RunOnUiThread(() =>
                 {
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    vClock.ReadConfig(clockCfg);
                     nManualHour = nManualMinute = nManualSecond = null;
                     bNoClockUpdate = false;
                 });
@@ -188,9 +197,9 @@ namespace iChronoMe.Droid.GUI
                 mContext.RunOnUiThread(() =>
                 {
                     fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth));
-                    navigationView.Menu.FindItem(Resource.Id.clock_floating_hour).SetChecked(AppConfigHolder.MainConfig.MainClock.ShowSeconds);
-                    navigationView.Menu.FindItem(Resource.Id.clock_floating_minute).SetChecked(AppConfigHolder.MainConfig.MainClock.FlowMinuteHand);
-                    navigationView.Menu.FindItem(Resource.Id.clock_floating_second).SetChecked(AppConfigHolder.MainConfig.MainClock.FlowSecondHand);
+                    navigationView.Menu.FindItem(Resource.Id.clock_floating_hour).SetChecked(clockCfg.ShowSeconds);
+                    navigationView.Menu.FindItem(Resource.Id.clock_floating_minute).SetChecked(clockCfg.FlowMinuteHand);
+                    navigationView.Menu.FindItem(Resource.Id.clock_floating_second).SetChecked(clockCfg.FlowSecondHand);
                 });
 
                 lth.StartTimeChangedHandler(this, TimeType.RealSunTime, (s, e) =>
@@ -206,7 +215,7 @@ namespace iChronoMe.Droid.GUI
                     mContext.RunOnUiThread(() => UpdateTime(lTime3, lTimeInfo3, TimeType.TimeZoneTime));
                 });
 
-                if (AppConfigHolder.MainConfig.MainClock.FlowSecondHand || AppConfigHolder.MainConfig.MainClock.FlowMinuteHand)
+                if (clockCfg.FlowSecondHand || clockCfg.FlowMinuteHand)
                 {
                     //floating hands
                     trClock = new Thread(() =>
@@ -218,7 +227,7 @@ namespace iChronoMe.Droid.GUI
                         {
                             while (Thread.CurrentThread.IsAlive)
                             {
-                                if (AppConfigHolder.MainConfig.MainClock.FlowSecondHand)
+                                if (clockCfg.FlowSecondHand)
                                     Thread.Sleep(1000 / 60);
                                 else if (lth.GetTime(this.TimeType).Millisecond > 800)
                                     Thread.Sleep(1000 - lth.GetTime(this.TimeType).Millisecond);
@@ -393,15 +402,15 @@ namespace iChronoMe.Droid.GUI
 
         private void RefreshClockCfg()
         {
-            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+            vClock.ReadConfig(clockCfg);
             Activity.RunOnUiThread(() =>
             {
                 try
                 {
                     imgClockBack.SetImageURI(null);
-                    if (!string.IsNullOrEmpty(AppConfigHolder.MainConfig.MainClock.BackgroundImage))
+                    if (!string.IsNullOrEmpty(clockCfg.BackgroundImage))
                     {
-                        string cFile = vClock.GetClockFacePng(AppConfigHolder.MainConfig.MainClock.BackgroundImage, ClockSize);
+                        string cFile = vClock.GetClockFacePng(clockCfg.BackgroundImage, ClockSize);
                         imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
                     }
                 }
@@ -421,6 +430,9 @@ namespace iChronoMe.Droid.GUI
         }
 
         const int menu_options = 1001;
+        const int menu_debug_hour_path = 1201;
+        const int menu_debug_minute_path = 1202;
+        const int menu_debug_second_path = 1203;
 
         public override void OnPrepareOptionsMenu(IMenu menu)
         {
@@ -430,6 +442,21 @@ namespace iChronoMe.Droid.GUI
             item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_services, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
             item.SetShowAsAction(ShowAsAction.IfRoom);
             item.SetOnMenuItemClickListener(this);
+
+#if DEBUG
+            var sub = menu.AddSubMenu(0, 0, 0, "Debug");
+            sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+            sub.Item.SetShowAsAction(ShowAsAction.Always);
+
+            item = sub.Add(0, menu_debug_hour_path, 0, "hour path");
+            item.SetOnMenuItemClickListener(this);
+
+            item = sub.Add(0, menu_debug_minute_path, 0, "minute path");
+            item.SetOnMenuItemClickListener(this);
+
+            item = sub.Add(0, menu_debug_second_path, 0, "second path");
+            item.SetOnMenuItemClickListener(this);
+#endif
         }
 
         public bool OnMenuItemClick(IMenuItem item)
@@ -440,6 +467,68 @@ namespace iChronoMe.Droid.GUI
                     Drawer.CloseDrawer((int)GravityFlags.Right);
                 else
                     Drawer.OpenDrawer((int)GravityFlags.Right);
+            }
+
+            if (item.ItemId == menu_debug_hour_path ||
+                item.ItemId == menu_debug_minute_path ||
+                item.ItemId == menu_debug_second_path)
+            {
+
+                var view = LayoutInflater.Inflate(Resource.Layout.debug_clockhand_edit, null);
+                var ePath = view.FindViewById<EditText>(Resource.Id.debug_handpath);
+                var eStroke = view.FindViewById<EditText>(Resource.Id.debug_strokewidth);
+                var eOffX = view.FindViewById<EditText>(Resource.Id.debug_offset_x);
+                var eOffY = view.FindViewById<EditText>(Resource.Id.debug_offset_y);
+
+                if (item.ItemId == menu_debug_hour_path)
+                {
+                    ePath.Text = clockCfg.ClockHandConfig.HourPath;
+                    eStroke.Text = clockCfg.ClockHandConfig.HourStorkeWidth.ToString();
+                    eOffX.Text = clockCfg.ClockHandConfig.HourOffsetX.ToString();
+                    eOffY.Text = clockCfg.ClockHandConfig.HourOffsetY.ToString();
+                }
+                else if (item.ItemId == menu_debug_minute_path)
+                {
+                    ePath.Text = clockCfg.ClockHandConfig.MinutePath;
+                    eStroke.Text = clockCfg.ClockHandConfig.MinuteStorkeWidth.ToString();
+                    eOffX.Text = clockCfg.ClockHandConfig.MinuteOffsetX.ToString();
+                    eOffY.Text = clockCfg.ClockHandConfig.MinuteOffsetY.ToString();
+                }
+                else if (item.ItemId == menu_debug_second_path)
+                {
+                    ePath.Text = clockCfg.ClockHandConfig.SecondPath;
+                    eStroke.Text = clockCfg.ClockHandConfig.SecondStorkeWidth.ToString();
+                    eOffX.Text = clockCfg.ClockHandConfig.SecondOffsetX.ToString();
+                    eOffY.Text = clockCfg.ClockHandConfig.SecondOffsetY.ToString();
+                }
+            
+                var dlg = new AlertDialog.Builder(Context)
+                    .SetTitle("PathEditor")
+                    .SetView(view)
+                    .SetPositiveButton(Resource.String.action_save, (s, e) => {
+
+                        if (item.ItemId == menu_debug_hour_path)
+                        {
+                            vClock.hourHandPath = SKPath.ParseSvgPathData(ePath.Text);
+                            vClock.hourHandStrokeWidth = int.Parse(eStroke.Text);
+                            vClock.hourHandStart = new System.Drawing.Point(int.Parse(eOffX.Text), int.Parse(eOffY.Text));
+                        }
+                        else if (item.ItemId == menu_debug_minute_path)
+                        {
+                            vClock.minuteHandPath = SKPath.ParseSvgPathData(ePath.Text);
+                            vClock.minuteHandStrokeWidth = int.Parse(eStroke.Text);
+                            vClock.minuteHandStart = new System.Drawing.Point(int.Parse(eOffX.Text), int.Parse(eOffY.Text));
+                        }
+                        else if (item.ItemId == menu_debug_second_path)
+                        {
+                            vClock.secondHandPath = SKPath.ParseSvgPathData(ePath.Text);
+                            vClock.secondHandStrokeWidth = int.Parse(eStroke.Text);
+                            vClock.secondHandStart = new System.Drawing.Point(int.Parse(eOffX.Text), int.Parse(eOffY.Text));
+                        }
+
+                    });
+
+                dlg.Show();
             }
 
             return true;
@@ -501,7 +590,7 @@ namespace iChronoMe.Droid.GUI
 
                             mContext.RunOnUiThread(() =>
                             {
-                                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                vClock.ReadConfig(clockCfg);
                                 skiaView.Invalidate();
                             });
                         })
@@ -509,7 +598,7 @@ namespace iChronoMe.Droid.GUI
                         {
                             mContext.RunOnUiThread(() =>
                             {
-                                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                vClock.ReadConfig(clockCfg);
                                 nManualHour = nManualMinute = nManualSecond = null;
                                 bNoClockUpdate = false;
                             });
@@ -527,11 +616,11 @@ namespace iChronoMe.Droid.GUI
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandType), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandType), clockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
-                        AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
-                        AppConfigHolder.SaveMainConfig();
+                        clockCfg = cfg.GetConfigClone();
+                        cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
                 });
@@ -542,11 +631,11 @@ namespace iChronoMe.Droid.GUI
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandColorType), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_HandColorType), clockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
-                        AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
-                        AppConfigHolder.SaveMainConfig();
+                        clockCfg = cfg.GetConfigClone();
+                        cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
                 });
@@ -557,11 +646,11 @@ namespace iChronoMe.Droid.GUI
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_TickMarks), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_TickMarks), clockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
-                        AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
-                        AppConfigHolder.SaveMainConfig();
+                        clockCfg = cfg.GetConfigClone();
+                        cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
                 });
@@ -572,19 +661,19 @@ namespace iChronoMe.Droid.GUI
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), AppConfigHolder.MainConfig.MainClock, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), clockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
-                        AppConfigHolder.MainConfig.MainClock = cfg.GetConfigClone();
-                        AppConfigHolder.SaveMainConfig();
+                        clockCfg = cfg.GetConfigClone();
+                        cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
                 });
             }
             else if (id == Resource.Id.clock_floating_hour)
             {
-                AppConfigHolder.MainConfig.MainClock.FlowHourHand = !AppConfigHolder.MainConfig.MainClock.FlowHourHand;
-                AppConfigHolder.SaveMainConfig();
+                clockCfg.FlowHourHand = !clockCfg.FlowHourHand;
+                cfgHolder.SetWidgetCfg(clockCfg, -1);
 
                 StopClockUpdates();
                 StartClockUpdates();
@@ -592,8 +681,8 @@ namespace iChronoMe.Droid.GUI
             }
             else if (id == Resource.Id.clock_floating_minute)
             {
-                AppConfigHolder.MainConfig.MainClock.FlowMinuteHand = !AppConfigHolder.MainConfig.MainClock.FlowMinuteHand;
-                AppConfigHolder.SaveMainConfig();
+                clockCfg.FlowMinuteHand = !clockCfg.FlowMinuteHand;
+                cfgHolder.SetWidgetCfg(clockCfg, -1);
 
                 StopClockUpdates();
                 StartClockUpdates();
@@ -601,8 +690,8 @@ namespace iChronoMe.Droid.GUI
             }
             else if (id == Resource.Id.clock_floating_second)
             {
-                AppConfigHolder.MainConfig.MainClock.FlowSecondHand = !AppConfigHolder.MainConfig.MainClock.FlowSecondHand;
-                AppConfigHolder.SaveMainConfig();
+                clockCfg.FlowSecondHand = !clockCfg.FlowSecondHand;
+                cfgHolder.SetWidgetCfg(clockCfg, -1);
 
                 StopClockUpdates();
                 StartClockUpdates();
@@ -693,7 +782,7 @@ namespace iChronoMe.Droid.GUI
 
                 mContext.RunOnUiThread(() =>
                 {
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    vClock.ReadConfig(clockCfg);
                     skiaView.Invalidate();
                 });
             })
@@ -701,7 +790,7 @@ namespace iChronoMe.Droid.GUI
             {
                 mContext.RunOnUiThread(() =>
                 {
-                    vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                    vClock.ReadConfig(clockCfg);
                     nManualHour = nManualMinute = nManualSecond = null;
                     bNoClockUpdate = false;
                 });
@@ -762,7 +851,7 @@ namespace iChronoMe.Droid.GUI
 
                         mContext.RunOnUiThread(() =>
                         {
-                            vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                            vClock.ReadConfig(clockCfg);
                             skiaView.Invalidate();
                         });
                     })
@@ -839,7 +928,7 @@ namespace iChronoMe.Droid.GUI
 
                                     mContext.RunOnUiThread(() =>
                                     {
-                                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                        vClock.ReadConfig(clockCfg);
                                         skiaView.Invalidate();
                                     });
                                 })
@@ -1003,7 +1092,7 @@ namespace iChronoMe.Droid.GUI
 
                                     mContext.RunOnUiThread(() =>
                                     {
-                                        vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                        vClock.ReadConfig(clockCfg);
                                         skiaView.Invalidate();
                                     });
                                 })
@@ -1079,7 +1168,7 @@ namespace iChronoMe.Droid.GUI
 
                             mContext.RunOnUiThread(() =>
                             {
-                                vClock.ReadConfig(AppConfigHolder.MainConfig.MainClock);
+                                vClock.ReadConfig(clockCfg);
                                 skiaView.Invalidate();
                             });
                         })

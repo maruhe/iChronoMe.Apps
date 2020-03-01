@@ -242,6 +242,8 @@ namespace iChronoMe.Droid.Widgets
                         .SetColorShape(ColorShape.Circle)
                         .SetShowAlphaSlider(allowAlpha)
                         .SetDialogTitle(title);
+            if (current.HasValue)
+                clrDlg.SetColor(current.Value.ToAndroid());
 
             var clr = await clrDlg.ShowAsyncNullable(mContext);
             if (clr.HasValue)

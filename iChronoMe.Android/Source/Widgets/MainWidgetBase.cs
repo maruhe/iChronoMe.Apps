@@ -12,6 +12,7 @@ using Android.OS;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets
 {

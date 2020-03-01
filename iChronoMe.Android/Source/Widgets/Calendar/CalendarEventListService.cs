@@ -15,7 +15,7 @@ using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.DeviceCalendar;
-
+using iChronoMe.Widgets;
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets.Calendar

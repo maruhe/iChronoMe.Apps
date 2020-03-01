@@ -13,7 +13,7 @@ namespace iChronoMe.Droid
     }
 }
 /*
- * 
+ * ds
  * 
  * 
             var llColorList = new LinearLayout(this) { Orientation = Orientation.Vertical };

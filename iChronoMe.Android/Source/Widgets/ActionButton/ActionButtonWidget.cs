@@ -8,6 +8,7 @@ using Android.Graphics;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.ActionButton
 {

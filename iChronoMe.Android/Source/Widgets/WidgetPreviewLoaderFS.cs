@@ -8,6 +8,8 @@ using Android.OS;
 using Android.Views;
 
 using iChronoMe.Core.Classes;
+using iChronoMe.Widgets;
+
 namespace iChronoMe.Droid.Widgets
 {
     public class WidgetPreviewLoaderFS : AsyncTask<object, int, bool>
