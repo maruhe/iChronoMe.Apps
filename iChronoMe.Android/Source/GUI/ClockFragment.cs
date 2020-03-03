@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Android.Content;
+using Android.Graphics.Drawables;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
@@ -34,9 +35,8 @@ namespace iChronoMe.Droid.GUI
         private DrawerLayout Drawer;
         NavigationView navigationView;
         private CoordinatorLayout coordinator;
-        private TextView lTitle, lGeoPos, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3;
-        private ImageView imgTZ;
-        private ImageView imgClockBack;
+        private TextView lTitle, lGeoPos, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3, lDeviceTimeInfo;
+        private ImageView imgTZ, imgClockBack, imgClockBackClr, imgDeviceTime;
         private SKCanvasView skiaView;
         private WidgetConfigHolder cfgHolder;
         private WidgetCfg_ClockAnalog clockCfg;
@@ -68,11 +68,15 @@ namespace iChronoMe.Droid.GUI
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
             Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             imgClockBack = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background);
+            imgClockBackClr = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background_color);
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             skiaView.PaintSurface += skiaView_OnPaintSurface;
 
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
             lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
+
+            imgDeviceTime = RootView.FindViewById<ImageView>(Resource.Id.img_device_time);
+            lDeviceTimeInfo = RootView.FindViewById<TextView>(Resource.Id.text_device_time_info);
 
             RootView.FindViewById<TextView>(Resource.Id.title).Visibility = ViewStates.Gone;
             lTime1 = RootView.FindViewById<TextView>(Resource.Id.time_rdt);
@@ -196,6 +200,7 @@ namespace iChronoMe.Droid.GUI
 
                 mContext.RunOnUiThread(() =>
                 {
+                    RefreshDeviceTimeInfo();
                     fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth));
                     navigationView.Menu.FindItem(Resource.Id.clock_floating_hour).SetChecked(clockCfg.ShowSeconds);
                     navigationView.Menu.FindItem(Resource.Id.clock_floating_minute).SetChecked(clockCfg.FlowMinuteHand);
@@ -241,6 +246,7 @@ namespace iChronoMe.Droid.GUI
                                         continue;
                                     mContext.RunOnUiThread(() =>
                                     {
+                                        RefreshDeviceTimeInfo();
                                         skiaView.Invalidate();
                                     });
                                 }
@@ -269,7 +275,10 @@ namespace iChronoMe.Droid.GUI
 
                         mContext.RunOnUiThread(() =>
                         {
+                            RefreshDeviceTimeInfo();
                             skiaView.Invalidate();
+                            if (sys.Debugmode)
+                                this.lTitle.Text = lth.AreaName + "\n" + vClock.PerformanceInfo;
                         });
                     });
                 }
@@ -278,6 +287,40 @@ namespace iChronoMe.Droid.GUI
             {
                 ex.ToString();
             }
+        }
+
+
+        TimeHolder.TimeHolderState? lstTimeHolderStart = null;
+        TimeSpan? lstNtpDiff = null;
+        private void RefreshDeviceTimeInfo()
+        {
+            if (Equals(lstTimeHolderStart, TimeHolder.State) && Equals(lstNtpDiff, TimeHolder.mLastNtpDiff))
+                return;
+            lstTimeHolderStart = TimeHolder.State;
+            lstNtpDiff = TimeHolder.mLastNtpDiff;
+
+            string cText = "???";
+            GradientDrawable gd = new GradientDrawable();
+            gd.SetShape(ShapeType.Rectangle);
+            gd.SetCornerRadius(15.0f);
+            //gd.SetStroke(2, clrStroke);
+            if (TimeHolder.State == TimeHolder.TimeHolderState.Init)
+            {
+                gd.SetColor(xColor.MaterialBlue.ToAndroid());
+                cText = "timesync...";
+            }
+            else if (TimeHolder.State == TimeHolder.TimeHolderState.Synchron)
+            {
+                gd.SetColor(xColor.MaterialGreen.ToAndroid());
+                cText = "device offset: "+TimeHolder.mLastNtpDiff.ToDynamicString();
+            }
+            else
+            {
+                gd.SetColor(xColor.MaterialRed.ToAndroid());
+                cText = "device time is out of sync!!";
+            }
+            imgDeviceTime.SetImageDrawable(gd);
+            lDeviceTimeInfo.Text = cText;
         }
 
         private void StopClockUpdates()
@@ -413,6 +456,11 @@ namespace iChronoMe.Droid.GUI
                         string cFile = vClock.GetClockFacePng(clockCfg.BackgroundImage, ClockSize);
                         imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
                     }
+                    imgClockBackClr.SetImageDrawable(null);
+                    if (vClock.ColorBackground.A > 0)
+                    {
+                        imgClockBackClr.SetImageDrawable(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.circle_shape_max, vClock.ColorBackground.ToAndroid()));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -479,7 +527,7 @@ namespace iChronoMe.Droid.GUI
                 var eStroke = view.FindViewById<EditText>(Resource.Id.debug_strokewidth);
                 var eOffX = view.FindViewById<EditText>(Resource.Id.debug_offset_x);
                 var eOffY = view.FindViewById<EditText>(Resource.Id.debug_offset_y);
-
+                /*
                 if (item.ItemId == menu_debug_hour_path)
                 {
                     ePath.Text = clockCfg.ClockHandConfig.HourPath;
@@ -527,8 +575,8 @@ namespace iChronoMe.Droid.GUI
                         }
 
                     });
-
                 dlg.Show();
+                    */
             }
 
             return true;
@@ -1017,7 +1065,7 @@ namespace iChronoMe.Droid.GUI
 
                     //stop location-updates after some time
                     if (tStopLocationUpdates < DateTime.MaxValue)
-                        tStopLocationUpdates = DateTime.Now.AddSeconds(30);
+                        tStopLocationUpdates = DateTime.Now.AddSeconds(15);
                     {
                         if (tskStopLocationUpdates == null)
                         {

@@ -16,7 +16,12 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:text="this app is contributed by:"
+        android:text=" "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="controbutors:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

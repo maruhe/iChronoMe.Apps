@@ -13,7 +13,6 @@ namespace iChronoMe.Droid
     {
         /*
          Shortcuts:
-
             create_calender_event
             create_alarm
          */

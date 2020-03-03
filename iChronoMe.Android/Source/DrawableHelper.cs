@@ -60,7 +60,7 @@ namespace iChronoMe.Droid
                     context.Theme.ToString();
 
                 var mDrawable = ContextCompat.GetDrawable(context, drawableRes);
-                if (!(mDrawable is VectorDrawable) || ColoredIcons.Contains(drawableRes))
+                if ((!(mDrawable is VectorDrawable) && !(mDrawable is GradientDrawable)) || ColoredIcons.Contains(drawableRes))
                     return mDrawable;
 
                 try

@@ -31,6 +31,25 @@
                     android:layout_height="wrap_content"
                     android:text="init..."/>
 
+                <LinearLayout
+                    android:id="@+id/ll_device_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_device_time"
+                        android:layout_width="@dimen/image_size_text"
+                        android:layout_height="@dimen/image_size_text"/>
+
+                    <TextView
+                        android:id="@+id/text_device_time_info"
+                        android:text="init..."
+                        android:paddingStart="@dimen/frame_padding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
             </LinearLayout>
             <ImageButton
                 android:id="@+id/btn_locate"
@@ -62,6 +81,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+            <ImageView
+                android:id="@+id/img_clock_background_color"
+                android:layout_margin="5dp"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
             <ImageView
                 android:id="@+id/img_clock_background"
                 android:layout_margin="5dp"
