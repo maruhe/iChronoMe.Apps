@@ -28,6 +28,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             base.OnCreate();
 
             SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
+            lth = LocationTimeHolder.LocalInstance;
         }
 
         public static bool ResetData = false;
@@ -48,7 +49,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
         }
 
         static Dictionary<int, Thread> RunningTaskS = new Dictionary<int, Thread>();
-        public static LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
+        public static LocationTimeHolder lth;
 
         protected override void OnHandleWork(Intent intent)
         {

@@ -88,6 +88,7 @@
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
+    <Compile Include="Source\Controls\FlowLayout.cs" />
     <Compile Include="Source\Controls\TitleBarSpinner.cs" />
     <Compile Include="Source\DrawableHelper.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerClockReceiverActivity.cs" />

@@ -1,14 +1,125 @@
-﻿using Android.App;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Android.App;
 using Android.OS;
+using Android.Widget;
+using iChronoMe.Core.Classes;
+using iChronoMe.Core.Types;
+using iChronoMe.Droid.Controls;
+using iChronoMe.Widgets;
+using SkiaSharp.Views.Android;
 
 namespace iChronoMe.Droid
 {
     [Activity(Label = "TestActivity")]
     public class TestActivity : Activity
     {
+        DateTime tNow = DateTime.Now;
+        Dictionary<string, WidgetView_ClockAnalog> configS = new Dictionary<string, WidgetView_ClockAnalog>();
+        List<SKCanvasView> skViewS = new List<SKCanvasView>();
+        
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            var view = new LinearLayout(this);
+            view.Orientation = Orientation.Vertical;
+            string cImageDir = ImageLoader.GetImagePathThumb(ImageLoader.filter_clockfaces);
+            var cGroups = new List<string>(Directory.GetDirectories(cImageDir));
+            cGroups.Sort();
+            foreach (string cGroup in cGroups)
+            {
+                view.AddView(new TextView(this) { Text = Path.GetFileName(cGroup) });
+                FlowLayout flow = new FlowLayout(this);
+                string[] cFiles = Directory.GetFiles(cGroup, "*.png");
+                foreach (string cFile in cFiles)
+                {
+
+                    //view.AddView(new TextView(this) { Text = Path.GetFileName(cFile) });
+
+                    WidgetCfg_ClockAnalog cfg = new WidgetCfg_ClockAnalog();
+                    cfg.BackgroundImage = cFile;
+                    cfg.ColorBackground = xColor.Transparent;
+                    cfg.ColorTickMarks = xColor.Transparent;
+
+                    cfg.CheckSampleSmooth(true);
+
+                    string cDefaultHands = ClockHandConfig.GetDefaultID(Path.GetFileNameWithoutExtension(cfg.BackgroundImage));
+                    if (!string.IsNullOrEmpty(cDefaultHands))
+                    {
+                        cfg.AllHandConfigID = cDefaultHands;
+                        cfg.SetDefaultColors();
+                    }
+
+                    cfg.ShowSeconds = true;
+                    cfg.FlowMinuteHand = true;
+                    cfg.FlowSecondHand = false;
+
+                    WidgetView_ClockAnalog vClock = new WidgetView_ClockAnalog();
+                    vClock.ReadConfig(cfg);
+
+                    configS[cFile] = vClock;
+
+                    SKCanvasView skView = new SKCanvasView(this);
+                    skView.Tag = cFile;
+                    skView.PaintSurface += SkView_PaintSurface;
+
+                    skViewS.Add(skView);
+
+                    flow.AddView(skView, 660, 660);
+                }
+                view.AddView(flow);
+            }
+
+            var scroll = new ScrollView(this);
+            scroll.AddView(view, new ScrollView.LayoutParams(ScrollView.LayoutParams.MatchParent, ScrollView.LayoutParams.WrapContent));
+
+            SetContentView(scroll);
+        }
+
+        bool bRunning = false;
+        protected override void OnResume()
+        {
+            base.OnResume();
+            bRunning = true;
+
+            Task.Factory.StartNew(() =>
+            {
+                while (bRunning)
+                {
+                    Task.Delay(1000/60).Wait();
+                    //tNow = tNow.AddMilliseconds(250);
+                    tNow = DateTime.Now;
+
+                    RunOnUiThread(() =>
+                    {
+                        foreach (var v in skViewS)
+                            v.Invalidate();
+                    });
+                }
+            });
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            bRunning = false;
+        }
+
+        private void SkView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+            if (sender is SKCanvasView)
+            {
+                if (!string.IsNullOrEmpty((string)(sender as SKCanvasView).Tag))
+                {
+                    var vClockv = configS[(string)(sender as SKCanvasView).Tag];
+
+                    vClockv.DrawCanvas(e.Surface.Canvas, tNow, e.Info.Width, e.Info.Height, true);
+
+                }
+            }
         }
     }
 }

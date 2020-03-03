@@ -7687,14 +7687,14 @@ namespace iChronoMe.Droid
 			// aapt resource value: 0x7F090196
 			public const int text2 = 2131296662;
 			
-			// aapt resource value: 0x7F0901A0
-			public const int textinput_counter = 2131296672;
-			
 			// aapt resource value: 0x7F0901A1
-			public const int textinput_error = 2131296673;
+			public const int textinput_counter = 2131296673;
 			
 			// aapt resource value: 0x7F0901A2
-			public const int textinput_helper_text = 2131296674;
+			public const int textinput_error = 2131296674;
+			
+			// aapt resource value: 0x7F0901A3
+			public const int textinput_helper_text = 2131296675;
 			
 			// aapt resource value: 0x7F090197
 			public const int textSpacerNoButtons = 2131296663;
@@ -7712,190 +7712,193 @@ namespace iChronoMe.Droid
 			public const int textView1 = 2131296667;
 			
 			// aapt resource value: 0x7F09019C
-			public const int text_clock_area = 2131296668;
+			public const int textView2 = 2131296668;
 			
 			// aapt resource value: 0x7F09019D
-			public const int text_clock_location = 2131296669;
+			public const int text_clock_area = 2131296669;
 			
 			// aapt resource value: 0x7F09019E
-			public const int text_device_time_info = 2131296670;
+			public const int text_clock_location = 2131296670;
 			
 			// aapt resource value: 0x7F09019F
-			public const int text_input_password_toggle = 2131296671;
+			public const int text_device_time_info = 2131296671;
 			
-			// aapt resource value: 0x7F0901A3
-			public const int tiEnd = 2131296675;
-			
-			// aapt resource value: 0x7F0901A5
-			public const int time = 2131296677;
-			
-			// aapt resource value: 0x7F0901A6
-			public const int timePickerEnd = 2131296678;
-			
-			// aapt resource value: 0x7F0901A7
-			public const int timePickerStart = 2131296679;
-			
-			// aapt resource value: 0x7F0901AF
-			public const int timezone = 2131296687;
-			
-			// aapt resource value: 0x7F0901A8
-			public const int time_mst = 2131296680;
-			
-			// aapt resource value: 0x7F0901A9
-			public const int time_offset_mst = 2131296681;
-			
-			// aapt resource value: 0x7F0901AA
-			public const int time_offset_rdt = 2131296682;
-			
-			// aapt resource value: 0x7F0901AB
-			public const int time_offset_tzt = 2131296683;
-			
-			// aapt resource value: 0x7F0901AC
-			public const int time_rdt = 2131296684;
-			
-			// aapt resource value: 0x7F0901AD
-			public const int time_switcher = 2131296685;
-			
-			// aapt resource value: 0x7F0901AE
-			public const int time_tzt = 2131296686;
+			// aapt resource value: 0x7F0901A0
+			public const int text_input_password_toggle = 2131296672;
 			
 			// aapt resource value: 0x7F0901A4
-			public const int tiStart = 2131296676;
+			public const int tiEnd = 2131296676;
+			
+			// aapt resource value: 0x7F0901A6
+			public const int time = 2131296678;
+			
+			// aapt resource value: 0x7F0901A7
+			public const int timePickerEnd = 2131296679;
+			
+			// aapt resource value: 0x7F0901A8
+			public const int timePickerStart = 2131296680;
 			
 			// aapt resource value: 0x7F0901B0
-			public const int title = 2131296688;
+			public const int timezone = 2131296688;
+			
+			// aapt resource value: 0x7F0901A9
+			public const int time_mst = 2131296681;
+			
+			// aapt resource value: 0x7F0901AA
+			public const int time_offset_mst = 2131296682;
+			
+			// aapt resource value: 0x7F0901AB
+			public const int time_offset_rdt = 2131296683;
+			
+			// aapt resource value: 0x7F0901AC
+			public const int time_offset_tzt = 2131296684;
+			
+			// aapt resource value: 0x7F0901AD
+			public const int time_rdt = 2131296685;
+			
+			// aapt resource value: 0x7F0901AE
+			public const int time_switcher = 2131296686;
+			
+			// aapt resource value: 0x7F0901AF
+			public const int time_tzt = 2131296687;
+			
+			// aapt resource value: 0x7F0901A5
+			public const int tiStart = 2131296677;
 			
 			// aapt resource value: 0x7F0901B1
-			public const int titleDividerNoCustom = 2131296689;
+			public const int title = 2131296689;
 			
 			// aapt resource value: 0x7F0901B2
-			public const int title_template = 2131296690;
+			public const int titleDividerNoCustom = 2131296690;
 			
 			// aapt resource value: 0x7F0901B3
-			public const int title_text = 2131296691;
+			public const int title_template = 2131296691;
 			
 			// aapt resource value: 0x7F0901B4
-			public const int toolbar = 2131296692;
+			public const int title_text = 2131296692;
 			
 			// aapt resource value: 0x7F0901B5
-			public const int toolbar_spinner = 2131296693;
+			public const int toolbar = 2131296693;
 			
 			// aapt resource value: 0x7F0901B6
-			public const int top = 2131296694;
+			public const int toolbar_spinner = 2131296694;
 			
 			// aapt resource value: 0x7F0901B7
-			public const int topPanel = 2131296695;
+			public const int top = 2131296695;
 			
 			// aapt resource value: 0x7F0901B8
-			public const int top_separator = 2131296696;
+			public const int topPanel = 2131296696;
 			
 			// aapt resource value: 0x7F0901B9
-			public const int touch_outside = 2131296697;
+			public const int top_separator = 2131296697;
 			
 			// aapt resource value: 0x7F0901BA
-			public const int transition_current_scene = 2131296698;
+			public const int touch_outside = 2131296698;
 			
 			// aapt resource value: 0x7F0901BB
-			public const int transition_layout_save = 2131296699;
+			public const int transition_current_scene = 2131296699;
 			
 			// aapt resource value: 0x7F0901BC
-			public const int transition_position = 2131296700;
+			public const int transition_layout_save = 2131296700;
 			
 			// aapt resource value: 0x7F0901BD
-			public const int transition_scene_layoutid_cache = 2131296701;
+			public const int transition_position = 2131296701;
 			
 			// aapt resource value: 0x7F0901BE
-			public const int transition_transform = 2131296702;
+			public const int transition_scene_layoutid_cache = 2131296702;
 			
 			// aapt resource value: 0x7F0901BF
-			public const int transparency_layout = 2131296703;
+			public const int transition_transform = 2131296703;
 			
 			// aapt resource value: 0x7F0901C0
-			public const int transparency_seekbar = 2131296704;
+			public const int transparency_layout = 2131296704;
 			
 			// aapt resource value: 0x7F0901C1
-			public const int transparency_text = 2131296705;
+			public const int transparency_seekbar = 2131296705;
 			
 			// aapt resource value: 0x7F0901C2
-			public const int transparency_title = 2131296706;
+			public const int transparency_text = 2131296706;
 			
 			// aapt resource value: 0x7F0901C3
-			public const int tv_calendar_timetype = 2131296707;
+			public const int transparency_title = 2131296707;
 			
 			// aapt resource value: 0x7F0901C4
-			public const int uniform = 2131296708;
+			public const int tv_calendar_timetype = 2131296708;
 			
 			// aapt resource value: 0x7F0901C5
-			public const int unlabeled = 2131296709;
+			public const int uniform = 2131296709;
 			
 			// aapt resource value: 0x7F0901C6
-			public const int up = 2131296710;
+			public const int unlabeled = 2131296710;
 			
 			// aapt resource value: 0x7F0901C7
-			public const int useLogo = 2131296711;
+			public const int up = 2131296711;
 			
 			// aapt resource value: 0x7F0901C8
-			public const int view_DayView = 2131296712;
+			public const int useLogo = 2131296712;
 			
 			// aapt resource value: 0x7F0901C9
-			public const int view_MonthView = 2131296713;
-			
-			// aapt resource value: 0x7F0901CD
-			public const int view_offset_helper = 2131296717;
+			public const int view_DayView = 2131296713;
 			
 			// aapt resource value: 0x7F0901CA
-			public const int view_Timeline = 2131296714;
-			
-			// aapt resource value: 0x7F0901CB
-			public const int view_WeekView = 2131296715;
-			
-			// aapt resource value: 0x7F0901CC
-			public const int view_WorkWeekView = 2131296716;
+			public const int view_MonthView = 2131296714;
 			
 			// aapt resource value: 0x7F0901CE
-			public const int visible = 2131296718;
+			public const int view_offset_helper = 2131296718;
+			
+			// aapt resource value: 0x7F0901CB
+			public const int view_Timeline = 2131296715;
+			
+			// aapt resource value: 0x7F0901CC
+			public const int view_WeekView = 2131296716;
+			
+			// aapt resource value: 0x7F0901CD
+			public const int view_WorkWeekView = 2131296717;
 			
 			// aapt resource value: 0x7F0901CF
-			public const int wallpaper_image = 2131296719;
+			public const int visible = 2131296719;
 			
 			// aapt resource value: 0x7F0901D0
-			public const int webview = 2131296720;
+			public const int wallpaper_image = 2131296720;
 			
 			// aapt resource value: 0x7F0901D1
-			public const int weekView = 2131296721;
+			public const int webview = 2131296721;
 			
 			// aapt resource value: 0x7F0901D2
-			public const int wide = 2131296722;
+			public const int weekView = 2131296722;
 			
 			// aapt resource value: 0x7F0901D3
-			public const int widget = 2131296723;
+			public const int wide = 2131296723;
 			
 			// aapt resource value: 0x7F0901D4
-			public const int widget_text = 2131296724;
+			public const int widget = 2131296724;
 			
 			// aapt resource value: 0x7F0901D5
-			public const int widget_title = 2131296725;
+			public const int widget_text = 2131296725;
 			
 			// aapt resource value: 0x7F0901D6
-			public const int widget_title_day = 2131296726;
+			public const int widget_title = 2131296726;
 			
 			// aapt resource value: 0x7F0901D7
-			public const int widget_title_dayname = 2131296727;
+			public const int widget_title_day = 2131296727;
 			
 			// aapt resource value: 0x7F0901D8
-			public const int widget_title_month = 2131296728;
+			public const int widget_title_dayname = 2131296728;
 			
 			// aapt resource value: 0x7F0901D9
-			public const int window = 2131296729;
+			public const int widget_title_month = 2131296729;
 			
 			// aapt resource value: 0x7F0901DA
-			public const int withText = 2131296730;
+			public const int window = 2131296730;
 			
 			// aapt resource value: 0x7F0901DB
-			public const int workWeekView = 2131296731;
+			public const int withText = 2131296731;
 			
 			// aapt resource value: 0x7F0901DC
-			public const int wrap_content = 2131296732;
+			public const int workWeekView = 2131296732;
+			
+			// aapt resource value: 0x7F0901DD
+			public const int wrap_content = 2131296733;
 			
 			static Id()
 			{

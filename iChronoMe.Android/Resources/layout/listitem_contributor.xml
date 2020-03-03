@@ -3,6 +3,7 @@
     android:stretchColumns="0"
     android:clickable="true"
     android:background="@drawable/selector"
+    android:paddingBottom="@dimen/frame_padding"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -34,6 +35,11 @@
             android:text="blablabla\ndasdasdsadsad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:minWidth="30px"
+            android:minHeight="30px"
+            xmlns="http://schemas.android.com/apk/res/android"
+            android:id="@+id/textView1" />
 
     </TableRow>
 
@@ -49,6 +55,11 @@
             android:textColor="#00f"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:minWidth="30px"
+            android:minHeight="30px"
+            xmlns="http://schemas.android.com/apk/res/android"
+            android:id="@+id/textView2" />
     </TableRow>
 
 </TableLayout>

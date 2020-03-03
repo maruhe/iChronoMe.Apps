@@ -260,12 +260,12 @@ namespace iChronoMe.Droid.Widgets
             int iHeigth = 150;
             if (iWidgetId >= 0)
             {
-                if (cfg.WidgetWidth > 0 && cfg.WidgetHeight > 0)
+                if (cfg != null && cfg.WidgetWidth > 0 && cfg.WidgetHeight > 0)
                 {
                     iWidth = cfg.WidgetWidth;
                     iHeigth = cfg.WidgetHeight;
                 }
-                else
+                else if (manager != null)
                 {
                     AppWidgetProviderInfo inf = manager.GetAppWidgetInfo(iWidgetId);
                     iWidth = (int)(inf.MinWidth);
