@@ -63,7 +63,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             mContext = (AppCompatActivity)container.Context;
 
-            if (mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Permission.Granted)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Permission.Granted)
                 ActivityCompat.RequestPermissions(mContext, new string[] { Android.Manifest.Permission.ReadCalendar, Android.Manifest.Permission.WriteCalendar }, 1);
 
             View view = inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
@@ -271,7 +271,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 ViewTypeSpinner.Visibility = ViewStates.Visible;
             }
 
-            bPermissionCheckOk = mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted;
+            bPermissionCheckOk = Build.VERSION.SdkInt < BuildVersionCodes.M || (mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted);
             if (bPermissionCheckOk)
             {
                 if (lvCalendars.Adapter == null)

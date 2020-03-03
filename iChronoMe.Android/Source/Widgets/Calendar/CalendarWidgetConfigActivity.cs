@@ -8,6 +8,7 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
+using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
 
@@ -36,7 +37,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 ShowStartAssistant();
             else
             {
-                if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteCalendar) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
+                if (Build.VERSION.SdkInt > BuildVersionCodes.M && (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteCalendar) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted))
                 {
                     if (!bPermissionTryed)
                     {
@@ -80,7 +81,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
         public void StartWidgetSelection()
         {
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteCalendar) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M && (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteCalendar) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted))
             {
                 ShowExitMessage("Die Kalender-Widget's funktionieren nur mit Zugriff auf Kalender und Standort!");
                 return;

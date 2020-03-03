@@ -7,6 +7,7 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.OS;
 using Android.Support.V4.Graphics;
 using Android.Views;
 using Android.Widget;
@@ -421,22 +422,25 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 xLog.Debug("LoadData CalendarWidget: " + iMyWidgetId.ToString());
 
                 bool bPermissionError = false;
-                try
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
                 {
-                    if (mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Android.Content.PM.Permission.Granted)
+                    try
                     {
-                        myEvents.AllDatesAndEvents.Add("Kalender-Berechtigungen fehlen\nBitte hier klicken");
-                        bPermissionError = true;
-                    }
+                        if (mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Android.Content.PM.Permission.Granted)
+                        {
+                            myEvents.AllDatesAndEvents.Add("Kalender-Berechtigungen fehlen\nBitte hier klicken");
+                            bPermissionError = true;
+                        }
 
-                    if (mContext.CheckSelfPermission(Android.Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted)
-                    {
-                        myEvents.AllDatesAndEvents.Add("Standort-Berechtigungen fehlen\nBitte hier klicken");
-                        bPermissionError = true;
-                    }
+                        if (mContext.CheckSelfPermission(Android.Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted)
+                        {
+                            myEvents.AllDatesAndEvents.Add("Standort-Berechtigungen fehlen\nBitte hier klicken");
+                            bPermissionError = true;
+                        }
 
+                    }
+                    catch { }
                 }
-                catch { }
 
                 if (bPermissionError)
                     return;

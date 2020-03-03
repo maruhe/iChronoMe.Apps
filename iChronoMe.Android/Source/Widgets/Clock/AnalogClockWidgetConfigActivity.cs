@@ -49,13 +49,6 @@ namespace iChronoMe.Droid.Widgets.Clock
                 {
                     Task.Delay(100).Wait();
 
-
-                    if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
-                    {
-                        //RunOnUiThread(() => ShowExitMessage("Die Widget's funktionieren (aktuell) nur mit Standort-Zugriff!"));
-                        //return;
-                    }
-
                     TryGetWallpaper();
 
                     RunOnUiThread(() =>

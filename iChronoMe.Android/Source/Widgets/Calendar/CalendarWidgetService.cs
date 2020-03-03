@@ -8,6 +8,7 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.OS;
 using Android.Support.V4.App;
 using Android.Text;
 using Android.Text.Style;
@@ -58,7 +59,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
         }
 
         static Dictionary<int, Thread> RunningTaskS = new Dictionary<int, Thread>();
-        static bool bHasPermissions = false;
+        static bool bHasPermissions = Build.VERSION.SdkInt < BuildVersionCodes.M;
         static EventCollection myEvents = null;
 
         static object oLock = new object();

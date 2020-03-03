@@ -249,6 +249,13 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_Permissions()
         {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+            {
+                AppConfigHolder.MainConfig.InitScreenPermission = 1;
+                AppConfigHolder.SaveMainConfig();
+                SetAssistantDone();
+            }
+
             String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_calendar), Resources.GetString(Resource.String.assistant_permission_storage) };
             bool[] checks = new bool[] { true, true, true };
 
@@ -305,7 +312,7 @@ namespace iChronoMe.Droid
             Task.Factory.StartNew(async () =>
             {
                 await Task.Delay(1000);
-                if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
+                if (Build.VERSION.SdkInt < BuildVersionCodes.M || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
                 {
                     var locationManager = (LocationManager)GetSystemService(Context.LocationService);
 
