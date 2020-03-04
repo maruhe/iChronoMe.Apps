@@ -445,8 +445,10 @@ namespace iChronoMe.Droid.GUI
 
         private void RefreshClockCfg()
         {
-            vClock.ReadConfig(clockCfg);
-            Activity.RunOnUiThread(() =>
+            if (clockCfg == null)
+                return;
+            vClock?.ReadConfig(clockCfg);
+            Activity?.RunOnUiThread(() =>
             {
                 try
                 {

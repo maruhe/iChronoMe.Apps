@@ -207,7 +207,7 @@ namespace iChronoMe.Droid
             else
             {
                 bStartAssistantActive = false;
-                RunOnUiThread(() => OnResume());
+                RunOnUiThread(() => { try { OnResume(); } catch { } });
             }
         }
 

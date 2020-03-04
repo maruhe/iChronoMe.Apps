@@ -95,6 +95,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             schedule.AppointmentDrop += Schedule_AppointmentDrop;
             schedule.AppointmentDragOver += Schedule_AppointmentDragOver;
             schedule.AppointmentLoaded += Schedule_AppointmentLoaded;
+            schedule.MonthInlineLoaded += Schedule_MonthInlineLoaded;
 
             if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
                 SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
@@ -712,6 +713,24 @@ namespace iChronoMe.Droid.GUI.Calendar
             }
         }
 
+        private void Schedule_MonthInlineLoaded(object sender, MonthInlineLoadedEventArgs e)
+        {
+            MonthInlineViewStyle monthInlineViewStyle = new MonthInlineViewStyle();
+            monthInlineViewStyle.BackgroundColor = clSlotBack;
+            monthInlineViewStyle.TextColor = Color.White;
+            monthInlineViewStyle.TimeTextColor = Color.White;
+            e.MonthInlineViewStyle = monthInlineViewStyle;
+        }
+
+        Color clTitleText = Color.White;
+        Color clTitleBack = Color.Green;
+        Color clText = Color.Black;
+        Color clBack = Color.Aqua;
+        Color clTodayText = Color.Red;
+        Color clSlotBack = Color.Plum;
+        Color clSlotAccent = Color.Peru;
+
+
         public void LoadCalendarConfig()
         {
             if (CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"))
@@ -742,11 +761,11 @@ namespace iChronoMe.Droid.GUI.Calendar
                 var theme = Context.Theme;
                 //Tools.GetAllThemeColors(theme);
 
-                Color clTitleText = Tools.GetThemeColor(theme, Resource.Attribute.titleTextColor).Value;
-                Color clTitleBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimary).Value;//Color.ParseColor("#2c3e50");
-                Color clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColorPrimary).Value;
-                Color clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
-                Color clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
+                clTitleText = Tools.GetThemeColor(theme, Resource.Attribute.titleTextColor).Value;
+                clTitleBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimary).Value;//Color.ParseColor("#2c3e50");
+                clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColorPrimary).Value;
+                clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
+                clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
                 //Color clAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
 
                 /*
@@ -759,8 +778,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 Color clAccent = Color.ParseColor("#1B3147");
                  */
 
-                Color clSlotBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.WindowBackground).Value;
-                Color clSlotAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorSecondary).Value;
+                clSlotBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.WindowBackground).Value;
+                clSlotAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorSecondary).Value;
 
                 schedule.HeaderStyle = new HeaderStyle { TextColor = clTitleText, BackgroundColor = clTitleBack };
 
@@ -804,8 +823,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.MonthViewSettings.AgendaViewStyle = new AgendaViewStyle
                 {
                     DateTextColor = clText,
-                    TimeTextColor = clText,
-                    SubjectTextColor = clText,
+                    TimeTextColor = Color.White,
+                    SubjectTextColor = Color.White,
                     BackgroundColor = clSlotBack
                 };
 

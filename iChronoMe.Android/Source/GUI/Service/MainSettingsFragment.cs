@@ -94,15 +94,19 @@ namespace iChronoMe.Droid.GUI.Service
                 .SetMessage(Resource.String.progress_clearcache_message)
                 .SetPositiveButton(Resource.String.action_continue, (s, e) =>
                 {
+                    AppConfigHolder.MainConfig.LastCheckClockFaces = DateTime.MinValue;
+                    AppConfigHolder.MainConfig.LastCheckClockHands = DateTime.MinValue;
+                    AppConfigHolder.SaveMainConfig();
+
                     db.dbAreaCache.Close();
                     try { Directory.Delete(sys.PathCache, true); } catch { };
+                    
                     Activity.MoveTaskToBack(true);
                     Process.KillProcess(Process.MyPid());
                     Java.Lang.JavaSystem.Exit(0);
                 })
                 .SetNegativeButton(Resource.String.action_abort, (s, e) => { })
                 .Create().Show();
-
         }
 
         private void Binder_UserChangedProperty(object sender, UserChangedPropertyEventArgs e)
