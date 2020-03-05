@@ -19,6 +19,7 @@ using iChronoMe.Widgets;
 namespace iChronoMe.Droid.Widgets.Calendar
 {
     [Activity(Label = "CalendarWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
     public class CalendarWidgetConfigActivity : BaseWidgetActivity
     {
         DynamicCalendarModel CalendarModel;

@@ -15,6 +15,7 @@ using iChronoMe.Widgets;
 namespace iChronoMe.Droid.Widgets.Clock
 {
     [Activity(Label = "AnalogClockWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
     public class AnalogClockWidgetConfigActivity : BaseWidgetActivity
     {
         AlertDialog pDlg;

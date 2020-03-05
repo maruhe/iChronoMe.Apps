@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
+using Android.Content.PM;
 using Android.Runtime;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -16,7 +17,7 @@ using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
 {
-    [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity", Theme = "@style/TransparentTheme")]
+    [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
 
     public class LifetimeWidgetConfigActivity : BaseWidgetActivity

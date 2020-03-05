@@ -44,7 +44,7 @@ namespace iChronoMe.Droid
                     cfg.ColorBackground = xColor.Transparent;
                     cfg.ColorTickMarks = xColor.Transparent;
 
-                    cfg.CheckSampleSmooth(true);
+                    cfg.SetDefaultColors();
 
                     string cDefaultHands = ClockHandConfig.GetDefaultID(Path.GetFileNameWithoutExtension(cfg.BackgroundImage));
                     if (!string.IsNullOrEmpty(cDefaultHands))
@@ -56,6 +56,8 @@ namespace iChronoMe.Droid
                     cfg.ShowSeconds = true;
                     cfg.FlowMinuteHand = true;
                     cfg.FlowSecondHand = false;
+
+                    cfg.SetDefaultColors();
 
                     WidgetView_ClockAnalog vClock = new WidgetView_ClockAnalog();
                     vClock.ReadConfig(cfg);

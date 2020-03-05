@@ -97,6 +97,8 @@ namespace iChronoMe.Droid
                 AppConfigHolder.MainConfig.InitScreenTheme = 1;
                 AppConfigHolder.SaveMainConfig();
                 SetAssistantDone();
+                if (theme < 0)
+                    theme = 0;
             }
             if (theme >= 0)
             {

@@ -533,21 +533,21 @@ namespace iChronoMe.Droid.GUI
                 if (item.ItemId == menu_debug_hour_path)
                 {
                     ePath.Text = clockCfg.ClockHandConfig.HourPath;
-                    eStroke.Text = clockCfg.ClockHandConfig.HourStorkeWidth.ToString();
+                    eStroke.Text = clockCfg.ClockHandConfig.HourStrokeWidth.ToString();
                     eOffX.Text = clockCfg.ClockHandConfig.HourOffsetX.ToString();
                     eOffY.Text = clockCfg.ClockHandConfig.HourOffsetY.ToString();
                 }
                 else if (item.ItemId == menu_debug_minute_path)
                 {
                     ePath.Text = clockCfg.ClockHandConfig.MinutePath;
-                    eStroke.Text = clockCfg.ClockHandConfig.MinuteStorkeWidth.ToString();
+                    eStroke.Text = clockCfg.ClockHandConfig.MinuteStrokeWidth.ToString();
                     eOffX.Text = clockCfg.ClockHandConfig.MinuteOffsetX.ToString();
                     eOffY.Text = clockCfg.ClockHandConfig.MinuteOffsetY.ToString();
                 }
                 else if (item.ItemId == menu_debug_second_path)
                 {
                     ePath.Text = clockCfg.ClockHandConfig.SecondPath;
-                    eStroke.Text = clockCfg.ClockHandConfig.SecondStorkeWidth.ToString();
+                    eStroke.Text = clockCfg.ClockHandConfig.SecondStrokeWidth.ToString();
                     eOffX.Text = clockCfg.ClockHandConfig.SecondOffsetX.ToString();
                     eOffY.Text = clockCfg.ClockHandConfig.SecondOffsetY.ToString();
                 }
