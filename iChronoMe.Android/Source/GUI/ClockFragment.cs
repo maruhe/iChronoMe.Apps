@@ -77,6 +77,8 @@ namespace iChronoMe.Droid.GUI
 
             imgDeviceTime = RootView.FindViewById<ImageView>(Resource.Id.img_device_time);
             lDeviceTimeInfo = RootView.FindViewById<TextView>(Resource.Id.text_device_time_info);
+            if (sys.Debugmode)
+                RootView.FindViewById(Resource.Id.ll_device_time).Visibility = ViewStates.Visible;
 
             RootView.FindViewById<TextView>(Resource.Id.title).Visibility = ViewStates.Gone;
             lTime1 = RootView.FindViewById<TextView>(Resource.Id.time_rdt);
@@ -294,6 +296,8 @@ namespace iChronoMe.Droid.GUI
         TimeSpan? lstNtpDiff = null;
         private void RefreshDeviceTimeInfo()
         {
+            if (!sys.Debugmode)
+                return;
             if (Equals(lstTimeHolderStart, TimeHolder.State) && Equals(lstNtpDiff, TimeHolder.mLastNtpDiff))
                 return;
             lstTimeHolderStart = TimeHolder.State;
