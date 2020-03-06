@@ -218,6 +218,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     var evnt = (CalendarEvent)e.Appointment;
                     var intent = new Intent(Activity, typeof(EventEditActivity));
                     intent.PutExtra("EventId", evnt.ExternalID);
+                    bKeepTitleOnPause = true;
                     Activity.StartActivity(intent);
                 }
                 catch (Exception ex)
@@ -303,16 +304,22 @@ namespace iChronoMe.Droid.GUI.Calendar
             LoadEvents();
         }
 
+        bool bKeepTitleOnPause = false;
+        
         public override void OnPause()
         {
             base.OnPause();
-            var spinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
-            if (spinner != null)
+            if (!bKeepTitleOnPause)
             {
-                spinner.Visibility = ViewStates.Gone;
-                spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
-                mContext.Title = Resources.GetString(Resource.String.app_name);
+                var spinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
+                if (spinner != null)
+                {
+                    spinner.Visibility = ViewStates.Gone;
+                    spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
+                    mContext.Title = Resources.GetString(Resource.String.app_name);
+                }
             }
+            bKeepTitleOnPause = false;
             SaveCalendarConfig();
         }
 
@@ -371,6 +378,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        const int menu_create_event = 100;
         const int menu_options = 1001;
         const int menu_typetype_RealSunTime = 1101;
         const int menu_typetype_MiddleSunTime = 1102;
@@ -384,7 +392,12 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             try
             {
-                var item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
+                var item = menu.Add(0, menu_create_event, 0, Resources.GetString(Resource.String.shortcut_create_calender_event));
+                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_add, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+                item.SetShowAsAction(ShowAsAction.Always);
+                item.SetOnMenuItemClickListener(this);
+
+                item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
                 item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_services, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
                 item.SetShowAsAction(ShowAsAction.Always);
                 item.SetOnMenuItemClickListener(this);
@@ -436,7 +449,12 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             try
             {
-                if (item.ItemId == menu_options)
+                if (item.ItemId == menu_create_event)
+                {
+                    bKeepTitleOnPause = true;
+                    StartActivity(new Intent(Activity, typeof(EventEditActivity)));
+                }
+                else if (item.ItemId == menu_options)
                 {
                     if (Drawer.IsDrawerOpen((int)GravityFlags.End))
                         Drawer.CloseDrawer((int)GravityFlags.End);
@@ -520,7 +538,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             var cal = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
             if (cal == null)
             {
-                Tools.ShowMessage(Context, "Fehler", "Kein Kalender gefunden!");
+                Tools.ShowMessage(Context, Resource.String.label_error, Resource.String.alert_no_calendar_found);
                 return;
             }
             for (int i = 0; i < count; i++)

@@ -107,7 +107,6 @@
     <Compile Include="Source\BaseActivity.cs" />
     <Compile Include="Source\GUI\ActivityFragment.cs" />
     <Compile Include="Source\GUI\Calendar\CalendarFragment.cs" />
-    <Compile Include="Source\GUI\Calendar\EventEditFragment.cs" />
     <Compile Include="Source\GUI\ClockFragment.cs" />
     <Compile Include="Source\GUI\Dialogs\CalendarEventDialog.cs" />
     <Compile Include="Source\GUI\Dialogs\ErrorLogDlg.cs" />

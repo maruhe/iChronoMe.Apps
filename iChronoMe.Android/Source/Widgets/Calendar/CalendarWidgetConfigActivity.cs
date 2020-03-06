@@ -84,7 +84,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M && (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteCalendar) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted))
             {
-                ShowExitMessage("Die Kalender-Widget's funktionieren nur mit Zugriff auf Kalender und Standort!");
+                ShowExitMessage(Resource.String.widget_error_location_is_requered);
                 return;
             }
 

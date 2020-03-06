@@ -287,8 +287,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
             rv.SetTextColor(Resource.Id.empty_view, cfg.ColorTitleText.ToAndroid());
             if (calendarModel == null)
             {
-                rv.SetTextViewText(Resource.Id.widget_title_day, "fehlerhaftes");
-                rv.SetTextViewText(Resource.Id.widget_title_dayname, "Kalender-Modell");
+                rv.SetTextViewText(Resource.Id.widget_title_day, "error in");
+                rv.SetTextViewText(Resource.Id.widget_title_dayname, "calendar model");
                 rv.SetTextColor(Resource.Id.widget_title_day, cfg.ColorErrorText.ToAndroid());
                 rv.SetTextColor(Resource.Id.widget_title_dayname, cfg.ColorErrorText.ToAndroid());
             }

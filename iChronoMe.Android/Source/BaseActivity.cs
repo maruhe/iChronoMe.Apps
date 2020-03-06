@@ -96,7 +96,6 @@ namespace iChronoMe.Droid
             {
                 AppConfigHolder.MainConfig.InitScreenTheme = 1;
                 AppConfigHolder.SaveMainConfig();
-                SetAssistantDone();
                 if (theme < 0)
                     theme = 0;
             }
@@ -104,7 +103,22 @@ namespace iChronoMe.Droid
             {
                 AppConfigHolder.MainConfig.AppThemeName = adapter[theme].Text1;
                 AppConfigHolder.SaveMainConfig();
-                RunOnUiThread(() => Recreate());
+                RunOnUiThread(() =>
+                {
+                    Recreate();
+                    if (bStartAssistantActive)
+                    {
+                        //my android5 huawai does the OnResume() twice on recreate
+                        if (Build.VERSION.SdkInt < BuildVersionCodes.N)
+                            Task.Factory.StartNew(() =>
+                            {
+                                Task.Delay(250).Wait();
+                                SetAssistantDone();
+                            });
+                        else
+                            SetAssistantDone();
+                    }
+                });
                 return;
             }
         }
@@ -192,25 +206,35 @@ namespace iChronoMe.Droid
             if (bStartAssistantActive)
                 return;
             bStartAssistantActive = true;
-            if (AppConfigHolder.MainConfig.InitScreenTheme < 1)// && (this is MainActivity))
-                ShowThemeSelector();
-            else if (AppConfigHolder.MainConfig.InitScreenTimeType < 1)
-                ShowInitScreen_TimeType();
-            else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 1)
-                ShowInitScreen_PrivacyAssistant();
-            else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 2)
-                ShowInitScreen_PrivacyNotice();
-            else if (AppConfigHolder.MainConfig.InitBaseDataDownload < 1)
-                InitBaseDataDownload();
-            else if (AppConfigHolder.MainConfig.InitScreenPermission < 1)
-                ShowInitScreen_Permissions();
-            else if (AppConfigHolder.MainConfig.InitScreenUserLocation < 1)
-                ShowInitScreen_UserLocation();
-            else
+            RunOnUiThread(() =>
             {
-                bStartAssistantActive = false;
-                RunOnUiThread(() => { try { OnResume(); } catch { } });
-            }
+                try
+                {
+                    if (AppConfigHolder.MainConfig.InitScreenTheme < 1)
+                        ShowThemeSelector();
+                    else if (AppConfigHolder.MainConfig.InitScreenTimeType < 1)
+                        ShowInitScreen_TimeType();
+                    else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 1)
+                        ShowInitScreen_PrivacyAssistant();
+                    else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 2)
+                        ShowInitScreen_PrivacyNotice();
+                    else if (AppConfigHolder.MainConfig.InitBaseDataDownload < 1)
+                        InitBaseDataDownload();
+                    else if (AppConfigHolder.MainConfig.InitScreenPermission < 1)
+                        ShowInitScreen_Permissions();
+                    else if (AppConfigHolder.MainConfig.InitScreenUserLocation < 1)
+                        ShowInitScreen_UserLocation();
+                    else
+                    {
+                        bStartAssistantActive = false;
+                        try { OnResume(); } catch { };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    sys.LogException(ex);
+                }
+            });
         }
 
         private void InitBaseDataDownload()
@@ -256,6 +280,7 @@ namespace iChronoMe.Droid
                 AppConfigHolder.MainConfig.InitScreenPermission = 1;
                 AppConfigHolder.SaveMainConfig();
                 SetAssistantDone();
+                return;
             }
 
             String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_calendar), Resources.GetString(Resource.String.assistant_permission_storage) };

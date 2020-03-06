@@ -1,283 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-	<string name="app_name" translatable="false">iChronoMe</string>
-	<string name="app_slogan">time is dynamic</string>
+    <string name="NoSelectedDate">"no selected date"</string>
 
-	<string name="label_BackgroundService">Widget Update-Service</string>
-	<string name="description_BackgroundService">keeps the Clock-Widges going on</string>
+    <string name="No_Appointments">your are free</string>
 
-	<string name="label_ShortCutActivity">"short cut's"</string>
-
-    <string name="ezmz_runningwidgets_one">ein widget aktiv</string>
-	<string name="ezmz_runningwidgets_more">{0} widges aktiv</string>
-
-	<string name="unknown_position">unkwnown_position</string>
-	<string name="title_location_picker">select a location</string>
-
-	<string name="progress_clearcache_action">clear cache</string>
-	<string name="progress_clearcache_title">clear cache?</string>
-	<string name="progress_clearcache_message">you will have to restart iChronome after continue</string>
-
-	<string name="AppTheme_iChronoMe_Gray">not to light</string>
-
-	<string name="progress_preparing_data">preparing data...</string>
-	<string name="error_message_paramers">parameter error, try again</string>
-
-	<string name="progress_systemtest_action">system test</string>
-	<string name="progress_systemtest_title">system test</string>
-	<string name="progress_deleteerrorlog_done">all error-logs have been deleted</string>
-
-	<string name="progress_overlay_timezones_title">preparing timezones...</string>
-
-  <string name="progress_senderrorlog_more">more information</string>
-
-	<string name="alert_no_calendar_found">no calendars found!</string>
-
-	<string name="location_provider_disabled_alert">Your location-services seems to be disabled!</string>
-	<string name="location_provider_disabled_question">do you want to enable it?</string>
-
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-	<string name="navigation_drawer_close">Close navigation drawer</string>
-	<string name="action_settings">Settings</string>
-	<string name="action_options">Options</string>
-	<string name="action_change_theme">change theme</string>
-	<string name="widget_loading">time is just illusion\u2026</string>
-	<string name="widget_unconfigured">click here to configure the widget</string>
-	<string name="widget_permission_error">I need some permissions, click here please</string>
-	<string name="text_ServiceInfo">if you see this text please tell me:</string>
-
-	<string name="calendar_widget_loading">loading events...</string>
-
-	<string name="shortcut_create_calender_event">create event</string>
-	<string name="shortcut_create_calender_event_long">long description...</string>
-	<string name="shortcut_create_calender_event_disabled">not working? why not?</string>
-
-	<string name="shortcut_create_alarm">add alarm</string>
-	<string name="shortcut_create_alarm_long">long description...</string>
-	<string name="shortcut_create_alarm_disabled">not working? why not?</string>
-
-	<string name="widget_lifetime_loading">one "tropical year" is:\n365 d 5 h 48 min and 45,261 s</string>
-
-	<string name="loading">loading...</string>
-	<string name="stop_alarm">thanks</string>
-	<string name="action_continue">continue</string>
-	<string name="action_back">back</string>
-	<string name="action_more">more</string>
-	<string name="action_select">select</string>
-	<string name="action_cancel">cancel</string>
-	<string name="action_abort">abort</string>
-	<string name="action_ok">ok</string>
-	<string name="action_yes">yes</string>
-	<string name="action_no">no</string>
-	<string name="action_accept">accept</string>
-	<string name="action_ignore">ignore</string>
-	<string name="action_decline">decline</string>
-	<string name="action_block">block</string>
-	<string name="action_close">close</string>
-	<string name="action_clear_cache">clear cache</string>
-	<string name="action_remove">remove</string>
-	<string name="action_remove_all">remove all</string>
-	<string name="action_search_location">search for location</string>
-	<string name="search_hint">the hint so search ;-)</string>
-	<string name="action_save">save</string>
-	<string name="action_webpage">web-page</string>
-
-	<string name="error_saving_event">error saving event</string>
-
-	<string name="action_handtypes">hand types</string>
-	<string name="action_handcolors">hand colors</string>
-	<string name="action_tickmarks">tick marks</string>
-
-	<string name="action_send_testlog">send log</string>
-	
-	<string name="action_send_errorlog_once">send this time</string>
-	<string name="title_send_errorlog">these informations will be send:</string>
-
-	<string name="label_error">error</string>
-	<string name="label_errorlog">error log</string>
-	<string name="label_sceenshot">screenshot</string>
-	<string name="action_deny_error_screentshot">only error-logs without screenshots</string>
-	<string name="action_allow_send_errorlogs">allow sending error-logs</string>
-
-	<string name="action_colors">colors</string>
-	<string name="action_background">background</string>
-	<string name="dont_ask_again">"don't ask again"</string>
-	<string name="just_a_moment">just a moment...</string>
-
-	<string name="menu_clock">Clock</string>
-	<string name="menu_calendar">Calendar</string>
-	<string name="menu_world_time_map">World-Time Map</string>
-	<string name="menu_tools">Tools</string>
-	<string name="menu_service">Service</string>
-	<string name="menu_share">Share</string>
-	<string name="menu_settings">Settings</string>
-	<string name="menu_faq">FAQ</string>
-	<string name="menu_about">About</string>
-
-	<string name="widget_title_actionbutton">action button</string>
-	<string name="widget_title_calendar">solar time calendar widget</string>
-	<string name="widget_title_clock_analog">analog solar clock</string>
-	<string name="widget_title_lifetime">lifetime</string>
-	<string name="wallpaper_title_clock_analog">analog solar clock</string>
-
-	<string name="TimeType">time-type</string>
-	<string name="welcome_ichronomy">"welcome to iChronoMe!"</string>
-	<string name="label_choose_theme_firsttime">"at first choose your colors:"</string>
-	<string name="label_choose_default_timetype">"choose your default Time-Type:"</string>
-	<string name="TimeType_RealSunTime">real sun time</string>
-	<string name="TimeType_RealSunTime_Desc">
-		"the time, by the real position of the sun where the highest point of the sun means 12 o'clock\nthis means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is\nthe offset to timezone-time is changing every day"
-	</string>
-	<string name="TimeType_MiddleSunTime">middle sun time</string>
-	<string name="TimeType_MiddleSunTime_Desc">
+    <string name="TimeType">time-type</string>
+    <string name="TimeType_MiddleSunTime">middle sun time</string>
+    <string name="TimeType_MiddleSunTime_Desc">
 		"the time based on the current longitude of your location\naround the year the difference between real an middle solar time can be up to about 18 minutes\nevery day has exact 24 hours and the offset to timezone-time is stable"
 	</string>
-	<string name="TimeType_TimeZoneTime">timezone time</string>
-	<string name="TimeType_TimeZoneTime_Desc">
+    <string name="TimeType_RealSunTime">real sun time</string>
+    <string name="TimeType_RealSunTime_Desc">
+		"the time, by the real position of the sun where the highest point of the sun means 12 o'clock\nthis means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is\nthe offset to timezone-time is changing every day"
+	</string>
+    <string name="TimeType_TimeZoneTime">timezone time</string>
+    <string name="TimeType_TimeZoneTime_Desc">
 		"this time is based on the borders of the country you enjoy currently\nmay this is far far away from the real time on your location"
 	</string>
 
-	<string name="assistant_permission_welcome">
-		"yep, we need some permissions:"
-	</string>
-	<string name="assistant_permission_location">
-		"the app needs permission to your location to calculate correct solar time"
-	</string>
-	<string name="assistant_permission_calendar">
+    <string name="action_abort">abort</string>
+    <string name="action_accept">accept</string>
+    <string name="action_allow_send_errorlogs">allow sending error-logs</string>
+    <string name="action_back">back</string>
+    <string name="action_background">background</string>
+    <string name="action_backgroundservice_showalways">always show clock in notifocation area</string>
+    <string name="action_block">block</string>
+    <string name="action_calendar_UsesDefaultTimeType">use default TimeType in Calendar</string>
+    <string name="action_cancel">cancel</string>
+    <string name="action_cfg_calendar_show_allday">show allday appointments</string>
+    <string name="action_change_theme">change theme</string>
+    <string name="action_clear_cache">clear cache</string>
+    <string name="action_close">close</string>
+    <string name="action_colors">colors</string>
+    <string name="action_continue">continue</string>
+    <string name="action_decline">decline</string>
+    <string name="action_deny_error_screentshot">only error-logs without screenshots</string>
+    <string name="action_handcolors">hand colors</string>
+    <string name="action_handtypes">hand types</string>
+    <string name="action_ignore">ignore</string>
+    <string name="action_location_type_live">current Location</string>
+    <string name="action_location_type_promt">choose a location-type</string>
+    <string name="action_location_type_static">static Location</string>
+    <string name="action_more">more</string>
+    <string name="action_no">no</string>
+    <string name="action_notification_click_action">on notification click</string>
+    <string name="action_notification_config">configure notifocation area</string>
+    <string name="action_notification_show_always">always show clock in notifocation area</string>
+    <string name="action_ok">ok</string>
+    <string name="action_options">Options</string>
+    <string name="action_refresh_location">refresh current location</string>
+    <string name="action_refresh_location_continuous">refresh location continuous</string>
+    <string name="action_remove">remove</string>
+    <string name="action_remove_all">remove all</string>
+    <string name="action_save">save</string>
+    <string name="action_search_location">search for location</string>
+    <string name="action_select">select</string>
+    <string name="action_select_location">select location</string>
+    <string name="action_send_errorlog_once">send this time</string>
+    <string name="action_send_testlog">send log</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_tickmarks">tick marks</string>
+    <string name="action_today">today</string>
+    <string name="action_webpage">web-page</string>
+    <string name="action_yes">yes</string>
+
+    <string name="alert_no_calendar_found">no calendars found!</string>
+
+	  <string name="calendar_event_all_day">all day</string>
+	  <string name="calendar_event_multi_day">multi day</string>
+	  <string name="calendar_event_to">to</string>
+	  <string name="calendar_event_unclear_position_time">position and local time unclear</string>
+	  <string name="calendar_event_position_is_determined">Position wird ermittelt</string>
+
+	  <string name="widget_error_permission_calendar">"missing calendar-permission\nplease click here"</string>
+	  <string name="widget_error_permission_location">"missing localtion-permission\nplease click here"</string>
+	  <string name="widget_error_location_is_requered">the calender-widget\'s only work with access to your calendar and location</string>
+
+	  <string name="widget_warning_location_unknown">current location unknown</string>
+	  <string name="widget_warning_location_out_of_date">current location out of date</string>
+
+    <string name="app_needs_location_description">"only with a location-information it is possible to calculate correct solar times"</string>
+    <string name="app_slogan">time is dynamic</string>
+
+    <string name="assistant_permission_calendar">
 		"to display calendar-events in solar time we need permission here"
 	</string>
-	<string name="assistant_permission_storage">
+    <string name="assistant_permission_location">
+		"the app needs permission to your location to calculate correct solar time"
+	</string>
+    <string name="assistant_permission_storage">
 		"and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"
 	</string>
+    <string name="assistant_permission_welcome">
+		"yep, we need some permissions:"
+	</string>
+    <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
+    <string name="assistant_privacy_question">you may mind about data privacy?</string>
+    <string name="assistant_privacy_title">data privacy information:</string>
 
-	<string name="assistant_privacy_question">you may mind about data privacy?</string>
-	<string name="assistant_privacy_title">data privacy information:</string>
-	<string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
-
-	<!-- calendar view-->
-
-	<string name="calendar_viewtype_Timeline">timeline</string>
-	<string name="calendar_viewtype_DayView">day-view</string>
-	<string name="calendar_viewtype_WeekView">week-view</string>
-	<string name="calendar_viewtype_WorkWeek">work-week</string>
-	<string name="calendar_viewtype_MonthView">month-view</string>
-
-	<string name="action_today">today</string>
-
-	<string-array name="calendar_viewtypes">
-		<item>@string/action_today</item>
-		<item>@string/calendar_viewtype_Timeline</item>
-		<item>@string/calendar_viewtype_DayView</item>
-		<item>@string/calendar_viewtype_WeekView</item>
-		<item>@string/calendar_viewtype_WorkWeek</item>
-		<item>@string/calendar_viewtype_MonthView</item>
-	</string-array>
-
-	<string name="calendar_monthview_appointmentviewtypes_title">show appointments:</string>
-	<string-array name="calendar_monthview_appointmentviewtypes">
-		<item>inline</item>
-		<item>agenda</item>
-		<item>hidden</item>
-	</string-array>
-
-	<string name="calendar_monthview_appointmentdisplaymode_title">display mode:</string>
-	<string-array name="calendar_monthview_appointmentdisplaymodes">
-		<item>indicator</item>
-		<item>appointment</item>
-	</string-array>
-	<string name="calendar_monthview_appointmentdisplaymode_max_title">show maximal:</string>
-
-	<string-array name="calendar_monthview_appointmentdisplaycount">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-		<item>4</item>
-		<item>5</item>
-		<item>6</item>
-		<item>7</item>
-		<item>8</item>
-		<item>9</item>
-		<item>10</item>
-	</string-array>
-
-	<string-array name="calendar_monthview_navigation_directions">
-		<item>horizontal</item>
-		<item>vertical</item>
-	</string-array>
-
-	<string name="label_cfg_calendar_visible_time">visible time</string>
-	<string name="label_cfg_calendar_core_time">core time</string>
-	<string name="label_cfg_timeline_days_count">days count</string>
-	<string name="action_cfg_calendar_show_allday">show allday appointments</string>
-	<string name="label_cfg_calendar_show_weeknumbers">show weeknumbers</string>
-
-	<!-- backgroundservice -->
-
-	<string name="backgroundservice_info_why">why do I see a clock in notification area?</string>
-	<string name="backgroundservice_info_explenation">
+    <string name="backgroundservice_info_explenation">
 		"to show a clock as widget that does show a custom time a service needs to be running in background\nsince android 7 it is needet to show a notification while a background-service is running\nyou can customize this notification or disable it in system-settings
 	</string>
+    <!-- backgroundservice -->
+    <string name="backgroundservice_info_why">why do I see a clock in notification area?</string>
 
-	<string name="action_backgroundservice_showalways">always show clock in notifocation area</string>
+    <string name="calendar_monthview_appointmentdisplaymode_max_title">show maximal:</string>
+    <string name="calendar_monthview_appointmentdisplaymode_title">display mode:</string>
+    <string-array name="calendar_monthview_appointmentdisplaymodes">
+        <item>indicator</item>
+        <item>appointment</item>
+    </string-array>
+    <string-array name="calendar_monthview_appointmentviewtypes">
+        <item>inline</item>
+        <item>agenda</item>
+        <item>hidden</item>
+    </string-array>
+    <string name="calendar_monthview_appointmentviewtypes_title">show appointments:</string>
+    <string-array name="calendar_monthview_navigation_directions">
+        <item>horizontal</item>
+        <item>vertical</item>
+    </string-array>
+    <string name="calendar_viewtype_DayView">day-view</string>
+    <string name="calendar_viewtype_MonthView">month-view</string>
+    <string name="calendar_viewtype_Timeline">timeline</string>
+    <string name="calendar_viewtype_WeekView">week-view</string>
+    <string name="calendar_viewtype_WorkWeek">work-week</string>
+    <string name="calendar_widget_loading">loading events...</string>
 
-	<string name="action_location_type_promt">choose a location-type</string>
-	<string name="action_location_type_live">current Location</string>
-	<string name="action_location_type_static">static Location</string>
-	<string name="action_select_location">select location</string>
-	<string name="action_refresh_location">refresh current location</string>
-	<string name="action_refresh_location_continuous">refresh location continuous</string>
-	<string name="label_title">title</string>
-	<string-array name="label_locationtypes">
-		<item>@string/action_location_type_live</item>
-		<item>@string/action_location_type_static</item>
-	</string-array>
+    <string name="description_BackgroundService">keeps the Clock-Widges going on</string>
 
-	<string name="action_notification_click_action">on notification click</string>
-	<string-array name="label_notification_click_actions">
-		<item>show this window</item>
-		<item>start iChronoMe</item>
-		<item>open "clock"</item>
-		<item>open "app-calendar"</item>
-		<item>do nothing</item>
-	</string-array>
+    <string name="dont_ask_again">"don't ask again"</string>
 
-	<!-- Settings -->
+    <string name="error_location_is_needet">"this app need's a location to work"</string>
+    <string name="error_message_paramers">parameter error, try again</string>
+    <string name="error_saving_event">error saving event</string>
 
-	<string name="label_default_TimeType">default TimeType:</string>
-	<string name="action_calendar_UsesDefaultTimeType">use default TimeType in Calendar</string>
-	<string name="label_calendar_TimeType">calendar TimeType:</string>
-	<string name="action_notification_show_always">always show clock in notifocation area</string>
-	<string name="action_notification_config">configure notifocation area</string>
-
-	<!---->
-
-	<string-array name="numbers_0_14">
-		<item>0</item>
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-		<item>4</item>
-		<item>5</item>
-		<item>6</item>
-		<item>7</item>
-		<item>8</item>
-		<item>9</item>
-		<item>10</item>
-		<item>11</item>
-		<item>12</item>
-		<item>13</item>
-		<item>14</item>
-	</string-array>
-
-	<string name="No_Appointments">your are free</string>
-	<string name="NoSelectedDate">"no selected date"</string>
-	<string name="all_day">all day</string>
+    <string name="ezmz_runningwidgets_more">{0} widges aktiv</string>
+    <string name="ezmz_runningwidgets_one">ein widget aktiv</string>
     <string name="ezmz_runningwidgets_zero">no aktiv widget</string>
+
+    <string name="just_a_moment">just a moment...</string>
+
+    <string name="label_BackgroundService">Widget Update-Service</string>
+    <string name="label_ShortCutActivity">"short cut's"</string>
+    <string name="label_calendar_TimeType">calendar TimeType:</string>
+    <string name="label_cfg_calendar_core_time">core time</string>
+    <string name="label_cfg_calendar_show_weeknumbers">show weeknumbers</string>
+    <string name="label_cfg_calendar_visible_time">visible time</string>
+    <string name="label_cfg_timeline_days_count">days count</string>
+    <string name="label_choose_default_timetype">"choose your default Time-Type:"</string>
+    <string name="label_choose_theme_firsttime">"at first choose your colors:"</string>
+    <string name="label_default_TimeType">default TimeType:</string>
+    <string name="label_error">error</string>
+    <string name="label_errorlog">error log</string>
+    <string-array name="label_notification_click_actions">
+        <item>show this window</item>
+        <item>start iChronoMe</item>
+        <item>open "clock"</item>
+        <item>open "app-calendar"</item>
+        <item>do nothing</item>
+    </string-array>
+    <string name="label_sceenshot">screenshot</string>
+    <string name="label_title">title</string>
+
+    <string name="loading">loading...</string>
+
+    <string name="location_provider_disabled_alert">Your location-services seems to be disabled!</string>
+    <string name="location_provider_disabled_question">do you want to enable it?</string>
+
+    <string name="menu_about">About</string>
+    <string name="menu_calendar">Calendar</string>
+    <string name="menu_clock">Clock</string>
+    <string name="menu_faq">FAQ</string>
+    <string name="menu_service">Service</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_world_time_map">World-Time Map</string>
+
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+
+    <string name="progress_clearcache_action">clear cache</string>
+    <string name="progress_clearcache_message">you will have to restart iChronome after continue</string>
+    <string name="progress_clearcache_title">clear cache?</string>
+    <string name="progress_deleteerrorlog_done">all error-logs have been deleted</string>
+    <string name="progress_overlay_timezones_title">preparing timezones...</string>
+    <string name="progress_preparing_data">preparing data...</string>
     <string name="progress_senderrorlog_message">do you allow to send error-logs to help solving such problems? theese logs contain tecnical parameters of you device and as you allow a screenshot, but no other kind of personal information</string>
+    <string name="progress_senderrorlog_more">more information</string>
     <string name="progress_senderrorlog_title">something got wrong or the App crashed last time</string>
+    <string name="progress_systemtest_action">system test</string>
+    <string name="progress_systemtest_title">system test</string>
+
     <string name="question_create_new_calendar">you like to create a new Calendar?</string>
 
-	<string name="error_location_is_needet">"this app need's a location to work"</string>
-	<string name="app_needs_location_description">"only with a location-information it is possible to calculate correct solar times"</string>
+    <string name="search_hint">the hint so search ;-)</string>
 
+    <string name="shortcut_create_alarm">add alarm</string>
+    <string name="shortcut_create_alarm_disabled">not working? why not?</string>
+    <string name="shortcut_create_alarm_long">long description...</string>
+    <string name="shortcut_create_calender_event">create event</string>
+    <string name="shortcut_create_calender_event_disabled">not working? why not?</string>
+    <string name="shortcut_create_calender_event_long">long description...</string>
+
+    <string name="stop_alarm">thanks</string>
+
+    <string name="text_ServiceInfo">if you see this text please tell me:</string>
+
+    <string name="title_edit_event">edit event</string>
+    <string name="title_location_picker">select a location</string>
+    <string name="title_new_event">new event</string>
+    <string name="title_send_errorlog">these informations will be send:</string>
+
+    <string name="unknown_position">unkwnown_position</string>
+
+    <string name="wallpaper_title_clock_analog">analog solar clock</string>
+
+    <string name="welcome_ichronomy">"welcome to iChronoMe!"</string>
+
+    <string name="widget_lifetime_loading">one "tropical year" is:\n365 d 5 h 48 min and 45,261 s</string>
+    <string name="widget_loading">time is just illusion\u2026</string>
+    <string name="widget_permission_error">I need some permissions, click here please</string>
+    <string name="widget_title_actionbutton">action button</string>
+    <string name="widget_title_calendar">solar time calendar widget</string>
+    <string name="widget_title_clock_analog">analog solar time</string>
+    <string name="widget_title_lifetime">lifetime</string>
+    <string name="widget_unconfigured">click here to configure the widget</string>
+
+    <string name="app_name" translatable="false">iChronoMe</string>
+
+    <string-array name="calendar_monthview_appointmentdisplaycount" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="calendar_viewtypes" translatable="false">
+        <item>@string/action_today</item>
+        <item>@string/calendar_viewtype_Timeline</item>
+        <item>@string/calendar_viewtype_DayView</item>
+        <item>@string/calendar_viewtype_WeekView</item>
+        <item>@string/calendar_viewtype_WorkWeek</item>
+        <item>@string/calendar_viewtype_MonthView</item>
+    </string-array>
+
+    <string-array name="label_locationtypes" translatable="false">
+        <item>@string/action_location_type_live</item>
+        <item>@string/action_location_type_static</item>
+    </string-array>
+
+    <!---->
+    <string-array name="numbers_0_14" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
 </resources>

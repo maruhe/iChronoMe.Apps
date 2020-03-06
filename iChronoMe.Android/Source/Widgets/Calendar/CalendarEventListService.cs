@@ -151,7 +151,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     DateTime tEnd = calEvent.DisplayEnd;
 
                     // feed row
-                    string cBis = " bis ";
+                    string cBis = " "+ mContext.Resources.GetString(Resource.String.calendar_event_to) + " ";
                     if (wSize.X < 120)
                         cBis = "-";
                     string cAddonText = "";
@@ -164,14 +164,14 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         cAddonText = cBis.TrimStart() + dynStart.WeekDayNameShort + tEnd.ToString(". HH:mm");
                         if (calEvent.AllDay)
                         {
-                            cTime = "ganztägig";
+                            cTime = mContext.Resources.GetString(Resource.String.calendar_event_all_day);
                             cAddonText = dynStart.ToString("dd.MM.");
                         }
                         if (tEnd - tStart > TimeSpan.FromHours(25))
                         {
                             if (calEvent.AllDay)
                             {
-                                cTime = "mehrtägig";
+                                cTime = mContext.Resources.GetString(Resource.String.calendar_event_multi_day);
                                 cAddonText = dynStart.ToString("d.MM.") + cBis + dynEnd.ToString("d.MM.");
                             }
                         }
@@ -201,7 +201,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                             rv.SetImageViewBitmap(Resource.Id.item_posicon, DrawableHelper.GetIconBitmap(mContext, Resource.Drawable.icons8_sun_18, 16, cfg.ColorEventSymbols));
 
                             iShapeHeigth = 45;
-                            string cPosInfo = (extEvent.LocationString.Equals(calEvent.Location) ? "Position und Ortszeit unklar: " : "Position wird ermittelt: ");
+                            string cPosInfo = (extEvent.LocationString.Equals(calEvent.Location) ? mContext.Resources.GetString(Resource.String.calendar_event_unclear_position_time) +": " : mContext.Resources.GetString(Resource.String.calendar_event_position_is_determined)+": ");
                             Color clPosInfo = cfg.ColorErrorText.ToAndroid();
                             if (extEvent.GotCorrectPosition)
                             {
@@ -428,13 +428,13 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     {
                         if (mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Android.Content.PM.Permission.Granted)
                         {
-                            myEvents.AllDatesAndEvents.Add("Kalender-Berechtigungen fehlen\nBitte hier klicken");
+                            myEvents.AllDatesAndEvents.Add(mContext.Resources.GetString(Resource.String.widget_error_permission_calendar));
                             bPermissionError = true;
                         }
 
                         if (mContext.CheckSelfPermission(Android.Manifest.Permission.AccessCoarseLocation) != Android.Content.PM.Permission.Granted)
                         {
-                            myEvents.AllDatesAndEvents.Add("Standort-Berechtigungen fehlen\nBitte hier klicken");
+                            myEvents.AllDatesAndEvents.Add(mContext.Resources.GetString(Resource.String.widget_error_permission_location));
                             bPermissionError = true;
                         }
 
@@ -464,9 +464,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 myEvents.DoLoadCalendarEventsGrouped(DateTime.Now, DateTime.Today.AddDays(cfg.MaxFutureDays + 1)).Wait();
 
                 if (mLoc.Latitude == 0 && mLoc.Longitude == 0)
-                    myEvents.AllDatesAndEvents.Insert(0, "aktuelle Position unbekannt!");
+                    myEvents.AllDatesAndEvents.Insert(0, mContext.Resources.GetString(Resource.String.widget_warning_location_unknown));
                 else if (mLoc.Timestamp.AddHours(1) < DateTime.Now)
-                    myEvents.AllDatesAndEvents.Insert(0, "aktuelle Position veraltet!");
+                    myEvents.AllDatesAndEvents.Insert(0, mContext.Resources.GetString(Resource.String.widget_warning_location_out_of_date));
 
                 iLastCount = Count;
 

@@ -13,9 +13,9 @@ using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
 {
-    [BroadcastReceiver(Label = "@string/widget_title_lifetime", Name = "me.ichrono.droid.Lifetime.LifetimeWidget")]
-    [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
-    [MetaData("android.appwidget.provider", Resource = "@xml/widget_lifetime")]
+    //[BroadcastReceiver(Label = "@string/widget_title_lifetime", Name = "me.ichrono.droid.Lifetime.LifetimeWidget")]
+    //[IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
+    //[MetaData("android.appwidget.provider", Resource = "@xml/widget_lifetime")]
     public class LifetimeWidget : MainWidgetBase
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -35,12 +35,8 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 
                 DateTime bLifeStart = cfg.LifeStartTime;
                 if (bLifeStart == DateTime.MinValue)
-                {
-                    break;
-                    cfg.WidgetTitle = "Click to configure";
-                    bLifeStart = DateTime.Now.Date;
-                }
-
+                    continue;
+                
                 rv.SetTextViewText(Resource.Id.widget_title, cfg.WidgetTitle);
                 rv.SetTextColor(Resource.Id.widget_title, cfg.ColorTitleText.ToAndroid());
 

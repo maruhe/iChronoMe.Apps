@@ -1,188 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_slogan">Zeit ist dynamisch</string>
-  <string name="navigation_drawer_open">Navigation öffnen</string>
-  <string name="navigation_drawer_close">Navigation schließen</string>
-  <string name="action_settings">Einstellungen</string>
-  <string name="action_options">Optionen</string>
+    <string name="NoSelectedDate">kein Tag ausgewählt</string>
 
-  <string name="widget_loading">Zeit ist nur Illusion\u2026</string>
-  <string name="widget_unconfigured">hier klicken um das Widget zu konfigurieren!</string>
-  <string name="widget_permission_error">ich brauche mehr Berechtigungen, klick here bitte</string>
-  <string name="text_ServiceInfo">warum der Dienst laufen muss? warum es ihn braucht und was man daraus machen kann:</string>
+    <string name="No_Appointments">du bist frei</string>
 
-  <string name="calendar_widget_loading">Termine werden geladen...</string>
-
-  <string name="shortcut_create_calender_event">Termin erstellen</string>
-  <string name="shortcut_create_calender_event_long">long description...</string>
-  <string name="shortcut_create_calender_event_disabled">geht nit? warum nit?</string>
-
-  <string name="shortcut_create_alarm">Wecker stellen</string>
-  <string name="shortcut_create_alarm_long">long description...</string>
-  <string name="shortcut_create_alarm_disabled">geht nit? warum nit?</string>
-
-  <string name="widget_lifetime_loading">ein "tropisches Jahr" dauert:\n365 d 5 h 48 min and 45,261 s</string>
-
-  <string name="loading">lade...</string>
-  <string name="stop_alarm">danke</string>
-  <string name="action_continue">weiter</string>
-  <string name="action_back">zurück</string>
-  <string name="action_ok">ok</string>
-  <string name="action_yes">ja</string>
-  <string name="action_no">nein</string>
-  <string name="action_accept">akzeptieren</string>
-  <string name="action_ignore">ignorieren</string>
-  <string name="action_decline">ablehnen</string>
-  <string name="action_block">blockieren</string>
-
-  <string name="action_colors">Farben</string>
-  <string name="action_background">Hintergrund</string>
-  <string name="dont_ask_again">nicht mehr fragen</string>
-  <string name="just_a_moment">einen Moment bitte...</string>
-
-  <string name="menu_clock">Uhr</string>
-  <string name="menu_calendar">Kalender</string>
-  <string name="menu_tools">Werkzeuge</string>
-  <string name="menu_share">Teilen</string>
-
-  <string name="widget_title_actionbutton">Aktions-Knopf</string>
-  <string name="widget_title_calendar">Kalender Widget in Sonnenzeit</string>
-  <string name="widget_title_clock_analog">Sonnenzeit analog</string>
-  <string name="widget_title_lifetime">Lebenszeit</string>
-
-  <string name="TimeType">Zeit-Typ</string>
-	<string name="welcome_ichronomy">willkommen bei iChronoMe!</string>
-	<string name="label_choose_default_timetype">"wähle einen Zeit-Typ als Standard:"</string>
-
-  <string name="TimeType_RealSunTime">wahre Ortszeit</string>
-  <string name="TimeType_RealSunTime_Desc">
-"die Uhrzeit gemessen an der echten Position der Sonne, wobei der Tageshöchststand der Sonne 12 Uhr bedeutet
-dadurch sind manche Tage etwas kürzer und manche Tage etwas länger als 24 Stunden, wie die Natur nunmal
-die Abweichtung der Zeitzonen-Zeit ändert sich konstant"
-  </string>
-  <string name="TimeType_MiddleSunTime">mittlere Ortzzeit</string>
-  <string name="TimeType_MiddleSunTime_Desc">
+    <string name="TimeType">Zeit-Typ</string>
+    <string name="TimeType_MiddleSunTime">mittlere Ortzzeit</string>
+    <string name="TimeType_MiddleSunTime_Desc">
 "die Uhrzeit basierend auf dem Längengrad deines Standortes und einer 'mittleren Sonnenposition'
 im Laufe eines Jahres kann die Abweichung zur 'wahren Ortszeit' bis zu 18 Minuten betragen
 jeder Tag ist exakt 24 Stunden lang und die Abweichung der Zeitzonen-Zeit bleibt konstant"
   </string>
-  <string name="TimeType_TimeZoneTime">Zeitzonen Zeit</string>
-  <string name="TimeType_TimeZoneTime_Desc">
+    <string name="TimeType_RealSunTime">wahre Ortszeit</string>
+    <string name="TimeType_RealSunTime_Desc">
+"die Uhrzeit gemessen an der echten Position der Sonne, wobei der Tageshöchststand der Sonne 12 Uhr bedeutet
+dadurch sind manche Tage etwas kürzer und manche Tage etwas länger als 24 Stunden, wie die Natur nunmal
+die Abweichtung der Zeitzonen-Zeit ändert sich konstant"
+  </string>
+    <string name="TimeType_TimeZoneTime">Zeitzonen Zeit</string>
+    <string name="TimeType_TimeZoneTime_Desc">
 "diese Zeit basiert unter anderem auf den vermeidlichen Ländergrenzen und Gesetzten des Landes, das du gerade genießt
 oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"
   </string>
 
-  <string name="assistant_permission_welcome">
-    "ein paar Berechtigungen wünsche ich mir:"
-  </string>
-  <string name="assistant_permission_location">
-    der Zugriff auf den Standort ist wichtig um die Sonnenzeit berechnen zu können"
-  </string>
-  <string name="assistant_permission_calendar">
+    <string name="action_abort">abbrechen</string>
+    <string name="action_accept">akzeptieren</string>
+    <string name="action_allow_send_errorlogs">Fehlerberichte senden</string>
+    <string name="action_back">zurück</string>
+    <string name="action_background">Hintergrund</string>
+    <string name="action_backgroundservice_showalways">Uhr immer im Benachrichtigunsbereich anzeigen</string>
+    <string name="action_block">blockieren</string>
+    <string name="action_calendar_UsesDefaultTimeType">Kalender verwendet den selben Zeit-Typ</string>
+    <string name="action_cancel">abbrechen</string>
+    <string name="action_cfg_calendar_show_allday">ganztägige Termine anzeigen</string>
+    <string name="action_change_theme">Thema ändern</string>
+    <string name="action_clear_cache">Zwischenspeicher leeren</string>
+    <string name="action_close">schließen</string>
+    <string name="action_colors">Farben</string>
+    <string name="action_continue">weiter</string>
+    <string name="action_decline">ablehnen</string>
+    <string name="action_deny_error_screentshot">nur Fehlerberichten ohne Bilder</string>
+    <string name="action_handcolors">Zeiger Farben</string>
+    <string name="action_handtypes">Zeiger Arten</string>
+    <string name="action_ignore">ignorieren</string>
+    <string name="action_location_type_live">aktueller Standort</string>
+    <string name="action_location_type_promt">Wählen einen Standort:</string>
+    <string name="action_location_type_static">feste Position</string>
+    <string name="action_more">mehr</string>
+    <string name="action_no">nein</string>
+    <string name="action_notification_click_action">beim Klick auf die Benachrichtigung</string>
+    <string name="action_notification_config">Benachrichtigungsbereich</string>
+    <string name="action_notification_show_always">Uhr im Benachrichtigungsbereich immer anzeigen</string>
+    <string name="action_ok">ok</string>
+    <string name="action_options">Optionen</string>
+    <string name="action_refresh_location">Standord aktualisieren</string>
+    <string name="action_refresh_location_continuous">meine Position aktualisieren</string>
+    <string name="action_remove">entfernen</string>
+    <string name="action_remove_all">alle entfernen</string>
+    <string name="action_save">speichern</string>
+    <string name="action_search_location">Position suchen</string>
+    <string name="action_select">wählen</string>
+    <string name="action_select_location">Position wählen</string>
+    <string name="action_send_errorlog_once">einmalig senden</string>
+    <string name="action_send_testlog">protokoll senden</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_tickmarks">Zifferblatt</string>
+    <string name="action_today">heute</string>
+    <string name="action_webpage">Web-Seite</string>
+    <string name="action_yes">ja</string>
+
+    <string name="alert_no_calendar_found">keine Kalender gefunden!</string>
+
+    <string name="all_day">ganztägig</string>
+
+    <string name="app_needs_location_description">nur mit einer Positionsangabe ist es möglich Sonnenzeiten zu berechnen</string>
+    <string name="app_slogan">Zeit ist dynamisch</string>
+
+    <string name="assistant_permission_calendar">
     "um deine Termine in Sonnenzeit anzeigen zu können wird der Zugriff aud deinen Kalender benötigt"
   </string>
-  <string name="assistant_permission_storage">
+    <string name="assistant_permission_location">
+    der Zugriff auf den Standort ist wichtig um die Sonnenzeit berechnen zu können"
+  </string>
+    <string name="assistant_permission_storage">
     "und solltes du auch den Zugriff auf den Gerätespeicher zulassen kann die Voschau von Widges auch gleich mit deinem Hintergrundbild angezeigt werden"
   </string>
-  <string name="assistant_privacy_question">hast du Interesse an unseren Informationen zu Dateschutz und Privatsphäre?</string>
-  <string name="assistant_privacy_title">Informationen zu Dateschutz und Privatsphäre?</string>
-  <string name="assistant_privacy_message">alles kann man klacken...</string>
+    <string name="assistant_permission_welcome">
+    "ein paar Berechtigungen wünsche ich mir:"
+  </string>
+    <string name="assistant_privacy_message">alles kann man klacken...</string>
+    <string name="assistant_privacy_question">hast du Interesse an unseren Informationen zu Dateschutz und Privatsphäre?</string>
+    <string name="assistant_privacy_title">Informationen zu Dateschutz und Privatsphäre?</string>
 
-  <string name="calendar_viewtype_Timeline">Zeitlinie</string>
-  <string name="calendar_viewtype_DayView">Tagesansicht</string>
-  <string name="calendar_viewtype_WeekView">Wochenansicht</string>
-  <string name="calendar_viewtype_WorkWeek">Arbeitswoche</string>
-  <string name="calendar_viewtype_MonthView">Monatsansicht</string>
-  <string name="calendar_monthview_appointmentviewtypes_title">Termine anzeigen:</string>
-
-  <string-array name="calendar_monthview_appointmentviewtypes">
-    <item>inline</item>
-    <item>agenda</item>
-    <item>ausgeblendet</item>
-  </string-array>
-
-  <!-- backgroundservice -->
-
-  <string name="backgroundservice_info_why">warum sehe ich diese Uhr im Benachrichtigunsbereich?</string>
-  <string name="backgroundservice_info_explenation">
+    <string name="backgroundservice_info_explenation">
 "um ein Uhr-Widget mit benutzerdefinierter Zeit anzeigen zu können, muss ein Dienst im Hintergund laufen
 seit Android 7 ist es notwendig eine Benachrichtigung anzuzeigen solange im Hintergrund Aktionen ausgeführt werden
 du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellungen blockieren
   </string>
+    <!-- backgroundservice -->
+    <string name="backgroundservice_info_why">warum sehe ich diese Uhr im Benachrichtigunsbereich?</string>
 
-  <string name="action_backgroundservice_showalways">Uhr immer im Benachrichtigunsbereich anzeigen</string>
-
-  <string name="action_location_type_promt">Wählen einen Standort:</string>
-  <string name="action_location_type_live">aktueller Standort</string>
-  <string name="action_location_type_static">feste Position</string>
-  <string name="action_select_location">Position wählen</string>
-  <string name="label_title">Titel</string>
-  <string-array name="label_locationtypes">
-    <item>@string/action_location_type_live</item>
-    <item>@string/action_location_type_static</item>
-  </string-array>
-
-  <string name="action_notification_click_action">beim Klick auf die Benachrichtigung</string>
-  <string-array name="label_notification_click_actions">
-    <item>dieses Fenster öffnen</item>
-    <item>iChronoMe starten</item>
-    <item>öffne "Uhr"</item>
-    <item>öffne "Kalender"</item>
-    <item>nichts unternehmen</item>
-  </string-array>
-
-	<string name="No_Appointments">du bist frei</string>
-	<string name="all_day">ganztägig</string>
-    <string name="NoSelectedDate">kein Tag ausgewählt</string>
-    <string name="action_abort">abbrechen</string>
-    <string name="action_calendar_UsesDefaultTimeType">Kalender verwendet den selben Zeit-Typ</string>
-    <string name="action_cfg_calendar_show_allday">ganztägige Termine anzeigen</string>
-    <string name="action_clear_cache">Zwischenspeicher leeren</string>
-    <string name="action_close">schließen</string>
-    <string name="action_more">mehr</string>
-    <string name="action_notification_config">Benachrichtigungsbereich</string>
-    <string name="action_notification_show_always">Uhr im Benachrichtigungsbereich immer anzeigen</string>
+    <string name="calendar_monthview_appointmentdisplaymode_max_title">maximal:</string>
     <string name="calendar_monthview_appointmentdisplaymode_title">Anzeigemodus:</string>
+    <string-array name="calendar_monthview_appointmentdisplaymodes">
+        <item>indicator</item>
+        <item>appointment</item>
+    </string-array>
+    <string-array name="calendar_monthview_appointmentviewtypes">
+        <item>inline</item>
+        <item>agenda</item>
+        <item>ausgeblendet</item>
+    </string-array>
+    <string name="calendar_monthview_appointmentviewtypes_title">Termine anzeigen:</string>
+    <string-array name="calendar_monthview_navigation_directions">
+        <item>horizontal</item>
+        <item>vertikal</item>
+    </string-array>
+    <string name="calendar_viewtype_DayView">Tagesansicht</string>
+    <string name="calendar_viewtype_MonthView">Monatsansicht</string>
+    <string name="calendar_viewtype_Timeline">Zeitlinie</string>
+    <string name="calendar_viewtype_WeekView">Wochenansicht</string>
+    <string name="calendar_viewtype_WorkWeek">Arbeitswoche</string>
+    <string name="calendar_widget_loading">Termine werden geladen...</string>
+
+    <string name="description_BackgroundService">damit die Widges laufen..</string>
+
+    <string name="dont_ask_again">nicht mehr fragen</string>
+
+    <string name="error_location_is_needet">diese App benötigt einen Standort um zu funktionieren</string>
+    <string name="error_message_paramers">Parameter-Fehler, versuch\'s nochmal</string>
+    <string name="error_saving_event">Fehler beim Speichern des Termins</string>
+
+    <string name="ezmz_runningwidgets_more">{0} Widgets aktiv</string>
+    <string name="ezmz_runningwidgets_one">Ein Widget aktiv</string>
+    <string name="ezmz_runningwidgets_zero">keine aktiven Widges</string>
+
+    <string name="just_a_moment">einen Moment bitte...</string>
+
+    <string name="label_BackgroundService">Widget Update-Dienst</string>
+    <string name="label_ShortCutActivity">short cut\'s</string>
     <string name="label_calendar_TimeType">Kalender Zeit-Typ</string>
     <string name="label_cfg_calendar_core_time">Kernzeiten</string>
     <string name="label_cfg_calendar_show_weeknumbers">Wochennummern anzeigen</string>
     <string name="label_cfg_calendar_visible_time">sichtbare Zeit</string>
     <string name="label_cfg_timeline_days_count">Tage</string>
+    <string name="label_choose_default_timetype">"wähle einen Zeit-Typ als Standard:"</string>
+    <string name="label_choose_theme_firsttime">zu erst wähle deine Farben</string>
     <string name="label_default_TimeType">standard Zeit-Typ</string>
+    <string name="label_error">Fehler</string>
+    <string name="label_errorlog">Fehlerprotokoll</string>
+    <string-array name="label_notification_click_actions">
+        <item>dieses Fenster öffnen</item>
+        <item>iChronoMe starten</item>
+        <item>öffne "Uhr"</item>
+        <item>öffne "Kalender"</item>
+        <item>nichts unternehmen</item>
+    </string-array>
+    <string name="label_sceenshot">Screenshot</string>
+    <string name="label_title">Titel</string>
+
+    <string name="loading">lade...</string>
+
+    <string name="location_provider_disabled_alert">die Standort-Dienste scheinen deaktiviert zu seind</string>
+    <string name="location_provider_disabled_question">möchtest du sie aktivieren?</string>
+
     <string name="menu_about">Über</string>
+    <string name="menu_calendar">Kalender</string>
+    <string name="menu_clock">Uhr</string>
+    <string name="menu_faq">FAQ</string>
     <string name="menu_service">Service</string>
     <string name="menu_settings">Einstellungen</string>
-    <string name="menu_faq">FAQ</string>
-    <string name="action_cancel">abbrechen</string>
-  <string name="action_deny_error_screentshot">nur Fehlerberichten ohne Bilder</string>
-  <string name="action_refresh_location">Standord aktualisieren</string>
-  <string name="action_remove">entfernen</string>
-  <string name="action_remove_all">alle entfernen</string>
-  <string name="action_select">wählen</string>
-  <string name="action_search_location">Position suchen</string>
-  <string name="alert_no_calendar_found">keine Kalender gefunden!</string>
-  <string name="calendar_monthview_appointmentdisplaymode_max_title">maximal:</string>
-  <string name="description_BackgroundService">damit die Widges laufen..</string>
-  <string name="ezmz_runningwidgets_more">{0} Widgets aktiv</string>
-  <string name="ezmz_runningwidgets_one">Ein Widget aktiv</string>
-  <string name="ezmz_runningwidgets_zero">keine aktiven Widges</string>
-  <string name="label_BackgroundService">Widget Update-Dienst</string>
-  <string name="label_ShortCutActivity">short cut\'s</string>
-  <string name="label_error">Fehler</string>
-  <string name="label_errorlog">Fehlerprotokoll</string>
-  <string name="label_sceenshot">Screenshot</string>
-  <string name="menu_world_time_map">Welt-Zeit Karte</string>
-  <string name="progress_clearcache_action">Zwischenspeicher löschen</string>
-  <string name="progress_clearcache_title">Zwischenspeicher löschen</string>
-  <string name="progress_clearcache_message">anschließend kannst du iChronoMe einfach wieder starten</string>
-  <string name="progress_overlay_timezones_title">Zeitzonen werden aufbereitet</string>
-  <string name="progress_senderrorlog_message">dürfen Fehlerprotokolle übertragen werden, damit sowas gelöst werden kann? diese Protokollen enthalten technische Parameter deines Geräts und sofern du erlaubst einen Screenshot, aber sonst natürlich keinerlei persönliche Informationen!</string>
-  <string name="progress_senderrorlog_more">mehr Informationen</string>
-  <string name="progress_senderrorlog_title">letztes mal ging etwas schief oder die App ist abgestürzt!</string>
-  <string name="progress_systemtest_action">System-Test</string>
-  <string name="progress_systemtest_title">System-Test</string>
-  <string name="question_create_new_calendar">soll ein neuer Calendar angelegt werden?</string>
-  <string name="search_hint">wenn dieser Text auftaucht bitte bescheid geben ;-)</string>
-  <string name="title_location_picker">wähle eine Position</string>
-  <string name="unknown_position">unbekannte Position</string>
+    <string name="menu_share">Teilen</string>
+    <string name="menu_tools">Werkzeuge</string>
+    <string name="menu_world_time_map">Welt-Zeit Karte</string>
 
+    <string name="navigation_drawer_close">Navigation schließen</string>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+
+    <string name="progress_clearcache_action">Zwischenspeicher löschen</string>
+    <string name="progress_clearcache_message">anschließend kannst du iChronoMe einfach wieder starten</string>
+    <string name="progress_clearcache_title">Zwischenspeicher löschen</string>
+    <string name="progress_deleteerrorlog_done">alle Fehlerprotokolle wurden gelöscht</string>
+    <string name="progress_overlay_timezones_title">Zeitzonen werden aufbereitet</string>
+    <string name="progress_preparing_data">Daten werden vorbereitet...</string>
+    <string name="progress_senderrorlog_message">dürfen Fehlerprotokolle übertragen werden, damit sowas gelöst werden kann? diese Protokollen enthalten technische Parameter deines Geräts und sofern du erlaubst einen Screenshot, aber sonst natürlich keinerlei persönliche Informationen!</string>
+    <string name="progress_senderrorlog_more">mehr Informationen</string>
+    <string name="progress_senderrorlog_title">letztes mal ging etwas schief oder die App ist abgestürzt!</string>
+    <string name="progress_systemtest_action">System-Test</string>
+    <string name="progress_systemtest_title">System-Test</string>
+
+    <string name="question_create_new_calendar">soll ein neuer Calendar angelegt werden?</string>
+
+    <string name="search_hint">wenn dieser Text auftaucht bitte bescheid geben ;-)</string>
+
+    <string name="shortcut_create_alarm">Wecker stellen</string>
+    <string name="shortcut_create_alarm_disabled">geht nit? warum nit?</string>
+    <string name="shortcut_create_alarm_long">long description...</string>
+    <string name="shortcut_create_calender_event">Termin erstellen</string>
+    <string name="shortcut_create_calender_event_disabled">geht nit? warum nit?</string>
+    <string name="shortcut_create_calender_event_long">long description...</string>
+
+    <string name="stop_alarm">danke</string>
+
+    <string name="text_ServiceInfo">warum der Dienst laufen muss? warum es ihn braucht und was man daraus machen kann:</string>
+
+    <string name="title_edit_event">Termin bearbeiten</string>
+    <string name="title_location_picker">wähle eine Position</string>
+    <string name="title_new_event">Neuer Termin</string>
+    <string name="title_send_errorlog">diese Informationen werden übertragen:</string>
+
+    <string name="unknown_position">unbekannte Position</string>
+
+    <string name="wallpaper_title_clock_analog">analoge Sonnenuhr</string>
+
+    <string name="welcome_ichronomy">willkommen bei iChronoMe!</string>
+
+    <string name="widget_lifetime_loading">ein "tropisches Jahr" dauert:\n365 d 5 h 48 min and 45,261 s</string>
+    <string name="widget_loading">Zeit ist nur Illusion\u2026</string>
+    <string name="widget_permission_error">ich brauche mehr Berechtigungen, klick here bitte</string>
+    <string name="widget_title_actionbutton">Aktions-Knopf</string>
+    <string name="widget_title_calendar">Kalender Widget in Sonnenzeit</string>
+    <string name="widget_title_clock_analog">analoge Sonnenzeit</string>
+    <string name="widget_title_lifetime">Lebenszeit</string>
+    <string name="widget_unconfigured">hier klicken um das Widget zu konfigurieren!</string>
+  <string name="calendar_event_all_day">ganztägig</string>
+  <string name="calendar_event_multi_day">mehtägig</string>
+  <string name="calendar_event_to">bis</string>
+  <string name="calendar_event_position_is_determined">Position wird ermittelt</string>
+  <string name="calendar_event_unclear_position_time">Position und Ortszeit unklar</string>
+  <string name="widget_error_location_is_requered">Die Kalender-Widget\'s funktionieren nur mit Zugriff auf Kalender und Standort!</string>
+  <string name="widget_error_permission_calendar">Kalender-Berechtigungen fehlen</string>
+  <string name="widget_error_permission_location">Standort-Berechtigungen fehlen</string>
+  <string name="widget_warning_location_out_of_date">aktuelle Position veraltet!</string>
+  <string name="widget_warning_location_unknown">aktuelle Position unbekannt!</string>
 </resources>
