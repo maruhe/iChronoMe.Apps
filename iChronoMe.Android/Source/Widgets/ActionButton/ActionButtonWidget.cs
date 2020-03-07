@@ -5,7 +5,7 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
-
+using Android.Widget;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Widgets;
 
@@ -42,14 +42,14 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             xLog.Verbose("start");
 
             var cfgHolder = new WidgetConfigHolder();
-            foreach (int iWidgetId in appWidgetIds)
+            /*foreach (int iWidgetId in appWidgetIds)
             {
                 //Config beim ersten mal anlegen
                 if (!cfgHolder.WidgetExists(iWidgetId))
                 {
                     cfgHolder.SetWidgetCfg(cfgHolder.GetWidgetCfg<WidgetCfg_ActionButton>(iWidgetId));
                 }
-            }
+            }*/
 
             DateTime tSendWork = DateTime.Now;
 
@@ -73,10 +73,23 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     foreach (int iWidgetId in appWidgetIds)
                     {
                         var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ActionButton>(iWidgetId, false);
-                        Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
-                        float nHour = (float)ActionButtonService.lth.GetTime(cfg.CurrentTimeType).TimeOfDay.TotalHours;
+                        if (cfg == null)
+                        {
+                            RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_unconfigured);
 
-                        ActionButtonService.DrawButton(context, cfg, wSize, appWidgetManager, iWidgetId, nHour, iDay, iDayCount, false);
+                            var itConfig = new Intent(context, typeof(ActionButtonWidgetConfigActivity));
+                            itConfig.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                            rv.SetOnClickPendingIntent(Resource.Id.widget, PendingIntent.GetActivity(context, iWidgetId, itConfig, PendingIntentFlags.CancelCurrent));
+
+                            appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                        }
+                        else
+                        {
+                            Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
+                            float nHour = (float)ActionButtonService.lth.GetTime(cfg.CurrentTimeType).TimeOfDay.TotalHours;
+
+                            ActionButtonService.DrawButton(context, cfg, wSize, appWidgetManager, iWidgetId, nHour, iDay, iDayCount, false);
+                        }
                     }
                 }
             });

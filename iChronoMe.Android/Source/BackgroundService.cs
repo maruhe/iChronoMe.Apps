@@ -187,7 +187,7 @@ namespace iChronoMe.Droid
                 .SetContentTitle(cTitle)
                 .SetContentText(cText)
                 .SetSmallIcon(Resource.Drawable.sunclock)
-                .SetContentIntent(MainWidgetBase.GetClickActionIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
+                .SetContentIntent(MainWidgetBase.GetClickActionPendingIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
                 .SetOngoing(true)
                 .Build();
 
@@ -902,7 +902,7 @@ namespace iChronoMe.Droid
                 updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
             }
 
-            updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, MainWidgetBase.GetClickActionIntent(ctx, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
+            updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, MainWidgetBase.GetClickActionPendingIntent(ctx, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
 
             return updateViews;
         }

@@ -524,7 +524,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                             }
                             catch { }
                         }
-                        Tools.ShowDebugToast(Context, iDeleted + " events deleted");
+                        Tools.ShowToastDebug(Context, iDeleted + " events deleted");
                         LoadEvents();
                     });
                 })

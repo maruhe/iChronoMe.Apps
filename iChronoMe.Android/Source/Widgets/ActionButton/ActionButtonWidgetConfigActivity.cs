@@ -21,6 +21,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
     {
         DynamicCalendarModel CalendarModel;
         AlertDialog pDlg;
+        WidgetConfigHolder holder;
 
         protected override void OnResume()
         {
@@ -67,6 +68,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 {
                     Task.Delay(100).Wait();
 
+                    holder = new WidgetConfigHolder();
+
                     iChronoMe.Widgets.AndroidHelpers.Tools.HelperContext = this;
                     if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
                     {
@@ -100,10 +103,11 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             }
 
             var tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_ClickAction);
-            //if (holder.WidgetExists<WidgetCfg_ActionButton>(appWidgetId))
-            //  tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_OptionsBase);
-            //var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId);
-            var cfg = new WidgetCfg_ActionButton();
+            var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId, false); 
+            if (cfg != null)
+               tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_OptionsBase);
+            if (cfg == null)
+                cfg = new WidgetCfg_ActionButton();
             var manager = new WidgetConfigAssistantManager<WidgetCfg_ActionButton>(this, wallpaperDrawable);
             Task.Factory.StartNew(async () =>
             {
@@ -112,8 +116,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     var result = await manager.StartAt(tStartAssistant, cfg);
                     if (result != null)
                     {
-                        result.WidgetConfig.WidgetId = appWidgetId;
-                        new WidgetConfigHolder().SetWidgetCfg(result.WidgetConfig);
+                        new WidgetConfigHolder().SetWidgetCfg(result.WidgetConfig, appWidgetId);
 
                         Intent resultValue = new Intent();
                         resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);

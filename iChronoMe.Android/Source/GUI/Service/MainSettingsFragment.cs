@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
-
+using System.Threading.Tasks;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
@@ -10,9 +11,18 @@ using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
+using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.ViewModels;
+using iChronoMe.Droid.Widgets;
+using iChronoMe.Droid.Widgets.ActionButton;
+using iChronoMe.Droid.Widgets.Calendar;
+using iChronoMe.Droid.Widgets.Clock;
+using iChronoMe.Droid.Widgets.Lifetime;
+using iChronoMe.Widgets;
+using iChronoMe.Widgets.Assistants;
+using static iChronoMe.Droid.Tools;
 
 namespace iChronoMe.Droid.GUI.Service
 {
@@ -42,6 +52,8 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Spinner>(Resource.Id.sp_calendar_timetype).Adapter = new TimeTypeAdapter(Activity, true);
 
             RootView.FindViewById<Button>(Resource.Id.btn_notification_config).Click += btnNotifyCfg_Click;
+
+            RootView.FindViewById<Button>(Resource.Id.btn_widgets_config).Click += btnWidgetsConfig_Click;
 #if DEBUG
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Click += btnLiveWallpaper_Click;
 #else
@@ -54,6 +66,100 @@ namespace iChronoMe.Droid.GUI.Service
             binder.UserChangedProperty += Binder_UserChangedProperty;
 
             return RootView;
+        }
+
+        public Task<int> UserInputTaskTask { get { return tcsUI == null ? Task.FromResult(-1) : tcsUI.Task; } }
+        private TaskCompletionSource<int> tcsUI = null;
+        private void btnWidgetsConfig_Click(object sender, EventArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var manager = AppWidgetManager.GetInstance(Context);
+                int[] clockS = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+                int[] calendars = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
+                int[] buttons = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
+                int[] chronos = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+
+                if (clockS.Length+calendars.Length+buttons.Length+chronos.Length == 0)
+                {
+                    Tools.ShowToast(Context, localize.info_no_widgets_found);
+                    return;
+                }
+
+                var holder = new WidgetConfigHolder();
+
+                var samples = new System.Collections.Generic.List<WidgetCfgSample<WidgetCfg>>();
+                foreach (int i in clockS)
+                {
+                    var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(i, false);
+                    if (cfg == null)
+                        continue;
+                    samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));
+                }
+                foreach (int i in calendars)
+                {
+                    var cfg = holder.GetWidgetCfg<WidgetCfg_Calendar>(i, false);
+                    if (cfg == null)
+                        continue;
+                    samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));
+                }
+                foreach (int i in buttons)
+                {
+                    var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(i, false);
+                    if (cfg == null)
+                        continue;
+                    samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));
+                }
+                foreach (int i in chronos)
+                {
+                    var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(i, false);
+                    if (cfg == null)
+                        continue;
+                    samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));
+                }
+
+                var assi = new WidgetCfgAssistant_Dummy(localize.title_EditWidget, samples);
+
+                var listAdapter = new WidgetPreviewListAdapter<WidgetCfg>(Activity, assi, new Point(400, 300), null, CalendarModelCfgHolder.BaseGregorian, new EventCollection(), new EventCollection());
+
+                tcsUI = new TaskCompletionSource<int>();
+                Activity.RunOnUiThread(() =>
+                {
+                    var dlg = new AlertDialog.Builder(Activity)
+                        .SetTitle(assi.Title)
+                        .SetNegativeButton("abbrechen", (s, e) => { tcsUI.TrySetResult(-1); })
+                        .SetSingleChoiceItems(listAdapter, -1, new AsyncSingleChoiceClickListener(tcsUI))
+                        .SetOnCancelListener(new AsyncDialogCancelListener<int>(tcsUI));
+
+                    dlg.Create().Show();
+                });
+
+                UserInputTaskTask.Wait();
+
+                if (UserInputTaskTask.Result >= 0)
+                {
+                    string settingsUri = "";
+
+                    var cfg = assi.Samples[UserInputTaskTask.Result];
+
+                    if (cfg.WidgetConfig is WidgetCfg_ClockAnalog)
+                        settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity";
+                    else if (cfg.WidgetConfig is WidgetCfg_Calendar)
+                        settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity";
+                    else if (cfg.WidgetConfig is WidgetCfg_ActionButton)
+                        settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.ActionButton.ActionButtonWidgetConfigActivity";
+                    else if (cfg.WidgetConfig is WidgetCfg_Lifetime)
+                        settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity";
+
+                    if (string.IsNullOrEmpty(settingsUri))
+                    {
+                        Tools.ShowToast(Context, "internal error");
+                        return;
+                    }
+
+                    Context.StartActivity(MainWidgetBase.GetClickActionIntent(Context, new ClickAction(ClickActionType.OpenSettings), cfg.WidgetConfig.WidgetId, settingsUri));
+                }
+            });
         }
 
 #if DEBUG

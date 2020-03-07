@@ -14,6 +14,7 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
+using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.ViewModels
 {
@@ -100,7 +101,10 @@ namespace iChronoMe.Droid.ViewModels
 
         public async void ShowLocationSelector(object sender, EventArgs e)
         {
-            var pos = await LocationPickerDialog.SelectLocation((BaseActivity)mContext);
+            Location loc = null;
+            if (clock.PositionType == WidgetCfgPositionType.StaticPosition)
+                loc = new Location(clock.Latitude, clock.Longitude);
+            var pos = await LocationPickerDialog.SelectLocation((BaseActivity)mContext, loc, loc);
             if (pos == null)
             {
                 if (clock == null)

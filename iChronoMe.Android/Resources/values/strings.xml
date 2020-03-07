@@ -165,6 +165,7 @@
 	  <string name="ClickActionType_CreateEvent">create event</string>
 	  <string name="ClickActionType_CreateAlarm">create alarm</string>
 	  <string name="ClickActionType_OpenOtherApp">open another app</string>
+	  <string name="ClickActionType_Animate">just animate</string>
 
     <string name="label_sceenshot">screenshot</string>
     <string name="label_title">title</string>

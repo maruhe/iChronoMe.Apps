@@ -91,6 +91,17 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                         TimeSpan tsPreInit = DateTime.Now - swStart;
                         swStart = DateTime.Now;
                         var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ActionButton>(iWidgetId, false);
+                        if (cfg == null)
+                        {
+                            RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
+
+                            var itConfig = new Intent(this, typeof(ActionButtonWidgetConfigActivity));
+                            itConfig.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                            rv.SetOnClickPendingIntent(Resource.Id.widget, PendingIntent.GetActivity(this, iWidgetId, itConfig, PendingIntentFlags.CancelCurrent));
+
+                            appWidgetManager.UpdateAppWidget(iWidgetId, rv);
+                            return;
+                        }
 
                         Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
 
@@ -195,7 +206,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             }
             else
             {
-                rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionIntent(context, cfg.ClickAction, iWidgetId, null));
+                rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionPendingIntent(context, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.ActionButton.ActionButtonWidgetConfigActivity"));
             }
 
             if (cfg.Style == ActionButton_Style.iChronEye)

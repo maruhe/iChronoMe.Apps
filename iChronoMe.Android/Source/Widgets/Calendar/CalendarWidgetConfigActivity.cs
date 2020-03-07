@@ -100,6 +100,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     AppWidgetManager widgetManager = AppWidgetManager.GetInstance(this);
                     List<int> ids = new List<int>(widgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name)));
 
+                    /*
                     try
                     {
                         foreach (var cfg in holder.AllCfgs())
@@ -126,6 +127,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     {
                         sys.LogException(ex);
                     }
+                    */
 
                     TryGetWallpaper();
 

@@ -1099,7 +1099,7 @@ namespace iChronoMe.Droid.GUI
                                 }
                                 tskStopLocationUpdates = null;
                                 locationManager?.RemoveUpdates(this);
-                                Tools.ShowDebugToast(Context, "LocationUpdates stopped..");
+                                Tools.ShowToastDebug(Context, "LocationUpdates stopped..");
                             });
                         }
                     }
@@ -1174,7 +1174,7 @@ namespace iChronoMe.Droid.GUI
                 catch (Exception ex)
                 {
                     xLog.Error(ex);
-                    Tools.ShowDebugToast(Context, ex.Message);
+                    Tools.ShowToastDebug(Context, ex.Message);
                 }
             });
         }
@@ -1262,7 +1262,7 @@ namespace iChronoMe.Droid.GUI
         public void OnLocationChanged(Android.Locations.Location location)
         {
             lastReceivedLocation = location;
-            Tools.ShowDebugToast(Context, "got a location update");
+            Tools.ShowToastDebug(Context, "got a location update");
 
             lth.ChangePositionDelay(location.Latitude, location.Longitude);
         }

@@ -25,7 +25,7 @@ namespace iChronoMe.Droid
     public static class Tools
     {
 
-        public static void ShowDebugToast(Context context, string text, bool bShowLong = false)
+        public static void ShowToastDebug(Context context, string text, bool bShowLong = false)
         {
 #if DEBUG
             MainThread.BeginInvokeOnMainThread(() =>
@@ -109,7 +109,7 @@ namespace iChronoMe.Droid
                     .SetMessage(text)
                     .SetPositiveButton(cYes, (s, e) => { tcsYnMsg.TrySetResult(true); })
                     .SetNegativeButton(cNo, (s, e) => { tcsYnMsg.TrySetResult(false); })
-                    .SetOnCancelListener(new myDialogCancelListener<bool>(tcsYnMsg))
+                    .SetOnCancelListener(new AsyncDialogCancelListener<bool>(tcsYnMsg))
                     .Create();
 
                     dlg.Show();
@@ -138,7 +138,7 @@ namespace iChronoMe.Droid
                     SetTitle(title)
                     .SetMessage(text)
                     .SetPositiveButton(Resource.String.action_ok, (s, e) => { tcsYnMsg.TrySetResult(true); })
-                    .SetOnCancelListener(new myDialogCancelListener<bool>(tcsYnMsg))
+                    .SetOnCancelListener(new AsyncDialogCancelListener<bool>(tcsYnMsg))
                     .Create();
 
                     dlg.Show();
@@ -182,7 +182,7 @@ namespace iChronoMe.Droid
                             HideKeyboard(context, edit);
                         })
                     .SetNegativeButton(context.Resources.GetString(Resource.String.action_cancel), (s, e) => { tcsTxtDlg.TrySetResult(null); })
-                    .SetOnCancelListener(new myDialogCancelListener<string>(tcsTxtDlg));
+                    .SetOnCancelListener(new AsyncDialogCancelListener<string>(tcsTxtDlg));
                     ShowKeyboard(context, edit);
 
                     dlg.Create().Show();
@@ -234,8 +234,8 @@ namespace iChronoMe.Droid
                     var builder = new AlertDialog.Builder(context).SetTitle(title);
                     if (allowAbort)
                         builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsScDlg.TrySetResult(-1); });
-                    builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
-                    builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    builder = builder.SetSingleChoiceItems(items, -1, new AsyncSingleChoiceClickListener(tcsScDlg));
+                    builder = builder.SetOnCancelListener(new AsyncDialogCancelListener<int>(tcsScDlg));
                     if (!string.IsNullOrEmpty(message))
                         builder.SetMessage(message);
                     var dlg = builder.Create();
@@ -264,8 +264,8 @@ namespace iChronoMe.Droid
                     var builder = new AlertDialog.Builder(context).SetTitle(title);
                     if (bAllowAbort)
                         builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_abort), (s, e) => { tcsScDlg.TrySetResult(-1); });
-                    builder = builder.SetSingleChoiceItems(items, -1, new SingleChoiceClickListener(tcsScDlg));
-                    builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    builder = builder.SetSingleChoiceItems(items, -1, new AsyncSingleChoiceClickListener(tcsScDlg));
+                    builder = builder.SetOnCancelListener(new AsyncDialogCancelListener<int>(tcsScDlg));
                     var dlg = builder.Create();
 
                     dlg.Show();
@@ -309,8 +309,8 @@ namespace iChronoMe.Droid
                     var builder = new AlertDialog.Builder(context).SetTitle(title);
                     if (bAllowAbort)
                         builder = builder.SetNegativeButton(context.Resources.GetString(Resource.String.action_yes), (s, e) => { tcsScDlg.TrySetResult(-1); });
-                    builder = builder.SetSingleChoiceItems(textS.ToArray(), -1, new SingleChoiceClickListener(tcsScDlg));
-                    builder = builder.SetOnCancelListener(new myDialogCancelListener<int>(tcsScDlg));
+                    builder = builder.SetSingleChoiceItems(textS.ToArray(), -1, new AsyncSingleChoiceClickListener(tcsScDlg));
+                    builder = builder.SetOnCancelListener(new AsyncDialogCancelListener<int>(tcsScDlg));
                     var dlg = builder.Create();
 
                     dlg.Show();
@@ -466,60 +466,60 @@ namespace iChronoMe.Droid
             }
             return "";
         }
+    }
 
-        private class myDialogCancelListener<T> : Java.Lang.Object, IDialogInterfaceOnCancelListener
+    public class AsyncDialogCancelListener<T> : Java.Lang.Object, IDialogInterfaceOnCancelListener
+    {
+        TaskCompletionSource<T> Handler;
+
+        public AsyncDialogCancelListener(TaskCompletionSource<T> tcs)
         {
-            TaskCompletionSource<T> Handler;
-
-            public myDialogCancelListener(TaskCompletionSource<T> tcs)
-            {
-                Handler = tcs;
-            }
-
-            public void OnCancel(IDialogInterface dialog)
-            {
-                if (typeof(T) == typeof(bool))
-                    (Handler as TaskCompletionSource<bool>).TrySetResult(false);
-                else if (typeof(T) == typeof(int))
-                    (Handler as TaskCompletionSource<int>).TrySetResult(-1);
-                else if (typeof(string) == typeof(string))
-                    (Handler as TaskCompletionSource<string>).TrySetResult(null);
-                else if (typeof(object) == typeof(object))
-                    (Handler as TaskCompletionSource<object>).TrySetResult(null);
-                else
-                    Handler.TrySetResult(default(T));
-
-                dialog?.Dismiss();
-            }
-
-            protected override void Dispose(bool disposing)
-            {
-                Handler = null;
-                base.Dispose(disposing);
-            }
+            Handler = tcs;
         }
 
-        public class SingleChoiceClickListener : Java.Lang.Object, IDialogInterfaceOnClickListener
+        public void OnCancel(IDialogInterface dialog)
         {
-            TaskCompletionSource<int> Handler;
+            if (typeof(T) == typeof(bool))
+                (Handler as TaskCompletionSource<bool>).TrySetResult(false);
+            else if (typeof(T) == typeof(int))
+                (Handler as TaskCompletionSource<int>).TrySetResult(-1);
+            else if (typeof(string) == typeof(string))
+                (Handler as TaskCompletionSource<string>).TrySetResult(null);
+            else if (typeof(object) == typeof(object))
+                (Handler as TaskCompletionSource<object>).TrySetResult(null);
+            else
+                Handler.TrySetResult(default(T));
 
-            public SingleChoiceClickListener(TaskCompletionSource<int> tcs)
-            {
-                Handler = tcs;
-            }
+            dialog?.Dismiss();
+        }
 
-            public new void Dispose()
-            {
-                Handler = null;
-                base.Dispose();
-            }
+        protected override void Dispose(bool disposing)
+        {
+            Handler = null;
+            base.Dispose(disposing);
+        }
+    }
 
-            public void OnClick(IDialogInterface dialog, int which)
-            {
-                if (dialog != null)
-                    dialog.Dismiss();
-                Handler.TrySetResult(which);
-            }
+    public class AsyncSingleChoiceClickListener : Java.Lang.Object, IDialogInterfaceOnClickListener
+    {
+        TaskCompletionSource<int> Handler;
+
+        public AsyncSingleChoiceClickListener(TaskCompletionSource<int> tcs)
+        {
+            Handler = tcs;
+        }
+
+        public new void Dispose()
+        {
+            Handler = null;
+            base.Dispose();
+        }
+
+        public void OnClick(IDialogInterface dialog, int which)
+        {
+            if (dialog != null)
+                dialog.Dismiss();
+            Handler.TrySetResult(which);
         }
     }
 }

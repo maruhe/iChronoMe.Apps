@@ -305,7 +305,15 @@ namespace iChronoMe.Droid.Widgets
             return new Point(iWidth, iHeigth);
         }
 
-        public static PendingIntent GetClickActionIntent(Context context, ClickAction action, int iWidgetId, string settingsUri)
+        public static PendingIntent GetClickActionPendingIntent(Context context, ClickAction action, int iWidgetId, string settingsUri)
+        {
+            var itClick = GetClickActionIntent(context, action, iWidgetId, settingsUri);
+            if (itClick != null)
+                return PendingIntent.GetActivity(context, iWidgetId, itClick, PendingIntentFlags.UpdateCurrent);
+            return null;
+        }
+
+        public static Intent GetClickActionIntent(Context context, ClickAction action, int iWidgetId, string settingsUri)
         {
             Intent itClick = null;
 
@@ -383,11 +391,8 @@ namespace iChronoMe.Droid.Widgets
                     }
                     break;
             }
-
-            if (itClick != null)
-                return PendingIntent.GetActivity(context, iWidgetId, itClick, PendingIntentFlags.UpdateCurrent);
-
-            return null;
+            
+            return itClick;
         }
     }
 
