@@ -376,24 +376,14 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 {
                     rv.SetViewVisibility(Resource.Id.time_switcher, ViewStates.Visible);
 
-                    rv.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(context, cfg.ShowTimeType, LocationTimeHolder.LocalInstance, 24, cfg.ColorTitleButtons.HexString));
+                    rv.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(context, cfg.CurrentTimeType, LocationTimeHolder.LocalInstance, 24, cfg.ColorTitleButtons.HexString));
 
-                    if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
-                    {
-                        Intent changeTypeIntent = new Intent(context.ApplicationContext, typeof(CalendarWidget));
-                        changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
-                        changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                        if (cfg.ShowTimeType != TimeType.RealSunTime)
-                            changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.RealSunTime);
-                        else
-                            changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.TimeZoneTime);
-                        PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(context, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
-                        rv.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
-                    }
-                    else
-                    {
-                        rv.SetOnClickPendingIntent(Resource.Id.time_switcher, null);
-                    }
+                    Intent changeTypeIntent = new Intent(context.ApplicationContext, typeof(CalendarWidget));
+                    changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
+                    changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)MainWidgetBase.GetOtherTimeType(cfg.CurrentTimeType, cfg.WidgetTimeType));
+                    PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(context, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
+                    rv.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
                 }
             }
 
@@ -468,7 +458,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             xLog.Debug("GenerateWidgetMonthView: start " + wSize.X + "x" + wSize.Y);
 
             myEvents.Clear();
-            myEvents.timeType = cfg.ShowTimeType;
+            myEvents.timeType = cfg.CurrentTimeType;
 
             int iWeekHeaderHeight = 20;
 
@@ -1058,7 +1048,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             paint.Color = Color.Black;
             //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle / 3, paint);
 
-            float hourangle = 360.0F / 24 * LocationTimeHolder.LocalInstance.GetTime(cfg.ShowTimeType).Hour + 90;
+            float hourangle = 360.0F / 24 * LocationTimeHolder.LocalInstance.GetTime(cfg.CurrentTimeType).Hour + 90;
             float hourX = (float)(iImgCX + nOuterCircle / 6 * Math.Cos((hourangle) * Math.PI / 180));
             float hourY = (float)(iImgCY + nOuterCircle / 6 * Math.Sin((hourangle) * Math.PI / 180));
 
@@ -1097,7 +1087,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
             //loading Events
             myEvents.Clear();
-            myEvents.timeType = cfg.ShowTimeType;
+            myEvents.timeType = cfg.CurrentTimeType;
 
             string cCalendarFilter = "";
             if (!cfg.ShowAllCalendars)

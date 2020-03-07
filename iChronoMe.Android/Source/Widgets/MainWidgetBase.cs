@@ -105,9 +105,9 @@ namespace iChronoMe.Droid.Widgets
                     {
                         WidgetConfigHolder cfgHolder = new WidgetConfigHolder();
                         WidgetCfg cfg = cfgHolder.GetWidgetCfg<WidgetCfg>(appWidgetId, false);
-                        if (cfg != null && timeType != (int)cfg.ShowTimeType)
+                        if (cfg != null && timeType != (int)cfg.CurrentTimeType)
                         {
-                            cfg.ShowTimeType = (TimeType)timeType;
+                            cfg.CurrentTimeType = (TimeType)timeType;
                             cfgHolder.SetWidgetCfg(cfg);
 
                             Task.Delay(100).Wait();
@@ -129,6 +129,18 @@ namespace iChronoMe.Droid.Widgets
             }
         }
 
+        public static TimeType GetOtherTimeType(TimeType current, TimeType widgetDefault)
+        {
+            if (current != widgetDefault)
+                return widgetDefault;
+            if (current != sys.DefaultTimeType)
+                return sys.DefaultTimeType;
+            if (current != TimeType.RealSunTime)
+                return TimeType.RealSunTime;
+            if (current != TimeType.TimeZoneTime)
+                return TimeType.TimeZoneTime;
+            return TimeType.MiddleSunTime;
+        }
 
         static WidgetSizeChangedParams mNewSize = null;
         static int iDelay = 250;
@@ -305,7 +317,7 @@ namespace iChronoMe.Droid.Widgets
                 case ClickActionType.OpenApp:
                     itClick = new Intent(context, typeof(MainActivity));
                     itClick.AddCategory(Intent.CategoryLauncher);
-                    itClick.SetFlags(ActivityFlags.SingleTop);
+                    itClick.SetFlags(ActivityFlags.ReorderToFront);
                     break;
 
                 case ClickActionType.OpenSettings:
@@ -313,7 +325,6 @@ namespace iChronoMe.Droid.Widgets
                         return null;
                     itClick = new Intent(Intent.ActionMain);
                     itClick.SetComponent(ComponentName.UnflattenFromString(settingsUri));
-                    itClick.SetFlags(ActivityFlags.NoHistory);
                     itClick.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
                     break;
 
@@ -324,20 +335,29 @@ namespace iChronoMe.Droid.Widgets
                     break;
 #endif
 
+                case ClickActionType.OpenClock:
+                    itClick = new Intent(context, typeof(MainActivity)); 
+                    itClick.PutExtra("NavigationItem", Resource.Id.nav_clock);
+                    itClick.SetFlags(ActivityFlags.ReorderToFront);
+                    break;
+
                 case ClickActionType.OpenCalendar:
-                    itClick = new Intent(Intent.ActionMain);
-                    itClick.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
+                    itClick = new Intent(context, typeof(MainActivity));
                     itClick.PutExtra("NavigationItem", Resource.Id.nav_calendar);
                     itClick.SetFlags(ActivityFlags.ReorderToFront);
                     break;
+                case ClickActionType.OpenWorldTimeMap:
+                    itClick = new Intent(context, typeof(MainActivity));
+                    itClick.PutExtra("NavigationItem", Resource.Id.nav_world_time_map);
+                    itClick.SetFlags(ActivityFlags.ReorderToFront);
+                    break;
+
                 case ClickActionType.CreateEvent:
                     itClick = new Intent(context, typeof(ShortCutActivity));
-                    itClick.SetFlags(ActivityFlags.NoHistory);
                     itClick.PutExtra("shortcut", "create_calender_event");
                     break;
                 case ClickActionType.CreateAlarm:
                     itClick = new Intent(context, typeof(ShortCutActivity));
-                    itClick.SetFlags(ActivityFlags.NoHistory);
                     itClick.PutExtra("shortcut", "create_alarm");
                     break;
                 //case ClickActionType.TimeToTimeDialog:

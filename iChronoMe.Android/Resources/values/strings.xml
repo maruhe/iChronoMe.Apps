@@ -159,10 +159,12 @@
 	  <string name="ClickActionType_None">do nothing</string>
   	<string name="ClickActionType_OpenSettings">show settings</string>
 	  <string name="ClickActionType_OpenApp">start iChronoMe</string>
-		<string name="ClickActionType_OpenClock">open "clock"</string>
-	  <string name="ClickActionType_OpenCalendar">open "app-calendar"</string>
+		<string name="ClickActionType_OpenClock">"open 'clock'"</string>
+	  <string name="ClickActionType_OpenCalendar">"open 'calendar'"</string>
+	  <string name="ClickActionType_OpenWorldTimeMap">"open 'World-Time Map'"</string>
 	  <string name="ClickActionType_CreateEvent">create event</string>
 	  <string name="ClickActionType_CreateAlarm">create alarm</string>
+	  <string name="ClickActionType_OpenOtherApp">open another app</string>
 
     <string name="label_sceenshot">screenshot</string>
     <string name="label_title">title</string>

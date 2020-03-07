@@ -100,7 +100,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                         int iDayCount = calendarModel.GetDaysOfMonth(dToday.Year, dToday.Month);
                         int iDay = dToday.DayOfYear;
                         iDayCount = calendarModel.GetDaysOfYear(dToday.Year);
-                        float nHour = (float)lth.GetTime(cfg.ShowTimeType).TimeOfDay.TotalHours;
+                        float nHour = (float)lth.GetTime(cfg.CurrentTimeType).TimeOfDay.TotalHours;
 
                         if (ResetData && cfg.Style == ActionButton_Style.iChronEye && cfg.AnimateOnFirstClick)
                         {

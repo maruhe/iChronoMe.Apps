@@ -398,7 +398,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     myEvents = new EventCollection();
 
                 cfg = new WidgetConfigHolder().GetWidgetCfg<WidgetCfg_CalendarTimetable>(iMyWidgetId);
-                myEvents.timeType = cfg.ShowTimeType;
+                myEvents.timeType = cfg.CurrentTimeType;
                 calendarModel = new CalendarModelCfgHolder().GetModelCfg(cfg.CalendarModelId);
 
                 wSize = MainWidgetBase.GetWidgetSize(iMyWidgetId, cfg, AppWidgetManager.GetInstance(mContext));

@@ -74,7 +74,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     {
                         var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ActionButton>(iWidgetId, false);
                         Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
-                        float nHour = (float)ActionButtonService.lth.GetTime(cfg.ShowTimeType).TimeOfDay.TotalHours;
+                        float nHour = (float)ActionButtonService.lth.GetTime(cfg.CurrentTimeType).TimeOfDay.TotalHours;
 
                         ActionButtonService.DrawButton(context, cfg, wSize, appWidgetManager, iWidgetId, nHour, iDay, iDayCount, false);
                     }

@@ -155,17 +155,19 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
 	  <string name="ClickActionType_None">nichts unternehmen</string>
 	  <string name="ClickActionType_OpenSettings">Einstellungen anzeigen</string>
 	  <string name="ClickActionType_OpenApp">iChronoMe starten"</string>
-	  <string name="ClickActionType_OpenClock">offne "Uhr"</string>
-	  <string name="ClickActionType_OpenCalendar">offne "Kalender"</string>
+	  <string name="ClickActionType_OpenClock">"öffne 'Uhr'"</string>
+	  <string name="ClickActionType_OpenCalendar">"öffne 'Kalender'"</string>
+	  <string name="ClickActionType_OpenWorldTimeMap">"öffne 'Welt-Zeit Karte'"</string>
 	  <string name="ClickActionType_CreateEvent">Termin anlegen</string>
 	  <string name="ClickActionType_CreateAlarm">Wecker stellen</string>
+	  <string name="ClickActionType_OpenOtherApp">eine andere App öffnen</string>
 
     <string name="label_sceenshot">Screenshot</string>
     <string name="label_title">Titel</string>
 
     <string name="loading">lade...</string>
 
-    <string name="location_provider_disabled_alert">die Standort-Dienste scheinen deaktiviert zu seind</string>
+    <string name="location_provider_disabled_alert">die Standort-Dienste scheinen deaktiviert zu sein</string>
     <string name="location_provider_disabled_question">möchtest du sie aktivieren?</string>
 
     <string name="menu_about">Über</string>

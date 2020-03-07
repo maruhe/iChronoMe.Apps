@@ -298,7 +298,7 @@ namespace iChronoMe.Droid
             bool running = IsServiceRunning(context, typeof(BackgroundService));
             if (running)
             {
-                try { running = updateHolder.IsAlive; }
+                try { running = updateHolder?.IsAlive ?? false; }
                 catch { running = false; }
             }
             if (!running)
@@ -542,7 +542,7 @@ namespace iChronoMe.Droid
 
                 TimeSpan swInit = DateTime.Now - swStart;
 
-                TimeType tType = cfg.ShowTimeType;
+                TimeType tType = cfg.CurrentTimeType;
                 DateTime tLastDateRefresh = DateTime.MinValue;
                 DynamicDate dDay = DynamicDate.EmptyDate;
 
@@ -718,7 +718,7 @@ namespace iChronoMe.Droid
                 cfgHolder = new WidgetConfigHolder();
                 var cfgNew = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
 
-                if (cfgNew.ShowTimeType == cfgOld.ShowTimeType)
+                if (cfgNew.CurrentTimeType == cfgOld.CurrentTimeType)
                 {
                     StartWidgetTask(iWidgetId);// quick update
                 }
@@ -764,15 +764,15 @@ namespace iChronoMe.Droid
                         bmpBackgroundColor = MainWidgetBase.GetDrawableBmp(shape, iClockSizeDp, iClockSizeDp);
                     }
 
-                    TimeType tType = cfgNew.ShowTimeType;
+                    TimeType tType = cfgNew.CurrentTimeType;
                     var lth = mLths[iWidgetId];
 
                     TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
                     DateTime tStart = DateTime.Now;
                     DateTime tStop = DateTime.Now.Add(tsDuriation);
 
-                    DateTime tAnimateFrom = lth.GetTime(cfgOld.ShowTimeType);
-                    DateTime tAnimateTo = lth.GetTime(cfgNew.ShowTimeType);
+                    DateTime tAnimateFrom = lth.GetTime(cfgOld.CurrentTimeType);
+                    DateTime tAnimateTo = lth.GetTime(cfgNew.CurrentTimeType);
 
                     var animator = new WidgetAnimator_ClockAnalog(clockView, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
                         .SetStart(tAnimateFrom)
@@ -856,7 +856,7 @@ namespace iChronoMe.Droid
             LocationTimeHolder lth, double nHour, double nMinute, double nSecond, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll)
         {
             int iWidgetId = cfg.WidgetId;
-            var tType = cfg.ShowTimeType;
+            var tType = cfg.CurrentTimeType;
 
             Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(nHour, nMinute, nSecond, iClockSize, iClockSize, false));
 
@@ -894,22 +894,12 @@ namespace iChronoMe.Droid
 
                 updateViews.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(ctx, tType, lth, 32, cfg.ColorTitleText.HexString));
 
-                if (cfg.ShowTimeType == TimeType.RealSunTime || cfg.ShowTimeType == TimeType.TimeZoneTime)
-                {
-                    Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
-                    changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
-                    changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                    if (cfg.ShowTimeType != TimeType.RealSunTime)
-                        changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.RealSunTime);
-                    else
-                        changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)TimeType.TimeZoneTime);
-                    PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
-                    updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
-                }
-                else
-                {
-                    updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, null);
-                }
+                Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
+                changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
+                changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)MainWidgetBase.GetOtherTimeType(cfg.CurrentTimeType, cfg.WidgetTimeType));
+                PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
+                updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
             }
 
             updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, MainWidgetBase.GetClickActionIntent(ctx, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));

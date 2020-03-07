@@ -26,7 +26,7 @@ using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
 {
-    [Activity(Label = "@string/app_name", Name = "me.ichrono.droid.MainActivity", Theme = "@style/splashscreen", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Name = "me.ichrono.droid.MainActivity", Theme = "@style/splashscreen", MainLauncher = true, LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity : BaseActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         int iNavigationItem = Resource.Id.nav_clock;
