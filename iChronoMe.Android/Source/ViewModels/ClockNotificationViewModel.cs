@@ -189,20 +189,6 @@ namespace iChronoMe.Droid.ViewModels
                         return;
                     ApplicationInfo appInfo = appAdapter[iApp];                    
 
-                    /*
-                    List<ActivityInfo> activities = new List<ActivityInfo>();
-                    PackageInfo pi = context.PackageManager.GetPackageInfo(appInfo.PackageName, PackageInfoFlags.Activities);
-                    foreach (var activity in pi.Activities)
-                    {
-                        if (activity.Exported && activity.Enabled)
-                        {
-                            activities.Add(activity);
-                        }
-                        else
-                            activity.ToString();
-                    }
-                    activities.ToString();*/
-
                     clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
 
                     clock.ClickAction = new ClickAction(ClickActionType.OpenOtherApp);

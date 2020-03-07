@@ -195,44 +195,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             }
             else
             {
-                Intent itClick = null;
-
-                switch (cfg.ClickAction.Type)
-                {
-                    case ClickActionType.OpenApp:
-                        itClick = new Intent(context, typeof(MainActivity));
-                        itClick.AddCategory(Intent.CategoryLauncher);
-                        itClick.SetFlags(ActivityFlags.SingleTop);
-                        break;
-#if DEBUG
-                    case ClickActionType.TestActivity:
-                        itClick = new Intent(context, typeof(TestActivity));
-                        itClick.SetFlags(ActivityFlags.SingleTop);
-                        break;
-#endif
-
-                    case ClickActionType.OpenCalendar:
-                        itClick = new Intent(Intent.ActionMain);
-                        itClick.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
-                        itClick.PutExtra("NavigationItem", Resource.Id.nav_calendar);
-                        itClick.SetFlags(ActivityFlags.ReorderToFront);
-                        break;
-                    case ClickActionType.CreateEvent:
-                        itClick = new Intent(context, typeof(ShortCutActivity));
-                        itClick.SetFlags(ActivityFlags.NoHistory);
-                        itClick.PutExtra("shortcut", "create_calender_event");
-                        break;
-                    case ClickActionType.CreateAlarm:
-                        itClick = new Intent(context, typeof(ShortCutActivity));
-                        itClick.SetFlags(ActivityFlags.NoHistory);
-                        itClick.PutExtra("shortcut", "create_alarm");
-                        break;
-                        //case ClickActionType.TimeToTimeDialog:
-                        //  break;
-                }
-
-                if (itClick != null)
-                    rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionIntent(context, cfg.ClickAction, iWidgetId, null));
+                rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionIntent(context, cfg.ClickAction, iWidgetId, null));
             }
 
             if (cfg.Style == ActionButton_Style.iChronEye)

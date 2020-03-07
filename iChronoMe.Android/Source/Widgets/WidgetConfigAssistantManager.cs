@@ -74,7 +74,7 @@ namespace iChronoMe.Droid.Widgets
             {
                 sample = await PerformOne(assiType, sample);
                 if (sample == null)
-                    break;
+                    return null;
                 if (currentAssi == null)
                     break;
                 assiType = currentAssi.NextStepAssistantType;

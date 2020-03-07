@@ -1086,12 +1086,12 @@ namespace iChronoMe.Droid
 
         public void OnProviderEnabled(string provider)
         {
-
+            
         }
 
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
-
+                
         }
 
         #region IDisposable Support

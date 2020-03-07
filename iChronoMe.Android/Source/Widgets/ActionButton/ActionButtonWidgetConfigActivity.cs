@@ -67,7 +67,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 {
                     Task.Delay(100).Wait();
 
-
+                    iChronoMe.Widgets.AndroidHelpers.Tools.HelperContext = this;
                     if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
                     {
                         RunOnUiThread(() => ShowExitMessage("Die Widget's funktionieren (aktuell) nur mit Standort-Zugriff!"));
