@@ -2,7 +2,6 @@
 
 using Android.Graphics;
 
-using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.Widgets;
 

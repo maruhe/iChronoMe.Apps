@@ -152,7 +152,6 @@ namespace iChronoMe.Droid
             return tskYnMsg.Result;
         }
 
-
         private static Task<string> tskTxtDlg { get { return tcsTxtDlg == null ? Task.FromResult((string)null) : tcsTxtDlg.Task; } }
         private static TaskCompletionSource<string> tcsTxtDlg = null;
 

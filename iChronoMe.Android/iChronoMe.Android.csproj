@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Source\Adapters\CalendarEventLocationAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventTitleAdapter.cs" />
+    <Compile Include="Source\Adapters\ClickActionTypeAdapter.cs" />
     <Compile Include="Source\Adapters\ContributorAdapter.cs" />
     <Compile Include="Source\Adapters\ExpandableMenuAdapter.cs" />
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Source\BuzzerManager.cs" />
     <Compile Include="Source\Controls\FlowLayout.cs" />
     <Compile Include="Source\Controls\TitleBarSpinner.cs" />
+    <Compile Include="Source\DlgTools.cs" />
     <Compile Include="Source\DrawableHelper.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerClockReceiverActivity.cs" />
     <Compile Include="Source\GUI\Buzzer\BuzzerManagerActivity.cs" />
@@ -997,6 +999,30 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\circle_shape_max.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\strings_untranslatable.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values-land\splashtheme.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_screen_land.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\splashtheme.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

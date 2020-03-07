@@ -29,8 +29,11 @@ using iChronoMe.Core.ViewModels;
 using iChronoMe.DeviceCalendar;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.ViewModels;
+
 using Java.Util;
+
 using Xamarin.Essentials;
+
 using Random = System.Random;
 
 namespace iChronoMe.Droid.GUI.Calendar
@@ -158,7 +161,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                         var model = new CalendarEventEditViewModel(calEvent.ExternalID, Activity as IUserIO);
                         await model.WaitForReady();
 
-                        if (model.TimeType != calEvents.timeType && ! calEvent.AllDay)
+                        if (model.TimeType != calEvents.timeType && !calEvent.AllDay)
                         {
                             var items = new string[] { calEvent.DisplayStart.ToString("HH:mm") + " " + model.TimeType, calEvent.DisplayStart.ToString("HH:mm") + " " + calEvents.timeType };
 
@@ -305,7 +308,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         }
 
         bool bKeepTitleOnPause = false;
-        
+
         public override void OnPause()
         {
             base.OnPause();

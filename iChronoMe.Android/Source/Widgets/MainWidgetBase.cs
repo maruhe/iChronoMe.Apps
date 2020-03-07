@@ -292,6 +292,67 @@ namespace iChronoMe.Droid.Widgets
             }*/
             return new Point(iWidth, iHeigth);
         }
+
+        public static PendingIntent GetClickActionIntent(Context context, ClickAction action, int iWidgetId, string settingsUri)
+        {
+            Intent itClick = null;
+
+            switch (action.Type)
+            {
+                case ClickActionType.None:
+                    return null;
+
+                case ClickActionType.OpenApp:
+                    itClick = new Intent(context, typeof(MainActivity));
+                    itClick.AddCategory(Intent.CategoryLauncher);
+                    itClick.SetFlags(ActivityFlags.SingleTop);
+                    break;
+
+                case ClickActionType.OpenSettings:
+                    if (string.IsNullOrEmpty(settingsUri))
+                        return null;
+                    itClick = new Intent(Intent.ActionMain);
+                    itClick.SetComponent(ComponentName.UnflattenFromString(settingsUri));
+                    itClick.SetFlags(ActivityFlags.NoHistory);
+                    itClick.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    break;
+
+#if DEBUG
+                case ClickActionType.TestActivity:
+                    itClick = new Intent(context, typeof(TestActivity));
+                    itClick.SetFlags(ActivityFlags.SingleTop);
+                    break;
+#endif
+
+                case ClickActionType.OpenCalendar:
+                    itClick = new Intent(Intent.ActionMain);
+                    itClick.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
+                    itClick.PutExtra("NavigationItem", Resource.Id.nav_calendar);
+                    itClick.SetFlags(ActivityFlags.ReorderToFront);
+                    break;
+                case ClickActionType.CreateEvent:
+                    itClick = new Intent(context, typeof(ShortCutActivity));
+                    itClick.SetFlags(ActivityFlags.NoHistory);
+                    itClick.PutExtra("shortcut", "create_calender_event");
+                    break;
+                case ClickActionType.CreateAlarm:
+                    itClick = new Intent(context, typeof(ShortCutActivity));
+                    itClick.SetFlags(ActivityFlags.NoHistory);
+                    itClick.PutExtra("shortcut", "create_alarm");
+                    break;
+                //case ClickActionType.TimeToTimeDialog:
+                //  break;
+
+                case ClickActionType.OpenOtherApp:
+
+                    break;
+            }
+
+            if (itClick != null)
+                return PendingIntent.GetActivity(context, iWidgetId, itClick, PendingIntentFlags.UpdateCurrent);
+
+            return null;
+        }
     }
 
     class WidgetSizeChangedParams

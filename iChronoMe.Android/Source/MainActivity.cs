@@ -19,7 +19,6 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
-using iChronoMe.Droid.GUI.Debug;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.GUI.Service;
 
@@ -34,7 +33,7 @@ namespace iChronoMe.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState); 
+            base.OnCreate(savedInstanceState);
 
             try
             {
@@ -59,7 +58,7 @@ namespace iChronoMe.Droid
                 {
                     iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
                     blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
-                }               
+                }
 
                 Task.Factory.StartNew(() =>
                 {
@@ -202,7 +201,7 @@ namespace iChronoMe.Droid
 #if DExxBUG
                         fr = new DebugFragment();
 #else
-                    fr = new AboutFragment();
+                        fr = new AboutFragment();
 #endif
                     }
                     else if (id == Resource.Id.nav_theme)

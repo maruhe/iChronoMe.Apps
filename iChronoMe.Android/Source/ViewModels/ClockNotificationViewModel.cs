@@ -9,6 +9,7 @@ using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
+using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
 
@@ -20,15 +21,17 @@ namespace iChronoMe.Droid.ViewModels
         bool IsBackgroundServiceInfoActivity;
         private WidgetConfigHolder holder;
         private MainConfig main { get => AppConfigHolder.MainConfig; }
-        private WidgetCfg_ClockAnalog _clock;
         private void saveMain() { AppConfigHolder.SaveMainConfig(); }
+
+        public ClickActionTypeAdapter ClickActionTypeAdapter { get; }
 
         public ClockNotificationViewModel(Activity context, bool bIsBackgroundServiceInfoActivity = false)
         {
             mContext = context;
             IsBackgroundServiceInfoActivity = bIsBackgroundServiceInfoActivity;
+            ClickActionTypeAdapter = new ClickActionTypeAdapter(context);
             holder = new WidgetConfigHolder();
-            _clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101, false);
+            clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101, false);
         }
 
         public DataBinder GetDataBinder(ViewGroup rootView)
@@ -39,11 +42,12 @@ namespace iChronoMe.Droid.ViewModels
             binder.BindViewProperty(Resource.Id.cb_showalways, nameof(CheckBox.Checked), this, nameof(AlwaysShowForegroundNotification), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.sp_locationtype, nameof(Spinner.SelectedItemPosition), this, nameof(Locationtype_SpinnerPosition), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.btn_select_location, nameof(Button.Visibility), this, nameof(AllowSelectLocaion), BindMode.OneWay);
+            binder.BindViewProperty(Resource.Id.sp_clickaction, nameof(Spinner.SelectedItemPosition), this, nameof(ClickAction_SpinnerPosition), BindMode.TwoWay);
 
             return binder;
         }
 
-        private WidgetCfg_ClockAnalog clock { get => _clock; }
+        private WidgetCfg_ClockAnalog clock = null;
         public bool AllowShowBackgroundServiceInfo { get => IsBackgroundServiceInfoActivity && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1; }
 
         public bool AlwaysShowForegroundNotification
@@ -53,7 +57,7 @@ namespace iChronoMe.Droid.ViewModels
             {
                 main.AlwaysShowForegroundNotification = value;
                 saveMain();
-                OnPropertyChanged();
+                OnPropertyChanged("*");
                 BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
             }
         }
@@ -63,23 +67,22 @@ namespace iChronoMe.Droid.ViewModels
             get => clock != null ? clock.PositionType : WidgetCfgPositionType.LivePosition;
             set
             {
-                var clockcfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+                clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
                 if (value == WidgetCfgPositionType.StaticPosition)
                 {
                     ShowLocationSelector(this, null);
                     return;
                 }
 
-                clockcfg.PositionType = WidgetCfgPositionType.LivePosition;
-                holder.SetWidgetCfg(clockcfg);
-                _clock = clockcfg;
+                clock.PositionType = WidgetCfgPositionType.LivePosition;
+                holder.SetWidgetCfg(clock);
 
-                BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
                 OnPropertyChanged("*");
+                BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
             }
         }
 
-        public bool AllowSelectLocaion { get => _clock != null && _clock.PositionType == WidgetCfgPositionType.StaticPosition; }
+        public bool AllowSelectLocaion { get => clock != null && clock.PositionType == WidgetCfgPositionType.StaticPosition; }
 
         public int Locationtype_SpinnerPosition
         {
@@ -98,7 +101,7 @@ namespace iChronoMe.Droid.ViewModels
             var pos = await LocationPickerDialog.SelectLocation((BaseActivity)mContext);
             if (pos == null)
             {
-                if (_clock == null)
+                if (clock == null)
                 {
                     OnPropertyChanged("*");
                 }
@@ -106,16 +109,15 @@ namespace iChronoMe.Droid.ViewModels
                     Locationtype = WidgetCfgPositionType.LivePosition;
                 return;
             }
-            var clockcfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
-            clockcfg.PositionType = WidgetCfgPositionType.StaticPosition;
-            clockcfg.WidgetTitle = pos.Title;
-            clockcfg.Latitude = pos.Latitude;
-            clockcfg.Longitude = pos.Longitude;
-            holder.SetWidgetCfg(clockcfg);
-            _clock = clockcfg;
+            clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+            clock.PositionType = WidgetCfgPositionType.StaticPosition;
+            clock.WidgetTitle = pos.Title;
+            clock.Latitude = pos.Latitude;
+            clock.Longitude = pos.Longitude;
+            holder.SetWidgetCfg(clock);
 
-            BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetUpdate);
             OnPropertyChanged("*");
+            BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetUpdate);
         }
 
         public void ShowBackgroundServiceInfo(object sender, EventArgs e)
@@ -149,6 +151,21 @@ namespace iChronoMe.Droid.ViewModels
                     mContext.StartActivity(intent);
                 })
                 .Create().Show();
+        }
+
+        public int ClickAction_SpinnerPosition
+        {
+            get => ClickActionTypeAdapter.GetPos(clock?.ClickAction.Type ?? ClickActionType.OpenSettings);
+            set
+            {
+                clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+
+                clock.ClickAction = new ClickAction(ClickActionTypeAdapter.GetValue(value));
+
+                holder.SetWidgetCfg(clock);
+                OnPropertyChanged("*");
+                BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
+            }
         }
     }
 }

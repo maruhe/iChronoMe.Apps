@@ -61,10 +61,12 @@
     <string name="action_settings">Settings</string>
     <string name="action_tickmarks">tick marks</string>
     <string name="action_today">today</string>
-    <string name="action_webpage">web-page</string>
-    <string name="action_yes">yes</string>
+	  <string name="action_try_again">try again</string>
+	  <string name="action_webpage">web-page</string>
+	  <string name="action_yes">yes</string>
 
-    <string name="alert_no_calendar_found">no calendars found!</string>
+	  <string name="error_no_location_demitered">unable to demiter a location</string>
+  	<string name="alert_no_calendar_found">no calendars found!</string>
 
 	  <string name="calendar_event_all_day">all day</string>
 	  <string name="calendar_event_multi_day">multi day</string>
@@ -153,13 +155,15 @@
     <string name="label_default_TimeType">default TimeType:</string>
     <string name="label_error">error</string>
     <string name="label_errorlog">error log</string>
-    <string-array name="label_notification_click_actions">
-        <item>show this window</item>
-        <item>start iChronoMe</item>
-        <item>open "clock"</item>
-        <item>open "app-calendar"</item>
-        <item>do nothing</item>
-    </string-array>
+
+	  <string name="ClickActionType_None">do nothing</string>
+  	<string name="ClickActionType_OpenSettings">show settings</string>
+	  <string name="ClickActionType_OpenApp">start iChronoMe</string>
+		<string name="ClickActionType_OpenClock">open "clock"</string>
+	  <string name="ClickActionType_OpenCalendar">open "app-calendar"</string>
+	  <string name="ClickActionType_CreateEvent">create event</string>
+	  <string name="ClickActionType_CreateAlarm">create alarm</string>
+
     <string name="label_sceenshot">screenshot</string>
     <string name="label_title">title</string>
 
@@ -227,52 +231,4 @@
     <string name="widget_title_clock_analog">analog solar time</string>
     <string name="widget_title_lifetime">lifetime</string>
     <string name="widget_unconfigured">click here to configure the widget</string>
-
-    <string name="app_name" translatable="false">iChronoMe</string>
-
-    <string-array name="calendar_monthview_appointmentdisplaycount" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-    </string-array>
-    <string-array name="calendar_viewtypes" translatable="false">
-        <item>@string/action_today</item>
-        <item>@string/calendar_viewtype_Timeline</item>
-        <item>@string/calendar_viewtype_DayView</item>
-        <item>@string/calendar_viewtype_WeekView</item>
-        <item>@string/calendar_viewtype_WorkWeek</item>
-        <item>@string/calendar_viewtype_MonthView</item>
-    </string-array>
-
-    <string-array name="label_locationtypes" translatable="false">
-        <item>@string/action_location_type_live</item>
-        <item>@string/action_location_type_static</item>
-    </string-array>
-
-    <!---->
-    <string-array name="numbers_0_14" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-        <item>13</item>
-        <item>14</item>
-    </string-array>
 </resources>

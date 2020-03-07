@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.OS;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Controls;
 using iChronoMe.Widgets;
+
 using SkiaSharp.Views.Android;
 
 namespace iChronoMe.Droid
@@ -19,7 +22,7 @@ namespace iChronoMe.Droid
         DateTime tNow = DateTime.Now;
         Dictionary<string, WidgetView_ClockAnalog> configS = new Dictionary<string, WidgetView_ClockAnalog>();
         List<SKCanvasView> skViewS = new List<SKCanvasView>();
-        
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -91,7 +94,7 @@ namespace iChronoMe.Droid
             {
                 while (bRunning)
                 {
-                    Task.Delay(1000/60).Wait();
+                    Task.Delay(1000 / 60).Wait();
                     //tNow = tNow.AddMilliseconds(250);
                     tNow = DateTime.Now;
 

@@ -66,10 +66,12 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"
     <string name="action_settings">Einstellungen</string>
     <string name="action_tickmarks">Zifferblatt</string>
     <string name="action_today">heute</string>
-    <string name="action_webpage">Web-Seite</string>
+	  <string name="action_try_again">nochmal versuchen</string>
+	  <string name="action_webpage">Web-Seite</string>
     <string name="action_yes">ja</string>
 
-    <string name="alert_no_calendar_found">keine Kalender gefunden!</string>
+	  <string name="error_no_location_demitered">es konnte kein Standord ermittelt werden</string>
+  	<string name="alert_no_calendar_found">keine Kalender gefunden!</string>
 
     <string name="all_day">ganztägig</string>
 
@@ -149,13 +151,15 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
     <string name="label_default_TimeType">standard Zeit-Typ</string>
     <string name="label_error">Fehler</string>
     <string name="label_errorlog">Fehlerprotokoll</string>
-    <string-array name="label_notification_click_actions">
-        <item>dieses Fenster öffnen</item>
-        <item>iChronoMe starten</item>
-        <item>öffne "Uhr"</item>
-        <item>öffne "Kalender"</item>
-        <item>nichts unternehmen</item>
-    </string-array>
+
+	  <string name="ClickActionType_None">nichts unternehmen</string>
+	  <string name="ClickActionType_OpenSettings">Einstellungen anzeigen</string>
+	  <string name="ClickActionType_OpenApp">iChronoMe starten"</string>
+	  <string name="ClickActionType_OpenClock">offne "Uhr"</string>
+	  <string name="ClickActionType_OpenCalendar">offne "Kalender"</string>
+	  <string name="ClickActionType_CreateEvent">Termin anlegen</string>
+	  <string name="ClickActionType_CreateAlarm">Wecker stellen</string>
+
     <string name="label_sceenshot">Screenshot</string>
     <string name="label_title">Titel</string>
 

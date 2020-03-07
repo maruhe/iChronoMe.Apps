@@ -6,7 +6,6 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Widget;
 
-using iChronoMe.Core.Classes;
 using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Calendar

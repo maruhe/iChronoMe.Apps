@@ -100,7 +100,7 @@ namespace iChronoMe.Droid.GUI.Service
 
                     db.dbAreaCache.Close();
                     try { Directory.Delete(sys.PathCache, true); } catch { };
-                    
+
                     Activity.MoveTaskToBack(true);
                     Process.KillProcess(Process.MyPid());
                     Java.Lang.JavaSystem.Exit(0);
@@ -118,7 +118,9 @@ namespace iChronoMe.Droid.GUI.Service
         private void btnNotifyCfg_Click(object sender, EventArgs e)
         {
             var view = (ViewGroup)LayoutInflater.Inflate(Resource.Layout.fragment_setting_backgroundservice, null);
+
             var model = new ClockNotificationViewModel(Activity);
+            view.FindViewById<Spinner>(Resource.Id.sp_clickaction).Adapter = model.ClickActionTypeAdapter;
             var dlgBinder = model.GetDataBinder(view);
 
             var dlg = new AlertDialog.Builder(Context)

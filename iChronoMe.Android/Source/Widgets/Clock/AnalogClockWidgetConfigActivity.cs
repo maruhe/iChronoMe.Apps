@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Android;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
-using Android.Support.V4.App;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;

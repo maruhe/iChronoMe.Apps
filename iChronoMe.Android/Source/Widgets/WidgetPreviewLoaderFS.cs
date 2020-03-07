@@ -7,7 +7,6 @@ using Android.Graphics;
 using Android.OS;
 using Android.Views;
 
-using iChronoMe.Core.Classes;
 using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets

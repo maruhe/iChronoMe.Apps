@@ -101,7 +101,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
                 new Thread(async () =>
                 {
                     var logS = Directory.GetFiles(cErrorPath);
-                    string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
+                    string cUrl = Secrets.zAppResponseUrl + "upload.php?app=iChronoMe&type=BugLog&os=" + sys.OsType.ToString();
 #if DEBUG
                     cUrl += "&debug";
 #endif

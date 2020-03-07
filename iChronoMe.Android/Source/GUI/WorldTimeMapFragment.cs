@@ -180,10 +180,10 @@ namespace iChronoMe.Droid.GUI
         {
             try
             {
-                var passchendaeleMarker = new MarkerOptions();
-                passchendaeleMarker.SetPosition(loc);
-                passchendaeleMarker.Draggable(true);
-                var marker = mGoogleMap.AddMarker(passchendaeleMarker);
+                var options = new MarkerOptions();
+                options.SetPosition(loc);
+                options.Draggable(true);
+                var marker = mGoogleMap.AddMarker(options);
                 markers.Add(marker);
 
                 var item = new WorldTimeItem(marker);

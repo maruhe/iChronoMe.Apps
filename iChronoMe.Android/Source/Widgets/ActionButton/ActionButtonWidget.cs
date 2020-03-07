@@ -6,7 +6,6 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Graphics;
 
-using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Widgets;
 

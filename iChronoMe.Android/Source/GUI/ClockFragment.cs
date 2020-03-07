@@ -21,7 +21,7 @@ using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Widgets;
-using SkiaSharp;
+
 using SkiaSharp.Views.Android;
 
 using Xamarin.Essentials;
@@ -60,9 +60,14 @@ namespace iChronoMe.Droid.GUI
             cfgHolder = new WidgetConfigHolder("InAppClocks.cfg");
             clockCfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-1, false);
             if (clockCfg == null)
-                clockCfg = new WidgetCfg_ClockAnalog() { 
-                    ShowSeconds = true, FlowHourHand = true, FlowMinuteHand = false, FlowSecondHand = false,
-                    TickMarkStyle = TickMarkStyle.Circle};
+                clockCfg = new WidgetCfg_ClockAnalog()
+                {
+                    ShowSeconds = true,
+                    FlowHourHand = true,
+                    FlowMinuteHand = false,
+                    FlowSecondHand = false,
+                    TickMarkStyle = TickMarkStyle.Circle
+                };
 
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_clock, container, false);
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
@@ -316,7 +321,7 @@ namespace iChronoMe.Droid.GUI
             else if (TimeHolder.State == TimeHolder.TimeHolderState.Synchron)
             {
                 gd.SetColor(xColor.MaterialGreen.ToAndroid());
-                cText = "device offset: "+TimeHolder.mLastNtpDiff.ToDynamicString();
+                cText = "device offset: " + TimeHolder.mLastNtpDiff.ToDynamicString();
             }
             else
             {
@@ -942,7 +947,8 @@ namespace iChronoMe.Droid.GUI
                 {
                     Task.Factory.StartNew(async () =>
                     {
-                        var sel = await LocationPickerDialog.SelectLocation((AppCompatActivity)Activity);
+                        Xamarin.Essentials.Location? pos = lth.IsLocalInstance ? null : new Xamarin.Essentials.Location(lth.Latitude, lth.Longitude);
+                        var sel = await LocationPickerDialog.SelectLocation((AppCompatActivity)Activity, null, pos);
                         if (sel != null)
                         {
                             Activity.RunOnUiThread(() =>

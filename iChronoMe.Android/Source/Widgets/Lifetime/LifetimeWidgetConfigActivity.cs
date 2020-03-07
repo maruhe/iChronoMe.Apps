@@ -13,6 +13,7 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataModels;
 using iChronoMe.Widgets;
+
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
@@ -314,7 +315,13 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 
         public void OnCancel(IDialogInterface dialog)
         {
-            myActivity.Finish();
+            myActivity.FinishAndRemoveTask();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            myActivity = null;
         }
     }
 }

@@ -102,7 +102,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                         iDayCount = calendarModel.GetDaysOfYear(dToday.Year);
                         float nHour = (float)lth.GetTime(cfg.ShowTimeType).TimeOfDay.TotalHours;
 
-                        if (ResetData && cfg.Style == ActionButton_Style.iChronoEye && cfg.AnimateOnFirstClick)
+                        if (ResetData && cfg.Style == ActionButton_Style.iChronEye && cfg.AnimateOnFirstClick)
                         {
                             ResetData = false;
 
@@ -126,7 +126,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                             iDay = dToday.DayOfYear;
                             nHour = (float)lth.GetTime(TimeType.RealSunTime).Hour;
                         }
-                        DrawButton(this, cfg, wSize, appWidgetManager, iWidgetId, nHour, iDay, iDayCount, cfg.Style == ActionButton_Style.iChronoEye && cfg.AnimateOnFirstClick);
+                        DrawButton(this, cfg, wSize, appWidgetManager, iWidgetId, nHour, iDay, iDayCount, cfg.Style == ActionButton_Style.iChronEye && cfg.AnimateOnFirstClick);
 
                     }
                     catch (ThreadAbortException) { }
@@ -186,7 +186,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 rv.SetTextColor(Resource.Id.widget_title, cfg.ColorTitleText.ToAndroid());
             }
 
-            if (bAnimateOnClick || cfg.ClickAction == ActionButton_ClickAction.Animate)
+            if (bAnimateOnClick || cfg.ClickAction.Type == ClickActionType.Animate)
             {
                 Intent itClick = new Intent(context, typeof(ActionButtonWidget));
                 itClick.SetAction(MainWidgetBase.ActionManualRefresh);
@@ -197,45 +197,45 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             {
                 Intent itClick = null;
 
-                switch (cfg.ClickAction)
+                switch (cfg.ClickAction.Type)
                 {
-                    case ActionButton_ClickAction.OpenApp:
+                    case ClickActionType.OpenApp:
                         itClick = new Intent(context, typeof(MainActivity));
                         itClick.AddCategory(Intent.CategoryLauncher);
                         itClick.SetFlags(ActivityFlags.SingleTop);
                         break;
 #if DEBUG
-                    case ActionButton_ClickAction.TestActivity:
+                    case ClickActionType.TestActivity:
                         itClick = new Intent(context, typeof(TestActivity));
                         itClick.SetFlags(ActivityFlags.SingleTop);
                         break;
 #endif
 
-                    case ActionButton_ClickAction.OpenCalendar:
+                    case ClickActionType.OpenCalendar:
                         itClick = new Intent(Intent.ActionMain);
                         itClick.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
                         itClick.PutExtra("NavigationItem", Resource.Id.nav_calendar);
                         itClick.SetFlags(ActivityFlags.ReorderToFront);
                         break;
-                    case ActionButton_ClickAction.CreateEvent:
+                    case ClickActionType.CreateEvent:
                         itClick = new Intent(context, typeof(ShortCutActivity));
                         itClick.SetFlags(ActivityFlags.NoHistory);
                         itClick.PutExtra("shortcut", "create_calender_event");
                         break;
-                    case ActionButton_ClickAction.CreateAlarm:
+                    case ClickActionType.CreateAlarm:
                         itClick = new Intent(context, typeof(ShortCutActivity));
                         itClick.SetFlags(ActivityFlags.NoHistory);
                         itClick.PutExtra("shortcut", "create_alarm");
                         break;
-                    case ActionButton_ClickAction.TimeToTimeDialog:
-                        break;
+                        //case ClickActionType.TimeToTimeDialog:
+                        //  break;
                 }
 
                 if (itClick != null)
-                    rv.SetOnClickPendingIntent(Resource.Id.widget, PendingIntent.GetActivity(context, iWidgetId, itClick, PendingIntentFlags.UpdateCurrent));
+                    rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionIntent(context, cfg.ClickAction, iWidgetId, null));
             }
 
-            if (cfg.Style == ActionButton_Style.iChronoEye)
+            if (cfg.Style == ActionButton_Style.iChronEye)
             {
                 Bitmap bmp = GetIChronoEye(iImgShortSize, max.x, max.y, iImgCX, iImgCY, hour, iDay, iDayCount);
 

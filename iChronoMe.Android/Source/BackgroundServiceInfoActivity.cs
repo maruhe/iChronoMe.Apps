@@ -7,7 +7,7 @@ using iChronoMe.Droid.GUI.Service;
 
 namespace iChronoMe.Droid
 {
-    [Activity(Label = "BackgroundServiceInfoActivity", Theme = "@style/splashscreen", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    [Activity(Label = "BackgroundServiceInfoActivity", Name = "me.ichrono.droid.BackgroundServiceInfoActivity", Theme = "@style/splashscreen", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     public class BackgroundServiceInfoActivity : BaseActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

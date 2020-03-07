@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+		<!-- color of spaces not covered by the image -->
+		<color android:color="@color/medDarkGray" />
+	</item>
+	<!-- place the image in the center of the screen -->
+	<item android:gravity="center" android:drawable="@mipmap/clockface_sun_junior"/>
+</layer-list>

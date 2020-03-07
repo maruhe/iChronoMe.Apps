@@ -99,7 +99,11 @@ namespace iChronoMe.Droid.Adapters
         {
             new Thread(async () =>
             {
-                string cUrl = "https://apps.ichrono.me/bugs/upload.php?os=" + sys.OsType.ToString();
+                string cUrl = Secrets.zAppResponseUrl + "upload.php?app=iChronoMe&type=SystemTest&os=" + sys.OsType.ToString();
+#if DEBUG
+                cUrl += "&debug";
+#endif
+
                 try
                 {
                     string cLog = "System-Test " + DateTime.Now.ToString() + "\n";

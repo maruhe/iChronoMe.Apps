@@ -25,6 +25,8 @@ using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Receivers;
 using iChronoMe.Widgets;
 
+using AlertDialog = Android.Support.V7.App.AlertDialog;
+
 namespace iChronoMe.Droid
 {
     public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler
@@ -192,7 +194,8 @@ namespace iChronoMe.Droid
         const float nStartAssistantMaxStep = 1.4F;
         public bool NeedsStartAssistant()
         {
-            return (AppConfigHolder.MainConfig.InitScreenTheme < 1 && (this is MainActivity)) ||
+            return
+               (AppConfigHolder.MainConfig.InitScreenTheme < 1 && (this is MainActivity)) ||
                 AppConfigHolder.MainConfig.InitScreenTimeType < 1 ||
                 AppConfigHolder.MainConfig.InitScreenPrivacy < 2 ||
                 AppConfigHolder.MainConfig.InitBaseDataDownload < 1 ||
@@ -339,6 +342,7 @@ namespace iChronoMe.Droid
             Task.Factory.StartNew(async () =>
             {
                 await Task.Delay(1000);
+                SelectPositionResult selPos = null;
                 if (Build.VERSION.SdkInt < BuildVersionCodes.M || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
                 {
                     var locationManager = (LocationManager)GetSystemService(Context.LocationService);
@@ -350,6 +354,7 @@ namespace iChronoMe.Droid
                         pDlg.SetProgressDone();
                         if (await Tools.ShowYesNoMessage(this, Resource.String.location_provider_disabled_alert, Resource.String.location_provider_disabled_question))
                         {
+                            pDlg.SetProgressDone();
                             bStartAssistantActive = false;
                             StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
                             return;
@@ -377,6 +382,37 @@ namespace iChronoMe.Droid
                     {
 
                     }
+
+                    var dlg = new AlertDialog.Builder(this)
+                    .SetTitle(Resource.String.error_no_location_demitered)
+                    .SetMessage(Resource.String.app_needs_location_description)
+                    .SetPositiveButton(Resource.String.action_try_again, (s, e) =>
+                    {
+                        SetAssistantDone();
+                    })
+                    .SetNegativeButton(Resource.String.action_select_location, async (s, e) =>
+                    {
+                        var loc = await LocationPickerDialog.SelectLocation(this);
+
+                        if (loc != null)
+                        {
+                            LocationTimeHolder.LocalInstance.ChangePositionDelay(loc.Latitude, loc.Longitude);
+                            LocationTimeHolder.LocalInstance.SaveLocal();
+                            AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
+                            AppConfigHolder.SaveMainConfig();
+                            SetAssistantDone();
+                        }
+                    })
+                    .SetPositiveButton(Resource.String.action_settings, (s, e) =>
+                    {
+                        StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                    })
+                    .SetOnCancelListener(new FinishOnCancelListener(this));
+
+                    pDlg.SetProgressDone();
+                    bStartAssistantActive = false;
+                    dlg.Show();
+                    return;
                 }
 
                 var loc = await LocationPickerDialog.SelectLocation(this);
@@ -387,6 +423,7 @@ namespace iChronoMe.Droid
                     LocationTimeHolder.LocalInstance.SaveLocal();
                     AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
                     AppConfigHolder.SaveMainConfig();
+                    pDlg.SetProgressDone();
                     SetAssistantDone();
                     return;
                 }
@@ -401,10 +438,12 @@ namespace iChronoMe.Droid
                     LocationTimeHolder.LocalInstance.SaveLocal();
                     AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
                     AppConfigHolder.SaveMainConfig();
+                    pDlg.SetProgressDone();
                     SetAssistantDone();
                     return;
                 }
 
+                pDlg.SetProgressDone();
                 ShowExitMessage(Resource.String.error_location_is_needet);
 
             });

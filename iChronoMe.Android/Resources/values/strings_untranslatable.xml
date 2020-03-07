@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name" translatable="false">iChronoMe</string>
+
+    <string-array name="calendar_monthview_appointmentdisplaycount" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="calendar_viewtypes" translatable="false">
+        <item>@string/action_today</item>
+        <item>@string/calendar_viewtype_Timeline</item>
+        <item>@string/calendar_viewtype_DayView</item>
+        <item>@string/calendar_viewtype_WeekView</item>
+        <item>@string/calendar_viewtype_WorkWeek</item>
+        <item>@string/calendar_viewtype_MonthView</item>
+    </string-array>
+
+    <string-array name="label_locationtypes" translatable="false">
+        <item>@string/action_location_type_live</item>
+        <item>@string/action_location_type_static</item>
+    </string-array>
+
+    <!---->
+    <string-array name="numbers_0_14" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+</resources>

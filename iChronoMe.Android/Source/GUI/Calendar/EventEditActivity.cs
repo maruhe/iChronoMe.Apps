@@ -8,7 +8,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using iChronoMe.Core.Classes;
+
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
@@ -123,12 +123,15 @@ namespace iChronoMe.Droid.GUI.Calendar
             Task.Factory.StartNew(async () =>
             {
                 await mModel.WaitForReady();
-                if (string.IsNullOrEmpty(mModel.ExternalID))
-                    SetTitle(Resource.String.title_new_event);
-                else
-                    SetTitle(Resource.String.title_edit_event);
-                mBinder.Start();
-                InvalidateOptionsMenu();
+                RunOnUiThread(() =>
+                {
+                    if (string.IsNullOrEmpty(mModel.ExternalID))
+                        SetTitle(Resource.String.title_new_event);
+                    else
+                        SetTitle(Resource.String.title_edit_event);
+                    mBinder.Start();
+                    InvalidateOptionsMenu();
+                });
             });
         }
 

@@ -20,7 +20,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
         private static TaskCompletionSource<bool> tcsUI = null;
         private static SelectPositionResult dlgResult;
 
-        public static async Task<SelectPositionResult> SelectLocation(AppCompatActivity activity)
+        public static async Task<SelectPositionResult> SelectLocation(AppCompatActivity activity, Location center = null, Location marker = null)
         {
             dlgResult = null;
             await Task.Factory.StartNew(() =>
@@ -28,7 +28,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
                 tcsUI = new TaskCompletionSource<bool>();
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    var dlg = new LocationPickerDialog();
+                    var dlg = new LocationPickerDialog(center, marker);
                     dlg.Show(activity.SupportFragmentManager, "LocationPickerDialog");
                 });
 
@@ -39,12 +39,15 @@ namespace iChronoMe.Droid.GUI.Dialogs
             return null;
         }
 
-        public static LocationPickerDialog NewInstance(Bundle bundle)
+        public LocationPickerDialog(Location center = null, Location marker = null)
         {
-            LocationPickerDialog fragment = new LocationPickerDialog();
-            fragment.Arguments = bundle;
-            return fragment;
+            initCenter = center;
+            initMarker = marker;
         }
+
+        Location initCenter = null;
+        Location initMarker = null;
+        Marker CurrentMarker = null;
 
         GoogleMap mGoogleMap = null;
         MapView mMapView = null;
@@ -96,9 +99,20 @@ namespace iChronoMe.Droid.GUI.Dialogs
         {
             mGoogleMap = googleMap;
 
-            LatLng posisiabsen = new LatLng(47.2813, 13.7255); ////your lat lng
-            //mGoogleMap.AddMarker(new MarkerOptions() { Position = posisiabsen, Title = "Yout title");
-            mGoogleMap.MoveCamera(CameraUpdateFactory.NewLatLng(posisiabsen));
+            LatLng center = new LatLng(sys.lastUserLocation.Latitude, sys.lastUserLocation.Longitude);
+            if (initCenter != null)
+                center = new LatLng(initCenter.Latitude, initCenter.Longitude);
+            if (initMarker != null)
+            {
+                LatLng marker = new LatLng(initMarker.Latitude, initMarker.Longitude);
+                if (initCenter == null)
+                    center = marker;
+                var options = new MarkerOptions();
+                options.SetPosition(marker);
+                options.Draggable(true);
+                CurrentMarker = mGoogleMap.AddMarker(options);
+            }
+            mGoogleMap.MoveCamera(CameraUpdateFactory.NewLatLng(center));
 
             googleMap.UiSettings.ZoomControlsEnabled = true;
             googleMap.UiSettings.MapToolbarEnabled = false;
@@ -106,6 +120,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
             googleMap.UiSettings.MyLocationButtonEnabled = true;
 
             mGoogleMap.MapClick += MGoogleMap_MapClick;
+            mGoogleMap.MarkerDragEnd += MGoogleMap_MarkerDragEnd;
         }
 
         private void MGoogleMap_MapClick(object sender, GoogleMap.MapClickEventArgs e)
@@ -115,12 +130,18 @@ namespace iChronoMe.Droid.GUI.Dialogs
             nLatitude = e.Point.Latitude;
             nLongitude = e.Point.Longitude;
 
-            var passchendaeleMarker = new MarkerOptions();
-            passchendaeleMarker.SetPosition(e.Point);
-            mGoogleMap.AddMarker(passchendaeleMarker);
+            var options = new MarkerOptions();
+            options.SetPosition(e.Point);
+            options.Draggable(true);
+            CurrentMarker = mGoogleMap.AddMarker(options);
 
             var cameraUpdate = CameraUpdateFactory.NewLatLngZoom(e.Point, 15);
             //mGoogleMap.MoveCamera(cameraUpdate);
+        }
+        private void MGoogleMap_MarkerDragEnd(object sender, GoogleMap.MarkerDragEndEventArgs e)
+        {
+            nLatitude = e.Marker.Position.Latitude;
+            nLongitude = e.Marker.Position.Longitude;
         }
     }
 }

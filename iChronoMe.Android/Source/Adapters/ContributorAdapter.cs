@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Source.Adapters
@@ -29,13 +26,13 @@ namespace iChronoMe.Droid.Source.Adapters
 
         public override int Count => itemS.Count;
 
-        public override long GetItemId(int position) => position;        
+        public override long GetItemId(int position) => position;
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var item = itemS[position];
 
-                
+
             var view = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_contributor, null);
             view.Tag = position;
 
@@ -74,7 +71,8 @@ namespace iChronoMe.Droid.Source.Adapters
                         mContext.StartActivity(intent);
                     });
                 dlg.Show();
-            } catch { }
+            }
+            catch { }
         }
 
         private void HyperLink_Click(object sender, EventArgs e)
@@ -84,7 +82,8 @@ namespace iChronoMe.Droid.Source.Adapters
                 var intent = new Intent(Intent.ActionView);
                 intent.SetData(Android.Net.Uri.Parse((string)(sender as TableRow).Tag));
                 mContext.StartActivity(intent);
-            } catch { }
+            }
+            catch { }
         }
     }
 }

@@ -36,7 +36,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                 DateTime bLifeStart = cfg.LifeStartTime;
                 if (bLifeStart == DateTime.MinValue)
                     continue;
-                
+
                 rv.SetTextViewText(Resource.Id.widget_title, cfg.WidgetTitle);
                 rv.SetTextColor(Resource.Id.widget_title, cfg.ColorTitleText.ToAndroid());
 

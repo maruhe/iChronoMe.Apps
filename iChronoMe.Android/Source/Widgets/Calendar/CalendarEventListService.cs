@@ -17,6 +17,7 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.DeviceCalendar;
 using iChronoMe.Widgets;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets.Calendar
@@ -151,7 +152,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     DateTime tEnd = calEvent.DisplayEnd;
 
                     // feed row
-                    string cBis = " "+ mContext.Resources.GetString(Resource.String.calendar_event_to) + " ";
+                    string cBis = " " + mContext.Resources.GetString(Resource.String.calendar_event_to) + " ";
                     if (wSize.X < 120)
                         cBis = "-";
                     string cAddonText = "";
@@ -201,7 +202,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                             rv.SetImageViewBitmap(Resource.Id.item_posicon, DrawableHelper.GetIconBitmap(mContext, Resource.Drawable.icons8_sun_18, 16, cfg.ColorEventSymbols));
 
                             iShapeHeigth = 45;
-                            string cPosInfo = (extEvent.LocationString.Equals(calEvent.Location) ? mContext.Resources.GetString(Resource.String.calendar_event_unclear_position_time) +": " : mContext.Resources.GetString(Resource.String.calendar_event_position_is_determined)+": ");
+                            string cPosInfo = (extEvent.LocationString.Equals(calEvent.Location) ? mContext.Resources.GetString(Resource.String.calendar_event_unclear_position_time) + ": " : mContext.Resources.GetString(Resource.String.calendar_event_position_is_determined) + ": ");
                             Color clPosInfo = cfg.ColorErrorText.ToAndroid();
                             if (extEvent.GotCorrectPosition)
                             {

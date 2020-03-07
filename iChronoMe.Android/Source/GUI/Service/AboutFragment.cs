@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-
+﻿
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Droid.Source.Adapters;
 
 namespace iChronoMe.Droid.GUI.Service

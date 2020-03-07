@@ -172,14 +172,14 @@ namespace iChronoMe.Droid
             if (Build.VERSION.SdkInt >= BuildVersionCodes.NMr1
                 || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
             {
-                Notification notification = GetForegroundNotification(this.Resources.GetString(Resource.String.label_BackgroundService), this.Resources.GetString(Resource.String.description_BackgroundService));
+                Notification notification = GetForegroundNotification(this.Resources.GetString(Resource.String.label_BackgroundService), this.Resources.GetString(Resource.String.description_BackgroundService), new ClickAction(ClickActionType.OpenSettings));
                 // Enlist this instance of the service as a foreground service
                 StartForeground(101, notification);
                 bIsForeGround = true;
             }
         }
 
-        public Notification GetForegroundNotification(string cTitle, string cText, WidgetCfgClickAction clickAction = WidgetCfgClickAction.OpenSettings)
+        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction)
         {
             string channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? createNotificationChannel() : null;
 
@@ -187,7 +187,7 @@ namespace iChronoMe.Droid
                 .SetContentTitle(cTitle)
                 .SetContentText(cText)
                 .SetSmallIcon(Resource.Drawable.sunclock)
-                .SetContentIntent(BuildIntentToShowMainActivity(clickAction))
+                .SetContentIntent(MainWidgetBase.GetClickActionIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
                 .SetOngoing(true)
                 .Build();
 
@@ -335,7 +335,10 @@ namespace iChronoMe.Droid
         public static bool IsServiceRunning(Context context, System.Type ClassTypeof)
         {
             ActivityManager manager = (ActivityManager)context.GetSystemService(ActivityService);
+#pragma warning disable 0618
+            //functions still returns my own service, //todo may there will be another solution in future..
             var srvS = manager.GetRunningServices(int.MaxValue);
+#pragma warning restore 0618
             foreach (var service in srvS)
             {
                 if (service.Service.ShortClassName.EndsWith(ClassTypeof.Name))
@@ -351,18 +354,18 @@ namespace iChronoMe.Droid
             return null;
         }
 
-        PendingIntent BuildIntentToShowMainActivity(WidgetCfgClickAction clickAction)
+        PendingIntent xxxGetClickActionPendingIntent(ClickAction clickAction = null)
         {
-            if (clickAction == WidgetCfgClickAction.None)
+            if (clickAction == null || clickAction.Type == ClickActionType.None)
                 return null;
 
             Type tView = typeof(BackgroundServiceInfoActivity);
-            if (clickAction == WidgetCfgClickAction.OpenApp)
+            if (clickAction.Type == ClickActionType.OpenApp)
                 tView = typeof(MainActivity);
 
             var notificationIntent = new Intent(this, tView);
             notificationIntent.SetAction(Intent.ActionMain);
-            if (clickAction == WidgetCfgClickAction.OpenApp)
+            if (clickAction.Type == ClickActionType.OpenApp)
                 notificationIntent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTask);
             else
                 notificationIntent.SetFlags(ActivityFlags.NoHistory);
@@ -909,26 +912,7 @@ namespace iChronoMe.Droid
                 }
             }
 
-            PendingIntent pendingIntent = null;
-            if (cfg.ClickAction == WidgetCfgClickAction.OpenSettings)
-            {
-                Intent defineIntent = new Intent(Intent.ActionMain);
-                defineIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
-                defineIntent.SetFlags(ActivityFlags.NoHistory);
-                defineIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                pendingIntent = PendingIntent.GetActivity(ctx, iWidgetId, defineIntent, PendingIntentFlags.CancelCurrent);
-            }
-            else if (cfg.ClickAction == WidgetCfgClickAction.OpenApp)
-            {
-                var notificationIntent = new Intent(ctx, typeof(MainActivity));
-                notificationIntent.SetAction(Intent.ActionMain);
-                notificationIntent.SetFlags(ActivityFlags.SingleTop | ActivityFlags.ClearTask);
-                pendingIntent = PendingIntent.GetActivity(ctx, 0, notificationIntent, PendingIntentFlags.UpdateCurrent);
-            }
-            if (cfg.ClickAction != WidgetCfgClickAction.None)
-            {
-                updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, pendingIntent);
-            }
+            updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, MainWidgetBase.GetClickActionIntent(ctx, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
 
             return updateViews;
         }
@@ -954,8 +938,10 @@ namespace iChronoMe.Droid
         {
             get
             {
+#pragma warning disable 0618
                 if (Build.VERSION.SdkInt < BuildVersionCodes.KitkatWatch)
                     return pm.IsScreenOn;
+#pragma warning restore 0618
                 return pm.IsInteractive;
             }
         }

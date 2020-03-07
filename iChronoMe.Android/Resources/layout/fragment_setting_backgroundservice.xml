@@ -43,7 +43,6 @@
     <Spinner
         android:id="@+id/sp_clickaction"
         android:prompt="@string/action_notification_click_action"
-        android:entries="@array/label_notification_click_actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

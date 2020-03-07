@@ -17,7 +17,6 @@ namespace iChronoMe.Droid.GUI.Service
             bIsInfoActivity = isInfoActivity;
         }
 
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_setting_backgroundservice, container, false);
@@ -26,6 +25,7 @@ namespace iChronoMe.Droid.GUI.Service
             binder = model.GetDataBinder(RootView);
             RootView.FindViewById<Button>(Resource.Id.btn_show_info).Click += model.ShowBackgroundServiceInfo;
             RootView.FindViewById<Button>(Resource.Id.btn_select_location).Click += model.ShowLocationSelector;
+            RootView.FindViewById<Spinner>(Resource.Id.sp_clickaction).Adapter = model.ClickActionTypeAdapter;
 
             return RootView;
         }
