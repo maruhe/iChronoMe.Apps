@@ -86,6 +86,7 @@
     <Compile Include="Source\Adapters\ClickActionTypeAdapter.cs" />
     <Compile Include="Source\Adapters\ContributorAdapter.cs" />
     <Compile Include="Source\Adapters\ExpandableMenuAdapter.cs" />
+    <Compile Include="Source\Adapters\OtherAppAdapter.cs" />
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />

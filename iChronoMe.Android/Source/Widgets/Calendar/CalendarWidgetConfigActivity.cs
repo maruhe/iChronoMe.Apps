@@ -163,7 +163,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 return;
             }
             else if (holder.WidgetExists<WidgetCfg_Calendar>(appWidgetId))
-                tStartAssistant = typeof(WidgetCfgAssistant_Calendar_Theme);
+                tStartAssistant = typeof(WidgetCfgAssistant_Calendar_OptionsBase);
             var cfg = holder.GetWidgetCfg<WidgetCfg_Calendar>(appWidgetId, false);
             var manager = new WidgetConfigAssistantManager<WidgetCfg_Calendar>(this, CalendarModel, myEventsList, myEventsMonth, wallpaperDrawable);
             Task.Factory.StartNew(async () =>

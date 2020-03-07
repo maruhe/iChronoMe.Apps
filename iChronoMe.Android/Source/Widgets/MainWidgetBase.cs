@@ -364,7 +364,23 @@ namespace iChronoMe.Droid.Widgets
                 //  break;
 
                 case ClickActionType.OpenOtherApp:
-
+                    if (action.Params == null || action.Params.Length == 0)
+                        return null;
+                    try
+                    {
+                        string packageName = action.Params[0].Split('=')[1];
+                        itClick = context.PackageManager.GetLaunchIntentForPackage(packageName);
+                        if (itClick == null)
+                        {
+                            // Bring user to the market or let them choose an app?
+                            itClick = new Intent(Intent.ActionView);
+                            itClick.SetData(Android.Net.Uri.Parse("market://details?id=" + packageName));
+                        }
+                        itClick.AddFlags(ActivityFlags.NewTask);
+                    } catch
+                    {
+                        return null;
+                    }
                     break;
             }
 

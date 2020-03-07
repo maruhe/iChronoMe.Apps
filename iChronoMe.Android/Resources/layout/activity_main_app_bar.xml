@@ -18,7 +18,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="?attr/PopupOverlay">
 
-            <me.ichrono.droid.Controls.TitleBarSpinner
+            <me.ichrono.droid.Controls.AlwaysSpinner
                 android:id="@+id/toolbar_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

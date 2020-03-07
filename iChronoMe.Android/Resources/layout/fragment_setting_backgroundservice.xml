@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Spinner
+    <me.ichrono.droid.Controls.AlwaysSpinner
         android:id="@+id/sp_locationtype"
         android:prompt="@string/action_location_type_promt"
         android:entries="@array/label_locationtypes"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Spinner
+    <me.ichrono.droid.Controls.AlwaysSpinner
         android:id="@+id/sp_clickaction"
         android:prompt="@string/action_notification_click_action"
         android:layout_width="match_parent"

@@ -1,8 +1,10 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -158,14 +160,67 @@ namespace iChronoMe.Droid.ViewModels
             get => ClickActionTypeAdapter.GetPos(clock?.ClickAction.Type ?? ClickActionType.OpenSettings);
             set
             {
+                var actionType = ClickActionTypeAdapter.GetValue(value);
+                if (actionType == ClickActionType.OpenOtherApp)
+                {
+                    SelectOpenOtherApp(mContext);
+                    return;
+                }
+
                 clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
 
-                clock.ClickAction = new ClickAction(ClickActionTypeAdapter.GetValue(value));
+                clock.ClickAction = new ClickAction(actionType);
 
                 holder.SetWidgetCfg(clock);
                 OnPropertyChanged("*");
                 BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
             }
+        }
+
+        public void SelectOpenOtherApp(Context context)
+        {
+            Task.Factory.StartNew(async() =>
+            {
+                try
+                {
+                    var appAdapter = new OtherAppAdapter(context as Activity);
+                    int iApp = await Tools.ShowSingleChoiseDlg(context, "select", appAdapter);
+                    if (iApp < 0)
+                        return;
+                    ApplicationInfo appInfo = appAdapter[iApp];                    
+
+                    /*
+                    List<ActivityInfo> activities = new List<ActivityInfo>();
+                    PackageInfo pi = context.PackageManager.GetPackageInfo(appInfo.PackageName, PackageInfoFlags.Activities);
+                    foreach (var activity in pi.Activities)
+                    {
+                        if (activity.Exported && activity.Enabled)
+                        {
+                            activities.Add(activity);
+                        }
+                        else
+                            activity.ToString();
+                    }
+                    activities.ToString();*/
+
+                    clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+
+                    clock.ClickAction = new ClickAction(ClickActionType.OpenOtherApp);
+                    clock.ClickAction.Params = new string[] { "PackageName=" + appInfo.PackageName };
+
+                    holder.SetWidgetCfg(clock);
+
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    OnPropertyChanged("*");
+                    BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
+                }
+            });
         }
     }
 }

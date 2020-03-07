@@ -5,24 +5,14 @@ using Android.Widget;
 
 namespace iChronoMe.Droid.Controls
 {
-    [Register("me.ichrono.droid.Controls.TitleBarSpinner")]
-    public class TitleBarSpinner : Spinner
+    [Register("me.ichrono.droid.Controls.AlwaysSpinner")]
+    public class AlwaysSpinner : Spinner
     {
+        public AlwaysSpinner(Context context) : base(context) { }
 
-        public TitleBarSpinner(Context context) : base(context)
-        {
+        public AlwaysSpinner(Context context, IAttributeSet attrs) : base(context, attrs) { }
 
-        }
-
-        public TitleBarSpinner(Context context, IAttributeSet attrs) : base(context, attrs)
-        {
-
-        }
-
-        public TitleBarSpinner(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle)
-        {
-
-        }
+        public AlwaysSpinner(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle) { }
 
         public override void SetSelection(int position, bool animate)
         {
