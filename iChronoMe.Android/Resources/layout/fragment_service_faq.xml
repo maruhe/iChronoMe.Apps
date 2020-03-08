@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="@dimen/frame_padding"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="service_faq"
+    <ListView
+        android:id="@+id/lv_faq"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

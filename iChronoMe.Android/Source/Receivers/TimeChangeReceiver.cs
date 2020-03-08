@@ -18,9 +18,6 @@ namespace iChronoMe.Droid.Receivers
 
         public override void OnReceive(Context context, Intent intent)
         {
-            if (!BackgroundService.IsServiceRunning(context, typeof(BackgroundService)))
-                return;
-
             xLog.Warn("Timezone or Device-Time Changed");
             //var srv = Service;
             string cAction = intent.Action;
