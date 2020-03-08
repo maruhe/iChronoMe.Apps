@@ -326,7 +326,7 @@ namespace iChronoMe.Droid.GUI
             else
             {
                 gd.SetColor(xColor.MaterialRed.ToAndroid());
-                cText = "device time is out of sync!!";
+                cText = "device time is out of sync: " + TimeHolder.mLastNtpDiff.ToDynamicString() + " " + TimeHolder.ErrorText;
             }
             imgDeviceTime.SetImageDrawable(gd);
             lDeviceTimeInfo.Text = cText;
@@ -492,6 +492,7 @@ namespace iChronoMe.Droid.GUI
         const int menu_debug_hour_path = 1201;
         const int menu_debug_minute_path = 1202;
         const int menu_debug_second_path = 1203;
+        const int menu_debug_error = 1501;
 
         public override void OnPrepareOptionsMenu(IMenu menu)
         {
@@ -515,6 +516,9 @@ namespace iChronoMe.Droid.GUI
 
             item = sub.Add(0, menu_debug_second_path, 0, "second path");
             item.SetOnMenuItemClickListener(this);
+
+            item = sub.Add(0, menu_debug_error, 0, "error");
+            item.SetOnMenuItemClickListener(this);
 #endif
         }
 
@@ -527,6 +531,9 @@ namespace iChronoMe.Droid.GUI
                 else
                     Drawer.OpenDrawer((int)GravityFlags.Right);
             }
+
+            if (item.ItemId == menu_debug_error)
+                throw new Exception("DebugTestException");
 
             if (item.ItemId == menu_debug_hour_path ||
                 item.ItemId == menu_debug_minute_path ||
