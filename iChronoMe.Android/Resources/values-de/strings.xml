@@ -90,9 +90,7 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"
     <string name="assistant_permission_welcome">
     "ein paar Berechtigungen wünsche ich mir:"
   </string>
-    <string name="assistant_privacy_message">alles kann man klacken...</string>
     <string name="assistant_privacy_question">hast du Interesse an unseren Informationen zu Dateschutz und Privatsphäre?</string>
-    <string name="assistant_privacy_title">Informationen zu Dateschutz und Privatsphäre?</string>
 
     <string name="backgroundservice_info_explenation">
 "um ein Uhr-Widget mit benutzerdefinierter Zeit anzeigen zu können, muss ein Dienst im Hintergund laufen

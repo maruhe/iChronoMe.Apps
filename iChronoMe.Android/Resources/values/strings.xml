@@ -96,9 +96,7 @@
     <string name="assistant_permission_welcome">
 		"yep, we need some permissions:"
 	</string>
-    <string name="assistant_privacy_message">"we don't beleve in unhackable anything"</string>
     <string name="assistant_privacy_question">you may mind about data privacy?</string>
-    <string name="assistant_privacy_title">data privacy information:</string>
 
     <string name="backgroundservice_info_explenation">
 		"to show a clock as widget that does show a custom time a service needs to be running in background\nsince android 7 it is needet to show a notification while a background-service is running\nyou can customize this notification or disable it in system-settings

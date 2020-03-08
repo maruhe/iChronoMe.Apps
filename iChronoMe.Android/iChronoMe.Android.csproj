@@ -832,6 +832,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\values-v21\" />
+    <Folder Include="Source\Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\basethemes.xml">
@@ -1027,6 +1028,12 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\privacy_notice.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\privacy_notice_de.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

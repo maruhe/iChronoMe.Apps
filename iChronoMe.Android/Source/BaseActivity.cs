@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 
 using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
@@ -13,6 +16,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using Android.Text.Method;
 using Android.Views;
 using Android.Widget;
 
@@ -471,9 +475,27 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_PrivacyNotice()
         {
-            new Android.Support.V7.App.AlertDialog.Builder(this)
-                        .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_title))
-                        .SetMessage(Resources.GetString(Resource.String.assistant_privacy_message))
+            var textView = new TextView(this);
+            textView.Text = "**text not found**\n" + "          :-(";
+            try
+            {
+                AssetManager assets = this.Assets;
+                string assetId = "privacy_notice.html";
+                string localId = "privacy_notice_" + CultureInfo.CurrentCulture.TwoLetterISOLanguageName + ".html";
+                if (Array.IndexOf(assets.List(""), localId) >= 0)
+                    assetId = localId;
+                using (StreamReader sr = new StreamReader(assets.Open(assetId)))
+                {
+                    textView.TextFormatted = Android.Text.Html.FromHtml(sr.ReadToEnd(), Android.Text.FromHtmlOptions.ModeLegacy);
+                }
+            } catch { }
+            int pad = 5 * sys.DisplayDensity;
+            textView.SetPadding(pad, pad, pad, pad);
+            textView.MovementMethod = LinkMovementMethod.Instance;
+            var scroll = new ScrollView(this);
+            scroll.AddView(textView);
+            var dlg = new AlertDialog.Builder(this)
+                        .SetView(scroll)
                         .SetPositiveButton(Resources.GetString(Resource.String.action_accept), (s, e) =>
                         {
                             AppConfigHolder.MainConfig.InitScreenPrivacy = 2;
@@ -491,7 +513,9 @@ namespace iChronoMe.Droid
                             FinishAndRemoveTask();
                         })
                         .SetOnCancelListener(new QuitOnCancelListener(this))
-                    .Create().Show();
+                    .Create();
+            dlg.Show();
+            dlg.Window.SetLayout(WindowManagerLayoutParams.MatchParent, WindowManagerLayoutParams.MatchParent);
         }
 
         public void SetAssistantDone()
