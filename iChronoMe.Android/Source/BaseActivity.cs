@@ -340,7 +340,7 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_UserLocation()
         {
-            var pDlg = ProgressDlg.NewInstance("~~location~~");
+            var pDlg = ProgressDlg.NewInstance(localize.progress_determineLocation);
             pDlg.Show(SupportFragmentManager, null);
 
             Task.Factory.StartNew(async () =>
@@ -371,6 +371,18 @@ namespace iChronoMe.Droid
                         if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
+                        int iTry = 0;
+                        while (lastLocation == null && iTry < 3)
+                        {
+                            iTry++;
+                            try { locationManager.RequestSingleUpdate(LocationManager.NetworkProvider, null); } catch { this.ToString(); }
+                            try { locationManager.RequestSingleUpdate(LocationManager.GpsProvider, null); } catch { this.ToString(); }
+                            Task.Delay(1500).Wait();
+                            lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
+                            if (lastLocation == null)
+                                lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+                        }
+
                         if (lastLocation != null)
                         {
                             LocationTimeHolder.LocalInstance.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
@@ -379,43 +391,63 @@ namespace iChronoMe.Droid
                             AppConfigHolder.SaveMainConfig();
                             pDlg.SetProgressDone();
                             SetAssistantDone();
+
+                            if (!locationManager.IsProviderEnabled(LocationManager.NetworkProvider) && locationManager.IsProviderEnabled(LocationManager.GpsProvider))
+                            {
+                                //Inform User that GPS-Only is may bad for battery
+                                RunOnUiThread(() =>
+                                {
+                                    new AlertDialog.Builder(this)
+                                     .SetTitle(Resource.String.title_JustATipp)
+                                     .SetMessage(Resource.String.hint_GpsOnlyIsActive)
+                                     .SetPositiveButton(Resource.String.action_settings, (s, e) =>
+                                     {
+                                         StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                                     })
+                                     .SetNegativeButton(Resource.String.action_ignore, (s, e) => { })
+                                     .Create().Show();
+                                });
+                            }
                             return;
                         }
                     }
                     catch (Exception ex)
                     {
-
+                        xLog.Error(ex);
                     }
 
-                    var dlg = new AlertDialog.Builder(this)
-                    .SetTitle(Resource.String.error_no_location_demitered)
-                    .SetMessage(Resource.String.app_needs_location_description)
-                    .SetPositiveButton(Resource.String.action_try_again, (s, e) =>
+                    RunOnUiThread(() =>
                     {
-                        SetAssistantDone();
-                    })
-                    .SetNegativeButton(Resource.String.action_select_location, async (s, e) =>
-                    {
-                        var loc = await LocationPickerDialog.SelectLocation(this);
-
-                        if (loc != null)
+                        var dlg = new AlertDialog.Builder(this)
+                        .SetTitle(Resource.String.error_no_location_demitered)
+                        .SetMessage(Resource.String.app_needs_location_description)
+                        .SetPositiveButton(Resource.String.action_try_again, (s, e) =>
                         {
-                            LocationTimeHolder.LocalInstance.ChangePositionDelay(loc.Latitude, loc.Longitude);
-                            LocationTimeHolder.LocalInstance.SaveLocal();
-                            AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
-                            AppConfigHolder.SaveMainConfig();
                             SetAssistantDone();
-                        }
-                    })
-                    .SetPositiveButton(Resource.String.action_settings, (s, e) =>
-                    {
-                        StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
-                    })
-                    .SetOnCancelListener(new FinishOnCancelListener(this));
+                        })
+                        .SetNegativeButton(Resource.String.action_select_location, async (s, e) =>
+                        {
+                            var loc = await LocationPickerDialog.SelectLocation(this);
 
-                    pDlg.SetProgressDone();
+                            if (loc != null)
+                            {
+                                LocationTimeHolder.LocalInstance.ChangePositionDelay(loc.Latitude, loc.Longitude);
+                                LocationTimeHolder.LocalInstance.SaveLocal();
+                                AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
+                                AppConfigHolder.SaveMainConfig();
+                                SetAssistantDone();
+                            }
+                        })
+                        .SetNeutralButton(Resource.String.action_settings, (s, e) =>
+                        {
+                            StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                        })
+                        .SetOnCancelListener(new FinishOnCancelListener(this));
+
+                        pDlg.SetProgressDone();
+                        dlg.Show();
+                    });
                     bStartAssistantActive = false;
-                    dlg.Show();
                     return;
                 }
 
@@ -526,7 +558,6 @@ namespace iChronoMe.Droid
 
         public Task<bool> RequestPermissionsTask { get { return tcsRP == null ? Task.FromResult(false) : tcsRP.Task; } }
         private TaskCompletionSource<bool> tcsRP = null;
-
 
         protected async Task<bool> RequestPermissionsAsync(string[] permissions, int requestCode)
         {

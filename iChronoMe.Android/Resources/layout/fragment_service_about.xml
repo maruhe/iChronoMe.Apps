@@ -5,13 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="service_about"
+    <Button
+        android:id="@+id/btnContact"
+        android:text="@string/action_ContactUs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:text="why did I do that?"
+        android:text="@string/service_AboutIntro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="http://ichrono.me"
+        android:autoLink="all"
+        android:clickable="true"
+        android:linksClickable="true"        
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -21,7 +30,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:text="controbutors:"
+        android:text="contributors:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

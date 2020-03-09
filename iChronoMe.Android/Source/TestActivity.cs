@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
+using Android;
 using Android.App;
+using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Controls;
+using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
+using Path = System.IO.Path;
 
 namespace iChronoMe.Droid
 {
@@ -29,6 +34,12 @@ namespace iChronoMe.Droid
 
             var view = new LinearLayout(this);
             view.Orientation = Orientation.Vertical;
+
+            var btn = new Button(this);
+            btn.Text = "Create iChronEys's";
+            btn.Click += BtnEyes_Click;
+            view.AddView(btn);
+
             string cImageDir = ImageLoader.GetImagePathThumb(ImageLoader.filter_clockfaces);
             var cGroups = new List<string>(Directory.GetDirectories(cImageDir));
             cGroups.Sort();
@@ -82,6 +93,25 @@ namespace iChronoMe.Droid
             scroll.AddView(view, new ScrollView.LayoutParams(ScrollView.LayoutParams.MatchParent, ScrollView.LayoutParams.WrapContent));
 
             SetContentView(scroll);
+
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != Permission.Granted)
+                RequestPermissions(new string[] { Manifest.Permission.WriteExternalStorage }, 1);
+        }
+
+        private void BtnEyes_Click(object sender, EventArgs e)
+        {
+            int size = 2500;
+            string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "iChronEye");
+            Directory.CreateDirectory(path);
+            for (int i = 0; i < 100; i++)
+            {
+                using (var bmp = ActionButtonService.GetIChronoEye(size, size, size, size / 2, size / 2, 10 + 1 / 60 * 8, -1, 366))
+                {
+                    var stream = new FileStream(Path.Combine(path, i.ToString("###") + ".png"), FileMode.Create);
+                    bmp.Compress(Bitmap.CompressFormat.Png, 100, stream);
+                    stream.Close();
+                }
+            }
         }
 
         bool bRunning = false;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:stretchColumns="0"
     android:clickable="true"
@@ -35,11 +35,6 @@
             android:text="blablabla\ndasdasdsadsad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView1" />
 
     </TableRow>
 
@@ -52,14 +47,9 @@
         <TextView
             android:id="@+id/hyperlink"
             android:text="www.example.hugo"
-            android:textColor="#00f"
+            android:textColor="?attr/android:textColorLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView2" />
     </TableRow>
 
 </TableLayout>

@@ -1,341 +1,347 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-  <string name="action_abort" synced="x">"abort"</string>
-  <string name="action_accept" synced="x">"accept"</string>
-  <string name="action_allow_send_errorlogs" synced="x">"allow sending error-logs"</string>
-  <string name="action_back" synced="x">"back"</string>
-  <string name="action_background" synced="x">"background"</string>
-  <string name="action_backgroundservice_showalways" synced="x">"always show clock in notifocation area"</string>
-  <string name="action_block" synced="x">"block"</string>
-  <string name="action_calendar_UsesDefaultTimeType" synced="x">"use default TimeType in Calendar"</string>
-  <string name="action_cancel" synced="x">"cancel"</string>
-  <string name="action_cfg_calendar_show_allday" synced="x">"show allday appointments"</string>
-  <string name="action_change_theme" synced="x">"change theme"</string>
-  <string name="action_clear_cache" synced="x">"clear cache"</string>
-  <string name="action_close" synced="x">"close"</string>
-  <string name="action_colors" synced="x">"colors"</string>
-  <string name="action_continue" synced="x">"continue"</string>
-  <string name="action_decline" synced="x">"decline"</string>
-  <string name="action_deny_error_screentshot" synced="x">"only error-logs without screenshots"</string>
-  <string name="action_handcolors" synced="x">"hand colors"</string>
-  <string name="action_handtypes" synced="x">"hand types"</string>
-  <string name="action_ignore" synced="x">"ignore"</string>
-  <string name="action_location_type_live" synced="x">"current Location"</string>
-  <string name="action_location_type_promt" synced="x">"choose a location-type:"</string>
-  <string name="action_location_type_static" synced="x">"static Location"</string>
-  <string name="action_more" synced="x">"more"</string>
-  <string name="action_no" synced="x">"no"</string>
-  <string name="action_notification_click_action" synced="x">"on notification click"</string>
-  <string name="action_notification_config" synced="x">"configure notifocation area"</string>
-  <string name="action_notification_show_always" synced="x">"always show clock in notifocation area"</string>
-  <string name="action_ok" synced="x">"ok"</string>
-  <string name="action_options" synced="x">"Options"</string>
-  <string name="action_refresh_location" synced="x">"refresh current location"</string>
-  <string name="action_refresh_location_continuous" synced="x">"refresh location continuous"</string>
-  <string name="action_remove" synced="x">"remove"</string>
-  <string name="action_remove_all" synced="x">"remove all"</string>
-  <string name="action_save" synced="x">"save"</string>
-  <string name="action_SaveAndQuit" synced="x">"save and quit"</string>
-  <string name="action_SaveWidget" synced="x">"save widget"</string>
-  <string name="action_search_location" synced="x">"search for location"</string>
-  <string name="action_select" synced="x">"select"</string>
-  <string name="action_select_location" synced="x">"select location"</string>
-  <string name="action_send_errorlog_once" synced="x">"send this time"</string>
-  <string name="action_send_testlog" synced="x">"send log"</string>
-  <string name="action_settings" synced="x">"Settings"</string>
-  <string name="action_tickmarks" synced="x">"tick marks"</string>
-  <string name="action_today" synced="x">"today"</string>
-  <string name="action_try_again" synced="x">"try again"</string>
-  <string name="action_webpage" synced="x">"web-page"</string>
-  <string name="action_yes" synced="x">"yes"</string>
-  <string name="ActionButtonStyle" synced="x">"style"</string>
-  <string name="ActionButtonStyle_eye_animated" synced="x">"iChronEye animated
+  <string name="action_abort" synced="x" sync="1">"abort"</string>
+  <string name="action_accept" synced="x" sync="1">"accept"</string>
+  <string name="action_allow_send_errorlogs" synced="x" sync="1">"allow sending error-logs"</string>
+  <string name="action_back" synced="x" sync="1">"back"</string>
+  <string name="action_background" synced="x" sync="1">"background"</string>
+  <string name="action_backgroundservice_showalways" synced="x" sync="1">"always show clock in notifocation area"</string>
+  <string name="action_block" synced="x" sync="1">"block"</string>
+  <string name="action_calendar_UsesDefaultTimeType" synced="x" sync="1">"use default TimeType in Calendar"</string>
+  <string name="action_cancel" synced="x" sync="1">"cancel"</string>
+  <string name="action_cfg_calendar_show_allday" synced="x" sync="1">"show allday appointments"</string>
+  <string name="action_change_theme" synced="x" sync="1">"change theme"</string>
+  <string name="action_clear_cache" synced="x" sync="1">"clear cache"</string>
+  <string name="action_close" synced="x" sync="1">"close"</string>
+  <string name="action_colors" synced="x" sync="1">"colors"</string>
+  <string name="action_ContactUs" sync="1">"contact / feedback"</string>
+  <string name="action_continue" synced="x" sync="1">"continue"</string>
+  <string name="action_decline" sync="1">"decline"</string>
+  <string name="action_deny_error_screentshot" synced="x" sync="1">"only error-logs without screenshots"</string>
+  <string name="action_handcolors" synced="x" sync="1">"hand colors"</string>
+  <string name="action_handtypes" synced="x" sync="1">"hand types"</string>
+  <string name="action_ignore" synced="x" sync="1">"ignore"</string>
+  <string name="action_location_type_live" synced="x" sync="1">"current Location"</string>
+  <string name="action_location_type_promt" synced="x" sync="1">"choose a location-type:"</string>
+  <string name="action_location_type_static" synced="x" sync="1">"static Location"</string>
+  <string name="action_more" synced="x" sync="1">"more"</string>
+  <string name="action_no" synced="x" sync="1">"no"</string>
+  <string name="action_notification_click_action" synced="x" sync="1">"on notification click"</string>
+  <string name="action_notification_config" synced="x" sync="1">"configure notifocation area"</string>
+  <string name="action_notification_show_always" synced="x" sync="1">"always show clock in notifocation area"</string>
+  <string name="action_ok" synced="x" sync="1">"ok"</string>
+  <string name="action_options" synced="x" sync="1">"Options"</string>
+  <string name="action_refresh_location" synced="x" sync="1">"refresh current location"</string>
+  <string name="action_refresh_location_continuous" synced="x" sync="1">"refresh location continuous"</string>
+  <string name="action_remove" synced="x" sync="1">"remove"</string>
+  <string name="action_remove_all" synced="x" sync="1">"remove all"</string>
+  <string name="action_save" synced="x" sync="1">"save"</string>
+  <string name="action_SaveAndQuit" synced="x" sync="1">"save and quit"</string>
+  <string name="action_SaveWidget" synced="x" sync="1">"save widget"</string>
+  <string name="action_search_location" synced="x" sync="1">"search for location"</string>
+  <string name="action_select" synced="x" sync="1">"select"</string>
+  <string name="action_select_location" synced="x" sync="1">"select location"</string>
+  <string name="action_send_errorlog_once" synced="x" sync="1">"send this time"</string>
+  <string name="action_send_testlog" synced="x" sync="1">"send log"</string>
+  <string name="action_settings" synced="x" sync="1">"Settings"</string>
+  <string name="action_SupportThisProject" sync="1">"support this project"</string>
+  <string name="action_tickmarks" synced="x" sync="1">"tick marks"</string>
+  <string name="action_today" synced="x" sync="1">"today"</string>
+  <string name="action_try_again" synced="x" sync="1">"try again"</string>
+  <string name="action_webpage" synced="x" sync="1">"web-page"</string>
+  <string name="action_yes" synced="x" sync="1">"yes"</string>
+  <string name="ActionButtonStyle" synced="x" sync="1">"style"</string>
+  <string name="ActionButtonStyle_eye_animated" synced="x" sync="1">"iChronEye animated
 (doubleclick = action)"</string>
-  <string name="ActionButtonStyle_eye_static" synced="x">"iChronEye static"</string>
-  <string name="alert_no_calendar_found" synced="x">"no calendars found!"</string>
-  <string name="all_day" synced="x">"all day"</string>
-  <string name="AnimationDuriation" synced="x">"animation duriation"</string>
-  <string name="AnimationRounds" synced="x">"animation rounds"</string>
-  <string name="app_needs_location_description" synced="x">"only with a location-information it is possible to calculate correct solar times"</string>
-  <string name="app_slogan" synced="x">"time is dynamic"</string>
-  <string name="AppName" synced="x">"iChronoMe"</string>
-  <string name="AppointmentName" synced="x">"event name"</string>
-  <string name="Appointments" synced="x">"events"</string>
-  <string name="AppointmentSymbols" synced="x">"event symbols"</string>
-  <string name="AppointmentTime" synced="x">"event time"</string>
-  <string name="AppTitle" synced="x">"iChronoMe"</string>
-  <string name="aRainbowPerMonth" synced="x">"one rainbow per month"</string>
-  <string name="aRainbowPerYear" synced="x">"one rainbow per year"</string>
-  <string name="assistant_permission_calendar" synced="x">"to display calendar-events in solar time we need permission here"</string>
-  <string name="assistant_permission_location" synced="x">"the app needs permission to your location to calculate correct solar time"</string>
-  <string name="assistant_permission_storage" synced="x">"and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"</string>
-  <string name="assistant_permission_welcome" synced="x">"yep, we need some permissions:"</string>
-  <string name="assistant_privacy_question" synced="x">"you may mind about data privacy?"</string>
-  <string name="Background" synced="x">"background"</string>
-  <string name="BackgroundColor" synced="x">"background color"</string>
-  <string name="BackgroundImage" synced="x">"background image"</string>
-  <string name="backgroundservice_info_explenation" synced="x">"to show a clock as widget that does show a custom time a service needs to be running in background
+  <string name="ActionButtonStyle_eye_static" synced="x" sync="1">"iChronEye static"</string>
+  <string name="alert_no_calendar_found" synced="x" sync="1">"no calendars found!"</string>
+  <string name="all_day" synced="x" sync="1">"all day"</string>
+  <string name="AnimationDuriation" synced="x" sync="1">"animation duriation"</string>
+  <string name="AnimationRounds" synced="x" sync="1">"animation rounds"</string>
+  <string name="app_needs_location_description" synced="x" sync="1">"only with a location-information it is possible to calculate correct solar times"</string>
+  <string name="app_slogan" synced="x" sync="1">"time is dynamic"</string>
+  <string name="AppName" synced="x" sync="1">"iChronoMe"</string>
+  <string name="AppointmentName" synced="x" sync="1">"event name"</string>
+  <string name="Appointments" synced="x" sync="1">"events"</string>
+  <string name="AppointmentSymbols" synced="x" sync="1">"event symbols"</string>
+  <string name="AppointmentTime" synced="x" sync="1">"event time"</string>
+  <string name="AppTitle" synced="x" sync="1">"iChronoMe"</string>
+  <string name="aRainbowPerMonth" synced="x" sync="1">"one rainbow per month"</string>
+  <string name="aRainbowPerYear" synced="x" sync="1">"one rainbow per year"</string>
+  <string name="assistant_permission_calendar" synced="x" sync="1">"to display calendar-events in solar time we need permission here"</string>
+  <string name="assistant_permission_location" synced="x" sync="1">"the app needs permission to your location to calculate correct solar time"</string>
+  <string name="assistant_permission_storage" synced="x" sync="1">"and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"</string>
+  <string name="assistant_permission_welcome" synced="x" sync="1">"yep, we need some permissions:"</string>
+  <string name="assistant_privacy_question" synced="x" sync="1">"you may mind about data privacy?"</string>
+  <string name="Background" synced="x" sync="1">"background"</string>
+  <string name="BackgroundColor" synced="x" sync="1">"background color"</string>
+  <string name="BackgroundImage" synced="x" sync="1">"background image"</string>
+  <string name="backgroundservice_info_explenation" synced="x" sync="1">"to show a clock as widget that does show a custom time a service needs to be running in background
 since android 7 it is needet to show a notification while a background-service is running
 you can customize this notification or disable it in system-settings"</string>
-  <string name="backgroundservice_info_why" synced="x">"why do I see a clock in notification area?"</string>
-  <string name="Border" synced="x">"border"</string>
-  <string name="ButtonColor" synced="x">"header colors"</string>
-  <string name="calendar_event_all_day" synced="x">"all day"</string>
-  <string name="calendar_event_multi_day" synced="x">"multi day"</string>
-  <string name="calendar_event_position_is_determined" synced="x">"Position wird ermittelt"</string>
-  <string name="calendar_event_to" synced="x">"to"</string>
-  <string name="calendar_event_unclear_position_time" synced="x">"position and local time unclear"</string>
-  <string name="calendar_monthview_appointmentdisplaymode_max_title" synced="x">"show maximal:"</string>
-  <string name="calendar_monthview_appointmentdisplaymode_title" synced="x">"display mode:"</string>
-  <string name="calendar_monthview_appointmentviewtypes_title" synced="x">"show appointments:"</string>
-  <string name="calendar_viewtype_DayView" synced="x">"day-view"</string>
-  <string name="calendar_viewtype_MonthView" synced="x">"month-view"</string>
-  <string name="calendar_viewtype_Timeline" synced="x">"timeline"</string>
-  <string name="calendar_viewtype_WeekView" synced="x">"week-view"</string>
-  <string name="calendar_viewtype_WorkWeek" synced="x">"work-week"</string>
-  <string name="calendar_widget_loading" synced="x">"loading events..."</string>
-  <string name="CalendarModel" synced="x">"calendar model"</string>
-  <string name="CalendarType" synced="x">"calendar type"</string>
-  <string name="ClickAction" synced="x">"action on click"</string>
-  <string name="ClickActionType_Animate" synced="x">"just animate"</string>
-  <string name="ClickActionType_CreateAlarm" synced="x">"create alarm"</string>
-  <string name="ClickActionType_CreateEvent" synced="x">"create event"</string>
-  <string name="ClickActionType_None" synced="x">"do nothing"</string>
-  <string name="ClickActionType_OpenApp" synced="x">"start iChronoMe"</string>
-  <string name="ClickActionType_OpenCalendar" synced="x">"open 'calendar'"</string>
-  <string name="ClickActionType_OpenClock" synced="x">"open 'clock'"</string>
-  <string name="ClickActionType_OpenOtherApp" synced="x">"open another app"</string>
-  <string name="ClickActionType_OpenSettings" synced="x">"show settings"</string>
-  <string name="ClickActionType_OpenWorldTimeMap" synced="x">"open 'World-Time Map'"</string>
-  <string name="ClockFace" synced="x">"clock face"</string>
-  <string name="ClockHandColors" synced="x">"hand colors"</string>
-  <string name="Color" synced="x">"color"</string>
-  <string name="colorcfgBlack" synced="x">"black"</string>
-  <string name="colorcfgBlackCustom" synced="x">"black/custom"</string>
-  <string name="colorcfgBlackTransparent" synced="x">"black/transparent"</string>
-  <string name="colorcfgBlackWhite" synced="x">"black/white"</string>
-  <string name="colorcfgMultiColor" synced="x">"multicolor"</string>
-  <string name="colorcfgMultiColorFilled" synced="x">"multicolor filled"</string>
-  <string name="colorcfgSingleColor" synced="x">"single color"</string>
-  <string name="colorcfgSingleColorFilled" synced="x">"single color filled"</string>
-  <string name="colorcfgWhite" synced="x">"white"</string>
-  <string name="colorcfgWhiteBlack" synced="x">"white / black"</string>
-  <string name="colorcfgWhiteCurstom" synced="x">"white / custom"</string>
-  <string name="colorcfgWhiteTransparent" synced="x">"white / transparent"</string>
-  <string name="Colors" synced="x">"colors"</string>
-  <string name="ContentAnColors" synced="x">"content and colors"</string>
-  <string name="Contents" synced="x">"content"</string>
-  <string name="current" synced="x">"current"</string>
-  <string name="CurrentLocation" synced="x">"current location"</string>
-  <string name="DarkToLight" synced="x">"dark to light"</string>
-  <string name="DataLoader_error_list_broken" synced="x">"unable to interprete data-list"</string>
-  <string name="DataLoader_error_list_unloadable" synced="x">"unable to load data-list"</string>
-  <string name="DayColors" synced="x">"day colors"</string>
-  <string name="DayColorsTimeSpan" synced="x">"brush timespan"</string>
-  <string name="DayColorType" synced="x">"day-color type"</string>
-  <string name="DayColorTypeCustomInfo" synced="x">"there will popup color selectors
+  <string name="backgroundservice_info_why" synced="x" sync="1">"why do I see a clock in notification area?"</string>
+  <string name="Border" synced="x" sync="1">"border"</string>
+  <string name="ButtonColor" synced="x" sync="1">"header colors"</string>
+  <string name="calendar_event_all_day" synced="x" sync="1">"all day"</string>
+  <string name="calendar_event_multi_day" synced="x" sync="1">"multi day"</string>
+  <string name="calendar_event_position_is_determined" synced="x" sync="1">"Position wird ermittelt"</string>
+  <string name="calendar_event_to" synced="x" sync="1">"to"</string>
+  <string name="calendar_event_unclear_position_time" synced="x" sync="1">"position and local time unclear"</string>
+  <string name="calendar_monthview_appointmentdisplaymode_max_title" synced="x" sync="1">"show maximal:"</string>
+  <string name="calendar_monthview_appointmentdisplaymode_title" synced="x" sync="1">"display mode:"</string>
+  <string name="calendar_monthview_appointmentviewtypes_title" synced="x" sync="1">"show appointments:"</string>
+  <string name="calendar_viewtype_DayView" synced="x" sync="1">"day-view"</string>
+  <string name="calendar_viewtype_MonthView" synced="x" sync="1">"month-view"</string>
+  <string name="calendar_viewtype_Timeline" synced="x" sync="1">"timeline"</string>
+  <string name="calendar_viewtype_WeekView" synced="x" sync="1">"week-view"</string>
+  <string name="calendar_viewtype_WorkWeek" synced="x" sync="1">"work-week"</string>
+  <string name="calendar_widget_loading" synced="x" sync="1">"loading events..."</string>
+  <string name="CalendarModel" synced="x" sync="1">"calendar model"</string>
+  <string name="CalendarType" synced="x" sync="1">"calendar type"</string>
+  <string name="ClickAction" synced="x" sync="1">"action on click"</string>
+  <string name="ClickActionType_Animate" synced="x" sync="1">"just animate"</string>
+  <string name="ClickActionType_CreateAlarm" synced="x" sync="1">"create alarm"</string>
+  <string name="ClickActionType_CreateEvent" synced="x" sync="1">"create event"</string>
+  <string name="ClickActionType_None" synced="x" sync="1">"do nothing"</string>
+  <string name="ClickActionType_OpenApp" synced="x" sync="1">"start iChronoMe"</string>
+  <string name="ClickActionType_OpenCalendar" synced="x" sync="1">"open 'calendar'"</string>
+  <string name="ClickActionType_OpenClock" synced="x" sync="1">"open 'clock'"</string>
+  <string name="ClickActionType_OpenOtherApp" synced="x" sync="1">"open another app"</string>
+  <string name="ClickActionType_OpenSettings" synced="x" sync="1">"show settings"</string>
+  <string name="ClickActionType_OpenWorldTimeMap" synced="x" sync="1">"open 'World-Time Map'"</string>
+  <string name="ClockFace" synced="x" sync="1">"clock face"</string>
+  <string name="ClockHandColors" synced="x" sync="1">"hand colors"</string>
+  <string name="Color" synced="x" sync="1">"color"</string>
+  <string name="colorcfgBlack" synced="x" sync="1">"black"</string>
+  <string name="colorcfgBlackCustom" synced="x" sync="1">"black/custom"</string>
+  <string name="colorcfgBlackTransparent" synced="x" sync="1">"black/transparent"</string>
+  <string name="colorcfgBlackWhite" synced="x" sync="1">"black/white"</string>
+  <string name="colorcfgMultiColor" synced="x" sync="1">"multicolor"</string>
+  <string name="colorcfgMultiColorFilled" synced="x" sync="1">"multicolor filled"</string>
+  <string name="colorcfgSingleColor" synced="x" sync="1">"single color"</string>
+  <string name="colorcfgSingleColorFilled" synced="x" sync="1">"single color filled"</string>
+  <string name="colorcfgWhite" synced="x" sync="1">"white"</string>
+  <string name="colorcfgWhiteBlack" synced="x" sync="1">"white / black"</string>
+  <string name="colorcfgWhiteCurstom" synced="x" sync="1">"white / custom"</string>
+  <string name="colorcfgWhiteTransparent" synced="x" sync="1">"white / transparent"</string>
+  <string name="Colors" synced="x" sync="1">"colors"</string>
+  <string name="ContentAnColors" synced="x" sync="1">"content and colors"</string>
+  <string name="Contents" synced="x" sync="1">"content"</string>
+  <string name="current" synced="x" sync="1">"current"</string>
+  <string name="CurrentLocation" synced="x" sync="1">"current location"</string>
+  <string name="DarkToLight" synced="x" sync="1">"dark to light"</string>
+  <string name="DataLoader_error_list_broken" synced="x" sync="1">"unable to interprete data-list"</string>
+  <string name="DataLoader_error_list_unloadable" synced="x" sync="1">"unable to load data-list"</string>
+  <string name="DayColors" synced="x" sync="1">"day colors"</string>
+  <string name="DayColorsTimeSpan" synced="x" sync="1">"brush timespan"</string>
+  <string name="DayColorType" synced="x" sync="1">"day-color type"</string>
+  <string name="DayColorTypeCustomInfo" synced="x" sync="1">"there will popup color selectors
 each selected color will be added to the brush
 if you have enoug colors just click 'back' or somewhere outside the window"</string>
-  <string name="DayTitle" synced="x">"Tagestitel"</string>
-  <string name="Default" synced="x">"default"</string>
-  <string name="DeletedWidgets" synced="x">"deleted widges"</string>
-  <string name="Description" synced="x">"discription"</string>
-  <string name="description_BackgroundService" synced="x">"keeps the Clock-Widges going on.."</string>
-  <string name="dont_ask_again" synced="x">"don't ask again"</string>
-  <string name="error_location_is_needet" synced="x">"this app need's a location to work"</string>
-  <string name="error_message_paramers" synced="x">"parameter error, try again"</string>
-  <string name="error_no_location_demitered" synced="x">"unable to demiter a location"</string>
-  <string name="error_saving_event" synced="x">"error saving event"</string>
-  <string name="error_SloarTimeNeedLocation" synced="x">"solar time needs a location!"</string>
-  <string name="ErrorsOrProblems" synced="x">"errors or problems"</string>
-  <string name="ezmz_runningwidgets_more" synced="x">"{0} widges aktiv"</string>
-  <string name="ezmz_runningwidgets_one" synced="x">"ein widget aktiv"</string>
-  <string name="ezmz_runningwidgets_zero" synced="x">"no aktiv widget"</string>
-  <string name="faq_item_1" synced="x">"this is a qute question"</string>
-  <string name="faq_item_1_value" synced="x">"and here the answer
+  <string name="DayTitle" synced="x" sync="1">"Tagestitel"</string>
+  <string name="Default" synced="x" sync="1">"default"</string>
+  <string name="DeletedWidgets" synced="x" sync="1">"deleted widges"</string>
+  <string name="Description" synced="x" sync="1">"discription"</string>
+  <string name="description_BackgroundService" synced="x" sync="1">"keeps the Clock-Widges going on.."</string>
+  <string name="dont_ask_again" synced="x" sync="1">"don't ask again"</string>
+  <string name="error_location_is_needet" synced="x" sync="1">"this app need's a location to work"</string>
+  <string name="error_message_paramers" synced="x" sync="1">"parameter error, try again"</string>
+  <string name="error_no_location_demitered" synced="x" sync="1">"unable to demiter a location"</string>
+  <string name="error_saving_event" synced="x" sync="1">"error saving event"</string>
+  <string name="error_SloarTimeNeedLocation" synced="x" sync="1">"solar time needs a location!"</string>
+  <string name="ErrorsOrProblems" synced="x" sync="1">"errors or problems"</string>
+  <string name="ezmz_runningwidgets_more" synced="x" sync="1">"{0} widges aktiv"</string>
+  <string name="ezmz_runningwidgets_one" synced="x" sync="1">"ein widget aktiv"</string>
+  <string name="ezmz_runningwidgets_zero" synced="x" sync="1">"no aktiv widget"</string>
+  <string name="faq_item_1" synced="x" sync="1">"this is a qute question"</string>
+  <string name="faq_item_1_value" synced="x" sync="1">"and here the answer
 with lin 2"</string>
-  <string name="faq_item_2" synced="x">"here another question"</string>
-  <string name="faq_item_2_value" synced="x">"and also a answer
+  <string name="faq_item_2" synced="x" sync="1">"here another question"</string>
+  <string name="faq_item_2_value" synced="x" sync="1">"and also a answer
 with a line 2
 line3
 and lin 4"</string>
-  <string name="Filling" synced="x">"fill"</string>
-  <string name="fiveColors" synced="x">"five colors"</string>
-  <string name="Flow" synced="x">"flow"</string>
-  <string name="fourColors" synced="x">"four colors"</string>
-  <string name="FunctionInTitle" synced="x">"Funktionen im Titel"</string>
-  <string name="HandColors" synced="x">"hand colors"</string>
-  <string name="HandColorTypes" synced="x">"hand color types"</string>
-  <string name="HandTypes" synced="x">"hand types"</string>
-  <string name="HeaderColor" synced="x">"button color"</string>
-  <string name="HourHandFill" synced="x">"hour hand fill color"</string>
-  <string name="HourHandStroke" synced="x">"hour hand stroke color"</string>
-  <string name="Hours" synced="x">"hours"</string>
-  <string name="IconColor" synced="x">"icon color"</string>
-  <string name="ImageLoader_error_list_broken" synced="x">"unable to interprete image-list"</string>
-  <string name="ImageLoader_error_list_unloadable" synced="x">"unable to load image-list"</string>
-  <string name="ImageLoader_progress_n_images" synced="x">"loading {0} images..."</string>
-  <string name="ImageLoader_progress_n_packages" synced="x">"loading {0} packages..."</string>
-  <string name="ImageLoader_progress_one_image" synced="x">"loading one image..."</string>
-  <string name="ImageLoader_progress_one_package" synced="x">"loading one package..."</string>
-  <string name="ImageLoader_progress_title" synced="x">"updating preview-images..."</string>
-  <string name="ImageLoader_success_n_images" synced="x">"{0} of {1} images loadet..."</string>
-  <string name="ImageLoader_success_n_packages" synced="x">"{0} of {1} packages loadet..."</string>
-  <string name="ImageLoader_success_one_image" synced="x">"one image loadet..."</string>
-  <string name="ImageLoader_success_one_package" synced="x">"one package loadet..."</string>
-  <string name="info_no_widgets_found" synced="x">"no widget's found
+  <string name="Filling" synced="x" sync="1">"fill"</string>
+  <string name="fiveColors" synced="x" sync="1">"five colors"</string>
+  <string name="Flow" synced="x" sync="1">"flow"</string>
+  <string name="fourColors" synced="x" sync="1">"four colors"</string>
+  <string name="FunctionInTitle" synced="x" sync="1">"Funktionen im Titel"</string>
+  <string name="HandColors" synced="x" sync="1">"hand colors"</string>
+  <string name="HandColorTypes" synced="x" sync="1">"hand color types"</string>
+  <string name="HandTypes" synced="x" sync="1">"hand types"</string>
+  <string name="HeaderColor" synced="x" sync="1">"button color"</string>
+  <string name="hint_GpsOnlyIsActive" sync="1">"currently only GPS is active, this may needs more battery\nif you change to 'battery saving' or 'high accuracy' this app and may also other will need less battery"</string>
+  <string name="HourHandFill" synced="x" sync="1">"hour hand fill color"</string>
+  <string name="HourHandStroke" synced="x" sync="1">"hour hand stroke color"</string>
+  <string name="Hours" synced="x" sync="1">"hours"</string>
+  <string name="ichronome_Link" sync="x">"&lt;a href="http://ichrono.me"&gt;http://ichrono.me&lt;/a&gt;"</string>
+  <string name="IconColor" synced="x" sync="1">"icon color"</string>
+  <string name="ImageLoader_error_list_broken" synced="x" sync="1">"unable to interprete image-list"</string>
+  <string name="ImageLoader_error_list_unloadable" synced="x" sync="1">"unable to load image-list"</string>
+  <string name="ImageLoader_progress_n_images" synced="x" sync="1">"loading {0} images..."</string>
+  <string name="ImageLoader_progress_n_packages" synced="x" sync="1">"loading {0} packages..."</string>
+  <string name="ImageLoader_progress_one_image" synced="x" sync="1">"loading one image..."</string>
+  <string name="ImageLoader_progress_one_package" synced="x" sync="1">"loading one package..."</string>
+  <string name="ImageLoader_progress_title" synced="x" sync="1">"updating preview-images..."</string>
+  <string name="ImageLoader_success_n_images" synced="x" sync="1">"{0} of {1} images loadet..."</string>
+  <string name="ImageLoader_success_n_packages" synced="x" sync="1">"{0} of {1} packages loadet..."</string>
+  <string name="ImageLoader_success_one_image" synced="x" sync="1">"one image loadet..."</string>
+  <string name="ImageLoader_success_one_package" synced="x" sync="1">"one package loadet..."</string>
+  <string name="info_no_widgets_found" synced="x" sync="1">"no widget's found
 you can create new widgets on your lauchen-screen!"</string>
-  <string name="just_a_moment" synced="x">"just a moment..."</string>
-  <string name="label_BackgroundService" synced="x">"Widget Update-Service"</string>
-  <string name="label_calendar_TimeType" synced="x">"calendar TimeType:"</string>
-  <string name="label_cfg_calendar_core_time" synced="x">"core time"</string>
-  <string name="label_cfg_calendar_show_weeknumbers" synced="x">"show weeknumbers"</string>
-  <string name="label_cfg_calendar_visible_time" synced="x">"visible time"</string>
-  <string name="label_cfg_timeline_days_count" synced="x">"days count"</string>
-  <string name="label_choose_default_timetype" synced="x">"choose your default Time-Type:"</string>
-  <string name="label_choose_theme_firsttime" synced="x">"at first choose your colors:"</string>
-  <string name="label_default_TimeType" synced="x">"default TimeType:"</string>
-  <string name="label_error" synced="x">"error"</string>
-  <string name="label_errorlog" synced="x">"error log"</string>
-  <string name="label_sceenshot" synced="x">"screenshot"</string>
-  <string name="label_ShortCutActivity" synced="x">"short cut's"</string>
-  <string name="label_title" synced="x">"title"</string>
-  <string name="LifeTime" synced="x">"live-time"</string>
-  <string name="LifeTimeStart" synced="x">"live-start"</string>
-  <string name="LightToDark" synced="x">"light to dark"</string>
-  <string name="Lines" synced="x">"lines"</string>
-  <string name="loading" synced="x">"loading..."</string>
-  <string name="Location" synced="x">"location"</string>
-  <string name="location_provider_disabled_alert" synced="x">"location-services seems to be disabled"</string>
-  <string name="location_provider_disabled_question" synced="x">"do you want to enable it?"</string>
-  <string name="LocationType" synced="x">"location type"</string>
-  <string name="MaxCount" synced="x">"max count"</string>
-  <string name="menu_about" synced="x">"About"</string>
-  <string name="menu_calendar" synced="x">"Calendar"</string>
-  <string name="menu_clock" synced="x">"Clock"</string>
-  <string name="menu_faq" synced="x">"FAQ"</string>
-  <string name="menu_service" synced="x">"Service"</string>
-  <string name="menu_settings" synced="x">"Settings"</string>
-  <string name="menu_share" synced="x">"Share"</string>
-  <string name="menu_tools" synced="x">"Tools"</string>
-  <string name="menu_world_time_map" synced="x">"World-Time Map"</string>
-  <string name="MinuteHandFill" synced="x">"minute hand fill color"</string>
-  <string name="MinuteHandStroke" synced="x">"minute hand stroke color"</string>
-  <string name="Minutes" synced="x">"minutes"</string>
-  <string name="Months" synced="x">"months"</string>
-  <string name="MoreOptionsAndColors" synced="x">"more options and colors"</string>
-  <string name="Name" synced="x">"name"</string>
-  <string name="nAnimationRounds" synced="x">"{0} round(s)"</string>
-  <string name="navigation_drawer_close" synced="x">"Close navigation drawer"</string>
-  <string name="navigation_drawer_open" synced="x">"Open navigation drawer"</string>
-  <string name="No_Appointments" synced="x">"your are free"</string>
-  <string name="NoHighlite" synced="x">"no highlite"</string>
-  <string name="NoSelectedDate" synced="x">"no selected date"</string>
-  <string name="nSeconds" synced="x">"{0} second(s)"</string>
-  <string name="Options" synced="x">"options"</string>
-  <string name="OtherAdditional" synced="x">"additional"</string>
-  <string name="progress_clearcache_action" synced="x">"clear cache"</string>
-  <string name="progress_clearcache_message" synced="x">"you will have to restart iChronome after continue"</string>
-  <string name="progress_clearcache_title" synced="x">"clear cache?"</string>
-  <string name="progress_deleteerrorlog_done" synced="x">"all error-logs have been deleted"</string>
-  <string name="progress_overlay_timezones_title" synced="x">"preparing timezones..."</string>
-  <string name="progress_preparing_data" synced="x">"preparing data..."</string>
-  <string name="progress_senderrorlog_message" synced="x">"do you allow to send error-logs to help solving such problems? theese logs contain tecnical parameters of you device and as you allow a screenshot, but no other kind of personal information"</string>
-  <string name="progress_senderrorlog_more" synced="x">"more information"</string>
-  <string name="progress_senderrorlog_title" synced="x">"something got wrong or the App crashed last time!"</string>
-  <string name="progress_systemtest_action" synced="x">"system test"</string>
-  <string name="progress_systemtest_title" synced="x">"system test"</string>
-  <string name="ProgressUpdateBaseData" synced="x">"update base-data"</string>
-  <string name="question_create_new_calendar" synced="x">"you like to create a new Calendar?"</string>
-  <string name="search_hint" synced="x">"the hint so search ;-)"</string>
-  <string name="serviceAboutIntro" synced="x">"this app was created be me, the creator. I call myself 'I'."</string>
-  <string name="shortcut_create_alarm" synced="x">"add alarm"</string>
-  <string name="shortcut_create_alarm_disabled" synced="x">"not working? why not?"</string>
-  <string name="shortcut_create_alarm_long" synced="x">"long description..."</string>
-  <string name="shortcut_create_calender_event" synced="x">"create event"</string>
-  <string name="shortcut_create_calender_event_disabled" synced="x">"not working? why not?"</string>
-  <string name="shortcut_create_calender_event_long" synced="x">"long description..."</string>
-  <string name="stop_alarm" synced="x">"thanks"</string>
-  <string name="text_Offset" synced="x">"Offset"</string>
-  <string name="text_OnClick" synced="x">"on click"</string>
-  <string name="text_oneMonth" synced="x">"one Month"</string>
-  <string name="text_oneYear" synced="x">"one Year"</string>
-  <string name="text_perMonth" synced="x">"per month"</string>
-  <string name="text_perWeek" synced="x">"per week"</string>
-  <string name="text_perYear" synced="x">"per year"</string>
-  <string name="text_Problems" synced="x">"problems"</string>
-  <string name="text_Sample" synced="x">"sample"</string>
-  <string name="text_search_hint" synced="x">"the hint so search ;-)"</string>
-  <string name="text_SecondHandFill" synced="x">"second hand fill color"</string>
-  <string name="text_SecondHandStroke" synced="x">"second hand stroke color"</string>
-  <string name="text_Seconds" synced="x">"seconds"</string>
-  <string name="text_ServiceInfo" synced="x">"if you see this text please tell me:"</string>
-  <string name="text_SetAllColorsAtOnce" synced="x">"all colors at ones"</string>
-  <string name="text_ShowAllCalendars" synced="x">"show all calendars"</string>
-  <string name="text_ShowAppointmentColors" synced="x">"show event-colors"</string>
-  <string name="text_ShowLocation" synced="x">"show location"</string>
-  <string name="text_SingleColor" synced="x">"single color"</string>
-  <string name="text_StaticLocation" synced="x">"choose static location"</string>
-  <string name="text_Style" synced="x">"style"</string>
-  <string name="text_Symbols" synced="x">"Symbole"</string>
-  <string name="text_threeColors" synced="x">"three Colors"</string>
-  <string name="text_threeMonths" synced="x">"three Months"</string>
-  <string name="text_threeWeeks" synced="x">"three Weeks"</string>
-  <string name="text_TickMarks" synced="x">"tick marks"</string>
-  <string name="text_TickMarksColor" synced="x">"tick marks color"</string>
-  <string name="text_TitleColor" synced="x">"title color"</string>
-  <string name="text_TodayColor" synced="x">"today-color"</string>
-  <string name="text_transparent" synced="x">"transparent"</string>
-  <string name="text_twoColors" synced="x">"two Colors"</string>
-  <string name="text_twoMonths" synced="x">"two Months"</string>
-  <string name="text_twoWeeks" synced="x">"two Weeks"</string>
-  <string name="text_unknown_position" synced="x">"unkwnown_position"</string>
-  <string name="text_withoutSecondHand" synced="x">"without second-hand"</string>
-  <string name="TextColor" synced="x">"Textfarbe"</string>
-  <string name="Theme" synced="x">"theme"</string>
-  <string name="Time" synced="x">"time"</string>
-  <string name="TimeOffset" synced="x">"time offset"</string>
-  <string name="TimeScale" synced="x">"timescale"</string>
-  <string name="TimeSpan" synced="x">"timespan"</string>
-  <string name="TimeType" synced="x">"time-type"</string>
-  <string name="TimeType_MiddleSunTime" synced="x">"middle sun time"</string>
-  <string name="TimeType_MiddleSunTime_Desc" synced="x">"the time based on the current longitude of your location
+  <string name="just_a_moment" synced="x" sync="1">"just a moment..."</string>
+  <string name="label_BackgroundService" synced="x" sync="1">"Widget Update-Service"</string>
+  <string name="label_calendar_TimeType" synced="x" sync="1">"calendar TimeType:"</string>
+  <string name="label_cfg_calendar_core_time" synced="x" sync="1">"core time"</string>
+  <string name="label_cfg_calendar_show_weeknumbers" synced="x" sync="1">"show weeknumbers"</string>
+  <string name="label_cfg_calendar_visible_time" synced="x" sync="1">"visible time"</string>
+  <string name="label_cfg_timeline_days_count" synced="x" sync="1">"days count"</string>
+  <string name="label_choose_default_timetype" synced="x" sync="1">"choose your default Time-Type:"</string>
+  <string name="label_choose_theme_firsttime" synced="x" sync="1">"at first choose your colors:"</string>
+  <string name="label_default_TimeType" synced="x" sync="1">"default TimeType:"</string>
+  <string name="label_error" synced="x" sync="1">"error"</string>
+  <string name="label_errorlog" synced="x" sync="1">"error log"</string>
+  <string name="label_sceenshot" synced="x" sync="1">"screenshot"</string>
+  <string name="label_ShortCutActivity" synced="x" sync="1">"short cut's"</string>
+  <string name="label_title" synced="x" sync="1">"title"</string>
+  <string name="LifeTime" synced="x" sync="1">"live-time"</string>
+  <string name="LifeTimeStart" synced="x" sync="1">"live-start"</string>
+  <string name="LightToDark" synced="x" sync="1">"light to dark"</string>
+  <string name="Lines" synced="x" sync="1">"lines"</string>
+  <string name="loading" synced="x" sync="1">"loading..."</string>
+  <string name="Location" synced="x" sync="1">"location"</string>
+  <string name="location_provider_disabled_alert" synced="x" sync="1">"location-services seems to be disabled"</string>
+  <string name="location_provider_disabled_question" synced="x" sync="1">"do you want to enable it?"</string>
+  <string name="LocationType" synced="x" sync="1">"location type"</string>
+  <string name="MaxCount" synced="x" sync="1">"max count"</string>
+  <string name="menu_about" synced="x" sync="1">"About"</string>
+  <string name="menu_calendar" synced="x" sync="1">"Calendar"</string>
+  <string name="menu_clock" synced="x" sync="1">"Clock"</string>
+  <string name="menu_faq" synced="x" sync="1">"FAQ"</string>
+  <string name="menu_service" synced="x" sync="1">"Service"</string>
+  <string name="menu_settings" synced="x" sync="1">"Settings"</string>
+  <string name="menu_share" synced="x" sync="1">"Share"</string>
+  <string name="menu_tools" synced="x" sync="1">"Tools"</string>
+  <string name="menu_world_time_map" synced="x" sync="1">"World-Time Map"</string>
+  <string name="MinuteHandFill" synced="x" sync="1">"minute hand fill color"</string>
+  <string name="MinuteHandStroke" synced="x" sync="1">"minute hand stroke color"</string>
+  <string name="Minutes" synced="x" sync="1">"minutes"</string>
+  <string name="Months" synced="x" sync="1">"months"</string>
+  <string name="MoreOptionsAndColors" synced="x" sync="1">"more options and colors"</string>
+  <string name="Name" synced="x" sync="1">"name"</string>
+  <string name="nAnimationRounds" synced="x" sync="1">"{0} round(s)"</string>
+  <string name="navigation_drawer_close" synced="x" sync="1">"Close navigation drawer"</string>
+  <string name="navigation_drawer_open" synced="x" sync="1">"Open navigation drawer"</string>
+  <string name="No_Appointments" synced="x" sync="1">"your are free"</string>
+  <string name="NoHighlite" synced="x" sync="1">"no highlite"</string>
+  <string name="NoSelectedDate" synced="x" sync="1">"no selected date"</string>
+  <string name="nSeconds" synced="x" sync="1">"{0} second(s)"</string>
+  <string name="Options" synced="x" sync="1">"options"</string>
+  <string name="OtherAdditional" synced="x" sync="1">"additional"</string>
+  <string name="progress_clearcache_action" synced="x" sync="1">"clear cache"</string>
+  <string name="progress_clearcache_message" synced="x" sync="1">"you will have to restart iChronome after continue"</string>
+  <string name="progress_clearcache_title" synced="x" sync="1">"clear cache?"</string>
+  <string name="progress_deleteerrorlog_done" synced="x" sync="1">"all error-logs have been deleted"</string>
+  <string name="progress_determineLocation" sync="1">"determine location..."</string>
+  <string name="progress_overlay_timezones_title" synced="x" sync="1">"preparing timezones..."</string>
+  <string name="progress_preparing_data" synced="x" sync="1">"preparing data..."</string>
+  <string name="progress_senderrorlog_message" synced="x" sync="1">"do you allow to send error-logs to help solving such problems? theese logs contain tecnical parameters of you device and as you allow a screenshot, but no other kind of personal information"</string>
+  <string name="progress_senderrorlog_more" synced="x" sync="1">"more information"</string>
+  <string name="progress_senderrorlog_title" synced="x" sync="1">"something got wrong or the App crashed last time!"</string>
+  <string name="progress_systemtest_action" synced="x" sync="1">"system test"</string>
+  <string name="progress_systemtest_title" synced="x" sync="1">"system test"</string>
+  <string name="ProgressUpdateBaseData" synced="x" sync="1">"update base-data"</string>
+  <string name="question_create_new_calendar" synced="x" sync="1">"you like to create a new Calendar?"</string>
+  <string name="search_hint" synced="x" sync="1">"the hint so search ;-)"</string>
+  <string name="service_AboutIntro" sync="1">"this app was created be me, the creator. I call myself 'I'."</string>
+  <string name="shortcut_create_alarm" synced="x" sync="1">"add alarm"</string>
+  <string name="shortcut_create_alarm_disabled" synced="x" sync="1">"not working? why not?"</string>
+  <string name="shortcut_create_alarm_long" synced="x" sync="1">"long description..."</string>
+  <string name="shortcut_create_calender_event" synced="x" sync="1">"create event"</string>
+  <string name="shortcut_create_calender_event_disabled" synced="x" sync="1">"not working? why not?"</string>
+  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"long description..."</string>
+  <string name="stop_alarm" synced="x" sync="1">"thanks"</string>
+  <string name="text_Offset" synced="x" sync="1">"Offset"</string>
+  <string name="text_OnClick" synced="x" sync="1">"on click"</string>
+  <string name="text_oneMonth" synced="x" sync="1">"one Month"</string>
+  <string name="text_oneYear" synced="x" sync="1">"one Year"</string>
+  <string name="text_perMonth" synced="x" sync="1">"per month"</string>
+  <string name="text_perWeek" synced="x" sync="1">"per week"</string>
+  <string name="text_perYear" synced="x" sync="1">"per year"</string>
+  <string name="text_Problems" synced="x" sync="1">"problems"</string>
+  <string name="text_Sample" synced="x" sync="1">"sample"</string>
+  <string name="text_search_hint" synced="x" sync="1">"the hint so search ;-)"</string>
+  <string name="text_SecondHandFill" synced="x" sync="1">"second hand fill color"</string>
+  <string name="text_SecondHandStroke" synced="x" sync="1">"second hand stroke color"</string>
+  <string name="text_Seconds" synced="x" sync="1">"seconds"</string>
+  <string name="text_ServiceInfo" synced="x" sync="1">"if you see this text please tell me:"</string>
+  <string name="text_SetAllColorsAtOnce" synced="x" sync="1">"all colors at ones"</string>
+  <string name="text_ShowAllCalendars" synced="x" sync="1">"show all calendars"</string>
+  <string name="text_ShowAppointmentColors" synced="x" sync="1">"show event-colors"</string>
+  <string name="text_ShowLocation" synced="x" sync="1">"show location"</string>
+  <string name="text_SingleColor" synced="x" sync="1">"single color"</string>
+  <string name="text_StaticLocation" synced="x" sync="1">"choose static location"</string>
+  <string name="text_Style" synced="x" sync="1">"style"</string>
+  <string name="text_Symbols" synced="x" sync="1">"Symbole"</string>
+  <string name="text_threeColors" synced="x" sync="1">"three Colors"</string>
+  <string name="text_threeMonths" synced="x" sync="1">"three Months"</string>
+  <string name="text_threeWeeks" synced="x" sync="1">"three Weeks"</string>
+  <string name="text_TickMarks" synced="x" sync="1">"tick marks"</string>
+  <string name="text_TickMarksColor" synced="x" sync="1">"tick marks color"</string>
+  <string name="text_TitleColor" synced="x" sync="1">"title color"</string>
+  <string name="text_TodayColor" synced="x" sync="1">"today-color"</string>
+  <string name="text_transparent" synced="x" sync="1">"transparent"</string>
+  <string name="text_twoColors" synced="x" sync="1">"two Colors"</string>
+  <string name="text_twoMonths" synced="x" sync="1">"two Months"</string>
+  <string name="text_twoWeeks" synced="x" sync="1">"two Weeks"</string>
+  <string name="text_unknown_position" synced="x" sync="1">"unkwnown_position"</string>
+  <string name="text_withoutSecondHand" synced="x" sync="1">"without second-hand"</string>
+  <string name="TextColor" synced="x" sync="1">"Textfarbe"</string>
+  <string name="Theme" synced="x" sync="1">"theme"</string>
+  <string name="Time" synced="x" sync="1">"time"</string>
+  <string name="TimeOffset" synced="x" sync="1">"time offset"</string>
+  <string name="TimeScale" synced="x" sync="1">"timescale"</string>
+  <string name="TimeSpan" synced="x" sync="1">"timespan"</string>
+  <string name="TimeType" synced="x" sync="1">"time-type"</string>
+  <string name="TimeType_MiddleSunTime" synced="x" sync="1">"middle sun time"</string>
+  <string name="TimeType_MiddleSunTime_Desc" synced="x" sync="1">"the time based on the current longitude of your location
 around the year the difference between real an middle solar time can be up to about 18 minutes
 every day has exact 24 hours and the offset to timezone-time is stable"</string>
-  <string name="TimeType_RealSunTime" synced="x">"real sun time"</string>
-  <string name="TimeType_RealSunTime_Desc" synced="x">"the time, by the real position of the sun where the highest point of the sun means 12 o'clock
+  <string name="TimeType_RealSunTime" synced="x" sync="1">"real sun time"</string>
+  <string name="TimeType_RealSunTime_Desc" synced="x" sync="1">"the time, by the real position of the sun where the highest point of the sun means 12 o'clock
 this means a day is a little bit less or a little bit more than 24 hours and every day is diffrent, like nature is\nthe offset to timezone-time is changing every day"</string>
-  <string name="TimeType_TimeZoneTime" synced="x">"timezone time"</string>
-  <string name="TimeType_TimeZoneTime_Desc" synced="x">"this time is based on the borders of the country you enjoy currently
+  <string name="TimeType_TimeZoneTime" synced="x" sync="1">"timezone time"</string>
+  <string name="TimeType_TimeZoneTime_Desc" synced="x" sync="1">"this time is based on the borders of the country you enjoy currently
 may this can be far far away from the real time on your location"</string>
-  <string name="title_edit_event" synced="x">"edit event"</string>
-  <string name="title_EditWidget" synced="x">"edit Widget"</string>
-  <string name="title_location_picker" synced="x">"select a location"</string>
-  <string name="title_new_event" synced="x">"new event"</string>
-  <string name="title_send_errorlog" synced="x">"these informations will be send:"</string>
-  <string name="unknown_position" synced="x">"unkwnown_position"</string>
-  <string name="wallpaper_title_clock_analog" synced="x">"analog solar clock"</string>
-  <string name="welcome_ichronomy" synced="x">"welcome to iChronoMe!"</string>
-  <string name="widget_error_location_is_requered" synced="x">"the calender-widget\'s only work with access to your calendar and location!"</string>
-  <string name="widget_error_permission_calendar" synced="x">"missing calendar-permission
+  <string name="title_edit_event" synced="x" sync="1">"edit event"</string>
+  <string name="title_EditWidget" synced="x" sync="1">"edit Widget"</string>
+  <string name="title_JustATipp" sync="1">"just a tipp"</string>
+  <string name="title_location_picker" synced="x" sync="1">"select a location"</string>
+  <string name="title_new_event" synced="x" sync="1">"new event"</string>
+  <string name="title_send_errorlog" synced="x" sync="1">"these informations will be send:"</string>
+  <string name="unknown_position" synced="x" sync="1">"unkwnown_position"</string>
+  <string name="wallpaper_title_clock_analog" synced="x" sync="1">"analog solar clock"</string>
+  <string name="welcome_ichronomy" synced="x" sync="1">"welcome to iChronoMe!"</string>
+  <string name="widget_error_location_is_requered" synced="x" sync="1">"the calender-widget\'s only work with access to your calendar and location!"</string>
+  <string name="widget_error_permission_calendar" synced="x" sync="1">"missing calendar-permission
 please click here"</string>
-  <string name="widget_error_permission_location" synced="x">"missing localtion-permission
+  <string name="widget_error_permission_location" synced="x" sync="1">"missing localtion-permission
 please click here"</string>
-  <string name="widget_lifetime_loading" synced="x">"one "tropical year" is:\n365 d 5 h 48 min and 45,261 s"</string>
-  <string name="widget_loading" synced="x">"time is just illusion\u2026"</string>
-  <string name="widget_permission_error" synced="x">"I need some permissions, click here please"</string>
-  <string name="widget_title_actionbutton" synced="x">"action button"</string>
-  <string name="widget_title_calendar" synced="x">"solar time calendar widget"</string>
-  <string name="widget_title_clock_analog" synced="x">"analog solar time"</string>
-  <string name="widget_title_lifetime" synced="x">"lifetime"</string>
-  <string name="widget_unconfigured" synced="x">"click here to configure the widget"</string>
-  <string name="widget_warning_location_out_of_date" synced="x">"current location out of date"</string>
-  <string name="widget_warning_location_unknown" synced="x">"current location unknown"</string>
-  <string name="WidgetHeaderAndSeparatingLine" synced="x">"Widget-Kopf und Trennzeile"</string>
-  <string name="WidgetTitle" synced="x">"Widget-Titel"</string>
-  <string name="WidgetTitleAgenda" synced="x">"agenda"</string>
-  <string name="WidgetTitleCircleWave" synced="x">"circle-wave"</string>
-  <string name="WidgetTitleMonthView" synced="x">"month-view"</string>
+  <string name="widget_lifetime_loading" synced="x" sync="1">"one "tropical year" is:\n365 d 5 h 48 min and 45,261 s"</string>
+  <string name="widget_loading" synced="x" sync="1">"time is just illusion\u2026"</string>
+  <string name="widget_permission_error" synced="x" sync="1">"I need some permissions, click here please"</string>
+  <string name="widget_title_actionbutton" synced="x" sync="1">"action button"</string>
+  <string name="widget_title_calendar" synced="x" sync="1">"solar time calendar widget"</string>
+  <string name="widget_title_clock_analog" synced="x" sync="1">"analog solar time"</string>
+  <string name="widget_title_lifetime" synced="x" sync="1">"lifetime"</string>
+  <string name="widget_unconfigured" synced="x" sync="1">"click here to configure the widget"</string>
+  <string name="widget_warning_location_out_of_date" synced="x" sync="1">"current location out of date"</string>
+  <string name="widget_warning_location_unknown" synced="x" sync="1">"current location unknown"</string>
+  <string name="WidgetHeaderAndSeparatingLine" synced="x" sync="1">"Widget-Kopf und Trennzeile"</string>
+  <string name="WidgetTitle" synced="x" sync="1">"Widget-Titel"</string>
+  <string name="WidgetTitleAgenda" synced="x" sync="1">"agenda"</string>
+  <string name="WidgetTitleCircleWave" synced="x" sync="1">"circle-wave"</string>
+  <string name="WidgetTitleMonthView" synced="x" sync="1">"month-view"</string>
   <string-array name="calendar_monthview_appointmentdisplaymodes">
     <item>indicator</item>
     <item>appointment</item>
