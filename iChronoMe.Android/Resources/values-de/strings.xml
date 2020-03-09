@@ -244,7 +244,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="ProgressUpdateBaseData" synced="x" sync="1">"Basisdaten werden aktualisiert"</string>
   <string name="question_create_new_calendar" synced="x" sync="1">"soll ein neuer Calendar angelegt werden?"</string>
   <string name="search_hint" synced="x" sync="1">"wenn dieser Text auftaucht bitte bescheid geben ;-)"</string>
-  <string name="service_AboutIntro" sync="1">"Diese App wurde von mir, dem Schöpfer, erstellt. Ich nenne mich 'I'."</string>
+  <string name="service_AboutIntro" sync="1">"Diese App wurde von mir, dem Schöpfer, erstellt. Ich nenne mich selbst 'I'."</string>
   <string name="shortcut_create_alarm" synced="x" sync="1">"Wecker stellen"</string>
   <string name="shortcut_create_alarm_disabled" synced="x" sync="1">"geht nit? warum nit?"</string>
   <string name="shortcut_create_alarm_long" synced="x" sync="1">"long description..."</string>

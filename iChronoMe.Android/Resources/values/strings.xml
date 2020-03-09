@@ -174,7 +174,7 @@ and lin 4"</string>
   <string name="HourHandFill" synced="x" sync="1">"hour hand fill color"</string>
   <string name="HourHandStroke" synced="x" sync="1">"hour hand stroke color"</string>
   <string name="Hours" synced="x" sync="1">"hours"</string>
-  <string name="ichronome_Link" sync="x">"&lt;a href="http://ichrono.me"&gt;http://ichrono.me&lt;/a&gt;"</string>
+  <string name="ichronome_Link" sync="1">"&lt;a href="http://ichrono.me"&gt;http://ichrono.me&lt;/a&gt;"</string>
   <string name="IconColor" synced="x" sync="1">"icon color"</string>
   <string name="ImageLoader_error_list_broken" synced="x" sync="1">"unable to interprete image-list"</string>
   <string name="ImageLoader_error_list_unloadable" synced="x" sync="1">"unable to load image-list"</string>
