@@ -73,9 +73,8 @@
                 android:clickable="true"                
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/frame_padding"
-                android:layout_marginEnd="@dimen/frame_padding"
                 android:background="@drawable/selector"
-                android:layout_width="165dp"                
+                android:layout_width="165sp"                
                 android:layout_height="wrap_content">
                 <include
                     layout="@layout/listitem_location_times"

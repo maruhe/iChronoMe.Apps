@@ -369,6 +369,8 @@ namespace iChronoMe.Droid
                     {
                         var lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
                         if (lastLocation == null)
+                            lastLocation = locationManager.GetLastKnownLocation(LocationManager.PassiveProvider);
+                        if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
 
                         int iTry = 0;

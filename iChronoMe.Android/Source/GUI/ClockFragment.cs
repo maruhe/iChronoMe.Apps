@@ -1077,9 +1077,13 @@ namespace iChronoMe.Droid.GUI
                     else if (locationManager.IsProviderEnabled(LocationManager.GpsProvider))
                     {
                         locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
-                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider) ?? lastLocation;
                     }
-                    else
+                    
+                    if (lastLocation == null)
+                        lastLocation = locationManager.GetLastKnownLocation(LocationManager.PassiveProvider);
+
+                    if (lastLocation == null)
                         Tools.ShowToast(Context, Resource.String.location_provider_disabled_alert);
 
                     //stop location-updates after some time

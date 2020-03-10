@@ -11,13 +11,12 @@
     <intent
       android:action="android.intent.action.VIEW"
       android:targetPackage="me.ichrono.droid"
-      android:targetClass="me.ichrono.droid.ShortCutActivity">
+      android:targetClass="me.ichrono.droid.GUI.Calendar.EventEditActivity">
 
-        <extra android:name="shortcut" android:value="create_calender_event" />
-      </intent>
+    </intent>
     <categories android:name="timeToTimeTools" />
   </shortcut>
-
+  <!--
   <shortcut
     android:shortcutId="create_alarm"
     android:enabled="true"
@@ -33,5 +32,5 @@
     </intent>
     <categories android:name="timeToTimeTools" />
   </shortcut>
-
+  -->
 </shortcuts>

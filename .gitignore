@@ -344,3 +344,4 @@ secrets.cs
 secrets.*.cs
 secrets.xml
 secrets.*.xml
+*.keystore
