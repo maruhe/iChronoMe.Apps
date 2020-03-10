@@ -8075,25 +8075,19 @@ namespace iChronoMe.Droid
 			public const int splash_screen = 2131231020;
 			
 			// aapt resource value: 0x7F08012D
-			public const int splash_screen_iuc = 2131231021;
+			public const int sunclock = 2131231021;
 			
 			// aapt resource value: 0x7F08012E
-			public const int splash_screen_land = 2131231022;
+			public const int tooltip_frame_dark = 2131231022;
 			
 			// aapt resource value: 0x7F08012F
-			public const int sunclock = 2131231023;
+			public const int tooltip_frame_light = 2131231023;
 			
 			// aapt resource value: 0x7F080130
-			public const int tooltip_frame_dark = 2131231024;
+			public const int transparent_shape = 2131231024;
 			
 			// aapt resource value: 0x7F080131
-			public const int tooltip_frame_light = 2131231025;
-			
-			// aapt resource value: 0x7F080132
-			public const int transparent_shape = 2131231026;
-			
-			// aapt resource value: 0x7F080133
-			public const int widget_dummy_shape = 2131231027;
+			public const int widget_dummy_shape = 2131231025;
 			
 			static Drawable()
 			{
@@ -10147,11 +10141,11 @@ namespace iChronoMe.Droid
 		public partial class Mipmap
 		{
 			
-			// aapt resource value: 0x7F0E0000
-			public const int clockface_sun_junior = 2131623936;
-			
 			// aapt resource value: 0x7F0E0001
 			public const int dummy_wallpaper = 2131623937;
+			
+			// aapt resource value: 0x7F0E0005
+			public const int icon = 2131623941;
 			
 			// aapt resource value: 0x7F0E0002
 			public const int ic_launcher = 2131623938;
@@ -10162,23 +10156,29 @@ namespace iChronoMe.Droid
 			// aapt resource value: 0x7F0E0004
 			public const int ic_launcher_round = 2131623940;
 			
-			// aapt resource value: 0x7F0E0005
-			public const int inspired = 2131623941;
-			
 			// aapt resource value: 0x7F0E0006
-			public const int moon1 = 2131623942;
+			public const int inspired = 2131623942;
 			
 			// aapt resource value: 0x7F0E0007
-			public const int overlay_click = 2131623943;
+			public const int moon1 = 2131623943;
 			
 			// aapt resource value: 0x7F0E0008
-			public const int widgetprev_calendar = 2131623944;
+			public const int overlay_click = 2131623944;
 			
 			// aapt resource value: 0x7F0E0009
-			public const int widgetprev_clock_analog = 2131623945;
+			public const int splash = 2131623945;
 			
 			// aapt resource value: 0x7F0E000A
-			public const int widgetprev_lifetime = 2131623946;
+			public const int widgetprev_calendar = 2131623946;
+			
+			// aapt resource value: 0x7F0E000B
+			public const int widgetprev_clock_analog = 2131623947;
+			
+			// aapt resource value: 0x7F0E000C
+			public const int widgetprev_lifetime = 2131623948;
+			
+			// aapt resource value: 0x7F0E0000
+			public const int _clockface_sun_junior = 2131623936;
 			
 			static Mipmap()
 			{

@@ -5,5 +5,5 @@
 		<color android:color="@color/medDarkGray" />
 	</item>
 	<!-- place the image in the center of the screen -->
-	<item android:gravity="center" android:drawable="@mipmap/clockface_sun_junior" android:width="280dp" android:height="260dp"/>
+	<item android:gravity="center" android:drawable="@mipmap/splash"/>
 </layer-list>
