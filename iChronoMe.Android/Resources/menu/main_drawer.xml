@@ -10,7 +10,7 @@
             android:title="@string/menu_clock" />
 			<item
 					android:id="@+id/nav_calendar"
-          android:icon="@drawable/icons8_calendar"
+          android:icon="@drawable/icons8_overtime"
 					android:title="@string/menu_calendar" />
 			<item
 					android:id="@+id/nav_world_time_map"

@@ -29,6 +29,16 @@
         <item>@string/action_location_type_static</item>
     </string-array>
 
+    <string-array name="contact_topics" translatable="false">
+        <item>feedback</item>
+        <item>suggestion</item>
+        <item>support project</item>
+        <item>problem</item>
+        <item>error</item>
+        <item>wrong time</item>
+        <item>other</item>
+    </string-array>
+
     <!---->
     <string-array name="numbers_0_14" translatable="false">
         <item>0</item>

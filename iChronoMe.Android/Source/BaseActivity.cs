@@ -516,13 +516,27 @@ namespace iChronoMe.Droid
                 AssetManager assets = this.Assets;
                 string assetId = "privacy_notice.html";
                 string localId = "privacy_notice_" + CultureInfo.CurrentCulture.TwoLetterISOLanguageName + ".html";
+                textView.Text += "\n" + assetId + "\n" + localId;
                 if (Array.IndexOf(assets.List(""), localId) >= 0)
                     assetId = localId;
+                textView.Text += "\n\n" + assetId;
                 using (StreamReader sr = new StreamReader(assets.Open(assetId)))
                 {
-                    textView.TextFormatted = Android.Text.Html.FromHtml(sr.ReadToEnd(), Android.Text.FromHtmlOptions.ModeLegacy);
+                    if (Build.VERSION.SdkInt < BuildVersionCodes.N)
+                    {
+#pragma warning disable CS0618 // Typ oder Element ist veraltet
+                        textView.TextFormatted = Android.Text.Html.FromHtml(sr.ReadToEnd());
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
+                    }
+                    else
+                        textView.TextFormatted = Android.Text.Html.FromHtml(sr.ReadToEnd(), Android.Text.FromHtmlOptions.ModeLegacy);
                 }
-            } catch { }
+            } 
+            catch (Exception ex)
+            {
+                textView.Text += ex.Message;
+                sys.LogException(ex);
+            }
             int pad = 5 * sys.DisplayDensity;
             textView.SetPadding(pad, pad, pad, pad);
             textView.MovementMethod = LinkMovementMethod.Instance;
@@ -575,8 +589,11 @@ namespace iChronoMe.Droid
         {
             RunOnUiThread(() =>
             {
-                pDlg = ProgressDlg.NewInstance(cTitle);
-                pDlg.Show(this.SupportFragmentManager, "progress_widget_cfg_assi_mgr");
+                try
+                {
+                    pDlg = ProgressDlg.NewInstance(cTitle);
+                    pDlg.Show(this.SupportFragmentManager, "progress_widget_cfg_assi_mgr");
+                } catch { }
             });
         }
 
@@ -584,9 +601,12 @@ namespace iChronoMe.Droid
         {
             RunOnUiThread(() =>
             {
-                if (pDlg == null)
-                    StartProgress(Resources.GetString(Resource.String.just_a_moment));
-                pDlg.SetProgress(progress, max, cMessage);
+                try
+                {
+                    if (pDlg == null)
+                        StartProgress(Resources.GetString(Resource.String.just_a_moment));
+                    pDlg.SetProgress(progress, max, cMessage);
+                } catch { }
             });
         }
 
@@ -594,8 +614,11 @@ namespace iChronoMe.Droid
         {
             RunOnUiThread(() =>
             {
-                if (pDlg != null)
-                    pDlg.SetProgressDone();
+                try
+                {
+                    if (pDlg != null)
+                        pDlg.SetProgressDone();
+                } catch { }
             });
         }
 
@@ -618,7 +641,10 @@ namespace iChronoMe.Droid
                     Task.Delay(250).Wait();
                     RunOnUiThread(() =>
                     {
-                        new Android.Support.V7.App.AlertDialog.Builder(this).SetTitle(Resources.GetString(Resource.String.label_error)).SetMessage(cMessage).Create().Show();
+                        try
+                        {
+                            new AlertDialog.Builder(this).SetTitle(Resources.GetString(Resource.String.label_error)).SetMessage(cMessage).Create().Show();
+                        } catch { }
                     });
                 });
             });
@@ -626,16 +652,22 @@ namespace iChronoMe.Droid
 
         protected void ShowExitMessage(string cMessage)
         {
-            var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
-               .SetMessage(cMessage)
-               .SetCancelable(false);
-            alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
+            RunOnUiThread(() =>
             {
-                (senderAlert as IDialogInterface).Dismiss();
-                FinishAndRemoveTask();
+                try
+                {
+                    var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
+                       .SetMessage(cMessage)
+                       .SetCancelable(false)
+                       .SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
+                       {
+                           (senderAlert as IDialogInterface).Dismiss();
+                           FinishAndRemoveTask();
+                       });
+                    alert.Show();
+                }
+                catch { }
             });
-
-            alert.Show();
         }
 
         protected void ShowExitMessage(int iMessage)

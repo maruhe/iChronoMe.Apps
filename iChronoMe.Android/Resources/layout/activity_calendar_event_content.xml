@@ -242,9 +242,9 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/description"
-                android:inputType="text"
-                android:maxLines="5"
-                android:singleLine="false"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:maxLines="10" 
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"

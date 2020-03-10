@@ -65,9 +65,9 @@
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <BundleAssemblies>false</BundleAssemblies>
     <MandroidI18n />
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
+    <AndroidLinkSkip>iChronoMe.Core;iChronoMe.Widgets,</AndroidLinkSkip>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PlayStore|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -91,6 +91,7 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
     <MandroidI18n />
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <!--  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AndroidPackageFormat>aab</AndroidPackageFormat>
@@ -126,6 +127,8 @@
     <Compile Include="Source\GUI\Buzzer\BuzzerManagerActivity.cs" />
     <Compile Include="Source\GUI\Calendar\EventEditActivity.cs" />
     <Compile Include="Source\GUI\Debug\DebugFragment.cs" />
+    <Compile Include="Source\GUI\Service\ContactActivity.cs" />
+    <Compile Include="Source\GUI\Service\SupportProjectActivity.cs" />
     <Compile Include="Source\IOUtil.cs" />
     <Compile Include="Source\Adapters\SystemTestAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarListAdapter.cs" />
@@ -980,9 +983,6 @@
     <AndroidResource Include="Resources\values\secrets.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\icons8_save.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\circle_shape.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -1141,6 +1141,19 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_launcher_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_service_contact.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_support_project.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_save.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
