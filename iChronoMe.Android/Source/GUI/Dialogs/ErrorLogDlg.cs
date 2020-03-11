@@ -111,7 +111,7 @@ namespace iChronoMe.Droid.GUI.Dialogs
                         {
                             if (!log.EndsWith(".png") || !AppConfigHolder.MainConfig.DenyErrorScreens)
                             {
-                                string cFileUrl = cUrl + "&title=" + WebUtility.UrlEncode(System.IO.Path.GetFileName(log));
+                                string cFileUrl = cUrl + "&filename=" + WebUtility.UrlEncode(System.IO.Path.GetFileName(log));
                                 HttpClient client = new HttpClient();
                                 HttpContent content = new StreamContent(new FileStream(log, FileMode.Open));// log.EndsWith(".png") ? (HttpContent)new StreamContent(new FileStream(log, FileMode.Open)) : (HttpContent)new StringContent(File.ReadAllText(log));
                                 HttpResponseMessage response = await client.PutAsync(cFileUrl, content);

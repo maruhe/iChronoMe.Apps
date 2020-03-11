@@ -308,7 +308,7 @@ namespace iChronoMe.Droid
                 }
                 catch (Exception e)
                 {
-                    e.ToString();
+                    xLog.Error(e);
                 }
             }
         }

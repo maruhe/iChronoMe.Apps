@@ -49,7 +49,6 @@ namespace iChronoMe.Droid
             {
                 if (errorReceiver == null)
                 {
-                    bStartAssistantActive = false;
                     AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                     TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
@@ -75,6 +74,29 @@ namespace iChronoMe.Droid
             outState.Clear();
         }
 
+        protected bool bKillOnClose = false;
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            if (bKillOnClose)
+            {
+                KillActivity(this);
+            }
+        }
+
+        protected override void OnStop()
+        {
+            base.OnStop();
+            try { dlgToClose?.Dismiss(); } catch { }
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            bStartAssistantActive = false;
+        }
+
         public void LoadAppTheme()
         {
             try
@@ -96,6 +118,7 @@ namespace iChronoMe.Droid
 
         public async void ShowThemeSelector()
         {
+            bKillOnClose = false;
             var adapter = new ThemeAdapter(this);
             string title = bStartAssistantActive ? base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_theme_firsttime) : Resources.GetString(Resource.String.action_change_theme);
             var theme = await Tools.ShowSingleChoiseDlg(this, title, adapter, false);
@@ -113,7 +136,7 @@ namespace iChronoMe.Droid
                 RunOnUiThread(() =>
                 {
                     Recreate();
-                    if (bStartAssistantActive)
+                    /*if (bStartAssistantActive)
                     {
                         //my android5 huawai does the OnResume() twice on recreate
                         if (Build.VERSION.SdkInt < BuildVersionCodes.N)
@@ -124,7 +147,7 @@ namespace iChronoMe.Droid
                             });
                         else
                             SetAssistantDone();
-                    }
+                    }*/
                 });
                 return;
             }
@@ -214,6 +237,7 @@ namespace iChronoMe.Droid
             if (bStartAssistantActive)
                 return;
             bStartAssistantActive = true;
+            bKillOnClose = true;
             RunOnUiThread(() =>
             {
                 try
@@ -249,6 +273,8 @@ namespace iChronoMe.Droid
         {
             Task.Factory.StartNew(() =>
             {
+                bStartAssistantActive = false; // for in case the user minimizes the app while progress
+                bKillOnClose = true; // to be sure
                 ClockHandConfig.CheckUpdateLocalData(this);
                 AppConfigHolder.MainConfig.InitBaseDataDownload = 1;
                 AppConfigHolder.SaveMainConfig();
@@ -258,7 +284,7 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_TimeType()
         {
-            new Android.Support.V7.App.AlertDialog.Builder(this)
+            dlgToClose = new AlertDialog.Builder(this)
                 .SetTitle(Resource.String.label_choose_default_timetype)
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
                 {
@@ -278,7 +304,8 @@ namespace iChronoMe.Droid
                     SetAssistantDone();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
-                .Create().Show();
+                .Create();
+            dlgToClose.Show();
         }
 
         public void ShowInitScreen_Permissions()
@@ -291,10 +318,11 @@ namespace iChronoMe.Droid
                 return;
             }
 
+            bKillOnClose = true;
             String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_calendar), Resources.GetString(Resource.String.assistant_permission_storage) };
             bool[] checks = new bool[] { true, true, true };
 
-            new Android.Support.V7.App.AlertDialog.Builder(this)
+            dlgToClose = new AlertDialog.Builder(this)
                 .SetTitle(base.Resources.GetString(Resource.String.assistant_permission_welcome))
                 .SetMultiChoiceItems(items, checks, (s, e) =>
                 {
@@ -325,6 +353,7 @@ namespace iChronoMe.Droid
                     }
                     Task.Factory.StartNew(async () =>
                     {
+                        bKillOnClose = false;
                         bStartAssistantActive = false;
                         await this.RequestPermissionsAsync(req.ToArray(), 2);
 
@@ -336,13 +365,18 @@ namespace iChronoMe.Droid
                     });
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
-                .Create().Show();
+                .Create();
+            dlgToClose.Show();
         }
+
+        AlertDialog dlgToClose;
 
         public void ShowInitScreen_UserLocation()
         {
             var pDlg = ProgressDlg.NewInstance(localize.progress_determineLocation);
             pDlg.Show(SupportFragmentManager, null);
+            bStartAssistantActive = false; // for in case the user minimizes the app while progress
+            bKillOnClose = true; // to be sure
 
             Task.Factory.StartNew(async () =>
             {
@@ -359,11 +393,12 @@ namespace iChronoMe.Droid
                         pDlg.SetProgressDone();
                         if (await Tools.ShowYesNoMessage(this, Resource.String.location_provider_disabled_alert, Resource.String.location_provider_disabled_question))
                         {
-                            pDlg.SetProgressDone();
                             bStartAssistantActive = false;
+                            bKillOnClose = false;
                             StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
                             return;
                         }
+                        ShowInitScreen_UserLocationManual();
                     }
 
                     try
@@ -400,15 +435,20 @@ namespace iChronoMe.Droid
                                 //Inform User that GPS-Only is may bad for battery
                                 RunOnUiThread(() =>
                                 {
-                                    new AlertDialog.Builder(this)
-                                     .SetTitle(Resource.String.title_JustATipp)
-                                     .SetMessage(Resource.String.hint_GpsOnlyIsActive)
-                                     .SetPositiveButton(Resource.String.action_settings, (s, e) =>
-                                     {
-                                         StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
-                                     })
-                                     .SetNegativeButton(Resource.String.action_ignore, (s, e) => { })
-                                     .Create().Show();
+                                    try
+                                    {
+                                        dlgToClose = new AlertDialog.Builder(this)
+                                         .SetTitle(Resource.String.title_JustATipp)
+                                         .SetMessage(Resource.String.hint_GpsOnlyIsActive)
+                                         .SetPositiveButton(Resource.String.action_settings, (s, e) =>
+                                         {
+                                             StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                                         })
+                                         .SetNegativeButton(Resource.String.action_ignore, (s, e) => { })
+                                         .Create();
+                                        dlgToClose.Show();
+                                    }
+                                    catch { }
                                 });
                             }
                             return;
@@ -421,39 +461,39 @@ namespace iChronoMe.Droid
 
                     RunOnUiThread(() =>
                     {
-                        var dlg = new AlertDialog.Builder(this)
-                        .SetTitle(Resource.String.error_no_location_demitered)
-                        .SetMessage(Resource.String.app_needs_location_description)
-                        .SetPositiveButton(Resource.String.action_try_again, (s, e) =>
+                        try
                         {
-                            SetAssistantDone();
-                        })
-                        .SetNegativeButton(Resource.String.action_select_location, async (s, e) =>
-                        {
-                            var loc = await LocationPickerDialog.SelectLocation(this);
-
-                            if (loc != null)
+                            dlgToClose = new AlertDialog.Builder(this)
+                            .SetTitle(Resource.String.error_no_location_demitered)
+                            .SetMessage(Resource.String.app_needs_location_description)
+                            .SetPositiveButton(Resource.String.action_try_again, (s, e) =>
                             {
-                                LocationTimeHolder.LocalInstance.ChangePositionDelay(loc.Latitude, loc.Longitude);
-                                LocationTimeHolder.LocalInstance.SaveLocal();
-                                AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
-                                AppConfigHolder.SaveMainConfig();
                                 SetAssistantDone();
-                            }
-                        })
-                        .SetNeutralButton(Resource.String.action_settings, (s, e) =>
-                        {
-                            StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
-                        })
-                        .SetOnCancelListener(new FinishOnCancelListener(this));
+                            })
+                            .SetNegativeButton(Resource.String.action_select_location, async (s, e) =>
+                            {
+                                ShowInitScreen_UserLocationManual();
+                            })
+                            .SetNeutralButton(Resource.String.action_settings, (s, e) =>
+                            {
+                                StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
+                            })
+                            .SetOnCancelListener(new FinishOnCancelListener(this))
+                            .Create();
 
-                        pDlg.SetProgressDone();
-                        dlg.Show();
+                            pDlg.SetProgressDone();
+                            dlgToClose.Show();
+                        }
+                        catch { }
                     });
                     bStartAssistantActive = false;
                     return;
                 }
-
+            });
+        }
+        public void ShowInitScreen_UserLocationManual()
+        {
+            Task.Factory.StartNew(async() => { 
                 var loc = await LocationPickerDialog.SelectLocation(this);
 
                 if (loc != null)
@@ -462,7 +502,7 @@ namespace iChronoMe.Droid
                     LocationTimeHolder.LocalInstance.SaveLocal();
                     AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
                     AppConfigHolder.SaveMainConfig();
-                    pDlg.SetProgressDone();
+                    pDlg?.SetProgressDone();
                     SetAssistantDone();
                     return;
                 }
@@ -477,20 +517,19 @@ namespace iChronoMe.Droid
                     LocationTimeHolder.LocalInstance.SaveLocal();
                     AppConfigHolder.MainConfig.InitScreenUserLocation = 1;
                     AppConfigHolder.SaveMainConfig();
-                    pDlg.SetProgressDone();
+                    pDlg?.SetProgressDone();
                     SetAssistantDone();
                     return;
                 }
 
-                pDlg.SetProgressDone();
+                pDlg?.SetProgressDone();
                 ShowExitMessage(Resource.String.error_location_is_needet);
-
             });
         }
 
         public void ShowInitScreen_PrivacyAssistant()
         {
-            new Android.Support.V7.App.AlertDialog.Builder(this)
+            dlgToClose = new AlertDialog.Builder(this)
                 .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_question))
                 .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
                 {
@@ -505,7 +544,8 @@ namespace iChronoMe.Droid
                     SetAssistantDone();
                 })
                 .SetOnCancelListener(new QuitOnCancelListener(this))
-                .Create().Show();
+                .Create();
+            dlgToClose.Show();
         }
 
         public void ShowInitScreen_PrivacyNotice()
@@ -532,7 +572,7 @@ namespace iChronoMe.Droid
                     else
                         textView.TextFormatted = Android.Text.Html.FromHtml(sr.ReadToEnd(), Android.Text.FromHtmlOptions.ModeLegacy);
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 textView.Text += ex.Message;
@@ -543,7 +583,7 @@ namespace iChronoMe.Droid
             textView.MovementMethod = LinkMovementMethod.Instance;
             var scroll = new ScrollView(this);
             scroll.AddView(textView);
-            var dlg = new AlertDialog.Builder(this)
+            dlgToClose = new AlertDialog.Builder(this)
                         .SetView(scroll)
                         .SetPositiveButton(Resources.GetString(Resource.String.action_accept), (s, e) =>
                         {
@@ -563,14 +603,22 @@ namespace iChronoMe.Droid
                         })
                         .SetOnCancelListener(new QuitOnCancelListener(this))
                     .Create();
-            dlg.Show();
-            dlg.Window.SetLayout(WindowManagerLayoutParams.MatchParent, WindowManagerLayoutParams.MatchParent);
+            dlgToClose.Show();
+            dlgToClose.Window.SetLayout(WindowManagerLayoutParams.MatchParent, WindowManagerLayoutParams.MatchParent);
         }
 
         public void SetAssistantDone()
         {
+            bKillOnClose = false;
             bStartAssistantActive = false;
             ShowStartAssistant();
+        }
+
+        public static void KillActivity(Activity activity)
+        {
+            try { activity.MoveTaskToBack(true); } catch { }
+            Process.KillProcess(Process.MyPid());
+            Java.Lang.JavaSystem.Exit(0);
         }
 
         public Task<bool> RequestPermissionsTask { get { return tcsRP == null ? Task.FromResult(false) : tcsRP.Task; } }
@@ -594,7 +642,8 @@ namespace iChronoMe.Droid
                 {
                     pDlg = ProgressDlg.NewInstance(cTitle);
                     pDlg.Show(this.SupportFragmentManager, "progress_widget_cfg_assi_mgr");
-                } catch { }
+                }
+                catch { }
             });
         }
 
@@ -607,7 +656,8 @@ namespace iChronoMe.Droid
                     if (pDlg == null)
                         StartProgress(Resources.GetString(Resource.String.just_a_moment));
                     pDlg.SetProgress(progress, max, cMessage);
-                } catch { }
+                }
+                catch { }
             });
         }
 
@@ -619,7 +669,8 @@ namespace iChronoMe.Droid
                 {
                     if (pDlg != null)
                         pDlg.SetProgressDone();
-                } catch { }
+                }
+                catch { }
             });
         }
 
@@ -645,7 +696,8 @@ namespace iChronoMe.Droid
                         try
                         {
                             new AlertDialog.Builder(this).SetTitle(Resources.GetString(Resource.String.label_error)).SetMessage(cMessage).Create().Show();
-                        } catch { }
+                        }
+                        catch { }
                     });
                 });
             });
@@ -657,32 +709,45 @@ namespace iChronoMe.Droid
             {
                 try
                 {
-                    var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
+                    var alert = new AlertDialog.Builder(this)
                        .SetMessage(cMessage)
                        .SetCancelable(false)
                        .SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
                        {
                            (senderAlert as IDialogInterface).Dismiss();
                            FinishAndRemoveTask();
-                       });
+                       }).Create();
                     alert.Show();
                 }
-                catch { }
+                catch
+                {
+                    KillActivity(this);
+                }
             });
         }
 
         protected void ShowExitMessage(int iMessage)
         {
-            var alert = new Android.Support.V7.App.AlertDialog.Builder(this)
-               .SetMessage(iMessage)
-               .SetCancelable(false);
-            alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
+            RunOnUiThread(() =>
             {
-                (senderAlert as IDialogInterface).Dismiss();
-                FinishAndRemoveTask();
-            });
+                try
+                {
+                    var alert = new AlertDialog.Builder(this)
+                   .SetMessage(iMessage)
+                   .SetCancelable(false);
+                    alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
+                    {
+                        (senderAlert as IDialogInterface).Dismiss();
+                        FinishAndRemoveTask();
+                    }).Create();
 
-            alert.Show();
+                    alert.Show();
+                }
+                catch
+                {
+                    KillActivity(this);
+                }
+            });
         }
     }
 
