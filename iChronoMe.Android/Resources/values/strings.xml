@@ -174,7 +174,6 @@ and lin 4"</string>
   <string name="HourHandFill" synced="x" sync="1">"hour hand fill color"</string>
   <string name="HourHandStroke" synced="x" sync="1">"hour hand stroke color"</string>
   <string name="Hours" synced="x" sync="1">"hours"</string>
-  <string name="ichronome_Link" sync="1">"&lt;a href="http://ichrono.me"&gt;http://ichrono.me&lt;/a&gt;"</string>
   <string name="IconColor" synced="x" sync="1">"icon color"</string>
   <string name="ImageLoader_error_list_broken" synced="x" sync="1">"unable to interprete image-list"</string>
   <string name="ImageLoader_error_list_unloadable" synced="x" sync="1">"unable to load image-list"</string>
@@ -289,7 +288,9 @@ you can create new widgets on your lauchen-screen!"</string>
   <string name="text_TickMarks" synced="x" sync="1">"tick marks"</string>
   <string name="text_TickMarksColor" synced="x" sync="1">"tick marks color"</string>
   <string name="text_TitleColor" synced="x" sync="1">"title color"</string>
+  <string name="text_Today" sync="x">"Today"</string>
   <string name="text_TodayColor" synced="x" sync="1">"today-color"</string>
+  <string name="text_Tomorrow" sync="x">"Tomorrow"</string>
   <string name="text_transparent" synced="x" sync="1">"transparent"</string>
   <string name="text_twoColors" synced="x" sync="1">"two Colors"</string>
   <string name="text_twoMonths" synced="x" sync="1">"two Months"</string>

@@ -67,7 +67,8 @@
     <MandroidI18n />
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
-    <AndroidLinkSkip>iChronoMe.Core;iChronoMe.Widgets,</AndroidLinkSkip>
+    <AndroidLinkSkip>
+    </AndroidLinkSkip>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PlayStore|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -91,7 +92,7 @@
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis>armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
     <MandroidI18n />
-    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <!--  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AndroidPackageFormat>aab</AndroidPackageFormat>

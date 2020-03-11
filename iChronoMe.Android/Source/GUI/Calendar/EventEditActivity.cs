@@ -266,8 +266,6 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         protected void DateDlgChaged(object sender, DateSetEventArgs e)
         {
-            Tools.ShowToast(this, dateDlgProp + ": " + e.Date.ToLongDateString(), true);
-
             var prop = mModel.GetType().GetProperty(dateDlgProp);
             prop.SetValue(mModel, e.Date);
 
@@ -276,8 +274,6 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         protected void TimeDlgChanged(object sender, TimeSetEventArgs e)
         {
-            Tools.ShowToast(this, timeDlgProp + ": " + e.HourOfDay + ":" + e.Minute, true);
-
             var prop = mModel.GetType().GetProperty(timeDlgProp);
             prop.SetValue(mModel, new TimeSpan(e.HourOfDay, e.Minute, 0));
 

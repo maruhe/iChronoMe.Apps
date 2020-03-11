@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">    
 
         <TextView
-            android:text="As not everybode is a software engeniere you currently also can support this project with your fantasy and imagination. Suggestions of color-set's, design, usability, new features and all this stuff is very welcome!\nTranslating is a Progress were we prefer native speakte who also are able to accompany us over some time als our text-base is growing every day.\nClock-Faces, Clock-Hands etc. are welcome as they are self made or licensed correctly! SVG is prefered."
+            android:text="As not everybody is a software engeniere you currently also can support this project with your fantasy and imagination. Suggestions of color-set's, design, usability, new features and all this stuff is welcome!\nTranslation is a progress we prefer native speakers who also are able to accompany us over some time as our text-base is growing every day.\nClock-Faces, Clock-Hands etc. are welcome as they are self made or licensed correctly! SVG is prefered."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>    
 

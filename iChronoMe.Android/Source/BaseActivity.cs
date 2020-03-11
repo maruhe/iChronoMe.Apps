@@ -49,6 +49,7 @@ namespace iChronoMe.Droid
             {
                 if (errorReceiver == null)
                 {
+                    bStartAssistantActive = false;
                     AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
                     TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
@@ -207,7 +208,7 @@ namespace iChronoMe.Droid
                 AppConfigHolder.MainConfig.InitScreenUserLocation < 1;
         }
 
-        bool bStartAssistantActive = false;
+        static bool bStartAssistantActive = false;
         public void ShowStartAssistant()
         {
             if (bStartAssistantActive)

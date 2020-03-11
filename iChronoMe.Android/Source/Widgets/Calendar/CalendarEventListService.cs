@@ -120,9 +120,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                         string cTitle = cMonth + " " + date.DayNumber.ToString();
                         if (tToday.Date == DateTime.Now.Date)
-                            cTitle = "Heute";
+                            cTitle = localize.text_Today;
                         if (tToday.Date == DateTime.Now.Date.AddDays(1))
-                            cTitle = "Morgen";
+                            cTitle = localize.text_Tomorrow;
                         if (wSize.X > 100)
                             cTitle += " (" + cDay + ".)";
                         rv.SetTextViewText(Resource.Id.item_title, cTitle);
