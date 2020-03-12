@@ -70,15 +70,13 @@
                 android:layout_height="48dp"/>
             <LinearLayout
                 android:orientation="horizontal"
-                android:clickable="true"                
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/frame_padding"
-                android:background="@drawable/selector"
                 android:layout_width="165sp"                
                 android:layout_height="wrap_content">
                 <include
                     layout="@layout/listitem_location_times"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
             <ImageView

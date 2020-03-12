@@ -2,7 +2,7 @@
 <resources>
 	<color name="medDarkGray">#2c3e50</color>
 	<color name="deepDarkGray">#1B3147</color>
-	<color name="highlightBlue">#3498db</color>
-	<color name="darkHighlightBlue">#2488eb</color>
+	<color name="highlightBlue">#2488eb</color>
+	<color name="darkHighlightBlue">#1c5699</color>
 	<color name="smokyWhite">#CFCCDF</color>
 </resources>

@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 
@@ -25,6 +26,7 @@ using iChronoMe.Widgets;
 using SkiaSharp.Views.Android;
 
 using Xamarin.Essentials;
+using PopupMenu = Android.Support.V7.Widget.PopupMenu;
 //using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
 
 namespace iChronoMe.Droid.GUI
@@ -95,6 +97,7 @@ namespace iChronoMe.Droid.GUI
             imgTZ = RootView.FindViewById<ImageView>(Resource.Id.img_timezone);
 
             RootView.FindViewById<ImageButton>(Resource.Id.btn_locate).Click += btnLocate_Click;
+            TooltipCompat.SetTooltipText(RootView.FindViewById<ImageButton>(Resource.Id.btn_locate), localize.LocationType);
             RootView.FindViewById<ImageButton>(Resource.Id.btn_animate).Click += btnAnimate_Click;
             if (!sys.Debugmode)
                 RootView.FindViewById<ImageButton>(Resource.Id.btn_animate).Visibility = ViewStates.Gone;
@@ -208,6 +211,7 @@ namespace iChronoMe.Droid.GUI
                 mContext.RunOnUiThread(() =>
                 {
                     RefreshDeviceTimeInfo();
+                    TooltipCompat.SetTooltipText(fabTimeType, localize.TimeType + " (" + localeHelper.GetTimeTypeText(TimeType) + ")");
                     fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(this.TimeType, lth));
                     navigationView.Menu.FindItem(Resource.Id.clock_floating_hour).SetChecked(clockCfg.ShowSeconds);
                     navigationView.Menu.FindItem(Resource.Id.clock_floating_minute).SetChecked(clockCfg.FlowMinuteHand);
@@ -800,6 +804,7 @@ namespace iChronoMe.Droid.GUI
             foreach (TimeType tt in menu)
             {
                 var fab = new FloatingActionButton(mContext);
+                TooltipCompat.SetTooltipText(fab, localeHelper.GetTimeTypeText(tt));
                 fab.SetImageResource(Tools.GetTimeTypeIconID(tt, lth));
                 fab.Tag = new Java.Lang.String(tt.ToString());
                 fab.Click += FabMenu_Click;
@@ -882,7 +887,6 @@ namespace iChronoMe.Droid.GUI
             PopupMenu popup = new PopupMenu(Activity, sender as View);
             foreach (var style in Enum.GetValues(typeof(ClockAnalog_AnimationStyle)))
                 popup.Menu.Add(0, (int)style, 0, style.ToString());
-
 
             popup.MenuItemClick += (s, e) =>
             {

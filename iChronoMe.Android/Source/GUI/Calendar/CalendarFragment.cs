@@ -13,6 +13,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.Widget;
 using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 
@@ -339,7 +340,10 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
-            mContext.RunOnUiThread(() => fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(calEvents.timeType, LocationTimeHolder.LocalInstance)));
+            mContext.RunOnUiThread(() => {
+                TooltipCompat.SetTooltipText(fabTimeType, localize.TimeType + " (" + localeHelper.GetTimeTypeText(calEvents.timeType) + ")");
+                fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(calEvents.timeType, LocationTimeHolder.LocalInstance));
+            });
             if (!bPermissionCheckOk)
                 return;
             if (tVon != null)
@@ -697,6 +701,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             foreach (TimeType tt in menu)
             {
                 var fab = new FloatingActionButton(mContext);
+                TooltipCompat.SetTooltipText(fab, localeHelper.GetTimeTypeText(tt));
                 fab.SetImageResource(Tools.GetTimeTypeIconID(tt, LocationTimeHolder.LocalInstance));
                 fab.Tag = new Java.Lang.String(tt.ToString());
                 fab.Click += FabMenu_Click;
@@ -776,7 +781,6 @@ namespace iChronoMe.Droid.GUI.Calendar
                 TimeIndicatorStyle = timeIndicatorStyle
             };
 
-
             try
             {
                 var theme = Context.Theme;
@@ -787,7 +791,6 @@ namespace iChronoMe.Droid.GUI.Calendar
                 clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColorPrimary).Value;
                 clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
                 clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
-                //Color clAccent = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
 
                 /*
 
@@ -829,9 +832,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.TimelineViewSettings.Color = clSlotBack;
                 schedule.TimelineViewSettings.LabelSettings.TimeLabelColor = clTitleText;
 
-                //schedule.DayViewSettings.TimeSlotColor = clSlotBack;
-                //schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent; 
-                //schedule.DayViewSettings.DayLabelSettings.TimeLabelColor = clText;
+                schedule.DayViewSettings.TimeSlotColor = clSlotBack;
+                schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent; 
+                schedule.DayViewSettings.DayLabelSettings.TimeLabelColor = clText;
 
                 schedule.WeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
@@ -873,6 +876,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             try
             {
                 var cfg = AppConfigHolder.CalendarViewConfig.SfScheduldeConfig;
+                cfg.CheckStartEndTimes();
 
                 schedule.TimelineViewSettings.StartHour = cfg.TimeLineHourStart;
                 schedule.TimelineViewSettings.EndHour = cfg.TimeLineHourEnd;
