@@ -14,6 +14,7 @@ using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
+using SkiaSharp.Views.Android;
 
 namespace iChronoMe.Droid.Widgets
 {
@@ -24,7 +25,7 @@ namespace iChronoMe.Droid.Widgets
         public string AdapterCachePath { get; }
 
         public Activity mContext { get; private set; }
-        IWidgetConfigAssistant<T> mAssistant;
+        static IWidgetConfigAssistant<T> mAssistant;
         Point wSize;
         EventCollection myEventsMonth, myEventsList;
         DynamicCalendarModel CalendarModel;
@@ -101,8 +102,10 @@ namespace iChronoMe.Droid.Widgets
             public LinearLayout colors { get; private set; }
             public ProgressBar progress { get; private set; }
             public ImageView wallpaper { get; private set; }
-            public ImageView backimag { get; private set; }
+            public ImageView backimage { get; private set; }
+            public ImageView backcolor { get; private set; }
             public ImageView preview { get; private set; }
+            public SKCanvasView skia { get; private set; }
 
             public ViewHolder(View view)
             {
@@ -112,8 +115,28 @@ namespace iChronoMe.Droid.Widgets
                 colors = view.FindViewById<LinearLayout>(Resource.Id.color_layout);
                 progress = view.FindViewById<ProgressBar>(Resource.Id.loading_progress);
                 wallpaper = view.FindViewById<ImageView>(Resource.Id.wallpaper_image);
-                backimag = view.FindViewById<ImageView>(Resource.Id.background_image);
+                backimage = view.FindViewById<ImageView>(Resource.Id.background_image);
+                backcolor = view.FindViewById<ImageView>(Resource.Id.background_color);
                 preview = view.FindViewById<ImageView>(Resource.Id.preview_image);
+                skia = view.FindViewById<SKCanvasView>(Resource.Id.preview_skia);
+                skia.PaintSurface += Skia_PaintSurface;
+            }
+
+            private void Skia_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+            {
+                e.Surface.Canvas.Clear();
+                if (Position < 0)
+                    return;
+                try
+                {
+                    var cfg = mAssistant.Samples[Position];
+                    if (cfg.WidgetConfig is WidgetCfg_ClockAnalog)
+                    {
+                        var view = new WidgetView_ClockAnalog();
+                        view.ReadConfig(cfg.WidgetConfig as WidgetCfg_ClockAnalog);
+                        view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
+                    }
+                } catch { }
             }
 
             protected override void Dispose(bool disposing)
@@ -232,21 +255,41 @@ namespace iChronoMe.Droid.Widgets
                         }
                     }
 
-                    if (viewHolder.preview.Drawable is BitmapDrawable && false)
-                        ((BitmapDrawable)viewHolder.preview.Drawable).Bitmap?.Recycle();
-
-                    if (cfg == null)
-                    {
-                        viewHolder.progress.Visibility = ViewStates.Invisible;
-                        viewHolder.preview.ScaleX = viewHolder.preview.ScaleY = 1;
-                        viewHolder.preview.SetImageResource(Resource.Drawable.icons8_delete);
-                        return convertView;
-                    }
-
-                    viewHolder.progress.Visibility = ViewStates.Visible;
                     viewHolder.preview.SetImageBitmap(null);
+                    viewHolder.backimage.SetImageURI(null);
+                    viewHolder.backcolor.SetImageDrawable(null);
+                    viewHolder.skia.Invalidate();
+                    if (cfg is WidgetCfg_ClockAnalog)
+                    {
+                        var clockCfg = cfg as WidgetCfg_ClockAnalog;
+                        if (!string.IsNullOrEmpty(clockCfg.BackgroundImage))
+                        {
+                            viewHolder.backimage.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(clockCfg.BackgroundImage)));
+                        }
+                        if (clockCfg.ColorBackground.A > 0)
+                        {
+                            viewHolder.backcolor.SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.circle_shape_max, clockCfg.ColorBackground.ToAndroid()));
+                        }
+                        viewHolder.progress.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
 
-                    new WidgetPreviewLoaderFS().Execute(this, viewHolder, cfg);
+                        if (viewHolder.preview.Drawable is BitmapDrawable && false)
+                            ((BitmapDrawable)viewHolder.preview.Drawable).Bitmap?.Recycle();
+
+                        if (cfg == null)
+                        {
+                            viewHolder.progress.Visibility = ViewStates.Invisible;
+                            viewHolder.preview.ScaleX = viewHolder.preview.ScaleY = 1;
+                            viewHolder.preview.SetImageResource(Resource.Drawable.icons8_delete);
+                            return convertView;
+                        }
+
+                        viewHolder.progress.Visibility = ViewStates.Visible;
+                        
+                        new WidgetPreviewLoaderFS().Execute(this, viewHolder, cfg);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -753,7 +796,7 @@ namespace iChronoMe.Droid.Widgets
         LinearLayout colors { get; }
         ProgressBar progress { get; }
         ImageView wallpaper { get; }
-        ImageView backimag { get; }
+        ImageView backimage { get; }
         ImageView preview { get; }
     }
 }
