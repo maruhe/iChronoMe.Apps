@@ -470,6 +470,10 @@ namespace iChronoMe.Droid.GUI
                     {
                         string cFile = vClock.GetClockFacePng(clockCfg.BackgroundImage, ClockSize);
                         imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
+                        if (clockCfg.BackgroundImageTint == xColor.Transparent)
+                            imgClockBack.SetColorFilter(null);
+                        else
+                            imgClockBack.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
                     }
                     imgClockBackClr.SetImageDrawable(null);
                     if (vClock.ColorBackground.A > 0)

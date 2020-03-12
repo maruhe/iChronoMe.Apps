@@ -891,6 +891,7 @@ namespace iChronoMe.Droid
             {
                 updateViews.SetImageViewBitmap(Resource.Id.background_color, bmpBackgroundColor);
                 updateViews.SetImageViewUri(Resource.Id.background_image, uBackgroundImage);
+                updateViews.SetInt(Resource.Id.background_image, "setColorFilter", cfg.BackgroundImageTint.ToAndroid());
 
                 updateViews.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(ctx, tType, lth, 32, cfg.ColorTitleText.HexString));
 

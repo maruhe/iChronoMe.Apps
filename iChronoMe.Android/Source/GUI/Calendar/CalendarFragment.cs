@@ -122,7 +122,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void Schedule_AppointmentDragOver(object sender, AppointmentDragEventArgs e)
         {
-            //roundDraggingTime(e.DraggingTime);
+            roundDraggingTime(e.DraggingTime);
         }
 
         private void roundDraggingTime(Java.Util.Calendar draggingTime, int intervallMinutes = 15)
@@ -170,7 +170,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                             if (go < 0)
                                 return;
-
+                            
                             if (go == 1)
                             {
                                 model.TimeType = calEvents.timeType;

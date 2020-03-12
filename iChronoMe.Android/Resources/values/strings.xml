@@ -270,6 +270,7 @@ you can create new widgets on your lauchen-screen!"</string>
   <string name="text_Problems" synced="x" sync="1">"problems"</string>
   <string name="text_Sample" synced="x" sync="1">"sample"</string>
   <string name="text_search_hint" synced="x" sync="1">"the hint so search ;-)"</string>
+  <string name="text_SecondHand" sync="x">"second hand"</string>
   <string name="text_SecondHandFill" synced="x" sync="1">"second hand fill color"</string>
   <string name="text_SecondHandStroke" synced="x" sync="1">"second hand stroke color"</string>
   <string name="text_Seconds" synced="x" sync="1">"seconds"</string>
@@ -288,9 +289,9 @@ you can create new widgets on your lauchen-screen!"</string>
   <string name="text_TickMarks" synced="x" sync="1">"tick marks"</string>
   <string name="text_TickMarksColor" synced="x" sync="1">"tick marks color"</string>
   <string name="text_TitleColor" synced="x" sync="1">"title color"</string>
-  <string name="text_Today" sync="x">"Today"</string>
+  <string name="text_Today" sync="1">"Today"</string>
   <string name="text_TodayColor" synced="x" sync="1">"today-color"</string>
-  <string name="text_Tomorrow" sync="x">"Tomorrow"</string>
+  <string name="text_Tomorrow" sync="1">"Tomorrow"</string>
   <string name="text_transparent" synced="x" sync="1">"transparent"</string>
   <string name="text_twoColors" synced="x" sync="1">"two Colors"</string>
   <string name="text_twoMonths" synced="x" sync="1">"two Months"</string>

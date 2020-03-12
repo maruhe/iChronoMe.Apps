@@ -262,6 +262,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="text_Problems" synced="x" sync="1">"Probleme"</string>
   <string name="text_Sample" synced="x" sync="1">"Beispiel"</string>
   <string name="text_search_hint" synced="x" sync="1">"wenn dieser Text auftaucht bitte bescheid geben ;-)"</string>
+  <string name="text_SecondHand" sync="x">"Sekundenzeiger"</string>
   <string name="text_SecondHandFill" synced="x" sync="1">"Sekundenzeiger Füllbarbe"</string>
   <string name="text_SecondHandStroke" synced="x" sync="1">"Sekundenzeiger Linienfarbe"</string>
   <string name="text_Seconds" synced="x" sync="1">"Sekunden"</string>
@@ -280,9 +281,9 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="text_TickMarks" synced="x" sync="1">"Skala"</string>
   <string name="text_TickMarksColor" synced="x" sync="1">"Skala-Farbe"</string>
   <string name="text_TitleColor" synced="x" sync="1">"Titelfarbe"</string>
-  <string name="text_Today" sync="x">"Heute"</string>
+  <string name="text_Today" sync="1">"Heute"</string>
   <string name="text_TodayColor" synced="x" sync="1">"Farbe für heute"</string>
-  <string name="text_Tomorrow" sync="x">"Morgen"</string>
+  <string name="text_Tomorrow" sync="1">"Morgen"</string>
   <string name="text_transparent" synced="x" sync="1">"transparent"</string>
   <string name="text_twoColors" synced="x" sync="1">"zweifarbig"</string>
   <string name="text_twoMonths" synced="x" sync="1">"zwei Monate"</string>

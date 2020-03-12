@@ -265,6 +265,10 @@ namespace iChronoMe.Droid.Widgets
                         if (!string.IsNullOrEmpty(clockCfg.BackgroundImage))
                         {
                             viewHolder.backimage.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(clockCfg.BackgroundImage)));
+                            if (clockCfg.BackgroundImageTint == xColor.Transparent)
+                                viewHolder.backimage.SetColorFilter(null);
+                            else
+                                viewHolder.backimage.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
                         }
                         if (clockCfg.ColorBackground.A > 0)
                         {

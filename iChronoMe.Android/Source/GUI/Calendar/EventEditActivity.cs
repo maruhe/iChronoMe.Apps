@@ -148,7 +148,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             item.SetOnMenuItemClickListener(this);
 
             item = menu.Add(0, 100, 0, Resource.String.action_save);
-            item.SetIcon(Resource.Drawable.icons8_save);
+            item.SetIcon(DrawableHelper.GetIconDrawable(this, Resource.Drawable.icons8_save, Tools.GetThemeColor(Theme, Resource.Attribute.iconTitleTint).Value));
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
 
