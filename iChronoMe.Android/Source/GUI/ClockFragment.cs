@@ -694,6 +694,7 @@ namespace iChronoMe.Droid.GUI
                     if (cfg != null)
                     {
                         clockCfg = cfg.GetConfigClone();
+                        clockCfg.ApplyDefaultColors();
                         cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
@@ -709,6 +710,7 @@ namespace iChronoMe.Droid.GUI
                     if (cfg != null)
                     {
                         clockCfg = cfg.GetConfigClone();
+                        clockCfg.ApplyDefaultColors();
                         cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
@@ -724,6 +726,7 @@ namespace iChronoMe.Droid.GUI
                     if (cfg != null)
                     {
                         clockCfg = cfg.GetConfigClone();
+                        clockCfg.ApplyDefaultColors();
                         cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
@@ -739,6 +742,7 @@ namespace iChronoMe.Droid.GUI
                     if (cfg != null)
                     {
                         clockCfg = cfg.GetConfigClone();
+                        clockCfg.ApplyDefaultColors();
                         cfgHolder.SetWidgetCfg(clockCfg, -1);
                         RefreshClockCfg();
                     }
