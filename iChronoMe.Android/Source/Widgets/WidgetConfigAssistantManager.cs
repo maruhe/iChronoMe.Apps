@@ -173,9 +173,9 @@ namespace iChronoMe.Droid.Widgets
             tcsUI?.TrySetResult(false);
         }
 
-        public Task<SelectPositionResult> UserSelectMapsLocation()
+        public Task<SelectPositionResult> UserSelectMapsLocation(Location center = null, Location marker = null)
         {
-            return LocationPickerDialog.SelectLocation(mContext);
+            return LocationPickerDialog.SelectLocation(mContext, center, marker);
         }
 
         ProgressDlg pDlg = null;

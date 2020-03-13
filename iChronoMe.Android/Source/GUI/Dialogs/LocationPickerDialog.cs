@@ -100,9 +100,9 @@ namespace iChronoMe.Droid.GUI.Dialogs
             mGoogleMap = googleMap;
 
             LatLng center = new LatLng(sys.lastUserLocation.Latitude, sys.lastUserLocation.Longitude);
-            if (initCenter != null)
+            if (initCenter != null && initCenter.Latitude != 0)
                 center = new LatLng(initCenter.Latitude, initCenter.Longitude);
-            if (initMarker != null)
+            if (initMarker != null && initMarker.Latitude != 0)
             {
                 LatLng marker = new LatLng(initMarker.Latitude, initMarker.Longitude);
                 if (initCenter == null)

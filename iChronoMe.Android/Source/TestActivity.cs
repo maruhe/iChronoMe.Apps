@@ -40,6 +40,13 @@ namespace iChronoMe.Droid
             btn.Click += BtnEyes_Click;
             view.AddView(btn);
 
+
+            btn = new Button(this);
+            btn.Text = "test";
+            btn.Click += BtnTest_Click;
+            view.AddView(btn);
+
+            /*
             string cImageDir = ImageLoader.GetImagePathThumb(ImageLoader.filter_clockfaces);
             var cGroups = new List<string>(Directory.GetDirectories(cImageDir));
             cGroups.Sort();
@@ -88,7 +95,7 @@ namespace iChronoMe.Droid
                 }
                 view.AddView(flow);
             }
-
+            */
             var scroll = new ScrollView(this);
             scroll.AddView(view, new ScrollView.LayoutParams(ScrollView.LayoutParams.MatchParent, ScrollView.LayoutParams.WrapContent));
 
@@ -96,6 +103,15 @@ namespace iChronoMe.Droid
 
             if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != Permission.Granted)
                 RequestPermissions(new string[] { Manifest.Permission.WriteExternalStorage }, 1);
+        }
+
+        private void BtnTest_Click(object sender, EventArgs e)
+        {
+            var cfg = new WidgetCfg_ClockAnalog();
+            cfg.SetDefaultColors();
+            var c2 = (WidgetCfg_ClockAnalog)cfg.Clone();
+            var x = c2.ColorHourHandStroke.IsEmpty;
+            this.ToString();
         }
 
         private void BtnEyes_Click(object sender, EventArgs e)

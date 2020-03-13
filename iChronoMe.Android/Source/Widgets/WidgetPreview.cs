@@ -129,11 +129,12 @@ namespace iChronoMe.Droid.Widgets
                     return;
                 try
                 {
-                    var cfg = mAssistant.Samples[Position];
-                    if (cfg.WidgetConfig is WidgetCfg_ClockAnalog)
+                    var sample = mAssistant.Samples[Position];
+                    var cfg = sample.PreviewConfig ?? sample.WidgetConfig;
+                    if (cfg is WidgetCfg_ClockAnalog)
                     {
                         var view = new WidgetView_ClockAnalog();
-                        view.ReadConfig(cfg.WidgetConfig as WidgetCfg_ClockAnalog);
+                        view.ReadConfig(cfg as WidgetCfg_ClockAnalog);
                         view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
                     }
                 } catch { }

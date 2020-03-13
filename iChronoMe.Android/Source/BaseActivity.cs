@@ -284,6 +284,9 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_TimeType()
         {
+            if (Looper.MainLooper == null)
+                Looper.Prepare();
+
             dlgToClose = new AlertDialog.Builder(this)
                 .SetTitle(Resource.String.label_choose_default_timetype)
                 .SetAdapter(new TimeTypeAdapter(this), (s, e) =>
@@ -317,6 +320,9 @@ namespace iChronoMe.Droid
                 SetAssistantDone();
                 return;
             }
+
+            if (Looper.MainLooper == null)
+                Looper.Prepare();
 
             bKillOnClose = true;
             String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_calendar), Resources.GetString(Resource.String.assistant_permission_storage) };
@@ -529,6 +535,8 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_PrivacyAssistant()
         {
+            if (Looper.MainLooper == null)
+                Looper.Prepare();
             dlgToClose = new AlertDialog.Builder(this)
                 .SetTitle(base.Resources.GetString(Resource.String.assistant_privacy_question))
                 .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
@@ -550,6 +558,8 @@ namespace iChronoMe.Droid
 
         public void ShowInitScreen_PrivacyNotice()
         {
+            if (Looper.MainLooper == null)
+                Looper.Prepare();
             var textView = new TextView(this);
             textView.Text = "**text not found**\n" + "          :-(";
             try
