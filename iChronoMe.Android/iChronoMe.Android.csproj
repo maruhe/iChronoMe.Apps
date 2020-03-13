@@ -143,7 +143,6 @@
     <Compile Include="Source\GUI\ActivityFragment.cs" />
     <Compile Include="Source\GUI\Calendar\CalendarFragment.cs" />
     <Compile Include="Source\GUI\ClockFragment.cs" />
-    <Compile Include="Source\GUI\Dialogs\CalendarEventDialog.cs" />
     <Compile Include="Source\GUI\Dialogs\ErrorLogDlg.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
     <Compile Include="Source\GUI\ProgressDlg.cs" />
@@ -221,7 +220,7 @@
       <Version>1.6.292</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfSchedule.Android">
-      <Version>17.4.0.51</Version>
+      <Version>17.4.0.55</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.3" />
     <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="28.0.0.3" />
@@ -238,7 +237,7 @@
     <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView">
       <Version>28.0.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
     <PackageReference Include="Xamarin.Google.Maps.Utils">
       <Version>1.0.0</Version>
     </PackageReference>
@@ -261,6 +260,18 @@
       <Project>{48f0efdd-038a-4d02-8f70-fd40272e4b59}</Project>
       <Name>iChronoMe.Widgets</Name>
     </ProjectReference>
+  </ItemGroup>  
+  <ItemGroup Condition=" '$(Configuration)'=='Debug'">
+    <AndroidResource Include="Resources\values\secrets_debug.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)'!='Debug'">
+    <AndroidResource Include="Resources\values\secrets_release.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\real_sun_time.png" />
@@ -492,11 +503,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_process.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\fragment_calendar_event_popup.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -979,9 +985,6 @@
     <AndroidResource Include="Resources\layout\listitem_titlespinner.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\secrets.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\circle_shape.xml" />
