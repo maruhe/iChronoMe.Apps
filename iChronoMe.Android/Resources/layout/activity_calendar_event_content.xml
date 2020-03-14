@@ -4,14 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"    
     tools:showIn="@layout/activity_calendar_event"
+    android:background="?attr/colorBackgroundAccent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TableLayout
-        android:id="@+id/rootView"
-        android:padding="@dimen/frame_padding"
+        android:id="@+id/rootView"        
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TableRow  
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView 
@@ -23,6 +27,9 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <AutoCompleteTextView
@@ -36,6 +43,27 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:id="@+id/row_calendar"            
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:padding="@dimen/frame_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/spCalendar"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+
+
+        <TableRow
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"            
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView                 
@@ -46,6 +74,9 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
@@ -63,6 +94,9 @@
         </TableRow>
         <TableRow       
             android:id="@+id/row_start_helper"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView 
@@ -79,6 +113,9 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView                 
@@ -89,6 +126,9 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
@@ -106,6 +146,9 @@
         </TableRow>
         <TableRow       
             android:id="@+id/row_end_helper"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView 
@@ -122,6 +165,9 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -140,7 +186,11 @@
             </LinearLayout>
         </TableRow>
         <TableRow
-            android:id="@+id/row_timetype"
+            android:id="@+id/row_timetype"            
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:padding="@dimen/frame_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Spinner
@@ -150,7 +200,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </TableRow>
+
         <TableRow
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView                 
@@ -162,6 +218,9 @@
         </TableRow>
 
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <AutoCompleteTextView
@@ -176,8 +235,11 @@
         </TableRow>
         <TableRow       
             android:id="@+id/row_location_helper"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:paddingBottom="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:clickable="true"
-            android:background="@drawable/selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -185,6 +247,7 @@
                 android:layout_span="2"
                 android:layout_weight="1"
                 android:orientation="horizontal"
+                android:background="@drawable/selector"                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -228,6 +291,10 @@
                 android:layout_height="32dp"/>
         </TableRow>
         <TableRow
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView                 
@@ -238,12 +305,15 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/description"
                 android:inputType="textMultiLine"
-                android:minLines="3"
+                android:minLines="2"
                 android:maxLines="10" 
                 android:layout_weight="1"
                 android:layout_span="2"
@@ -251,6 +321,10 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -262,6 +336,10 @@
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView

@@ -109,7 +109,7 @@ namespace iChronoMe.Droid.Adapters
                     string cLog = "System-Test " + DateTime.Now.ToString() + "\n";
                     foreach (string c in cTestLog)
                         cLog += "\n" + c;
-                    cLog += "\n" + "\nApp: " + sys.cAppVersionInfo + "\nnDeviceInfo: " + sys.cDeviceInfo;
+                    cLog += "\n" + "\nApp: " + sys.cAppVersionInfo + "\nnDeviceInfo:\n" + sys.cDeviceInfo;
 
                     HttpClient client = new HttpClient();
                     HttpContent content = new StringContent(cLog);

@@ -110,6 +110,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Adapters\ActiveCalendarListAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventLocationAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventTitleAdapter.cs" />
     <Compile Include="Source\Adapters\ClickActionTypeAdapter.cs" />
@@ -260,7 +261,7 @@
       <Project>{48f0efdd-038a-4d02-8f70-fd40272e4b59}</Project>
       <Name>iChronoMe.Widgets</Name>
     </ProjectReference>
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='Debug'">
     <AndroidResource Include="Resources\values\secrets_debug.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>

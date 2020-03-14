@@ -89,12 +89,14 @@ namespace iChronoMe.Droid.GUI.Service
                 if (!string.IsNullOrEmpty(sys.cAppVersionInfo))
                     cSendContent += "\nApp: " + sys.cAppVersionInfo;
 
-                cSendContent += "\nDeviceToken: " + sys.cDeviceToken;
                 if (cbIncludeDeviceinfo.Checked)
                 {
                     if (!string.IsNullOrEmpty(sys.cDeviceInfo))
-                        cSendContent += "\nDeviceInfo: " + sys.cDeviceInfo;
+                        cSendContent += "\nDeviceInfo:\n" + sys.cDeviceInfo;
                 }
+                else
+                    cSendContent += "\nDeviceToken: " + sys.cDeviceToken;
+
                 if (cbIncludeLocation.Checked)
                     cSendContent += "\nLocation: " + sys.DezimalGradToGrad(sys.lastUserLocation.Latitude, sys.lastUserLocation.Longitude);
 

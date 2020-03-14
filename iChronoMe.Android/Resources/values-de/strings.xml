@@ -262,7 +262,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="text_Problems" synced="x" sync="1">"Probleme"</string>
   <string name="text_Sample" synced="x" sync="1">"Beispiel"</string>
   <string name="text_search_hint" synced="x" sync="1">"wenn dieser Text auftaucht bitte bescheid geben ;-)"</string>
-  <string name="text_SecondHand" sync="x">"Sekundenzeiger"</string>
+  <string name="text_SecondHand" sync="1">"Sekundenzeiger"</string>
   <string name="text_SecondHandFill" synced="x" sync="1">"Sekundenzeiger Füllbarbe"</string>
   <string name="text_SecondHandStroke" synced="x" sync="1">"Sekundenzeiger Linienfarbe"</string>
   <string name="text_Seconds" synced="x" sync="1">"Sekunden"</string>
