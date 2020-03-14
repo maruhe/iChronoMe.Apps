@@ -253,12 +253,6 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             if (item.ItemId == 10)
             {
-                if (string.IsNullOrEmpty(mModel.Title) && string.IsNullOrEmpty(mModel.Description))
-                {
-                    Tools.ShowMessage(this, "hold on", "and enter some text");
-                    return true;
-                }
-
                 Task.Factory.StartNew(async () =>
                 {
                     var clrDlg = ColorPickerDialog.NewBuilder()
@@ -282,6 +276,12 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             if (item.ItemId == 100)
             {
+                if (string.IsNullOrEmpty(mModel.Title) && string.IsNullOrEmpty(mModel.Description))
+                {
+                    Tools.ShowMessage(this, "hold on", "and enter some text");
+                    return true;
+                }
+
                 Task.Factory.StartNew(async () =>
                 {
                     var saved = await mModel.SaveEvent();
