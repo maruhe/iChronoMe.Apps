@@ -131,7 +131,13 @@ namespace iChronoMe.Droid
             }
             else
             {
-                base.OnBackPressed();
+                if (ActiveFragment is ClockFragment || ActiveFragment is CalendarFragment || ActiveFragment is WorldTimeMapFragment)
+                {
+                    if (!MoveTaskToBack(false))
+                        base.OnBackPressed();
+                }
+                else
+                    OnNavigationItemSelected(Resource.Id.nav_clock);
             }
         }
 

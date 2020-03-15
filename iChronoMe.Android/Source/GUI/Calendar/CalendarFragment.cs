@@ -158,27 +158,77 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 calEvent.guiPropertiesChanged = (async () =>
                 {
+                    //this will be executed after SfSchedule changed event properties
                     try
                     {
                         var model = new CalendarEventEditViewModel(calEvent.ExternalID, Activity as IUserIO);
                         await model.WaitForReady();
 
-                        if (model.TimeType != calEvents.timeType && !calEvent.AllDay)
-                        {
-                            var items = new string[] { calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(model.TimeType), calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(calEvents.timeType) };
+                        var options = new Dictionary<string, int>();
 
-                            var go = await Tools.ShowSingleChoiseDlg(Activity, "choose a time-type", items);
+
+                        if (!calEvent.AllDay)
+                        {
+                            options.Add(calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(model.TimeType), 10);
+
+                            if (model.TimeType != calEvents.timeType)
+                                options.Add(calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(calEvents.timeType), 20);
+
+                            if (model.TimeType != TimeType.TimeZoneTime && calEvents.timeType != TimeType.TimeZoneTime)
+                                options.Add(calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(TimeType.TimeZoneTime), 100);
+
+                            if (dropTime.TimeOfDay.TotalHours < 2 || dropTime.TimeOfDay.TotalHours > 22)
+                                options.Add("make all-day", 200);
+                        }
+
+                        options.Add(localize.action_edit_event, 800);
+                        options.Add(localize.action_delete_event, 900);
+
+                        if (calEvent.AllDay && (dropTime.TimeOfDay.TotalHours < 2 || dropTime.TimeOfDay.TotalHours > 22))
+                            options.Clear();
+
+                        if (options.Count > 0)
+                        {
+                            var go = await Tools.ShowSingleChoiseDlg(Activity, "choose a action", options.Keys.ToArray());
 
                             if (go < 0)
                                 return;
-                            
-                            if (go == 1)
+
+                            int action = options[options.Keys.ElementAt(go)];
+
+                            switch (action)
                             {
-                                model.TimeType = calEvents.timeType;
-                                Tools.ShowToast(Context, "event-time-type has been changed");
+                                case 10:
+                                    //all fine, just move it
+                                    break;
+                                case 20:
+                                    //change to current Schedule Time-Type
+                                    model.TimeType = calEvents.timeType;
+                                    Tools.ShowToast(Context, "event-time-type has been changed");
+                                    break;
+                                case 100:
+                                    //change to TimeZone-Time
+                                    model.TimeType = TimeType.TimeZoneTime;
+                                    Tools.ShowToast(Context, "event-time-type has been changed");
+                                    break;
+                                case 200:
+                                    calEvent.AllDay = true;
+                                    break;
+                                case 800:
+                                    OpenEventForEdit(model.ExternalID);
+                                    return;
+                                case 900:
+                                    if (await Tools.ShowYesNoMessage(Context, "confirm delete", string.IsNullOrEmpty(model.Title) ? model.Description : model.Title, localize.action_delete, localize.action_abort))
+                                    {
+                                        await DeviceCalendar.DeviceCalendar.DeleteEventAsync(model.Calendar, calEvent);
+                                        LoadEvents();
+                                    }
+                                    return;
+
+                                default:
+                                    return;
                             }
                         }
-
                         model.ChangeDisplayTime(calEvent.DisplayStart, calEvent.DisplayEnd, calEvent.AllDay);
 
                         if (!await model.SaveEvent())
@@ -204,9 +254,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 try
                 {
                     var evnt = calEvents.ListedDates[0];
-                    var intent = new Intent(Activity, typeof(EventEditActivity));
-                    intent.PutExtra(EventEditActivity.extra_EventID, evnt.ExternalID);
-                    Activity.StartActivity(intent);
+                    OpenEventForEdit(evnt.ExternalID);
                 }
                 catch (Exception ex)
                 {
@@ -222,16 +270,26 @@ namespace iChronoMe.Droid.GUI.Calendar
                 try
                 {
                     var evnt = (CalendarEvent)e.Appointment;
-                    var intent = new Intent(Activity, typeof(EventEditActivity));
-                    intent.PutExtra(EventEditActivity.extra_EventID, evnt.ExternalID);
-                    bKeepTitleOnPause = true;
-                    Activity.StartActivity(intent);
+                    OpenEventForEdit(evnt.ExternalID);
                 }
                 catch (Exception ex)
                 {
                     sys.LogException(ex);
                 }
             }
+        }
+
+        private void OpenEventForEdit(string externalID = null, DateTime? tStart = null, TimeType? timeType = null)
+        {
+            var intent = new Intent(Activity, typeof(EventEditActivity));
+            if (!string.IsNullOrEmpty(externalID))
+                intent.PutExtra(EventEditActivity.extra_EventID, externalID);
+            if (tStart.HasValue)
+                intent.PutExtra(EventEditActivity.extra_StartTime, tStart.Value.Ticks);
+            if (timeType.HasValue)
+                intent.PutExtra(EventEditActivity.extra_TimeType, (int)timeType.Value);
+            bKeepTitleOnPause = true;
+            Activity.StartActivity(intent);
         }
 
         private void Schedule_CellDoubleTapped(object sender, CellTappedEventArgs e)
@@ -262,10 +320,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             var time = sys.DateTimeFromJava(e.Calendar);
             var intent = new Intent(Activity, typeof(EventEditActivity));
-            intent.PutExtra(EventEditActivity.extra_StartTime, time.Ticks);
-            intent.PutExtra(EventEditActivity.extra_TimeType, (int)calEvents.timeType);
-            bKeepTitleOnPause = true;
-            Activity.StartActivity(intent);
+            OpenEventForEdit(null, time, calEvents.timeType);
             return;
 
             try
@@ -505,7 +560,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     item.SetOnMenuItemClickListener(this);
                 }
                 */
-#if DEBUG
+#if DExxBUG
                 var sub = menu.AddSubMenu(0, 0, 0, "Debug");
                 sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
                 sub.Item.SetShowAsAction(ShowAsAction.Always);

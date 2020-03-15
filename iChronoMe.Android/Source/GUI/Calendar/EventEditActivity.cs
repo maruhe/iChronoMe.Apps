@@ -49,6 +49,8 @@ namespace iChronoMe.Droid.GUI.Calendar
             SetContentView(Resource.Layout.activity_calendar_event);
             Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(Toolbar);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(true);
 
             rootView = FindViewById<ViewGroup>(Resource.Id.rootView);
             eSubject = FindViewById<AutoCompleteTextView>(Resource.Id.Subject);
@@ -146,6 +148,12 @@ namespace iChronoMe.Droid.GUI.Calendar
             mBinder.BindViewProperty(Resource.Id.row_location_helper, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.ShowLocationHelper));
 
             FindViewById<LinearLayout>(Resource.Id.row_location_helper).Click += llLocationHelper_Click;
+        }
+
+        public override bool OnSupportNavigateUp()
+        {
+            OnBackPressed();
+            return true;
         }
 
         private void MModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

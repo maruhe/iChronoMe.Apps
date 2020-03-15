@@ -18,8 +18,10 @@
   <string name="action_continue" synced="x" sync="1">"continue"</string>
   <string name="action_decline" sync="1">"decline"</string>
   <string name="action_delete" sync="1">"delete"</string>
+  <string name="action_delete_event" sync="1">"delete event"</string>
   <string name="action_deny_error_screentshot" synced="x" sync="1">"only error-logs without screenshots"</string>
   <string name="action_edit" sync="1">"edit"</string>
+  <string name="action_edit_event" sync="1">"edit event"</string>
   <string name="action_handcolors" synced="x" sync="1">"hand colors"</string>
   <string name="action_handtypes" synced="x" sync="1">"hand types"</string>
   <string name="action_ignore" synced="x" sync="1">"ignore"</string>
@@ -191,6 +193,11 @@ and lin 4"</string>
   <string name="info_no_widgets_found" synced="x" sync="1">"no widget's found
 you can create new widgets on your lauchen-screen!"</string>
   <string name="just_a_moment" synced="x" sync="1">"just a moment..."</string>
+  <string name="label_AppointmentBegin" sync="1">"Begin"</string>
+  <string name="label_AppointmentEnd" sync="1">"End"</string>
+  <string name="label_AppointmentInTimezone" sync="1">"in timezone:"</string>
+  <string name="label_AppointmentLocation" sync="1">"Location"</string>
+  <string name="label_AppointmentTitle" sync="1">"Appointment Title"</string>
   <string name="label_BackgroundService" synced="x" sync="1">"Widget Update-Service"</string>
   <string name="label_calendar_TimeType" synced="x" sync="1">"calendar TimeType:"</string>
   <string name="label_cfg_calendar_core_time" synced="x" sync="1">"core time"</string>

@@ -66,56 +66,50 @@ namespace iChronoMe.Droid.Widgets.Clock
         private void ShowWidgetTypeSelector()
         {
             var holder = new WidgetConfigHolder();
-            if (false && holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
-            {
-                Toast.MakeText(this, "widget bearbeiten...", ToastLength.Short).Show();
-                FinishAndRemoveTask();
-            }
-            //else
-            {
+                var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId, false);
                 var tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_Start);
-                if (holder.WidgetExists<WidgetCfg_ClockAnalog>(appWidgetId))
+                if (cfg != null)
                     tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase);
-                var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId);
+                if (cfg == null)
+                    cfg = new WidgetCfg_ClockAnalog();
                 var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this, wallpaperDrawable);
-                Task.Factory.StartNew(async () =>
+            Task.Factory.StartNew(async () =>
+            {
+                try
                 {
-                    try
+                    var result = await manager.StartAt(tStartAssistant, cfg);
+                    if (result != null)
                     {
-                        var result = await manager.StartAt(tStartAssistant, cfg);
-                        if (result != null)
+                        if (!holder.WidgetExists<WidgetCfg_ClockAnalog>(-101) || AppWidgetManager.GetInstance(this).GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name)).Length == 1)
                         {
-                            if (!holder.WidgetExists<WidgetCfg_ClockAnalog>(-101) || AppWidgetManager.GetInstance(this).GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name)).Length == 1)
-                            {
-                                var tmp = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
-                                tmp.PositionType = result.WidgetConfig.PositionType;
-                                tmp.WidgetTitle = result.WidgetConfig.WidgetTitle;
-                                tmp.Latitude = result.WidgetConfig.Latitude;
-                                tmp.Longitude = result.WidgetConfig.Longitude;
-                                holder.SetWidgetCfg(tmp, false);
-                            }
-
-                            holder.SetWidgetCfg(result.WidgetConfig);
-
-                            Intent resultValue = new Intent();
-                            resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
-                            resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-                            SetResult(Result.Ok, resultValue);
-
-                            UpdateWidget();
+                            var tmp = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+                            tmp.PositionType = result.WidgetConfig.PositionType;
+                            tmp.WidgetTitle = result.WidgetConfig.WidgetTitle;
+                            tmp.Latitude = result.WidgetConfig.Latitude;
+                            tmp.Longitude = result.WidgetConfig.Longitude;
+                            holder.SetWidgetCfg(tmp, false);
                         }
+
+                        holder.SetWidgetCfg(result.WidgetConfig, appWidgetId);
+
+                        Intent resultValue = new Intent();
+                        resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
+                        resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
+                        SetResult(Result.Ok, resultValue);
+
+                        UpdateWidget();
                     }
-                    catch (Exception ex)
-                    {
-                        sys.LogException(ex);
-                        RunOnUiThread(() => Toast.MakeText(this, ex.Message, ToastLength.Long).Show());
-                    }
-                    finally
-                    {
-                        FinishAndRemoveTask();
-                    }
-                });
-            }
+                }
+                catch (Exception ex)
+                {
+                    sys.LogException(ex);
+                    RunOnUiThread(() => Toast.MakeText(this, ex.Message, ToastLength.Long).Show());
+                }
+                finally
+                {
+                    FinishAndRemoveTask();
+                }
+            });
         }
 
         public void UpdateWidget()
