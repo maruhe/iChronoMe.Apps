@@ -606,7 +606,7 @@ namespace iChronoMe.Droid.GUI
             public Marker Marker { get; set; }
             public TableLayout InfoView { get; private set; }
             TextView tvArea, tvRDT, tvMST, tvTZT, tvRDToffset, tvMSToffset, tvTZToffset;
-            ImageView imgTZ;
+            ImageView imgFlag, imgTZ;
             public string ID { get; }
             static string blinkingID;
 
@@ -620,6 +620,7 @@ namespace iChronoMe.Droid.GUI
 
                 InfoView = (TableLayout)mActivity.LayoutInflater.Inflate(Resource.Layout.listitem_location_times, null);
 
+                imgFlag = InfoView.FindViewById<ImageView>(Resource.Id.img_flag);
                 tvArea = InfoView.FindViewById<TextView>(Resource.Id.title);
                 tvRDT = InfoView.FindViewById<TextView>(Resource.Id.time_rdt);
                 tvRDToffset = InfoView.FindViewById<TextView>(Resource.Id.time_offset_rdt);
@@ -740,8 +741,17 @@ namespace iChronoMe.Droid.GUI
                     {
                         if (Marker.Position.Latitude != lth.Latitude || Marker.Position.Longitude != lth.Longitude)
                             return;
+                        try
+                        {
+                            var flag = typeof(Resource.Drawable).GetField("flag_" + lth.AreaInfo.countryCode.ToLower());
+                            imgFlag.SetImageResource((int)flag.GetValue(null));
+                        }
+                        catch
+                        {
+                            imgFlag.SetImageResource(0);
+                        }
                         imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
-                        string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName + ", " + lth.CountryName;
+                        string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName;
                         tvArea.Text = cText;
                         Marker.Title = cText;
                         Marker.ShowInfoWindow();

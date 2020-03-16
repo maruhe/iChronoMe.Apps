@@ -345,3 +345,4 @@ secrets.*.cs
 secrets.xml
 secrets_*.xml
 *.keystore
+drawable-v1/

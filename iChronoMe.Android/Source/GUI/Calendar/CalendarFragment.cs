@@ -562,24 +562,32 @@ namespace iChronoMe.Droid.GUI.Calendar
                     item.SetOnMenuItemClickListener(this);
                 }
                 */
-#if DExxBUG
-                var sub = menu.AddSubMenu(0, 0, 0, "Debug");
-                sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
-                sub.Item.SetShowAsAction(ShowAsAction.Always);
+#if DEBUG
+                if (sys.DisplayOrientation == DisplayOrientation.Landscape)
+                {
+                    var sub = menu.AddSubMenu(0, 0, 0, "Debug");
+                    sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+                    sub.Item.SetShowAsAction(ShowAsAction.Always);
 
-                item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
-                item.SetIcon(Resource.Drawable.icons8_add);
-                item.SetOnMenuItemClickListener(this);
+                    item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
+                    item.SetIcon(Resource.Drawable.icons8_add);
+                    item.SetOnMenuItemClickListener(this);
 
-                item = sub.Add(0, menu_debug_delete_events, 0, "Delete Events");
-                item.SetIcon(Resource.Drawable.icons8_delete);
-                item.SetOnMenuItemClickListener(this);
+                    item = sub.Add(0, menu_debug_delete_events, 0, "Delete Events");
+                    item.SetIcon(Resource.Drawable.icons8_delete);
+                    item.SetOnMenuItemClickListener(this);
+                }
 #endif
             }
             catch (Exception ex)
             {
                 sys.LogException(ex);
             }
+
+            return;
+
+            this.ToString();
+
         }
 
         public bool OnMenuItemClick(IMenuItem item)

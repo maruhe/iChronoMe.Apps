@@ -179,6 +179,8 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             if (!mModel.IsReady)
                 return;
+            if (!calendarAdapter.IsReady)
+                return;
             int pos = calendarAdapter.GetCalendarPosition(mModel.CalendarId);
             if (pos < 0)
             {
@@ -187,7 +189,10 @@ namespace iChronoMe.Droid.GUI.Calendar
                 else
                 {
                     Tools.ShowToast(this, "strange calendar error", true);
-                    sys.LogException(new Exception("calendar not found in CalendarListAdapter"));
+                    string cList = "";
+                    for (int i = 0; i < calendarAdapter.Count; i++)
+                        cList += string.Concat(calendarAdapter.GetItem(i), ", ");
+                    sys.LogException(new Exception(string.Concat("calendar not found in CalendarListAdapter\nid: ", mModel.CalendarId, "\nlist: ", cList)));
                 }
                 return;
             }
