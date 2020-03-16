@@ -16,7 +16,7 @@ namespace iChronoMe.Droid.Receivers
             if (sys.currentError == null)
                 ;// Toast.MakeText(context, "exXX is null", ToastLength.Long).Show();
             else
-                Toast.MakeText(context, "An error:\n"+sys.currentError.Message, ToastLength.Long).Show();
+                Toast.MakeText(context, "An error:\n" + sys.currentError.Message, ToastLength.Long).Show();
 
             try
             {

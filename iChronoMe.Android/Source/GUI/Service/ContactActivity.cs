@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
+
 using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -79,9 +76,9 @@ namespace iChronoMe.Droid.GUI.Service
                     etMessage.RequestFocus();
                     return;
                 }
-                string cSendContent = DateTime.Now.ToString("s") + "." + DateTime.Now.Millisecond + "\n" + 
-                    "topic: "+spTopic.SelectedItem.ToString()+"\n"+
-                    "name: " + etName.Text+"\n"+
+                string cSendContent = DateTime.Now.ToString("s") + "." + DateTime.Now.Millisecond + "\n" +
+                    "topic: " + spTopic.SelectedItem.ToString() + "\n" +
+                    "name: " + etName.Text + "\n" +
                     "email: " + etEmail.Text + "\n" +
                     "subject: " + etSubject.Text + "\n" +
                     "message: " + etMessage.Text + "\n\n";
@@ -107,7 +104,7 @@ namespace iChronoMe.Droid.GUI.Service
                 {
                     string cUrl = Secrets.zAppResponseUrl + "upload.php?app=iChronoMe&type=Feedback&os=" + sys.OsType.ToString();
 #if DEBUG
-                cUrl += "&debug";
+                    cUrl += "&debug";
 #endif
                     try
                     {

@@ -11,7 +11,7 @@ namespace iChronoMe.Droid
     public class FinishOnCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
     {
         Activity myActivity;
-        
+
         public FinishOnCancelListener(Activity activity)
         {
             myActivity = activity;

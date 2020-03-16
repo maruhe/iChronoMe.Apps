@@ -898,7 +898,7 @@ namespace iChronoMe.Droid
                 Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
                 changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
                 changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                    changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)MainWidgetBase.GetOtherTimeType(cfg.CurrentTimeType, cfg.WidgetTimeType));
+                changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)MainWidgetBase.GetOtherTimeType(cfg.CurrentTimeType, cfg.WidgetTimeType));
                 PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
                 updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
             }
@@ -1087,12 +1087,12 @@ namespace iChronoMe.Droid
 
         public void OnProviderEnabled(string provider)
         {
-            
+
         }
 
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
-                
+
         }
 
         #region IDisposable Support

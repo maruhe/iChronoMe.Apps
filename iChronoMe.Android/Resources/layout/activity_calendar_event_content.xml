@@ -57,10 +57,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </TableRow>
-
-
         <TableRow
+            android:id="@+id/row_timetype"            
             android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:padding="@dimen/frame_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/spTimeType"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow
             android:layout_marginHorizontal="@dimen/table_padding"            
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
@@ -185,22 +198,6 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </TableRow>
-        <TableRow
-            android:id="@+id/row_timetype"            
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:padding="@dimen/frame_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Spinner
-                android:id="@+id/spTimeType"
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-
         <TableRow
             android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"

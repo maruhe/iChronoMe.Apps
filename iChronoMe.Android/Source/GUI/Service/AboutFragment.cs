@@ -16,7 +16,8 @@ namespace iChronoMe.Droid.GUI.Service
 
             RootView.FindViewById<ListView>(Resource.Id.lv_contributors).Adapter = new ContributorAdapter(Activity);
 
-            RootView.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) => {
+            RootView.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) =>
+            {
                 StartActivity(new Intent(Context, typeof(ContactActivity)));
             };
 

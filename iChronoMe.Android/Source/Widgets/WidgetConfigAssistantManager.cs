@@ -95,31 +95,40 @@ namespace iChronoMe.Droid.Widgets
 
             await Task.Factory.StartNew(() =>
             {
+                tcsUI = new TaskCompletionSource<bool>();
+
                 currentAssi.PerformPreperation(this);
 
-                if (currentAssi.Samples.Count == 0)
+                var stat = tcsUI.Task?.Status;
+
+                if (UserInputTaskTask.Result)
+                    bConfirmed = true;
+                else
                 {
-                    return;
+
+                    if (currentAssi.Samples.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var listAdapter = new WidgetPreviewListAdapter<T>(mContext, currentAssi, wSize, WallpaperDrawable, CalendarModel, myEventsMonth, myEventsList);
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        var dlg = new AlertDialog.Builder(mContext)
+                            .SetTitle(currentAssi.Title)
+                            .SetNegativeButton("abbrechen", new myNegativeButtonClickListener<T>(this))
+                            .SetOnCancelListener(new myDialogCancelListener<T>(this))
+                            .SetSingleChoiceItems(listAdapter, -1, new SingleChoiceClickListener<T>(this, listAdapter));
+
+                        if (currentAssi.AllowCustom)
+                            dlg.SetNeutralButton(currentAssi.CurstumButtonText, DlgCustomButtonClick);
+                        dlg.Create().Show();
+                    });
+
+                    UserInputTaskTask.Wait();
+                    bConfirmed = UserInputTaskTask.Result;
                 }
-
-                var listAdapter = new WidgetPreviewListAdapter<T>(mContext, currentAssi, wSize, WallpaperDrawable, CalendarModel, myEventsMonth, myEventsList);
-
-                tcsUI = new TaskCompletionSource<bool>();
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    var dlg = new AlertDialog.Builder(mContext)
-                        .SetTitle(currentAssi.Title)
-                        .SetNegativeButton("abbrechen", new myNegativeButtonClickListener<T>(this))
-                        .SetOnCancelListener(new myDialogCancelListener<T>(this))
-                        .SetSingleChoiceItems(listAdapter, -1, new SingleChoiceClickListener<T>(this, listAdapter));
-
-                    if (currentAssi.AllowCustom)
-                        dlg.SetNeutralButton(currentAssi.CurstumButtonText, DlgCustomButtonClick);
-                    dlg.Create().Show();
-                });
-
-                UserInputTaskTask.Wait();
-                bConfirmed = UserInputTaskTask.Result;
             });
 
             if (pDlg != null)

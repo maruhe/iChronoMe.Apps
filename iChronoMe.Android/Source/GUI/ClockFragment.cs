@@ -26,6 +26,7 @@ using iChronoMe.Widgets;
 using SkiaSharp.Views.Android;
 
 using Xamarin.Essentials;
+
 using PopupMenu = Android.Support.V7.Widget.PopupMenu;
 //using SKSvg = SkiaSharp.Extended.Svg.SKSvg;
 
@@ -1091,7 +1092,7 @@ namespace iChronoMe.Droid.GUI
                         locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider) ?? lastLocation;
                     }
-                    
+
                     if (lastLocation == null)
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.PassiveProvider);
 

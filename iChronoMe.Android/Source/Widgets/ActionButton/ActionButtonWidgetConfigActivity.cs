@@ -103,9 +103,9 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             }
 
             var tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_ClickAction);
-            var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId, false); 
+            var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId, false);
             if (cfg != null)
-               tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_OptionsBase);
+                tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_OptionsBase);
             if (cfg == null)
                 cfg = new WidgetCfg_ActionButton();
             var manager = new WidgetConfigAssistantManager<WidgetCfg_ActionButton>(this, wallpaperDrawable);

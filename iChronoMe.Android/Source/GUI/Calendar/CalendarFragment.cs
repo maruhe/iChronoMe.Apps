@@ -34,6 +34,7 @@ using iChronoMe.Droid.ViewModels;
 using Java.Util;
 
 using Xamarin.Essentials;
+
 using PopupMenu = Android.Support.V7.Widget.PopupMenu;
 using Random = System.Random;
 
@@ -326,7 +327,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             try
             {
                 var evnt = (CalendarEvent)e.Appointment;
-                
+
                 PopupMenu popup = new PopupMenu(Activity, sender as View);
                 popup.Menu.Add(0, 10, 0, Resource.String.shortcut_create_calender_event);
                 if (evnt != null)
@@ -468,7 +469,8 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
-            mContext.RunOnUiThread(() => {
+            mContext.RunOnUiThread(() =>
+            {
                 TooltipCompat.SetTooltipText(fabTimeType, localize.TimeType + " (" + localeHelper.GetTimeTypeText(calEvents.timeType) + ")");
                 fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(calEvents.timeType, LocationTimeHolder.LocalInstance));
             });
@@ -483,7 +485,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             }
             await calEvents.DoLoadCalendarEventsListed(tFirstVisible.AddDays(-1), tLastVisible.AddDays(1));
             mContext.RunOnUiThread(() => { schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
-            
+
             CheckCalendarWelcomeAssistant();
         }
 
@@ -496,7 +498,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 {
                     if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
                     {
-                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = Resources.GetString(Resource.String.app_name), IsPrimary=true, CanEditCalendar = true, CanEditEvents = true });
+                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = Resources.GetString(Resource.String.app_name), IsPrimary = true, CanEditCalendar = true, CanEditEvents = true });
                     }
                     else
                         return;
@@ -962,7 +964,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.TimelineViewSettings.LabelSettings.TimeLabelColor = clText;
 
                 schedule.DayViewSettings.TimeSlotColor = clSlotBack;
-                schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent; 
+                schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.DayViewSettings.DayLabelSettings.TimeLabelColor = clText;
 
                 schedule.WeekViewSettings.TimeSlotColor = clSlotBack;

@@ -344,7 +344,7 @@ namespace iChronoMe.Droid.Widgets
 #endif
 
                 case ClickActionType.OpenClock:
-                    itClick = new Intent(context, typeof(MainActivity)); 
+                    itClick = new Intent(context, typeof(MainActivity));
                     itClick.PutExtra("NavigationItem", Resource.Id.nav_clock);
                     itClick.SetFlags(ActivityFlags.ReorderToFront);
                     break;
@@ -385,13 +385,14 @@ namespace iChronoMe.Droid.Widgets
                             itClick.SetData(Android.Net.Uri.Parse("market://details?id=" + packageName));
                         }
                         itClick.AddFlags(ActivityFlags.NewTask);
-                    } catch
+                    }
+                    catch
                     {
                         return null;
                     }
                     break;
             }
-            
+
             return itClick;
         }
     }

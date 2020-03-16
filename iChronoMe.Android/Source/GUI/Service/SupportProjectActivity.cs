@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 using Android.App;
 using Android.Content;
-using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
@@ -30,7 +24,8 @@ namespace iChronoMe.Droid.GUI.Service
 
             var content = (ViewGroup)LayoutInflater.Inflate(Resource.Layout.fragment_support_project, frame);
 
-            content.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) => {
+            content.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) =>
+            {
                 var intent = new Intent(this, typeof(ContactActivity));
                 intent.PutExtra("Topic", 2);
                 StartActivity(intent);

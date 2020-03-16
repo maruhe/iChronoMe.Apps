@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
@@ -14,6 +14,7 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.ViewModels
@@ -183,7 +184,7 @@ namespace iChronoMe.Droid.ViewModels
 
         public void SelectOpenOtherApp(Context context)
         {
-            Task.Factory.StartNew(async() =>
+            Task.Factory.StartNew(async () =>
             {
                 try
                 {
@@ -191,7 +192,7 @@ namespace iChronoMe.Droid.ViewModels
                     int iApp = await Tools.ShowSingleChoiseDlg(context, "select", appAdapter);
                     if (iApp < 0)
                         return;
-                    ApplicationInfo appInfo = appAdapter[iApp];                    
+                    ApplicationInfo appInfo = appAdapter[iApp];
 
                     clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
 

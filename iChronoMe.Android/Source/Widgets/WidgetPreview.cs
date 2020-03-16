@@ -14,6 +14,7 @@ using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
+
 using SkiaSharp.Views.Android;
 
 namespace iChronoMe.Droid.Widgets
@@ -137,7 +138,8 @@ namespace iChronoMe.Droid.Widgets
                         view.ReadConfig(cfg as WidgetCfg_ClockAnalog);
                         view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
                     }
-                } catch { }
+                }
+                catch { }
             }
 
             protected override void Dispose(bool disposing)
@@ -292,7 +294,7 @@ namespace iChronoMe.Droid.Widgets
                         }
 
                         viewHolder.progress.Visibility = ViewStates.Visible;
-                        
+
                         new WidgetPreviewLoaderFS().Execute(this, viewHolder, cfg);
                     }
                 }

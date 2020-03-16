@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
 using Android.Content.PM;
@@ -10,13 +11,11 @@ using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
 
-using iChronoMe.Core.Classes;
-using iChronoMe.Core.Types;
-using iChronoMe.Droid.Controls;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
+
 using Path = System.IO.Path;
 
 namespace iChronoMe.Droid

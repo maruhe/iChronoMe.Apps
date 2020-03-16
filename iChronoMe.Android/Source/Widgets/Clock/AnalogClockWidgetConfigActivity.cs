@@ -66,13 +66,13 @@ namespace iChronoMe.Droid.Widgets.Clock
         private void ShowWidgetTypeSelector()
         {
             var holder = new WidgetConfigHolder();
-                var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId, false);
-                var tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_Start);
-                if (cfg != null)
-                    tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase);
-                if (cfg == null)
-                    cfg = new WidgetCfg_ClockAnalog();
-                var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this, wallpaperDrawable);
+            var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(appWidgetId, false);
+            var tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_Start);
+            if (cfg != null)
+                tStartAssistant = typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase);
+            if (cfg == null)
+                cfg = new WidgetCfg_ClockAnalog();
+            var manager = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(this, wallpaperDrawable);
             Task.Factory.StartNew(async () =>
             {
                 try

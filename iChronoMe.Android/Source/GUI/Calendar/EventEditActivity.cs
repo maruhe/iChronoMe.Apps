@@ -8,6 +8,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
@@ -177,7 +178,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private void RefreshCalendarSpinner()
         {
             if (!mModel.IsReady)
-                return; 
+                return;
             int pos = calendarAdapter.GetCalendarPosition(mModel.CalendarId);
             if (pos < 0)
             {

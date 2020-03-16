@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
@@ -22,7 +23,6 @@ using iChronoMe.Droid.Widgets.Clock;
 using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 using iChronoMe.Widgets.Assistants;
-using static iChronoMe.Droid.Tools;
 
 namespace iChronoMe.Droid.GUI.Service
 {
@@ -80,7 +80,7 @@ namespace iChronoMe.Droid.GUI.Service
                 int[] buttons = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
                 int[] chronos = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
 
-                if (clockS.Length+calendars.Length+buttons.Length+chronos.Length == 0)
+                if (clockS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
                 {
                     Tools.ShowToast(Context, localize.info_no_widgets_found);
                     return;

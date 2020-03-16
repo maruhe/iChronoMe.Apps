@@ -3,6 +3,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Droid.Adapters;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -15,10 +16,12 @@ namespace iChronoMe.Droid.GUI.Service
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_service_faq, container, false);
 
             adapter = new FaqAdapter(Activity);
-            RootView.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) => {
+            RootView.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) =>
+            {
                 StartActivity(new Intent(Context, typeof(ContactActivity)));
             };
-            RootView.FindViewById<Button>(Resource.Id.btnSupportProject).Click += (s, e) => {
+            RootView.FindViewById<Button>(Resource.Id.btnSupportProject).Click += (s, e) =>
+            {
                 StartActivity(new Intent(Context, typeof(SupportProjectActivity)));
             };
             RootView.FindViewById<ListView>(Resource.Id.lv_faq).Adapter = adapter;

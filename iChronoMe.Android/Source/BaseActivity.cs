@@ -499,7 +499,8 @@ namespace iChronoMe.Droid
         }
         public void ShowInitScreen_UserLocationManual()
         {
-            Task.Factory.StartNew(async() => { 
+            Task.Factory.StartNew(async () =>
+            {
                 var loc = await LocationPickerDialog.SelectLocation(this);
 
                 if (loc != null)
