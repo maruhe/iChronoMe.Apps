@@ -99,13 +99,11 @@ namespace iChronoMe.Droid.Widgets
 
                 currentAssi.PerformPreperation(this);
 
-                var stat = tcsUI.Task?.Status;
-
-                if (UserInputTaskTask.Result)
-                    bConfirmed = true;
+                
+                if ((int)tcsUI.Task?.Status >= 5)
+                    bConfirmed = UserInputTaskTask.Result;
                 else
                 {
-
                     if (currentAssi.Samples.Count == 0)
                     {
                         return;

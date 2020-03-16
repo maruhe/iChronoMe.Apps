@@ -17,11 +17,11 @@
   <string name="action_ContactUs" sync="1">"Kontakt / Feedback"</string>
   <string name="action_continue" synced="x" sync="1">"weiter"</string>
   <string name="action_decline" synced="x" sync="1">"ablehnen"</string>
-  <string name="action_delete" sync="x">"löschen"</string>
-  <string name="action_delete_event" sync="x">"Termin löschen"</string>
+  <string name="action_delete" sync="1">"löschen"</string>
+  <string name="action_delete_event" sync="1">"Termin löschen"</string>
   <string name="action_deny_error_screentshot" synced="x" sync="1">"nur Fehlerberichten ohne Bilder"</string>
-  <string name="action_edit" sync="x">"bearbeiten"</string>
-  <string name="action_edit_event" sync="x">"Termin bearbeiten"</string>
+  <string name="action_edit" sync="1">"bearbeiten"</string>
+  <string name="action_edit_event" sync="1">"Termin bearbeiten"</string>
   <string name="action_handcolors" synced="x" sync="1">"Zeiger Farben"</string>
   <string name="action_handtypes" synced="x" sync="1">"Zeiger Arten"</string>
   <string name="action_ignore" synced="x" sync="1">"ignorieren"</string>
@@ -185,11 +185,11 @@ wenn du genug Farben beisammen hast klick einfach außerhalb des Fensters oder a
   <string name="info_no_widgets_found" synced="x" sync="1">"keine Widgets gefunden
 am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="just_a_moment" synced="x" sync="1">"einen Moment bitte..."</string>
-  <string name="label_AppointmentBegin" sync="x">"Begin"</string>
-  <string name="label_AppointmentEnd" sync="x">"Ende"</string>
-  <string name="label_AppointmentInTimezone" sync="x">"in Zeitzone:"</string>
-  <string name="label_AppointmentLocation" sync="x">"Ort"</string>
-  <string name="label_AppointmentTitle" sync="x">"Titel"</string>
+  <string name="label_AppointmentBegin" sync="1">"Begin"</string>
+  <string name="label_AppointmentEnd" sync="1">"Ende"</string>
+  <string name="label_AppointmentInTimezone" sync="1">"in Zeitzone:"</string>
+  <string name="label_AppointmentLocation" sync="1">"Ort"</string>
+  <string name="label_AppointmentTitle" sync="1">"Titel"</string>
   <string name="label_BackgroundService" synced="x" sync="1">"Widget Update-Dienst"</string>
   <string name="label_calendar_TimeType" synced="x" sync="1">"Kalender Zeit-Typ:"</string>
   <string name="label_cfg_calendar_core_time" synced="x" sync="1">"Kernzeiten"</string>
@@ -252,7 +252,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="progress_systemtest_title" synced="x" sync="1">"System-Test"</string>
   <string name="ProgressUpdateBaseData" synced="x" sync="1">"Basisdaten werden aktualisiert"</string>
   <string name="question_create_new_calendar" synced="x" sync="1">"soll ein neuer Calendar angelegt werden?"</string>
-  <string name="question_delete_event" sync="x">"Termin löschen?"</string>
+  <string name="question_delete_event" sync="1">"Termin löschen?"</string>
   <string name="search_hint" synced="x" sync="1">"wenn dieser Text auftaucht bitte bescheid geben ;-)"</string>
   <string name="service_AboutIntro" sync="1">"Diese App wurde von mir, dem Schöpfer, erstellt. Ich nenne mich selbst 'I'."</string>
   <string name="shortcut_create_alarm" synced="x" sync="1">"Wecker stellen"</string>
@@ -290,7 +290,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="text_threeWeeks" synced="x" sync="1">"drei Wochen"</string>
   <string name="text_TickMarks" synced="x" sync="1">"Skala"</string>
   <string name="text_TickMarksColor" synced="x" sync="1">"Skala-Farbe"</string>
-  <string name="text_Tint" sync="x">"Farbton"</string>
+  <string name="text_Tint" sync="1">"Farbton"</string>
   <string name="text_TitleColor" synced="x" sync="1">"Titelfarbe"</string>
   <string name="text_Today" sync="1">"Heute"</string>
   <string name="text_TodayColor" synced="x" sync="1">"Farbe für heute"</string>
