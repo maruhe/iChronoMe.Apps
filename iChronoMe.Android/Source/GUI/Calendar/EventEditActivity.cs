@@ -38,9 +38,11 @@ namespace iChronoMe.Droid.GUI.Calendar
         Spinner spCalendar;
         CalendarListAdapter calendarAdapter;
         CalendarEventEditViewModel mModel;
+        Button btnAddReminder;
         DataBinder mBinder;
         string cEventId;
         TimeTypeAdapter ttAdapter = null;
+        CalendarEventRemindersAdapter reminderAdapter = null;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -149,77 +151,29 @@ namespace iChronoMe.Droid.GUI.Calendar
             mBinder.BindViewProperty(Resource.Id.row_location_helper, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.ShowLocationHelper));
 
             FindViewById<LinearLayout>(Resource.Id.row_location_helper).Click += llLocationHelper_Click;
+
+            btnAddReminder = FindViewById<Button>(Resource.Id.btn_add_reminder);
+            btnAddReminder.Click += btnAddReminder_Click;
+        }
+
+        private void btnAddReminder_Click(object sender, EventArgs e)
+        {
+            var rem = new DeviceCalendar.CalendarEventReminder() { TimeBefore = TimeSpan.FromMinutes(15), Method = DeviceCalendar.CalendarReminderMethod.Alert };
+            if (mModel.Reminders.Count > 0 && mModel.Reminders[mModel.Reminders.Count - 1].TimeBefore.Ticks > 0)
+            {
+                if (mModel.Reminders[mModel.Reminders.Count - 1].TimeBefore.TotalDays < 3)
+                    rem.TimeBefore = mModel.Reminders[mModel.Reminders.Count - 1].TimeBefore * 2;
+                else
+                    rem.TimeBefore = mModel.Reminders[mModel.Reminders.Count - 1].TimeBefore + TimeSpan.FromDays(1);
+            }
+            mModel.Reminders.Add(rem);
+            reminderAdapter.NotifyDataSetChanged();
         }
 
         public override bool OnSupportNavigateUp()
         {
             OnBackPressed();
             return true;
-        }
-
-        private void MModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (nameof(CalendarEventEditViewModel.CalendarId).Equals(e.PropertyName))
-                RefreshCalendarSpinner();
-            if (nameof(CalendarEventEditViewModel.DisplayColor).Equals(e.PropertyName))
-                InvalidateOptionsMenu();
-        }
-
-        private void MModel_LocationTimeHolderChanged(object sender, EventArgs e)
-        {
-            ttAdapter.LocationTimeHolder = mModel.LocationTimeHolder;
-        }
-
-        private void CalendarAdapter_ItemsLoadet(object sender, EventArgs e)
-        {
-            RefreshCalendarSpinner();
-        }
-
-        private void RefreshCalendarSpinner()
-        {
-            if (!mModel.IsReady)
-                return;
-            if (!calendarAdapter.IsReady)
-                return;
-            int pos = calendarAdapter.GetCalendarPosition(mModel.CalendarId);
-            if (pos < 0)
-            {
-                if (calendarAdapter.PrimaryOnly)
-                    calendarAdapter.PrimaryOnly = false;
-                else
-                {
-                    Tools.ShowToast(this, "strange calendar error", true);
-                    string cList = "";
-                    for (int i = 0; i < calendarAdapter.Count; i++)
-                        cList += string.Concat(calendarAdapter.GetItem(i), ", ");
-                    sys.LogException(new Exception(string.Concat("calendar not found in CalendarListAdapter\nid: ", mModel.CalendarId, "\nlist: ", cList)));
-                }
-                return;
-            }
-
-            RunOnUiThread(() =>
-            {
-                spCalendar.DispatchSetSelected(false);
-                spCalendar.SetSelection(pos, false);
-            });
-        }
-
-        private void SpCalendar_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            if (!mModel.IsReady)
-                return;
-            var calID = (string)calendarAdapter.GetItem(e.Position);
-            if (string.IsNullOrEmpty(calID))
-                return;
-            if (calID.Equals(mModel.CalendarId))
-                return;
-
-            mModel.CalendarId = calID;
-        }
-
-        private void llLocationHelper_Click(object sender, EventArgs e)
-        {
-            Tools.ShowToast(this, "here could be some nice information");
         }
 
         protected override void OnResume()
@@ -237,9 +191,27 @@ namespace iChronoMe.Droid.GUI.Calendar
                         SetTitle(Resource.String.title_edit_event);
                     mBinder.Start();
                     InvalidateOptionsMenu();
+                    reminderAdapter = new CalendarEventRemindersAdapter(this, mModel);
+                    reminderAdapter.CountChanged += ReminderAdapter_CountChanged;
+                    ReminderAdapter_CountChanged(null, null);
+                    FindViewById<ListView>(Resource.Id.lv_reminders).Adapter = reminderAdapter;                    
                     if (calendarAdapter.IsReady)
                         CalendarAdapter_ItemsLoadet(this, new EventArgs());
                 });
+            });
+        }
+
+        private void ReminderAdapter_CountChanged(object sender, EventArgs e)
+        {
+            RunOnUiThread(() =>
+            {
+                FindViewById<TableRow>(Resource.Id.row_reminders).SetMinimumHeight(sys.DpPx(41 * reminderAdapter.Count));
+                if (sender != null)
+                    FindViewById(Resource.Id.row_reminder_add).RequestFocus();
+                if (reminderAdapter.Count < 5)
+                    btnAddReminder.Visibility = ViewStates.Visible;
+                else
+                    btnAddReminder.Visibility = ViewStates.Gone;
             });
         }
 
@@ -310,6 +282,71 @@ namespace iChronoMe.Droid.GUI.Calendar
                 return true;
             }
             return false;
+        }
+
+        private void MModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (nameof(CalendarEventEditViewModel.CalendarId).Equals(e.PropertyName))
+                RefreshCalendarSpinner();
+            if (nameof(CalendarEventEditViewModel.DisplayColor).Equals(e.PropertyName))
+                InvalidateOptionsMenu();
+        }
+
+        private void MModel_LocationTimeHolderChanged(object sender, EventArgs e)
+        {
+            ttAdapter.LocationTimeHolder = mModel.LocationTimeHolder;
+        }
+
+        private void CalendarAdapter_ItemsLoadet(object sender, EventArgs e)
+        {
+            RefreshCalendarSpinner();
+        }
+
+        private void RefreshCalendarSpinner()
+        {
+            if (!mModel.IsReady)
+                return;
+            if (!calendarAdapter.IsReady)
+                return;
+            int pos = calendarAdapter.GetCalendarPosition(mModel.CalendarId);
+            if (pos < 0)
+            {
+                if (calendarAdapter.PrimaryOnly)
+                    calendarAdapter.PrimaryOnly = false;
+                else
+                {
+                    Tools.ShowToast(this, "strange calendar error", true);
+                    string cList = "";
+                    for (int i = 0; i < calendarAdapter.Count; i++)
+                        cList += string.Concat(calendarAdapter.GetItem(i), ", ");
+                    sys.LogException(new Exception(string.Concat("calendar not found in CalendarListAdapter\nid: ", mModel.CalendarId, "\nlist: ", cList)));
+                }
+                return;
+            }
+
+            RunOnUiThread(() =>
+            {
+                spCalendar.DispatchSetSelected(false);
+                spCalendar.SetSelection(pos, false);
+            });
+        }
+
+        private void SpCalendar_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            if (!mModel.IsReady)
+                return;
+            var calID = (string)calendarAdapter.GetItem(e.Position);
+            if (string.IsNullOrEmpty(calID))
+                return;
+            if (calID.Equals(mModel.CalendarId))
+                return;
+
+            mModel.CalendarId = calID;
+        }
+
+        private void llLocationHelper_Click(object sender, EventArgs e)
+        {
+            Tools.ShowToast(this, "here could be some nice information");
         }
 
         private void DateStart_FocusChange(object sender, View.FocusChangeEventArgs e)

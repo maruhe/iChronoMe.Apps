@@ -112,13 +112,16 @@
   <ItemGroup>
     <Compile Include="Source\Adapters\ActiveCalendarListAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventLocationAdapter.cs" />
+    <Compile Include="Source\Adapters\CalendarEventRemindersAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventTitleAdapter.cs" />
     <Compile Include="Source\Adapters\ClickActionTypeAdapter.cs" />
     <Compile Include="Source\Adapters\ContributorAdapter.cs" />
     <Compile Include="Source\Adapters\ExpandableMenuAdapter.cs" />
     <Compile Include="Source\Adapters\FaqAdapter.cs" />
     <Compile Include="Source\Adapters\OtherAppAdapter.cs" />
+    <Compile Include="Source\Adapters\ReminderMethodAdapter.cs" />
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
+    <Compile Include="Source\Adapters\TimeSpanAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
     <Compile Include="Source\Controls\FlowLayout.cs" />
@@ -1916,10 +1919,19 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v1\flag_be.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_event_reminder.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

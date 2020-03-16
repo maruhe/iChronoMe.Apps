@@ -288,6 +288,45 @@
                 android:layout_height="32dp"/>
         </TableRow>
         <TableRow
+            android:id="@+id/row_reminders"
+            android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <ListView
+                android:id="@+id/lv_reminders"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </TableRow>
+        <TableRow
+            android:id="@+id/row_reminder_add"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/btn_add_reminder"
+                    android:text="add reminder"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </TableRow>
+        <TableRow
             android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
