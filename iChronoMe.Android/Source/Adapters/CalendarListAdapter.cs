@@ -28,7 +28,7 @@ namespace iChronoMe.Droid.Adapters
                 if (_primaryOnly != value)
                 {
                     _primaryOnly = value;
-                    refresh();
+                    Refresh();
                 }
             }
         }
@@ -39,10 +39,10 @@ namespace iChronoMe.Droid.Adapters
         public CalendarListAdapter(Activity context)
         {
             mContext = context;
-            refresh();
+            Refresh();
         }
 
-        private void refresh()
+        public void Refresh()
         {
             Task.Factory.StartNew(async () =>
             {

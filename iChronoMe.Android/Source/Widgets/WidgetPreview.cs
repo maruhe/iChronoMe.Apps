@@ -308,9 +308,22 @@ namespace iChronoMe.Droid.Widgets
             {
                 var sample = mAssistant.Samples[position];
                 var v = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
-                if (sample.Icon != 0)
-                    v.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(sample.Icon);
-                v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title;
+                if (sample.Title.StartsWith("#"))
+                {
+                    GradientDrawable shape = new GradientDrawable();
+                    shape.SetShape(ShapeType.Rectangle);
+                    shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
+                    shape.SetColor(xColor.FromHex(sample.Title).ToAndroid());
+                    shape.SetStroke(sys.DisplayDensity, Color.Black);
+                    v.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(shape);
+                    v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title.Replace("#FF", "#");
+                }
+                else
+                {
+                    if (sample.Icon != 0)
+                        v.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(sample.Icon);
+                    v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title;
+                }
                 return v;
             }
         }

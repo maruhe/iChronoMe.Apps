@@ -24,8 +24,10 @@
             android:layout_height="40dp">
             <ImageButton
                 android:id="@+id/btn_delete"
+                android:contentDescription="@string/action_delete"
                 android:layout_margin="5dp"
                 android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
                 android:background="@android:color/transparent"
                 android:src="@drawable/icons8_delete_sign_1"
                 android:layout_width="match_parent"

@@ -48,7 +48,7 @@ namespace iChronoMe.Droid.Adapters
 
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            ItemClick(sender, e.Position);
+            //ItemClick(sender, e.Position);
         }
 
         public void ItemClick(object sender, int position)

@@ -1,4 +1,3 @@
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,22 +10,8 @@
         android:id="@+id/rootView"        
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TableRow  
-            android:layout_marginTop="@dimen/table_padding"
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView 
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:text="@string/label_AppointmentTitle"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
         <TableRow
+            android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
@@ -34,6 +19,7 @@
             android:layout_height="wrap_content">
             <AutoCompleteTextView
                 android:id="@+id/Subject"
+                android:hint="@string/label_AppointmentTitle"
                 android:inputType="none"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -184,6 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:orientation="horizontal "
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"
@@ -202,26 +189,12 @@
             android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
-            
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView                 
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:text="@string/label_AppointmentLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <AutoCompleteTextView
                 android:id="@+id/location"
+                android:hint="@string/label_AppointmentLocation"
                 android:inputType="none"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -288,13 +261,12 @@
                 android:layout_height="32dp"/>
         </TableRow>
         <TableRow
-            android:id="@+id/row_reminders"
             android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content">
             <me.ichrono.droid.Controls.NonScrollingListView
                 android:id="@+id/lv_reminders"
                 android:focusable="true"
@@ -348,24 +320,10 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/description"
+                android:hint="@string/Description"
                 android:inputType="textMultiLine"
                 android:minLines="2"
                 android:maxLines="10" 
-                android:layout_weight="1"
-                android:layout_span="2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-        <TableRow
-            android:layout_marginTop="@dimen/table_padding"
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/timezone"
-                android:text="timezone 25 .. becomes a spinner?"
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"

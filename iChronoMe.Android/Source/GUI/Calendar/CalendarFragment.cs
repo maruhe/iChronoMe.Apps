@@ -499,15 +499,16 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 bWelcomeScreenDone = true;
                 var def = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
-                if (def == null)
+                if (def != null)
                 {
-                    if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
-                    {
-                        await DeviceCalendar.DeviceCalendar.CreateDefaulCalendar();
-                        bCalendarIsReady = true;
-                    }
-                    else
-                        return;
+                    bCalendarIsReady = true;
+                    return;
+                }
+                if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
+                {
+                    await DeviceCalendar.DeviceCalendar.CreateDefaulCalendar();
+                    bCalendarIsReady = true;
+                    calListAdapter.Refresh();
                 }
                 //AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
                 //AppConfigHolder.SaveCalendarViewConfig();

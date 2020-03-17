@@ -46,6 +46,9 @@ namespace iChronoMe.Droid
             view.AddView(btn);
 
             /*
+             * 
+             * dd 
+             * 
             string cImageDir = ImageLoader.GetImagePathThumb(ImageLoader.filter_clockfaces);
             var cGroups = new List<string>(Directory.GetDirectories(cImageDir));
             cGroups.Sort();

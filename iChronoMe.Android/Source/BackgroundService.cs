@@ -787,12 +787,13 @@ namespace iChronoMe.Droid
 
                             var rv = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
                             rv.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                            rv.SetImageViewBitmap(Resource.Id.time_switcher, null);
                             manager.UpdateAppWidget(iWidgetId, rv);
                         })
                         .SetLastRun((h, m, s) =>
                         {
                             clockView.ReadConfig(cfgNew);
-                            var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
+                            var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, true);
                             rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
                             manager.UpdateAppWidget(iWidgetId, rvf);
                         })

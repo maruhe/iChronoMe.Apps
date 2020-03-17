@@ -15,7 +15,7 @@ namespace iChronoMe.Droid
 {
 	
 	
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "1.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "1.0.0.0")]
 	public partial class Resource
 	{
 		
@@ -235,6 +235,1649 @@ namespace iChronoMe.Droid
 			global::iChronoMe.Core.Resource.Styleable.GradientColor_android_tileMode = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_tileMode;
 			global::iChronoMe.Core.Resource.Styleable.GradientColor_android_type = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_type;
 			global::iChronoMe.Core.Resource.Xml.xamarin_essentials_fileprovider_file_paths = global::iChronoMe.Droid.Resource.Xml.xamarin_essentials_fileprovider_file_paths;
+			global::iChronoMe.Widgets.Resource.Animation.abc_fade_in = global::iChronoMe.Droid.Resource.Animation.abc_fade_in;
+			global::iChronoMe.Widgets.Resource.Animation.abc_fade_out = global::iChronoMe.Droid.Resource.Animation.abc_fade_out;
+			global::iChronoMe.Widgets.Resource.Animation.abc_grow_fade_in_from_bottom = global::iChronoMe.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
+			global::iChronoMe.Widgets.Resource.Animation.abc_popup_enter = global::iChronoMe.Droid.Resource.Animation.abc_popup_enter;
+			global::iChronoMe.Widgets.Resource.Animation.abc_popup_exit = global::iChronoMe.Droid.Resource.Animation.abc_popup_exit;
+			global::iChronoMe.Widgets.Resource.Animation.abc_shrink_fade_out_from_bottom = global::iChronoMe.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom;
+			global::iChronoMe.Widgets.Resource.Animation.abc_slide_in_bottom = global::iChronoMe.Droid.Resource.Animation.abc_slide_in_bottom;
+			global::iChronoMe.Widgets.Resource.Animation.abc_slide_in_top = global::iChronoMe.Droid.Resource.Animation.abc_slide_in_top;
+			global::iChronoMe.Widgets.Resource.Animation.abc_slide_out_bottom = global::iChronoMe.Droid.Resource.Animation.abc_slide_out_bottom;
+			global::iChronoMe.Widgets.Resource.Animation.abc_slide_out_top = global::iChronoMe.Droid.Resource.Animation.abc_slide_out_top;
+			global::iChronoMe.Widgets.Resource.Animation.abc_tooltip_enter = global::iChronoMe.Droid.Resource.Animation.abc_tooltip_enter;
+			global::iChronoMe.Widgets.Resource.Animation.abc_tooltip_exit = global::iChronoMe.Droid.Resource.Animation.abc_tooltip_exit;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarDivider = global::iChronoMe.Droid.Resource.Attribute.actionBarDivider;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarItemBackground = global::iChronoMe.Droid.Resource.Attribute.actionBarItemBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarPopupTheme = global::iChronoMe.Droid.Resource.Attribute.actionBarPopupTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarSize = global::iChronoMe.Droid.Resource.Attribute.actionBarSize;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarSplitStyle = global::iChronoMe.Droid.Resource.Attribute.actionBarSplitStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarStyle = global::iChronoMe.Droid.Resource.Attribute.actionBarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarTabBarStyle = global::iChronoMe.Droid.Resource.Attribute.actionBarTabBarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarTabStyle = global::iChronoMe.Droid.Resource.Attribute.actionBarTabStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarTabTextStyle = global::iChronoMe.Droid.Resource.Attribute.actionBarTabTextStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarTheme = global::iChronoMe.Droid.Resource.Attribute.actionBarTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.actionBarWidgetTheme = global::iChronoMe.Droid.Resource.Attribute.actionBarWidgetTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.actionButtonStyle = global::iChronoMe.Droid.Resource.Attribute.actionButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionDropDownStyle = global::iChronoMe.Droid.Resource.Attribute.actionDropDownStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionLayout = global::iChronoMe.Droid.Resource.Attribute.actionLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.actionMenuTextAppearance = global::iChronoMe.Droid.Resource.Attribute.actionMenuTextAppearance;
+			global::iChronoMe.Widgets.Resource.Attribute.actionMenuTextColor = global::iChronoMe.Droid.Resource.Attribute.actionMenuTextColor;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeBackground = global::iChronoMe.Droid.Resource.Attribute.actionModeBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeCloseButtonStyle = global::iChronoMe.Droid.Resource.Attribute.actionModeCloseButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeCloseDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeCloseDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeCopyDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeCopyDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeCutDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeCutDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeFindDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeFindDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModePasteDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModePasteDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModePopupWindowStyle = global::iChronoMe.Droid.Resource.Attribute.actionModePopupWindowStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeSelectAllDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeSelectAllDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeShareDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeShareDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeSplitBackground = global::iChronoMe.Droid.Resource.Attribute.actionModeSplitBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeStyle = global::iChronoMe.Droid.Resource.Attribute.actionModeStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionModeWebSearchDrawable = global::iChronoMe.Droid.Resource.Attribute.actionModeWebSearchDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.actionOverflowButtonStyle = global::iChronoMe.Droid.Resource.Attribute.actionOverflowButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionOverflowMenuStyle = global::iChronoMe.Droid.Resource.Attribute.actionOverflowMenuStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.actionProviderClass = global::iChronoMe.Droid.Resource.Attribute.actionProviderClass;
+			global::iChronoMe.Widgets.Resource.Attribute.actionViewClass = global::iChronoMe.Droid.Resource.Attribute.actionViewClass;
+			global::iChronoMe.Widgets.Resource.Attribute.activityChooserViewStyle = global::iChronoMe.Droid.Resource.Attribute.activityChooserViewStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.alertDialogButtonGroupStyle = global::iChronoMe.Droid.Resource.Attribute.alertDialogButtonGroupStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.alertDialogCenterButtons = global::iChronoMe.Droid.Resource.Attribute.alertDialogCenterButtons;
+			global::iChronoMe.Widgets.Resource.Attribute.alertDialogStyle = global::iChronoMe.Droid.Resource.Attribute.alertDialogStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.alertDialogTheme = global::iChronoMe.Droid.Resource.Attribute.alertDialogTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.allowStacking = global::iChronoMe.Droid.Resource.Attribute.allowStacking;
+			global::iChronoMe.Widgets.Resource.Attribute.alpha = global::iChronoMe.Droid.Resource.Attribute.alpha;
+			global::iChronoMe.Widgets.Resource.Attribute.alphabeticModifiers = global::iChronoMe.Droid.Resource.Attribute.alphabeticModifiers;
+			global::iChronoMe.Widgets.Resource.Attribute.arrowHeadLength = global::iChronoMe.Droid.Resource.Attribute.arrowHeadLength;
+			global::iChronoMe.Widgets.Resource.Attribute.arrowShaftLength = global::iChronoMe.Droid.Resource.Attribute.arrowShaftLength;
+			global::iChronoMe.Widgets.Resource.Attribute.autoCompleteTextViewStyle = global::iChronoMe.Droid.Resource.Attribute.autoCompleteTextViewStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.autoSizeMaxTextSize = global::iChronoMe.Droid.Resource.Attribute.autoSizeMaxTextSize;
+			global::iChronoMe.Widgets.Resource.Attribute.autoSizeMinTextSize = global::iChronoMe.Droid.Resource.Attribute.autoSizeMinTextSize;
+			global::iChronoMe.Widgets.Resource.Attribute.autoSizePresetSizes = global::iChronoMe.Droid.Resource.Attribute.autoSizePresetSizes;
+			global::iChronoMe.Widgets.Resource.Attribute.autoSizeStepGranularity = global::iChronoMe.Droid.Resource.Attribute.autoSizeStepGranularity;
+			global::iChronoMe.Widgets.Resource.Attribute.autoSizeTextType = global::iChronoMe.Droid.Resource.Attribute.autoSizeTextType;
+			global::iChronoMe.Widgets.Resource.Attribute.background = global::iChronoMe.Droid.Resource.Attribute.background;
+			global::iChronoMe.Widgets.Resource.Attribute.backgroundSplit = global::iChronoMe.Droid.Resource.Attribute.backgroundSplit;
+			global::iChronoMe.Widgets.Resource.Attribute.backgroundStacked = global::iChronoMe.Droid.Resource.Attribute.backgroundStacked;
+			global::iChronoMe.Widgets.Resource.Attribute.backgroundTint = global::iChronoMe.Droid.Resource.Attribute.backgroundTint;
+			global::iChronoMe.Widgets.Resource.Attribute.backgroundTintMode = global::iChronoMe.Droid.Resource.Attribute.backgroundTintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.barLength = global::iChronoMe.Droid.Resource.Attribute.barLength;
+			global::iChronoMe.Widgets.Resource.Attribute.borderlessButtonStyle = global::iChronoMe.Droid.Resource.Attribute.borderlessButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonBarButtonStyle = global::iChronoMe.Droid.Resource.Attribute.buttonBarButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonBarNegativeButtonStyle = global::iChronoMe.Droid.Resource.Attribute.buttonBarNegativeButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonBarNeutralButtonStyle = global::iChronoMe.Droid.Resource.Attribute.buttonBarNeutralButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonBarPositiveButtonStyle = global::iChronoMe.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonBarStyle = global::iChronoMe.Droid.Resource.Attribute.buttonBarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonGravity = global::iChronoMe.Droid.Resource.Attribute.buttonGravity;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonIconDimen = global::iChronoMe.Droid.Resource.Attribute.buttonIconDimen;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonPanelSideLayout = global::iChronoMe.Droid.Resource.Attribute.buttonPanelSideLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonStyle = global::iChronoMe.Droid.Resource.Attribute.buttonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonStyleSmall = global::iChronoMe.Droid.Resource.Attribute.buttonStyleSmall;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonTint = global::iChronoMe.Droid.Resource.Attribute.buttonTint;
+			global::iChronoMe.Widgets.Resource.Attribute.buttonTintMode = global::iChronoMe.Droid.Resource.Attribute.buttonTintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.checkboxStyle = global::iChronoMe.Droid.Resource.Attribute.checkboxStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.checkedTextViewStyle = global::iChronoMe.Droid.Resource.Attribute.checkedTextViewStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.closeIcon = global::iChronoMe.Droid.Resource.Attribute.closeIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.closeItemLayout = global::iChronoMe.Droid.Resource.Attribute.closeItemLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.collapseContentDescription = global::iChronoMe.Droid.Resource.Attribute.collapseContentDescription;
+			global::iChronoMe.Widgets.Resource.Attribute.collapseIcon = global::iChronoMe.Droid.Resource.Attribute.collapseIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.color = global::iChronoMe.Droid.Resource.Attribute.color;
+			global::iChronoMe.Widgets.Resource.Attribute.colorAccent = global::iChronoMe.Droid.Resource.Attribute.colorAccent;
+			global::iChronoMe.Widgets.Resource.Attribute.colorBackgroundFloating = global::iChronoMe.Droid.Resource.Attribute.colorBackgroundFloating;
+			global::iChronoMe.Widgets.Resource.Attribute.colorButtonNormal = global::iChronoMe.Droid.Resource.Attribute.colorButtonNormal;
+			global::iChronoMe.Widgets.Resource.Attribute.colorControlActivated = global::iChronoMe.Droid.Resource.Attribute.colorControlActivated;
+			global::iChronoMe.Widgets.Resource.Attribute.colorControlHighlight = global::iChronoMe.Droid.Resource.Attribute.colorControlHighlight;
+			global::iChronoMe.Widgets.Resource.Attribute.colorControlNormal = global::iChronoMe.Droid.Resource.Attribute.colorControlNormal;
+			global::iChronoMe.Widgets.Resource.Attribute.colorError = global::iChronoMe.Droid.Resource.Attribute.colorError;
+			global::iChronoMe.Widgets.Resource.Attribute.colorPrimary = global::iChronoMe.Droid.Resource.Attribute.colorPrimary;
+			global::iChronoMe.Widgets.Resource.Attribute.colorPrimaryDark = global::iChronoMe.Droid.Resource.Attribute.colorPrimaryDark;
+			global::iChronoMe.Widgets.Resource.Attribute.colorSwitchThumbNormal = global::iChronoMe.Droid.Resource.Attribute.colorSwitchThumbNormal;
+			global::iChronoMe.Widgets.Resource.Attribute.commitIcon = global::iChronoMe.Droid.Resource.Attribute.commitIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.contentDescription = global::iChronoMe.Droid.Resource.Attribute.contentDescription;
+			global::iChronoMe.Widgets.Resource.Attribute.contentInsetEnd = global::iChronoMe.Droid.Resource.Attribute.contentInsetEnd;
+			global::iChronoMe.Widgets.Resource.Attribute.contentInsetEndWithActions = global::iChronoMe.Droid.Resource.Attribute.contentInsetEndWithActions;
+			global::iChronoMe.Widgets.Resource.Attribute.contentInsetLeft = global::iChronoMe.Droid.Resource.Attribute.contentInsetLeft;
+			global::iChronoMe.Widgets.Resource.Attribute.contentInsetRight = global::iChronoMe.Droid.Resource.Attribute.contentInsetRight;
+			global::iChronoMe.Widgets.Resource.Attribute.contentInsetStart = global::iChronoMe.Droid.Resource.Attribute.contentInsetStart;
+			global::iChronoMe.Widgets.Resource.Attribute.contentInsetStartWithNavigation = global::iChronoMe.Droid.Resource.Attribute.contentInsetStartWithNavigation;
+			global::iChronoMe.Widgets.Resource.Attribute.controlBackground = global::iChronoMe.Droid.Resource.Attribute.controlBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.coordinatorLayoutStyle = global::iChronoMe.Droid.Resource.Attribute.coordinatorLayoutStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.customNavigationLayout = global::iChronoMe.Droid.Resource.Attribute.customNavigationLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.defaultQueryHint = global::iChronoMe.Droid.Resource.Attribute.defaultQueryHint;
+			global::iChronoMe.Widgets.Resource.Attribute.dialogCornerRadius = global::iChronoMe.Droid.Resource.Attribute.dialogCornerRadius;
+			global::iChronoMe.Widgets.Resource.Attribute.dialogPreferredPadding = global::iChronoMe.Droid.Resource.Attribute.dialogPreferredPadding;
+			global::iChronoMe.Widgets.Resource.Attribute.dialogTheme = global::iChronoMe.Droid.Resource.Attribute.dialogTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.displayOptions = global::iChronoMe.Droid.Resource.Attribute.displayOptions;
+			global::iChronoMe.Widgets.Resource.Attribute.divider = global::iChronoMe.Droid.Resource.Attribute.divider;
+			global::iChronoMe.Widgets.Resource.Attribute.dividerHorizontal = global::iChronoMe.Droid.Resource.Attribute.dividerHorizontal;
+			global::iChronoMe.Widgets.Resource.Attribute.dividerPadding = global::iChronoMe.Droid.Resource.Attribute.dividerPadding;
+			global::iChronoMe.Widgets.Resource.Attribute.dividerVertical = global::iChronoMe.Droid.Resource.Attribute.dividerVertical;
+			global::iChronoMe.Widgets.Resource.Attribute.drawableSize = global::iChronoMe.Droid.Resource.Attribute.drawableSize;
+			global::iChronoMe.Widgets.Resource.Attribute.drawerArrowStyle = global::iChronoMe.Droid.Resource.Attribute.drawerArrowStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.dropdownListPreferredItemHeight = global::iChronoMe.Droid.Resource.Attribute.dropdownListPreferredItemHeight;
+			global::iChronoMe.Widgets.Resource.Attribute.dropDownListViewStyle = global::iChronoMe.Droid.Resource.Attribute.dropDownListViewStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.editTextBackground = global::iChronoMe.Droid.Resource.Attribute.editTextBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.editTextColor = global::iChronoMe.Droid.Resource.Attribute.editTextColor;
+			global::iChronoMe.Widgets.Resource.Attribute.editTextStyle = global::iChronoMe.Droid.Resource.Attribute.editTextStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.elevation = global::iChronoMe.Droid.Resource.Attribute.elevation;
+			global::iChronoMe.Widgets.Resource.Attribute.expandActivityOverflowButtonDrawable = global::iChronoMe.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::iChronoMe.Widgets.Resource.Attribute.firstBaselineToTopHeight = global::iChronoMe.Droid.Resource.Attribute.firstBaselineToTopHeight;
+			global::iChronoMe.Widgets.Resource.Attribute.font = global::iChronoMe.Droid.Resource.Attribute.font;
+			global::iChronoMe.Widgets.Resource.Attribute.fontFamily = global::iChronoMe.Droid.Resource.Attribute.fontFamily;
+			global::iChronoMe.Widgets.Resource.Attribute.fontProviderAuthority = global::iChronoMe.Droid.Resource.Attribute.fontProviderAuthority;
+			global::iChronoMe.Widgets.Resource.Attribute.fontProviderCerts = global::iChronoMe.Droid.Resource.Attribute.fontProviderCerts;
+			global::iChronoMe.Widgets.Resource.Attribute.fontProviderFetchStrategy = global::iChronoMe.Droid.Resource.Attribute.fontProviderFetchStrategy;
+			global::iChronoMe.Widgets.Resource.Attribute.fontProviderFetchTimeout = global::iChronoMe.Droid.Resource.Attribute.fontProviderFetchTimeout;
+			global::iChronoMe.Widgets.Resource.Attribute.fontProviderPackage = global::iChronoMe.Droid.Resource.Attribute.fontProviderPackage;
+			global::iChronoMe.Widgets.Resource.Attribute.fontProviderQuery = global::iChronoMe.Droid.Resource.Attribute.fontProviderQuery;
+			global::iChronoMe.Widgets.Resource.Attribute.fontStyle = global::iChronoMe.Droid.Resource.Attribute.fontStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.fontVariationSettings = global::iChronoMe.Droid.Resource.Attribute.fontVariationSettings;
+			global::iChronoMe.Widgets.Resource.Attribute.fontWeight = global::iChronoMe.Droid.Resource.Attribute.fontWeight;
+			global::iChronoMe.Widgets.Resource.Attribute.gapBetweenBars = global::iChronoMe.Droid.Resource.Attribute.gapBetweenBars;
+			global::iChronoMe.Widgets.Resource.Attribute.goIcon = global::iChronoMe.Droid.Resource.Attribute.goIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.height = global::iChronoMe.Droid.Resource.Attribute.height;
+			global::iChronoMe.Widgets.Resource.Attribute.hideOnContentScroll = global::iChronoMe.Droid.Resource.Attribute.hideOnContentScroll;
+			global::iChronoMe.Widgets.Resource.Attribute.homeAsUpIndicator = global::iChronoMe.Droid.Resource.Attribute.homeAsUpIndicator;
+			global::iChronoMe.Widgets.Resource.Attribute.homeLayout = global::iChronoMe.Droid.Resource.Attribute.homeLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.icon = global::iChronoMe.Droid.Resource.Attribute.icon;
+			global::iChronoMe.Widgets.Resource.Attribute.iconifiedByDefault = global::iChronoMe.Droid.Resource.Attribute.iconifiedByDefault;
+			global::iChronoMe.Widgets.Resource.Attribute.iconTint = global::iChronoMe.Droid.Resource.Attribute.iconTint;
+			global::iChronoMe.Widgets.Resource.Attribute.iconTintMode = global::iChronoMe.Droid.Resource.Attribute.iconTintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.imageButtonStyle = global::iChronoMe.Droid.Resource.Attribute.imageButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.indeterminateProgressStyle = global::iChronoMe.Droid.Resource.Attribute.indeterminateProgressStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.initialActivityCount = global::iChronoMe.Droid.Resource.Attribute.initialActivityCount;
+			global::iChronoMe.Widgets.Resource.Attribute.isLightTheme = global::iChronoMe.Droid.Resource.Attribute.isLightTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.itemPadding = global::iChronoMe.Droid.Resource.Attribute.itemPadding;
+			global::iChronoMe.Widgets.Resource.Attribute.keylines = global::iChronoMe.Droid.Resource.Attribute.keylines;
+			global::iChronoMe.Widgets.Resource.Attribute.lastBaselineToBottomHeight = global::iChronoMe.Droid.Resource.Attribute.lastBaselineToBottomHeight;
+			global::iChronoMe.Widgets.Resource.Attribute.layout = global::iChronoMe.Droid.Resource.Attribute.layout;
+			global::iChronoMe.Widgets.Resource.Attribute.layout_anchor = global::iChronoMe.Droid.Resource.Attribute.layout_anchor;
+			global::iChronoMe.Widgets.Resource.Attribute.layout_anchorGravity = global::iChronoMe.Droid.Resource.Attribute.layout_anchorGravity;
+			global::iChronoMe.Widgets.Resource.Attribute.layout_behavior = global::iChronoMe.Droid.Resource.Attribute.layout_behavior;
+			global::iChronoMe.Widgets.Resource.Attribute.layout_dodgeInsetEdges = global::iChronoMe.Droid.Resource.Attribute.layout_dodgeInsetEdges;
+			global::iChronoMe.Widgets.Resource.Attribute.layout_insetEdge = global::iChronoMe.Droid.Resource.Attribute.layout_insetEdge;
+			global::iChronoMe.Widgets.Resource.Attribute.layout_keyline = global::iChronoMe.Droid.Resource.Attribute.layout_keyline;
+			global::iChronoMe.Widgets.Resource.Attribute.lineHeight = global::iChronoMe.Droid.Resource.Attribute.lineHeight;
+			global::iChronoMe.Widgets.Resource.Attribute.listChoiceBackgroundIndicator = global::iChronoMe.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
+			global::iChronoMe.Widgets.Resource.Attribute.listDividerAlertDialog = global::iChronoMe.Droid.Resource.Attribute.listDividerAlertDialog;
+			global::iChronoMe.Widgets.Resource.Attribute.listItemLayout = global::iChronoMe.Droid.Resource.Attribute.listItemLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.listLayout = global::iChronoMe.Droid.Resource.Attribute.listLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.listMenuViewStyle = global::iChronoMe.Droid.Resource.Attribute.listMenuViewStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.listPopupWindowStyle = global::iChronoMe.Droid.Resource.Attribute.listPopupWindowStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.listPreferredItemHeight = global::iChronoMe.Droid.Resource.Attribute.listPreferredItemHeight;
+			global::iChronoMe.Widgets.Resource.Attribute.listPreferredItemHeightLarge = global::iChronoMe.Droid.Resource.Attribute.listPreferredItemHeightLarge;
+			global::iChronoMe.Widgets.Resource.Attribute.listPreferredItemHeightSmall = global::iChronoMe.Droid.Resource.Attribute.listPreferredItemHeightSmall;
+			global::iChronoMe.Widgets.Resource.Attribute.listPreferredItemPaddingLeft = global::iChronoMe.Droid.Resource.Attribute.listPreferredItemPaddingLeft;
+			global::iChronoMe.Widgets.Resource.Attribute.listPreferredItemPaddingRight = global::iChronoMe.Droid.Resource.Attribute.listPreferredItemPaddingRight;
+			global::iChronoMe.Widgets.Resource.Attribute.logo = global::iChronoMe.Droid.Resource.Attribute.logo;
+			global::iChronoMe.Widgets.Resource.Attribute.logoDescription = global::iChronoMe.Droid.Resource.Attribute.logoDescription;
+			global::iChronoMe.Widgets.Resource.Attribute.maxButtonHeight = global::iChronoMe.Droid.Resource.Attribute.maxButtonHeight;
+			global::iChronoMe.Widgets.Resource.Attribute.measureWithLargestChild = global::iChronoMe.Droid.Resource.Attribute.measureWithLargestChild;
+			global::iChronoMe.Widgets.Resource.Attribute.multiChoiceItemLayout = global::iChronoMe.Droid.Resource.Attribute.multiChoiceItemLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.navigationContentDescription = global::iChronoMe.Droid.Resource.Attribute.navigationContentDescription;
+			global::iChronoMe.Widgets.Resource.Attribute.navigationIcon = global::iChronoMe.Droid.Resource.Attribute.navigationIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.navigationMode = global::iChronoMe.Droid.Resource.Attribute.navigationMode;
+			global::iChronoMe.Widgets.Resource.Attribute.numericModifiers = global::iChronoMe.Droid.Resource.Attribute.numericModifiers;
+			global::iChronoMe.Widgets.Resource.Attribute.overlapAnchor = global::iChronoMe.Droid.Resource.Attribute.overlapAnchor;
+			global::iChronoMe.Widgets.Resource.Attribute.paddingBottomNoButtons = global::iChronoMe.Droid.Resource.Attribute.paddingBottomNoButtons;
+			global::iChronoMe.Widgets.Resource.Attribute.paddingEnd = global::iChronoMe.Droid.Resource.Attribute.paddingEnd;
+			global::iChronoMe.Widgets.Resource.Attribute.paddingStart = global::iChronoMe.Droid.Resource.Attribute.paddingStart;
+			global::iChronoMe.Widgets.Resource.Attribute.paddingTopNoTitle = global::iChronoMe.Droid.Resource.Attribute.paddingTopNoTitle;
+			global::iChronoMe.Widgets.Resource.Attribute.panelBackground = global::iChronoMe.Droid.Resource.Attribute.panelBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.panelMenuListTheme = global::iChronoMe.Droid.Resource.Attribute.panelMenuListTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.panelMenuListWidth = global::iChronoMe.Droid.Resource.Attribute.panelMenuListWidth;
+			global::iChronoMe.Widgets.Resource.Attribute.popupMenuStyle = global::iChronoMe.Droid.Resource.Attribute.popupMenuStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.popupTheme = global::iChronoMe.Droid.Resource.Attribute.popupTheme;
+			global::iChronoMe.Widgets.Resource.Attribute.popupWindowStyle = global::iChronoMe.Droid.Resource.Attribute.popupWindowStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.preserveIconSpacing = global::iChronoMe.Droid.Resource.Attribute.preserveIconSpacing;
+			global::iChronoMe.Widgets.Resource.Attribute.progressBarPadding = global::iChronoMe.Droid.Resource.Attribute.progressBarPadding;
+			global::iChronoMe.Widgets.Resource.Attribute.progressBarStyle = global::iChronoMe.Droid.Resource.Attribute.progressBarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.queryBackground = global::iChronoMe.Droid.Resource.Attribute.queryBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.queryHint = global::iChronoMe.Droid.Resource.Attribute.queryHint;
+			global::iChronoMe.Widgets.Resource.Attribute.radioButtonStyle = global::iChronoMe.Droid.Resource.Attribute.radioButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.ratingBarStyle = global::iChronoMe.Droid.Resource.Attribute.ratingBarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.ratingBarStyleIndicator = global::iChronoMe.Droid.Resource.Attribute.ratingBarStyleIndicator;
+			global::iChronoMe.Widgets.Resource.Attribute.ratingBarStyleSmall = global::iChronoMe.Droid.Resource.Attribute.ratingBarStyleSmall;
+			global::iChronoMe.Widgets.Resource.Attribute.searchHintIcon = global::iChronoMe.Droid.Resource.Attribute.searchHintIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.searchIcon = global::iChronoMe.Droid.Resource.Attribute.searchIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.searchViewStyle = global::iChronoMe.Droid.Resource.Attribute.searchViewStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.seekBarStyle = global::iChronoMe.Droid.Resource.Attribute.seekBarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.selectableItemBackground = global::iChronoMe.Droid.Resource.Attribute.selectableItemBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.selectableItemBackgroundBorderless = global::iChronoMe.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::iChronoMe.Widgets.Resource.Attribute.showAsAction = global::iChronoMe.Droid.Resource.Attribute.showAsAction;
+			global::iChronoMe.Widgets.Resource.Attribute.showDividers = global::iChronoMe.Droid.Resource.Attribute.showDividers;
+			global::iChronoMe.Widgets.Resource.Attribute.showText = global::iChronoMe.Droid.Resource.Attribute.showText;
+			global::iChronoMe.Widgets.Resource.Attribute.showTitle = global::iChronoMe.Droid.Resource.Attribute.showTitle;
+			global::iChronoMe.Widgets.Resource.Attribute.singleChoiceItemLayout = global::iChronoMe.Droid.Resource.Attribute.singleChoiceItemLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.spinBars = global::iChronoMe.Droid.Resource.Attribute.spinBars;
+			global::iChronoMe.Widgets.Resource.Attribute.spinnerDropDownItemStyle = global::iChronoMe.Droid.Resource.Attribute.spinnerDropDownItemStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.spinnerStyle = global::iChronoMe.Droid.Resource.Attribute.spinnerStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.splitTrack = global::iChronoMe.Droid.Resource.Attribute.splitTrack;
+			global::iChronoMe.Widgets.Resource.Attribute.srcCompat = global::iChronoMe.Droid.Resource.Attribute.srcCompat;
+			global::iChronoMe.Widgets.Resource.Attribute.state_above_anchor = global::iChronoMe.Droid.Resource.Attribute.state_above_anchor;
+			global::iChronoMe.Widgets.Resource.Attribute.statusBarBackground = global::iChronoMe.Droid.Resource.Attribute.statusBarBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.subMenuArrow = global::iChronoMe.Droid.Resource.Attribute.subMenuArrow;
+			global::iChronoMe.Widgets.Resource.Attribute.submitBackground = global::iChronoMe.Droid.Resource.Attribute.submitBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.subtitle = global::iChronoMe.Droid.Resource.Attribute.subtitle;
+			global::iChronoMe.Widgets.Resource.Attribute.subtitleTextAppearance = global::iChronoMe.Droid.Resource.Attribute.subtitleTextAppearance;
+			global::iChronoMe.Widgets.Resource.Attribute.subtitleTextColor = global::iChronoMe.Droid.Resource.Attribute.subtitleTextColor;
+			global::iChronoMe.Widgets.Resource.Attribute.subtitleTextStyle = global::iChronoMe.Droid.Resource.Attribute.subtitleTextStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.suggestionRowLayout = global::iChronoMe.Droid.Resource.Attribute.suggestionRowLayout;
+			global::iChronoMe.Widgets.Resource.Attribute.switchMinWidth = global::iChronoMe.Droid.Resource.Attribute.switchMinWidth;
+			global::iChronoMe.Widgets.Resource.Attribute.switchPadding = global::iChronoMe.Droid.Resource.Attribute.switchPadding;
+			global::iChronoMe.Widgets.Resource.Attribute.switchStyle = global::iChronoMe.Droid.Resource.Attribute.switchStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.switchTextAppearance = global::iChronoMe.Droid.Resource.Attribute.switchTextAppearance;
+			global::iChronoMe.Widgets.Resource.Attribute.textAllCaps = global::iChronoMe.Droid.Resource.Attribute.textAllCaps;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceLargePopupMenu = global::iChronoMe.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceListItem = global::iChronoMe.Droid.Resource.Attribute.textAppearanceListItem;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceListItemSecondary = global::iChronoMe.Droid.Resource.Attribute.textAppearanceListItemSecondary;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceListItemSmall = global::iChronoMe.Droid.Resource.Attribute.textAppearanceListItemSmall;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearancePopupMenuHeader = global::iChronoMe.Droid.Resource.Attribute.textAppearancePopupMenuHeader;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceSearchResultSubtitle = global::iChronoMe.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceSearchResultTitle = global::iChronoMe.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
+			global::iChronoMe.Widgets.Resource.Attribute.textAppearanceSmallPopupMenu = global::iChronoMe.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
+			global::iChronoMe.Widgets.Resource.Attribute.textColorAlertDialogListItem = global::iChronoMe.Droid.Resource.Attribute.textColorAlertDialogListItem;
+			global::iChronoMe.Widgets.Resource.Attribute.textColorSearchUrl = global::iChronoMe.Droid.Resource.Attribute.textColorSearchUrl;
+			global::iChronoMe.Widgets.Resource.Attribute.theme = global::iChronoMe.Droid.Resource.Attribute.theme;
+			global::iChronoMe.Widgets.Resource.Attribute.thickness = global::iChronoMe.Droid.Resource.Attribute.thickness;
+			global::iChronoMe.Widgets.Resource.Attribute.thumbTextPadding = global::iChronoMe.Droid.Resource.Attribute.thumbTextPadding;
+			global::iChronoMe.Widgets.Resource.Attribute.thumbTint = global::iChronoMe.Droid.Resource.Attribute.thumbTint;
+			global::iChronoMe.Widgets.Resource.Attribute.thumbTintMode = global::iChronoMe.Droid.Resource.Attribute.thumbTintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.tickMark = global::iChronoMe.Droid.Resource.Attribute.tickMark;
+			global::iChronoMe.Widgets.Resource.Attribute.tickMarkTint = global::iChronoMe.Droid.Resource.Attribute.tickMarkTint;
+			global::iChronoMe.Widgets.Resource.Attribute.tickMarkTintMode = global::iChronoMe.Droid.Resource.Attribute.tickMarkTintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.tint = global::iChronoMe.Droid.Resource.Attribute.tint;
+			global::iChronoMe.Widgets.Resource.Attribute.tintMode = global::iChronoMe.Droid.Resource.Attribute.tintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.title = global::iChronoMe.Droid.Resource.Attribute.title;
+			global::iChronoMe.Widgets.Resource.Attribute.titleMargin = global::iChronoMe.Droid.Resource.Attribute.titleMargin;
+			global::iChronoMe.Widgets.Resource.Attribute.titleMarginBottom = global::iChronoMe.Droid.Resource.Attribute.titleMarginBottom;
+			global::iChronoMe.Widgets.Resource.Attribute.titleMarginEnd = global::iChronoMe.Droid.Resource.Attribute.titleMarginEnd;
+			global::iChronoMe.Widgets.Resource.Attribute.titleMargins = global::iChronoMe.Droid.Resource.Attribute.titleMargins;
+			global::iChronoMe.Widgets.Resource.Attribute.titleMarginStart = global::iChronoMe.Droid.Resource.Attribute.titleMarginStart;
+			global::iChronoMe.Widgets.Resource.Attribute.titleMarginTop = global::iChronoMe.Droid.Resource.Attribute.titleMarginTop;
+			global::iChronoMe.Widgets.Resource.Attribute.titleTextAppearance = global::iChronoMe.Droid.Resource.Attribute.titleTextAppearance;
+			global::iChronoMe.Widgets.Resource.Attribute.titleTextColor = global::iChronoMe.Droid.Resource.Attribute.titleTextColor;
+			global::iChronoMe.Widgets.Resource.Attribute.titleTextStyle = global::iChronoMe.Droid.Resource.Attribute.titleTextStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.toolbarNavigationButtonStyle = global::iChronoMe.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.toolbarStyle = global::iChronoMe.Droid.Resource.Attribute.toolbarStyle;
+			global::iChronoMe.Widgets.Resource.Attribute.tooltipForegroundColor = global::iChronoMe.Droid.Resource.Attribute.tooltipForegroundColor;
+			global::iChronoMe.Widgets.Resource.Attribute.tooltipFrameBackground = global::iChronoMe.Droid.Resource.Attribute.tooltipFrameBackground;
+			global::iChronoMe.Widgets.Resource.Attribute.tooltipText = global::iChronoMe.Droid.Resource.Attribute.tooltipText;
+			global::iChronoMe.Widgets.Resource.Attribute.track = global::iChronoMe.Droid.Resource.Attribute.track;
+			global::iChronoMe.Widgets.Resource.Attribute.trackTint = global::iChronoMe.Droid.Resource.Attribute.trackTint;
+			global::iChronoMe.Widgets.Resource.Attribute.trackTintMode = global::iChronoMe.Droid.Resource.Attribute.trackTintMode;
+			global::iChronoMe.Widgets.Resource.Attribute.ttcIndex = global::iChronoMe.Droid.Resource.Attribute.ttcIndex;
+			global::iChronoMe.Widgets.Resource.Attribute.viewInflaterClass = global::iChronoMe.Droid.Resource.Attribute.viewInflaterClass;
+			global::iChronoMe.Widgets.Resource.Attribute.voiceIcon = global::iChronoMe.Droid.Resource.Attribute.voiceIcon;
+			global::iChronoMe.Widgets.Resource.Attribute.windowActionBar = global::iChronoMe.Droid.Resource.Attribute.windowActionBar;
+			global::iChronoMe.Widgets.Resource.Attribute.windowActionBarOverlay = global::iChronoMe.Droid.Resource.Attribute.windowActionBarOverlay;
+			global::iChronoMe.Widgets.Resource.Attribute.windowActionModeOverlay = global::iChronoMe.Droid.Resource.Attribute.windowActionModeOverlay;
+			global::iChronoMe.Widgets.Resource.Attribute.windowFixedHeightMajor = global::iChronoMe.Droid.Resource.Attribute.windowFixedHeightMajor;
+			global::iChronoMe.Widgets.Resource.Attribute.windowFixedHeightMinor = global::iChronoMe.Droid.Resource.Attribute.windowFixedHeightMinor;
+			global::iChronoMe.Widgets.Resource.Attribute.windowFixedWidthMajor = global::iChronoMe.Droid.Resource.Attribute.windowFixedWidthMajor;
+			global::iChronoMe.Widgets.Resource.Attribute.windowFixedWidthMinor = global::iChronoMe.Droid.Resource.Attribute.windowFixedWidthMinor;
+			global::iChronoMe.Widgets.Resource.Attribute.windowMinWidthMajor = global::iChronoMe.Droid.Resource.Attribute.windowMinWidthMajor;
+			global::iChronoMe.Widgets.Resource.Attribute.windowMinWidthMinor = global::iChronoMe.Droid.Resource.Attribute.windowMinWidthMinor;
+			global::iChronoMe.Widgets.Resource.Attribute.windowNoTitle = global::iChronoMe.Droid.Resource.Attribute.windowNoTitle;
+			global::iChronoMe.Widgets.Resource.Boolean.abc_action_bar_embed_tabs = global::iChronoMe.Droid.Resource.Boolean.abc_action_bar_embed_tabs;
+			global::iChronoMe.Widgets.Resource.Boolean.abc_allow_stacked_button_bar = global::iChronoMe.Droid.Resource.Boolean.abc_allow_stacked_button_bar;
+			global::iChronoMe.Widgets.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::iChronoMe.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps;
+			global::iChronoMe.Widgets.Resource.Color.abc_background_cache_hint_selector_material_dark = global::iChronoMe.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.abc_background_cache_hint_selector_material_light = global::iChronoMe.Droid.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::iChronoMe.Widgets.Resource.Color.abc_btn_colored_borderless_text_material = global::iChronoMe.Droid.Resource.Color.abc_btn_colored_borderless_text_material;
+			global::iChronoMe.Widgets.Resource.Color.abc_btn_colored_text_material = global::iChronoMe.Droid.Resource.Color.abc_btn_colored_text_material;
+			global::iChronoMe.Widgets.Resource.Color.abc_color_highlight_material = global::iChronoMe.Droid.Resource.Color.abc_color_highlight_material;
+			global::iChronoMe.Widgets.Resource.Color.abc_hint_foreground_material_dark = global::iChronoMe.Droid.Resource.Color.abc_hint_foreground_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.abc_hint_foreground_material_light = global::iChronoMe.Droid.Resource.Color.abc_hint_foreground_material_light;
+			global::iChronoMe.Widgets.Resource.Color.abc_input_method_navigation_guard = global::iChronoMe.Droid.Resource.Color.abc_input_method_navigation_guard;
+			global::iChronoMe.Widgets.Resource.Color.abc_primary_text_disable_only_material_dark = global::iChronoMe.Droid.Resource.Color.abc_primary_text_disable_only_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.abc_primary_text_disable_only_material_light = global::iChronoMe.Droid.Resource.Color.abc_primary_text_disable_only_material_light;
+			global::iChronoMe.Widgets.Resource.Color.abc_primary_text_material_dark = global::iChronoMe.Droid.Resource.Color.abc_primary_text_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.abc_primary_text_material_light = global::iChronoMe.Droid.Resource.Color.abc_primary_text_material_light;
+			global::iChronoMe.Widgets.Resource.Color.abc_search_url_text = global::iChronoMe.Droid.Resource.Color.abc_search_url_text;
+			global::iChronoMe.Widgets.Resource.Color.abc_search_url_text_normal = global::iChronoMe.Droid.Resource.Color.abc_search_url_text_normal;
+			global::iChronoMe.Widgets.Resource.Color.abc_search_url_text_pressed = global::iChronoMe.Droid.Resource.Color.abc_search_url_text_pressed;
+			global::iChronoMe.Widgets.Resource.Color.abc_search_url_text_selected = global::iChronoMe.Droid.Resource.Color.abc_search_url_text_selected;
+			global::iChronoMe.Widgets.Resource.Color.abc_secondary_text_material_dark = global::iChronoMe.Droid.Resource.Color.abc_secondary_text_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.abc_secondary_text_material_light = global::iChronoMe.Droid.Resource.Color.abc_secondary_text_material_light;
+			global::iChronoMe.Widgets.Resource.Color.abc_tint_btn_checkable = global::iChronoMe.Droid.Resource.Color.abc_tint_btn_checkable;
+			global::iChronoMe.Widgets.Resource.Color.abc_tint_default = global::iChronoMe.Droid.Resource.Color.abc_tint_default;
+			global::iChronoMe.Widgets.Resource.Color.abc_tint_edittext = global::iChronoMe.Droid.Resource.Color.abc_tint_edittext;
+			global::iChronoMe.Widgets.Resource.Color.abc_tint_seek_thumb = global::iChronoMe.Droid.Resource.Color.abc_tint_seek_thumb;
+			global::iChronoMe.Widgets.Resource.Color.abc_tint_spinner = global::iChronoMe.Droid.Resource.Color.abc_tint_spinner;
+			global::iChronoMe.Widgets.Resource.Color.abc_tint_switch_track = global::iChronoMe.Droid.Resource.Color.abc_tint_switch_track;
+			global::iChronoMe.Widgets.Resource.Color.accent_material_dark = global::iChronoMe.Droid.Resource.Color.accent_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.accent_material_light = global::iChronoMe.Droid.Resource.Color.accent_material_light;
+			global::iChronoMe.Widgets.Resource.Color.background_floating_material_dark = global::iChronoMe.Droid.Resource.Color.background_floating_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.background_floating_material_light = global::iChronoMe.Droid.Resource.Color.background_floating_material_light;
+			global::iChronoMe.Widgets.Resource.Color.background_material_dark = global::iChronoMe.Droid.Resource.Color.background_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.background_material_light = global::iChronoMe.Droid.Resource.Color.background_material_light;
+			global::iChronoMe.Widgets.Resource.Color.bright_foreground_disabled_material_dark = global::iChronoMe.Droid.Resource.Color.bright_foreground_disabled_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.bright_foreground_disabled_material_light = global::iChronoMe.Droid.Resource.Color.bright_foreground_disabled_material_light;
+			global::iChronoMe.Widgets.Resource.Color.bright_foreground_inverse_material_dark = global::iChronoMe.Droid.Resource.Color.bright_foreground_inverse_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.bright_foreground_inverse_material_light = global::iChronoMe.Droid.Resource.Color.bright_foreground_inverse_material_light;
+			global::iChronoMe.Widgets.Resource.Color.bright_foreground_material_dark = global::iChronoMe.Droid.Resource.Color.bright_foreground_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.bright_foreground_material_light = global::iChronoMe.Droid.Resource.Color.bright_foreground_material_light;
+			global::iChronoMe.Widgets.Resource.Color.browser_actions_bg_grey = global::iChronoMe.Droid.Resource.Color.browser_actions_bg_grey;
+			global::iChronoMe.Widgets.Resource.Color.browser_actions_divider_color = global::iChronoMe.Droid.Resource.Color.browser_actions_divider_color;
+			global::iChronoMe.Widgets.Resource.Color.browser_actions_text_color = global::iChronoMe.Droid.Resource.Color.browser_actions_text_color;
+			global::iChronoMe.Widgets.Resource.Color.browser_actions_title_color = global::iChronoMe.Droid.Resource.Color.browser_actions_title_color;
+			global::iChronoMe.Widgets.Resource.Color.button_material_dark = global::iChronoMe.Droid.Resource.Color.button_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.button_material_light = global::iChronoMe.Droid.Resource.Color.button_material_light;
+			global::iChronoMe.Widgets.Resource.Color.dim_foreground_disabled_material_dark = global::iChronoMe.Droid.Resource.Color.dim_foreground_disabled_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.dim_foreground_disabled_material_light = global::iChronoMe.Droid.Resource.Color.dim_foreground_disabled_material_light;
+			global::iChronoMe.Widgets.Resource.Color.dim_foreground_material_dark = global::iChronoMe.Droid.Resource.Color.dim_foreground_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.dim_foreground_material_light = global::iChronoMe.Droid.Resource.Color.dim_foreground_material_light;
+			global::iChronoMe.Widgets.Resource.Color.error_color_material_dark = global::iChronoMe.Droid.Resource.Color.error_color_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.error_color_material_light = global::iChronoMe.Droid.Resource.Color.error_color_material_light;
+			global::iChronoMe.Widgets.Resource.Color.foreground_material_dark = global::iChronoMe.Droid.Resource.Color.foreground_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.foreground_material_light = global::iChronoMe.Droid.Resource.Color.foreground_material_light;
+			global::iChronoMe.Widgets.Resource.Color.highlighted_text_material_dark = global::iChronoMe.Droid.Resource.Color.highlighted_text_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.highlighted_text_material_light = global::iChronoMe.Droid.Resource.Color.highlighted_text_material_light;
+			global::iChronoMe.Widgets.Resource.Color.material_blue_grey_800 = global::iChronoMe.Droid.Resource.Color.material_blue_grey_800;
+			global::iChronoMe.Widgets.Resource.Color.material_blue_grey_900 = global::iChronoMe.Droid.Resource.Color.material_blue_grey_900;
+			global::iChronoMe.Widgets.Resource.Color.material_blue_grey_950 = global::iChronoMe.Droid.Resource.Color.material_blue_grey_950;
+			global::iChronoMe.Widgets.Resource.Color.material_deep_teal_200 = global::iChronoMe.Droid.Resource.Color.material_deep_teal_200;
+			global::iChronoMe.Widgets.Resource.Color.material_deep_teal_500 = global::iChronoMe.Droid.Resource.Color.material_deep_teal_500;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_100 = global::iChronoMe.Droid.Resource.Color.material_grey_100;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_300 = global::iChronoMe.Droid.Resource.Color.material_grey_300;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_50 = global::iChronoMe.Droid.Resource.Color.material_grey_50;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_600 = global::iChronoMe.Droid.Resource.Color.material_grey_600;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_800 = global::iChronoMe.Droid.Resource.Color.material_grey_800;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_850 = global::iChronoMe.Droid.Resource.Color.material_grey_850;
+			global::iChronoMe.Widgets.Resource.Color.material_grey_900 = global::iChronoMe.Droid.Resource.Color.material_grey_900;
+			global::iChronoMe.Widgets.Resource.Color.notification_action_color_filter = global::iChronoMe.Droid.Resource.Color.notification_action_color_filter;
+			global::iChronoMe.Widgets.Resource.Color.notification_icon_bg_color = global::iChronoMe.Droid.Resource.Color.notification_icon_bg_color;
+			global::iChronoMe.Widgets.Resource.Color.notification_material_background_media_default_color = global::iChronoMe.Droid.Resource.Color.notification_material_background_media_default_color;
+			global::iChronoMe.Widgets.Resource.Color.primary_dark_material_dark = global::iChronoMe.Droid.Resource.Color.primary_dark_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.primary_dark_material_light = global::iChronoMe.Droid.Resource.Color.primary_dark_material_light;
+			global::iChronoMe.Widgets.Resource.Color.primary_material_dark = global::iChronoMe.Droid.Resource.Color.primary_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.primary_material_light = global::iChronoMe.Droid.Resource.Color.primary_material_light;
+			global::iChronoMe.Widgets.Resource.Color.primary_text_default_material_dark = global::iChronoMe.Droid.Resource.Color.primary_text_default_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.primary_text_default_material_light = global::iChronoMe.Droid.Resource.Color.primary_text_default_material_light;
+			global::iChronoMe.Widgets.Resource.Color.primary_text_disabled_material_dark = global::iChronoMe.Droid.Resource.Color.primary_text_disabled_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.primary_text_disabled_material_light = global::iChronoMe.Droid.Resource.Color.primary_text_disabled_material_light;
+			global::iChronoMe.Widgets.Resource.Color.ripple_material_dark = global::iChronoMe.Droid.Resource.Color.ripple_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.ripple_material_light = global::iChronoMe.Droid.Resource.Color.ripple_material_light;
+			global::iChronoMe.Widgets.Resource.Color.secondary_text_default_material_dark = global::iChronoMe.Droid.Resource.Color.secondary_text_default_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.secondary_text_default_material_light = global::iChronoMe.Droid.Resource.Color.secondary_text_default_material_light;
+			global::iChronoMe.Widgets.Resource.Color.secondary_text_disabled_material_dark = global::iChronoMe.Droid.Resource.Color.secondary_text_disabled_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.secondary_text_disabled_material_light = global::iChronoMe.Droid.Resource.Color.secondary_text_disabled_material_light;
+			global::iChronoMe.Widgets.Resource.Color.switch_thumb_disabled_material_dark = global::iChronoMe.Droid.Resource.Color.switch_thumb_disabled_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.switch_thumb_disabled_material_light = global::iChronoMe.Droid.Resource.Color.switch_thumb_disabled_material_light;
+			global::iChronoMe.Widgets.Resource.Color.switch_thumb_material_dark = global::iChronoMe.Droid.Resource.Color.switch_thumb_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.switch_thumb_material_light = global::iChronoMe.Droid.Resource.Color.switch_thumb_material_light;
+			global::iChronoMe.Widgets.Resource.Color.switch_thumb_normal_material_dark = global::iChronoMe.Droid.Resource.Color.switch_thumb_normal_material_dark;
+			global::iChronoMe.Widgets.Resource.Color.switch_thumb_normal_material_light = global::iChronoMe.Droid.Resource.Color.switch_thumb_normal_material_light;
+			global::iChronoMe.Widgets.Resource.Color.tooltip_background_dark = global::iChronoMe.Droid.Resource.Color.tooltip_background_dark;
+			global::iChronoMe.Widgets.Resource.Color.tooltip_background_light = global::iChronoMe.Droid.Resource.Color.tooltip_background_light;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_content_inset_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_content_inset_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_content_inset_with_nav = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_content_inset_with_nav;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_default_height_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_default_height_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_default_padding_end_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_default_padding_start_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_elevation_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_elevation_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_stacked_max_height = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_stacked_max_height;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_button_min_height_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_button_min_height_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_button_min_width_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_button_min_width_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_action_button_min_width_overflow_material = global::iChronoMe.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_alert_dialog_button_bar_height = global::iChronoMe.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_alert_dialog_button_dimen = global::iChronoMe.Droid.Resource.Dimension.abc_alert_dialog_button_dimen;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_button_inset_horizontal_material = global::iChronoMe.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_button_inset_vertical_material = global::iChronoMe.Droid.Resource.Dimension.abc_button_inset_vertical_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_button_padding_horizontal_material = global::iChronoMe.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_button_padding_vertical_material = global::iChronoMe.Droid.Resource.Dimension.abc_button_padding_vertical_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_cascading_menus_min_smallest_width = global::iChronoMe.Droid.Resource.Dimension.abc_cascading_menus_min_smallest_width;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_config_prefDialogWidth = global::iChronoMe.Droid.Resource.Dimension.abc_config_prefDialogWidth;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_control_corner_material = global::iChronoMe.Droid.Resource.Dimension.abc_control_corner_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_control_inset_material = global::iChronoMe.Droid.Resource.Dimension.abc_control_inset_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_control_padding_material = global::iChronoMe.Droid.Resource.Dimension.abc_control_padding_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_corner_radius_material = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_corner_radius_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_fixed_height_major = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_fixed_height_minor = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_fixed_width_major = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_fixed_width_minor = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_fixed_width_minor;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_list_padding_top_no_title = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_list_padding_top_no_title;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_min_width_major = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_min_width_major;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_min_width_minor = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_min_width_minor;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_padding_material = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_padding_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_padding_top_material = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_padding_top_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dialog_title_divider_material = global::iChronoMe.Droid.Resource.Dimension.abc_dialog_title_divider_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_disabled_alpha_material_dark = global::iChronoMe.Droid.Resource.Dimension.abc_disabled_alpha_material_dark;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_disabled_alpha_material_light = global::iChronoMe.Droid.Resource.Dimension.abc_disabled_alpha_material_light;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dropdownitem_icon_width = global::iChronoMe.Droid.Resource.Dimension.abc_dropdownitem_icon_width;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dropdownitem_text_padding_left = global::iChronoMe.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_dropdownitem_text_padding_right = global::iChronoMe.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_edit_text_inset_bottom_material = global::iChronoMe.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::iChronoMe.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_edit_text_inset_top_material = global::iChronoMe.Droid.Resource.Dimension.abc_edit_text_inset_top_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_floating_window_z = global::iChronoMe.Droid.Resource.Dimension.abc_floating_window_z;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_list_item_padding_horizontal_material = global::iChronoMe.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_panel_menu_list_width = global::iChronoMe.Droid.Resource.Dimension.abc_panel_menu_list_width;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_progress_bar_height_material = global::iChronoMe.Droid.Resource.Dimension.abc_progress_bar_height_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_search_view_preferred_height = global::iChronoMe.Droid.Resource.Dimension.abc_search_view_preferred_height;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_search_view_preferred_width = global::iChronoMe.Droid.Resource.Dimension.abc_search_view_preferred_width;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_seekbar_track_background_height_material = global::iChronoMe.Droid.Resource.Dimension.abc_seekbar_track_background_height_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_seekbar_track_progress_height_material = global::iChronoMe.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_select_dialog_padding_start_material = global::iChronoMe.Droid.Resource.Dimension.abc_select_dialog_padding_start_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_switch_padding = global::iChronoMe.Droid.Resource.Dimension.abc_switch_padding;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_body_1_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_body_1_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_body_2_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_body_2_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_button_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_button_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_caption_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_caption_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_display_1_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_display_1_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_display_2_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_display_2_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_display_3_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_display_3_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_display_4_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_display_4_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_headline_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_headline_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_large_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_large_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_medium_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_medium_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_menu_header_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_menu_header_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_menu_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_menu_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_small_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_small_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_subhead_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_subhead_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_title_material = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_title_material;
+			global::iChronoMe.Widgets.Resource.Dimension.abc_text_size_title_material_toolbar = global::iChronoMe.Droid.Resource.Dimension.abc_text_size_title_material_toolbar;
+			global::iChronoMe.Widgets.Resource.Dimension.browser_actions_context_menu_max_width = global::iChronoMe.Droid.Resource.Dimension.browser_actions_context_menu_max_width;
+			global::iChronoMe.Widgets.Resource.Dimension.browser_actions_context_menu_min_padding = global::iChronoMe.Droid.Resource.Dimension.browser_actions_context_menu_min_padding;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_button_inset_horizontal_material = global::iChronoMe.Droid.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_button_inset_vertical_material = global::iChronoMe.Droid.Resource.Dimension.compat_button_inset_vertical_material;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_button_padding_horizontal_material = global::iChronoMe.Droid.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_button_padding_vertical_material = global::iChronoMe.Droid.Resource.Dimension.compat_button_padding_vertical_material;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_control_corner_material = global::iChronoMe.Droid.Resource.Dimension.compat_control_corner_material;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_notification_large_icon_max_height = global::iChronoMe.Droid.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::iChronoMe.Widgets.Resource.Dimension.compat_notification_large_icon_max_width = global::iChronoMe.Droid.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::iChronoMe.Widgets.Resource.Dimension.disabled_alpha_material_dark = global::iChronoMe.Droid.Resource.Dimension.disabled_alpha_material_dark;
+			global::iChronoMe.Widgets.Resource.Dimension.disabled_alpha_material_light = global::iChronoMe.Droid.Resource.Dimension.disabled_alpha_material_light;
+			global::iChronoMe.Widgets.Resource.Dimension.highlight_alpha_material_colored = global::iChronoMe.Droid.Resource.Dimension.highlight_alpha_material_colored;
+			global::iChronoMe.Widgets.Resource.Dimension.highlight_alpha_material_dark = global::iChronoMe.Droid.Resource.Dimension.highlight_alpha_material_dark;
+			global::iChronoMe.Widgets.Resource.Dimension.highlight_alpha_material_light = global::iChronoMe.Droid.Resource.Dimension.highlight_alpha_material_light;
+			global::iChronoMe.Widgets.Resource.Dimension.hint_alpha_material_dark = global::iChronoMe.Droid.Resource.Dimension.hint_alpha_material_dark;
+			global::iChronoMe.Widgets.Resource.Dimension.hint_alpha_material_light = global::iChronoMe.Droid.Resource.Dimension.hint_alpha_material_light;
+			global::iChronoMe.Widgets.Resource.Dimension.hint_pressed_alpha_material_dark = global::iChronoMe.Droid.Resource.Dimension.hint_pressed_alpha_material_dark;
+			global::iChronoMe.Widgets.Resource.Dimension.hint_pressed_alpha_material_light = global::iChronoMe.Droid.Resource.Dimension.hint_pressed_alpha_material_light;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_action_icon_size = global::iChronoMe.Droid.Resource.Dimension.notification_action_icon_size;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_action_text_size = global::iChronoMe.Droid.Resource.Dimension.notification_action_text_size;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_big_circle_margin = global::iChronoMe.Droid.Resource.Dimension.notification_big_circle_margin;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_content_margin_start = global::iChronoMe.Droid.Resource.Dimension.notification_content_margin_start;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_large_icon_height = global::iChronoMe.Droid.Resource.Dimension.notification_large_icon_height;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_large_icon_width = global::iChronoMe.Droid.Resource.Dimension.notification_large_icon_width;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_main_column_padding_top = global::iChronoMe.Droid.Resource.Dimension.notification_main_column_padding_top;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_media_narrow_margin = global::iChronoMe.Droid.Resource.Dimension.notification_media_narrow_margin;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_right_icon_size = global::iChronoMe.Droid.Resource.Dimension.notification_right_icon_size;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_right_side_padding_top = global::iChronoMe.Droid.Resource.Dimension.notification_right_side_padding_top;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_small_icon_background_padding = global::iChronoMe.Droid.Resource.Dimension.notification_small_icon_background_padding;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_small_icon_size_as_large = global::iChronoMe.Droid.Resource.Dimension.notification_small_icon_size_as_large;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_subtext_size = global::iChronoMe.Droid.Resource.Dimension.notification_subtext_size;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_top_pad = global::iChronoMe.Droid.Resource.Dimension.notification_top_pad;
+			global::iChronoMe.Widgets.Resource.Dimension.notification_top_pad_large_text = global::iChronoMe.Droid.Resource.Dimension.notification_top_pad_large_text;
+			global::iChronoMe.Widgets.Resource.Dimension.subtitle_corner_radius = global::iChronoMe.Droid.Resource.Dimension.subtitle_corner_radius;
+			global::iChronoMe.Widgets.Resource.Dimension.subtitle_outline_width = global::iChronoMe.Droid.Resource.Dimension.subtitle_outline_width;
+			global::iChronoMe.Widgets.Resource.Dimension.subtitle_shadow_offset = global::iChronoMe.Droid.Resource.Dimension.subtitle_shadow_offset;
+			global::iChronoMe.Widgets.Resource.Dimension.subtitle_shadow_radius = global::iChronoMe.Droid.Resource.Dimension.subtitle_shadow_radius;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_corner_radius = global::iChronoMe.Droid.Resource.Dimension.tooltip_corner_radius;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_horizontal_padding = global::iChronoMe.Droid.Resource.Dimension.tooltip_horizontal_padding;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_margin = global::iChronoMe.Droid.Resource.Dimension.tooltip_margin;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_precise_anchor_extra_offset = global::iChronoMe.Droid.Resource.Dimension.tooltip_precise_anchor_extra_offset;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_precise_anchor_threshold = global::iChronoMe.Droid.Resource.Dimension.tooltip_precise_anchor_threshold;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_vertical_padding = global::iChronoMe.Droid.Resource.Dimension.tooltip_vertical_padding;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_y_offset_non_touch = global::iChronoMe.Droid.Resource.Dimension.tooltip_y_offset_non_touch;
+			global::iChronoMe.Widgets.Resource.Dimension.tooltip_y_offset_touch = global::iChronoMe.Droid.Resource.Dimension.tooltip_y_offset_touch;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_action_bar_item_background_material = global::iChronoMe.Droid.Resource.Drawable.abc_action_bar_item_background_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_borderless_material = global::iChronoMe.Droid.Resource.Drawable.abc_btn_borderless_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_check_material = global::iChronoMe.Droid.Resource.Drawable.abc_btn_check_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::iChronoMe.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::iChronoMe.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_colored_material = global::iChronoMe.Droid.Resource.Drawable.abc_btn_colored_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_default_mtrl_shape = global::iChronoMe.Droid.Resource.Drawable.abc_btn_default_mtrl_shape;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_radio_material = global::iChronoMe.Droid.Resource.Drawable.abc_btn_radio_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::iChronoMe.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::iChronoMe.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::iChronoMe.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::iChronoMe.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_cab_background_internal_bg = global::iChronoMe.Droid.Resource.Drawable.abc_cab_background_internal_bg;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_cab_background_top_material = global::iChronoMe.Droid.Resource.Drawable.abc_cab_background_top_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_control_background_material = global::iChronoMe.Droid.Resource.Drawable.abc_control_background_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_dialog_material_background = global::iChronoMe.Droid.Resource.Drawable.abc_dialog_material_background;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_edit_text_material = global::iChronoMe.Droid.Resource.Drawable.abc_edit_text_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_ab_back_material = global::iChronoMe.Droid.Resource.Drawable.abc_ic_ab_back_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_clear_material = global::iChronoMe.Droid.Resource.Drawable.abc_ic_clear_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_go_search_api_material = global::iChronoMe.Droid.Resource.Drawable.abc_ic_go_search_api_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_menu_overflow_material = global::iChronoMe.Droid.Resource.Drawable.abc_ic_menu_overflow_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_search_api_material = global::iChronoMe.Droid.Resource.Drawable.abc_ic_search_api_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_star_black_16dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_star_black_16dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_star_black_36dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_star_black_36dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_star_black_48dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_star_black_48dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_star_half_black_16dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_star_half_black_16dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_star_half_black_36dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_star_half_black_36dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_star_half_black_48dp = global::iChronoMe.Droid.Resource.Drawable.abc_ic_star_half_black_48dp;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ic_voice_search_api_material = global::iChronoMe.Droid.Resource.Drawable.abc_ic_voice_search_api_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_item_background_holo_dark = global::iChronoMe.Droid.Resource.Drawable.abc_item_background_holo_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_item_background_holo_light = global::iChronoMe.Droid.Resource.Drawable.abc_item_background_holo_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_divider_material = global::iChronoMe.Droid.Resource.Drawable.abc_list_divider_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_divider_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_focused_holo = global::iChronoMe.Droid.Resource.Drawable.abc_list_focused_holo;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_longpressed_holo = global::iChronoMe.Droid.Resource.Drawable.abc_list_longpressed_holo;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_pressed_holo_dark = global::iChronoMe.Droid.Resource.Drawable.abc_list_pressed_holo_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_pressed_holo_light = global::iChronoMe.Droid.Resource.Drawable.abc_list_pressed_holo_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::iChronoMe.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::iChronoMe.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::iChronoMe.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_selector_disabled_holo_light = global::iChronoMe.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_selector_holo_dark = global::iChronoMe.Droid.Resource.Drawable.abc_list_selector_holo_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_list_selector_holo_light = global::iChronoMe.Droid.Resource.Drawable.abc_list_selector_holo_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::iChronoMe.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_popup_background_mtrl_mult = global::iChronoMe.Droid.Resource.Drawable.abc_popup_background_mtrl_mult;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ratingbar_indicator_material = global::iChronoMe.Droid.Resource.Drawable.abc_ratingbar_indicator_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ratingbar_material = global::iChronoMe.Droid.Resource.Drawable.abc_ratingbar_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_ratingbar_small_material = global::iChronoMe.Droid.Resource.Drawable.abc_ratingbar_small_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::iChronoMe.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::iChronoMe.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_seekbar_thumb_material = global::iChronoMe.Droid.Resource.Drawable.abc_seekbar_thumb_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_seekbar_tick_mark_material = global::iChronoMe.Droid.Resource.Drawable.abc_seekbar_tick_mark_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_seekbar_track_material = global::iChronoMe.Droid.Resource.Drawable.abc_seekbar_track_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_spinner_textfield_background_material = global::iChronoMe.Droid.Resource.Drawable.abc_spinner_textfield_background_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_switch_thumb_material = global::iChronoMe.Droid.Resource.Drawable.abc_switch_thumb_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_switch_track_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_tab_indicator_material = global::iChronoMe.Droid.Resource.Drawable.abc_tab_indicator_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::iChronoMe.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_textfield_search_material = global::iChronoMe.Droid.Resource.Drawable.abc_textfield_search_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_cursor_material = global::iChronoMe.Droid.Resource.Drawable.abc_text_cursor_material;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_select_handle_left_mtrl_dark = global::iChronoMe.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_select_handle_left_mtrl_light = global::iChronoMe.Droid.Resource.Drawable.abc_text_select_handle_left_mtrl_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark = global::iChronoMe.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_select_handle_middle_mtrl_light = global::iChronoMe.Droid.Resource.Drawable.abc_text_select_handle_middle_mtrl_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_select_handle_right_mtrl_dark = global::iChronoMe.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_text_select_handle_right_mtrl_light = global::iChronoMe.Droid.Resource.Drawable.abc_text_select_handle_right_mtrl_light;
+			global::iChronoMe.Widgets.Resource.Drawable.abc_vector_test = global::iChronoMe.Droid.Resource.Drawable.abc_vector_test;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_action_background = global::iChronoMe.Droid.Resource.Drawable.notification_action_background;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_bg = global::iChronoMe.Droid.Resource.Drawable.notification_bg;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_bg_low = global::iChronoMe.Droid.Resource.Drawable.notification_bg_low;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_bg_low_normal = global::iChronoMe.Droid.Resource.Drawable.notification_bg_low_normal;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_bg_low_pressed = global::iChronoMe.Droid.Resource.Drawable.notification_bg_low_pressed;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_bg_normal = global::iChronoMe.Droid.Resource.Drawable.notification_bg_normal;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_bg_normal_pressed = global::iChronoMe.Droid.Resource.Drawable.notification_bg_normal_pressed;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_icon_background = global::iChronoMe.Droid.Resource.Drawable.notification_icon_background;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_template_icon_bg = global::iChronoMe.Droid.Resource.Drawable.notification_template_icon_bg;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_template_icon_low_bg = global::iChronoMe.Droid.Resource.Drawable.notification_template_icon_low_bg;
+			global::iChronoMe.Widgets.Resource.Drawable.notification_tile_bg = global::iChronoMe.Droid.Resource.Drawable.notification_tile_bg;
+			global::iChronoMe.Widgets.Resource.Drawable.notify_panel_notification_icon_bg = global::iChronoMe.Droid.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::iChronoMe.Widgets.Resource.Drawable.tooltip_frame_dark = global::iChronoMe.Droid.Resource.Drawable.tooltip_frame_dark;
+			global::iChronoMe.Widgets.Resource.Drawable.tooltip_frame_light = global::iChronoMe.Droid.Resource.Drawable.tooltip_frame_light;
+			global::iChronoMe.Widgets.Resource.Id.action0 = global::iChronoMe.Droid.Resource.Id.action0;
+			global::iChronoMe.Widgets.Resource.Id.actions = global::iChronoMe.Droid.Resource.Id.actions;
+			global::iChronoMe.Widgets.Resource.Id.action_bar = global::iChronoMe.Droid.Resource.Id.action_bar;
+			global::iChronoMe.Widgets.Resource.Id.action_bar_activity_content = global::iChronoMe.Droid.Resource.Id.action_bar_activity_content;
+			global::iChronoMe.Widgets.Resource.Id.action_bar_container = global::iChronoMe.Droid.Resource.Id.action_bar_container;
+			global::iChronoMe.Widgets.Resource.Id.action_bar_root = global::iChronoMe.Droid.Resource.Id.action_bar_root;
+			global::iChronoMe.Widgets.Resource.Id.action_bar_spinner = global::iChronoMe.Droid.Resource.Id.action_bar_spinner;
+			global::iChronoMe.Widgets.Resource.Id.action_bar_subtitle = global::iChronoMe.Droid.Resource.Id.action_bar_subtitle;
+			global::iChronoMe.Widgets.Resource.Id.action_bar_title = global::iChronoMe.Droid.Resource.Id.action_bar_title;
+			global::iChronoMe.Widgets.Resource.Id.action_container = global::iChronoMe.Droid.Resource.Id.action_container;
+			global::iChronoMe.Widgets.Resource.Id.action_context_bar = global::iChronoMe.Droid.Resource.Id.action_context_bar;
+			global::iChronoMe.Widgets.Resource.Id.action_divider = global::iChronoMe.Droid.Resource.Id.action_divider;
+			global::iChronoMe.Widgets.Resource.Id.action_image = global::iChronoMe.Droid.Resource.Id.action_image;
+			global::iChronoMe.Widgets.Resource.Id.action_menu_divider = global::iChronoMe.Droid.Resource.Id.action_menu_divider;
+			global::iChronoMe.Widgets.Resource.Id.action_menu_presenter = global::iChronoMe.Droid.Resource.Id.action_menu_presenter;
+			global::iChronoMe.Widgets.Resource.Id.action_mode_bar = global::iChronoMe.Droid.Resource.Id.action_mode_bar;
+			global::iChronoMe.Widgets.Resource.Id.action_mode_bar_stub = global::iChronoMe.Droid.Resource.Id.action_mode_bar_stub;
+			global::iChronoMe.Widgets.Resource.Id.action_mode_close_button = global::iChronoMe.Droid.Resource.Id.action_mode_close_button;
+			global::iChronoMe.Widgets.Resource.Id.action_text = global::iChronoMe.Droid.Resource.Id.action_text;
+			global::iChronoMe.Widgets.Resource.Id.activity_chooser_view_content = global::iChronoMe.Droid.Resource.Id.activity_chooser_view_content;
+			global::iChronoMe.Widgets.Resource.Id.add = global::iChronoMe.Droid.Resource.Id.add;
+			global::iChronoMe.Widgets.Resource.Id.alertTitle = global::iChronoMe.Droid.Resource.Id.alertTitle;
+			global::iChronoMe.Widgets.Resource.Id.all = global::iChronoMe.Droid.Resource.Id.all;
+			global::iChronoMe.Widgets.Resource.Id.ALT = global::iChronoMe.Droid.Resource.Id.ALT;
+			global::iChronoMe.Widgets.Resource.Id.always = global::iChronoMe.Droid.Resource.Id.always;
+			global::iChronoMe.Widgets.Resource.Id.async = global::iChronoMe.Droid.Resource.Id.async;
+			global::iChronoMe.Widgets.Resource.Id.beginning = global::iChronoMe.Droid.Resource.Id.beginning;
+			global::iChronoMe.Widgets.Resource.Id.blocking = global::iChronoMe.Droid.Resource.Id.blocking;
+			global::iChronoMe.Widgets.Resource.Id.bottom = global::iChronoMe.Droid.Resource.Id.bottom;
+			global::iChronoMe.Widgets.Resource.Id.browser_actions_header_text = global::iChronoMe.Droid.Resource.Id.browser_actions_header_text;
+			global::iChronoMe.Widgets.Resource.Id.browser_actions_menu_items = global::iChronoMe.Droid.Resource.Id.browser_actions_menu_items;
+			global::iChronoMe.Widgets.Resource.Id.browser_actions_menu_item_icon = global::iChronoMe.Droid.Resource.Id.browser_actions_menu_item_icon;
+			global::iChronoMe.Widgets.Resource.Id.browser_actions_menu_item_text = global::iChronoMe.Droid.Resource.Id.browser_actions_menu_item_text;
+			global::iChronoMe.Widgets.Resource.Id.browser_actions_menu_view = global::iChronoMe.Droid.Resource.Id.browser_actions_menu_view;
+			global::iChronoMe.Widgets.Resource.Id.buttonPanel = global::iChronoMe.Droid.Resource.Id.buttonPanel;
+			global::iChronoMe.Widgets.Resource.Id.cancel_action = global::iChronoMe.Droid.Resource.Id.cancel_action;
+			global::iChronoMe.Widgets.Resource.Id.center = global::iChronoMe.Droid.Resource.Id.center;
+			global::iChronoMe.Widgets.Resource.Id.center_horizontal = global::iChronoMe.Droid.Resource.Id.center_horizontal;
+			global::iChronoMe.Widgets.Resource.Id.center_vertical = global::iChronoMe.Droid.Resource.Id.center_vertical;
+			global::iChronoMe.Widgets.Resource.Id.checkbox = global::iChronoMe.Droid.Resource.Id.checkbox;
+			global::iChronoMe.Widgets.Resource.Id.chronometer = global::iChronoMe.Droid.Resource.Id.chronometer;
+			global::iChronoMe.Widgets.Resource.Id.clip_horizontal = global::iChronoMe.Droid.Resource.Id.clip_horizontal;
+			global::iChronoMe.Widgets.Resource.Id.clip_vertical = global::iChronoMe.Droid.Resource.Id.clip_vertical;
+			global::iChronoMe.Widgets.Resource.Id.collapseActionView = global::iChronoMe.Droid.Resource.Id.collapseActionView;
+			global::iChronoMe.Widgets.Resource.Id.content = global::iChronoMe.Droid.Resource.Id.content;
+			global::iChronoMe.Widgets.Resource.Id.contentPanel = global::iChronoMe.Droid.Resource.Id.contentPanel;
+			global::iChronoMe.Widgets.Resource.Id.CTRL = global::iChronoMe.Droid.Resource.Id.CTRL;
+			global::iChronoMe.Widgets.Resource.Id.custom = global::iChronoMe.Droid.Resource.Id.custom;
+			global::iChronoMe.Widgets.Resource.Id.customPanel = global::iChronoMe.Droid.Resource.Id.customPanel;
+			global::iChronoMe.Widgets.Resource.Id.decor_content_parent = global::iChronoMe.Droid.Resource.Id.decor_content_parent;
+			global::iChronoMe.Widgets.Resource.Id.default_activity_button = global::iChronoMe.Droid.Resource.Id.default_activity_button;
+			global::iChronoMe.Widgets.Resource.Id.disableHome = global::iChronoMe.Droid.Resource.Id.disableHome;
+			global::iChronoMe.Widgets.Resource.Id.edit_query = global::iChronoMe.Droid.Resource.Id.edit_query;
+			global::iChronoMe.Widgets.Resource.Id.end = global::iChronoMe.Droid.Resource.Id.end;
+			global::iChronoMe.Widgets.Resource.Id.end_padder = global::iChronoMe.Droid.Resource.Id.end_padder;
+			global::iChronoMe.Widgets.Resource.Id.expanded_menu = global::iChronoMe.Droid.Resource.Id.expanded_menu;
+			global::iChronoMe.Widgets.Resource.Id.expand_activities_button = global::iChronoMe.Droid.Resource.Id.expand_activities_button;
+			global::iChronoMe.Widgets.Resource.Id.fill = global::iChronoMe.Droid.Resource.Id.fill;
+			global::iChronoMe.Widgets.Resource.Id.fill_horizontal = global::iChronoMe.Droid.Resource.Id.fill_horizontal;
+			global::iChronoMe.Widgets.Resource.Id.fill_vertical = global::iChronoMe.Droid.Resource.Id.fill_vertical;
+			global::iChronoMe.Widgets.Resource.Id.forever = global::iChronoMe.Droid.Resource.Id.forever;
+			global::iChronoMe.Widgets.Resource.Id.FUNCTION = global::iChronoMe.Droid.Resource.Id.FUNCTION;
+			global::iChronoMe.Widgets.Resource.Id.group_divider = global::iChronoMe.Droid.Resource.Id.group_divider;
+			global::iChronoMe.Widgets.Resource.Id.home = global::iChronoMe.Droid.Resource.Id.home;
+			global::iChronoMe.Widgets.Resource.Id.homeAsUp = global::iChronoMe.Droid.Resource.Id.homeAsUp;
+			global::iChronoMe.Widgets.Resource.Id.icon = global::iChronoMe.Droid.Resource.Id.icon;
+			global::iChronoMe.Widgets.Resource.Id.icon_group = global::iChronoMe.Droid.Resource.Id.icon_group;
+			global::iChronoMe.Widgets.Resource.Id.ifRoom = global::iChronoMe.Droid.Resource.Id.ifRoom;
+			global::iChronoMe.Widgets.Resource.Id.image = global::iChronoMe.Droid.Resource.Id.image;
+			global::iChronoMe.Widgets.Resource.Id.info = global::iChronoMe.Droid.Resource.Id.info;
+			global::iChronoMe.Widgets.Resource.Id.italic = global::iChronoMe.Droid.Resource.Id.italic;
+			global::iChronoMe.Widgets.Resource.Id.left = global::iChronoMe.Droid.Resource.Id.left;
+			global::iChronoMe.Widgets.Resource.Id.line1 = global::iChronoMe.Droid.Resource.Id.line1;
+			global::iChronoMe.Widgets.Resource.Id.line3 = global::iChronoMe.Droid.Resource.Id.line3;
+			global::iChronoMe.Widgets.Resource.Id.listMode = global::iChronoMe.Droid.Resource.Id.listMode;
+			global::iChronoMe.Widgets.Resource.Id.list_item = global::iChronoMe.Droid.Resource.Id.list_item;
+			global::iChronoMe.Widgets.Resource.Id.media_actions = global::iChronoMe.Droid.Resource.Id.media_actions;
+			global::iChronoMe.Widgets.Resource.Id.message = global::iChronoMe.Droid.Resource.Id.message;
+			global::iChronoMe.Widgets.Resource.Id.META = global::iChronoMe.Droid.Resource.Id.META;
+			global::iChronoMe.Widgets.Resource.Id.middle = global::iChronoMe.Droid.Resource.Id.middle;
+			global::iChronoMe.Widgets.Resource.Id.multiply = global::iChronoMe.Droid.Resource.Id.multiply;
+			global::iChronoMe.Widgets.Resource.Id.never = global::iChronoMe.Droid.Resource.Id.never;
+			global::iChronoMe.Widgets.Resource.Id.none = global::iChronoMe.Droid.Resource.Id.none;
+			global::iChronoMe.Widgets.Resource.Id.normal = global::iChronoMe.Droid.Resource.Id.normal;
+			global::iChronoMe.Widgets.Resource.Id.notification_background = global::iChronoMe.Droid.Resource.Id.notification_background;
+			global::iChronoMe.Widgets.Resource.Id.notification_main_column = global::iChronoMe.Droid.Resource.Id.notification_main_column;
+			global::iChronoMe.Widgets.Resource.Id.notification_main_column_container = global::iChronoMe.Droid.Resource.Id.notification_main_column_container;
+			global::iChronoMe.Widgets.Resource.Id.parentPanel = global::iChronoMe.Droid.Resource.Id.parentPanel;
+			global::iChronoMe.Widgets.Resource.Id.progress_circular = global::iChronoMe.Droid.Resource.Id.progress_circular;
+			global::iChronoMe.Widgets.Resource.Id.progress_horizontal = global::iChronoMe.Droid.Resource.Id.progress_horizontal;
+			global::iChronoMe.Widgets.Resource.Id.radio = global::iChronoMe.Droid.Resource.Id.radio;
+			global::iChronoMe.Widgets.Resource.Id.right = global::iChronoMe.Droid.Resource.Id.right;
+			global::iChronoMe.Widgets.Resource.Id.right_icon = global::iChronoMe.Droid.Resource.Id.right_icon;
+			global::iChronoMe.Widgets.Resource.Id.right_side = global::iChronoMe.Droid.Resource.Id.right_side;
+			global::iChronoMe.Widgets.Resource.Id.screen = global::iChronoMe.Droid.Resource.Id.screen;
+			global::iChronoMe.Widgets.Resource.Id.scrollIndicatorDown = global::iChronoMe.Droid.Resource.Id.scrollIndicatorDown;
+			global::iChronoMe.Widgets.Resource.Id.scrollIndicatorUp = global::iChronoMe.Droid.Resource.Id.scrollIndicatorUp;
+			global::iChronoMe.Widgets.Resource.Id.scrollView = global::iChronoMe.Droid.Resource.Id.scrollView;
+			global::iChronoMe.Widgets.Resource.Id.search_badge = global::iChronoMe.Droid.Resource.Id.search_badge;
+			global::iChronoMe.Widgets.Resource.Id.search_bar = global::iChronoMe.Droid.Resource.Id.search_bar;
+			global::iChronoMe.Widgets.Resource.Id.search_button = global::iChronoMe.Droid.Resource.Id.search_button;
+			global::iChronoMe.Widgets.Resource.Id.search_close_btn = global::iChronoMe.Droid.Resource.Id.search_close_btn;
+			global::iChronoMe.Widgets.Resource.Id.search_edit_frame = global::iChronoMe.Droid.Resource.Id.search_edit_frame;
+			global::iChronoMe.Widgets.Resource.Id.search_go_btn = global::iChronoMe.Droid.Resource.Id.search_go_btn;
+			global::iChronoMe.Widgets.Resource.Id.search_mag_icon = global::iChronoMe.Droid.Resource.Id.search_mag_icon;
+			global::iChronoMe.Widgets.Resource.Id.search_plate = global::iChronoMe.Droid.Resource.Id.search_plate;
+			global::iChronoMe.Widgets.Resource.Id.search_src_text = global::iChronoMe.Droid.Resource.Id.search_src_text;
+			global::iChronoMe.Widgets.Resource.Id.search_voice_btn = global::iChronoMe.Droid.Resource.Id.search_voice_btn;
+			global::iChronoMe.Widgets.Resource.Id.select_dialog_listview = global::iChronoMe.Droid.Resource.Id.select_dialog_listview;
+			global::iChronoMe.Widgets.Resource.Id.SHIFT = global::iChronoMe.Droid.Resource.Id.SHIFT;
+			global::iChronoMe.Widgets.Resource.Id.shortcut = global::iChronoMe.Droid.Resource.Id.shortcut;
+			global::iChronoMe.Widgets.Resource.Id.showCustom = global::iChronoMe.Droid.Resource.Id.showCustom;
+			global::iChronoMe.Widgets.Resource.Id.showHome = global::iChronoMe.Droid.Resource.Id.showHome;
+			global::iChronoMe.Widgets.Resource.Id.showTitle = global::iChronoMe.Droid.Resource.Id.showTitle;
+			global::iChronoMe.Widgets.Resource.Id.spacer = global::iChronoMe.Droid.Resource.Id.spacer;
+			global::iChronoMe.Widgets.Resource.Id.split_action_bar = global::iChronoMe.Droid.Resource.Id.split_action_bar;
+			global::iChronoMe.Widgets.Resource.Id.src_atop = global::iChronoMe.Droid.Resource.Id.src_atop;
+			global::iChronoMe.Widgets.Resource.Id.src_in = global::iChronoMe.Droid.Resource.Id.src_in;
+			global::iChronoMe.Widgets.Resource.Id.src_over = global::iChronoMe.Droid.Resource.Id.src_over;
+			global::iChronoMe.Widgets.Resource.Id.start = global::iChronoMe.Droid.Resource.Id.start;
+			global::iChronoMe.Widgets.Resource.Id.status_bar_latest_event_content = global::iChronoMe.Droid.Resource.Id.status_bar_latest_event_content;
+			global::iChronoMe.Widgets.Resource.Id.submenuarrow = global::iChronoMe.Droid.Resource.Id.submenuarrow;
+			global::iChronoMe.Widgets.Resource.Id.submit_area = global::iChronoMe.Droid.Resource.Id.submit_area;
+			global::iChronoMe.Widgets.Resource.Id.SYM = global::iChronoMe.Droid.Resource.Id.SYM;
+			global::iChronoMe.Widgets.Resource.Id.tabMode = global::iChronoMe.Droid.Resource.Id.tabMode;
+			global::iChronoMe.Widgets.Resource.Id.tag_transition_group = global::iChronoMe.Droid.Resource.Id.tag_transition_group;
+			global::iChronoMe.Widgets.Resource.Id.tag_unhandled_key_event_manager = global::iChronoMe.Droid.Resource.Id.tag_unhandled_key_event_manager;
+			global::iChronoMe.Widgets.Resource.Id.tag_unhandled_key_listeners = global::iChronoMe.Droid.Resource.Id.tag_unhandled_key_listeners;
+			global::iChronoMe.Widgets.Resource.Id.text = global::iChronoMe.Droid.Resource.Id.text;
+			global::iChronoMe.Widgets.Resource.Id.text2 = global::iChronoMe.Droid.Resource.Id.text2;
+			global::iChronoMe.Widgets.Resource.Id.textSpacerNoButtons = global::iChronoMe.Droid.Resource.Id.textSpacerNoButtons;
+			global::iChronoMe.Widgets.Resource.Id.textSpacerNoTitle = global::iChronoMe.Droid.Resource.Id.textSpacerNoTitle;
+			global::iChronoMe.Widgets.Resource.Id.time = global::iChronoMe.Droid.Resource.Id.time;
+			global::iChronoMe.Widgets.Resource.Id.title = global::iChronoMe.Droid.Resource.Id.title;
+			global::iChronoMe.Widgets.Resource.Id.titleDividerNoCustom = global::iChronoMe.Droid.Resource.Id.titleDividerNoCustom;
+			global::iChronoMe.Widgets.Resource.Id.title_template = global::iChronoMe.Droid.Resource.Id.title_template;
+			global::iChronoMe.Widgets.Resource.Id.top = global::iChronoMe.Droid.Resource.Id.top;
+			global::iChronoMe.Widgets.Resource.Id.topPanel = global::iChronoMe.Droid.Resource.Id.topPanel;
+			global::iChronoMe.Widgets.Resource.Id.uniform = global::iChronoMe.Droid.Resource.Id.uniform;
+			global::iChronoMe.Widgets.Resource.Id.up = global::iChronoMe.Droid.Resource.Id.up;
+			global::iChronoMe.Widgets.Resource.Id.useLogo = global::iChronoMe.Droid.Resource.Id.useLogo;
+			global::iChronoMe.Widgets.Resource.Id.withText = global::iChronoMe.Droid.Resource.Id.withText;
+			global::iChronoMe.Widgets.Resource.Id.wrap_content = global::iChronoMe.Droid.Resource.Id.wrap_content;
+			global::iChronoMe.Widgets.Resource.Integer.abc_config_activityDefaultDur = global::iChronoMe.Droid.Resource.Integer.abc_config_activityDefaultDur;
+			global::iChronoMe.Widgets.Resource.Integer.abc_config_activityShortDur = global::iChronoMe.Droid.Resource.Integer.abc_config_activityShortDur;
+			global::iChronoMe.Widgets.Resource.Integer.cancel_button_image_alpha = global::iChronoMe.Droid.Resource.Integer.cancel_button_image_alpha;
+			global::iChronoMe.Widgets.Resource.Integer.config_tooltipAnimTime = global::iChronoMe.Droid.Resource.Integer.config_tooltipAnimTime;
+			global::iChronoMe.Widgets.Resource.Integer.status_bar_notification_info_maxnum = global::iChronoMe.Droid.Resource.Integer.status_bar_notification_info_maxnum;
+			global::iChronoMe.Widgets.Resource.Layout.abc_action_bar_title_item = global::iChronoMe.Droid.Resource.Layout.abc_action_bar_title_item;
+			global::iChronoMe.Widgets.Resource.Layout.abc_action_bar_up_container = global::iChronoMe.Droid.Resource.Layout.abc_action_bar_up_container;
+			global::iChronoMe.Widgets.Resource.Layout.abc_action_menu_item_layout = global::iChronoMe.Droid.Resource.Layout.abc_action_menu_item_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_action_menu_layout = global::iChronoMe.Droid.Resource.Layout.abc_action_menu_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_action_mode_bar = global::iChronoMe.Droid.Resource.Layout.abc_action_mode_bar;
+			global::iChronoMe.Widgets.Resource.Layout.abc_action_mode_close_item_material = global::iChronoMe.Droid.Resource.Layout.abc_action_mode_close_item_material;
+			global::iChronoMe.Widgets.Resource.Layout.abc_activity_chooser_view = global::iChronoMe.Droid.Resource.Layout.abc_activity_chooser_view;
+			global::iChronoMe.Widgets.Resource.Layout.abc_activity_chooser_view_list_item = global::iChronoMe.Droid.Resource.Layout.abc_activity_chooser_view_list_item;
+			global::iChronoMe.Widgets.Resource.Layout.abc_alert_dialog_button_bar_material = global::iChronoMe.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
+			global::iChronoMe.Widgets.Resource.Layout.abc_alert_dialog_material = global::iChronoMe.Droid.Resource.Layout.abc_alert_dialog_material;
+			global::iChronoMe.Widgets.Resource.Layout.abc_alert_dialog_title_material = global::iChronoMe.Droid.Resource.Layout.abc_alert_dialog_title_material;
+			global::iChronoMe.Widgets.Resource.Layout.abc_cascading_menu_item_layout = global::iChronoMe.Droid.Resource.Layout.abc_cascading_menu_item_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_dialog_title_material = global::iChronoMe.Droid.Resource.Layout.abc_dialog_title_material;
+			global::iChronoMe.Widgets.Resource.Layout.abc_expanded_menu_layout = global::iChronoMe.Droid.Resource.Layout.abc_expanded_menu_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_list_menu_item_checkbox = global::iChronoMe.Droid.Resource.Layout.abc_list_menu_item_checkbox;
+			global::iChronoMe.Widgets.Resource.Layout.abc_list_menu_item_icon = global::iChronoMe.Droid.Resource.Layout.abc_list_menu_item_icon;
+			global::iChronoMe.Widgets.Resource.Layout.abc_list_menu_item_layout = global::iChronoMe.Droid.Resource.Layout.abc_list_menu_item_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_list_menu_item_radio = global::iChronoMe.Droid.Resource.Layout.abc_list_menu_item_radio;
+			global::iChronoMe.Widgets.Resource.Layout.abc_popup_menu_header_item_layout = global::iChronoMe.Droid.Resource.Layout.abc_popup_menu_header_item_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_popup_menu_item_layout = global::iChronoMe.Droid.Resource.Layout.abc_popup_menu_item_layout;
+			global::iChronoMe.Widgets.Resource.Layout.abc_screen_content_include = global::iChronoMe.Droid.Resource.Layout.abc_screen_content_include;
+			global::iChronoMe.Widgets.Resource.Layout.abc_screen_simple = global::iChronoMe.Droid.Resource.Layout.abc_screen_simple;
+			global::iChronoMe.Widgets.Resource.Layout.abc_screen_simple_overlay_action_mode = global::iChronoMe.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode;
+			global::iChronoMe.Widgets.Resource.Layout.abc_screen_toolbar = global::iChronoMe.Droid.Resource.Layout.abc_screen_toolbar;
+			global::iChronoMe.Widgets.Resource.Layout.abc_search_dropdown_item_icons_2line = global::iChronoMe.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
+			global::iChronoMe.Widgets.Resource.Layout.abc_search_view = global::iChronoMe.Droid.Resource.Layout.abc_search_view;
+			global::iChronoMe.Widgets.Resource.Layout.abc_select_dialog_material = global::iChronoMe.Droid.Resource.Layout.abc_select_dialog_material;
+			global::iChronoMe.Widgets.Resource.Layout.abc_tooltip = global::iChronoMe.Droid.Resource.Layout.abc_tooltip;
+			global::iChronoMe.Widgets.Resource.Layout.browser_actions_context_menu_page = global::iChronoMe.Droid.Resource.Layout.browser_actions_context_menu_page;
+			global::iChronoMe.Widgets.Resource.Layout.browser_actions_context_menu_row = global::iChronoMe.Droid.Resource.Layout.browser_actions_context_menu_row;
+			global::iChronoMe.Widgets.Resource.Layout.notification_action = global::iChronoMe.Droid.Resource.Layout.notification_action;
+			global::iChronoMe.Widgets.Resource.Layout.notification_action_tombstone = global::iChronoMe.Droid.Resource.Layout.notification_action_tombstone;
+			global::iChronoMe.Widgets.Resource.Layout.notification_media_action = global::iChronoMe.Droid.Resource.Layout.notification_media_action;
+			global::iChronoMe.Widgets.Resource.Layout.notification_media_cancel_action = global::iChronoMe.Droid.Resource.Layout.notification_media_cancel_action;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_big_media = global::iChronoMe.Droid.Resource.Layout.notification_template_big_media;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_big_media_custom = global::iChronoMe.Droid.Resource.Layout.notification_template_big_media_custom;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_big_media_narrow = global::iChronoMe.Droid.Resource.Layout.notification_template_big_media_narrow;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_big_media_narrow_custom = global::iChronoMe.Droid.Resource.Layout.notification_template_big_media_narrow_custom;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_custom_big = global::iChronoMe.Droid.Resource.Layout.notification_template_custom_big;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_icon_group = global::iChronoMe.Droid.Resource.Layout.notification_template_icon_group;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_lines_media = global::iChronoMe.Droid.Resource.Layout.notification_template_lines_media;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_media = global::iChronoMe.Droid.Resource.Layout.notification_template_media;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_media_custom = global::iChronoMe.Droid.Resource.Layout.notification_template_media_custom;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_part_chronometer = global::iChronoMe.Droid.Resource.Layout.notification_template_part_chronometer;
+			global::iChronoMe.Widgets.Resource.Layout.notification_template_part_time = global::iChronoMe.Droid.Resource.Layout.notification_template_part_time;
+			global::iChronoMe.Widgets.Resource.Layout.select_dialog_item_material = global::iChronoMe.Droid.Resource.Layout.select_dialog_item_material;
+			global::iChronoMe.Widgets.Resource.Layout.select_dialog_multichoice_material = global::iChronoMe.Droid.Resource.Layout.select_dialog_multichoice_material;
+			global::iChronoMe.Widgets.Resource.Layout.select_dialog_singlechoice_material = global::iChronoMe.Droid.Resource.Layout.select_dialog_singlechoice_material;
+			global::iChronoMe.Widgets.Resource.Layout.support_simple_spinner_dropdown_item = global::iChronoMe.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::iChronoMe.Widgets.Resource.String.abc_action_bar_home_description = global::iChronoMe.Droid.Resource.String.abc_action_bar_home_description;
+			global::iChronoMe.Widgets.Resource.String.abc_action_bar_up_description = global::iChronoMe.Droid.Resource.String.abc_action_bar_up_description;
+			global::iChronoMe.Widgets.Resource.String.abc_action_menu_overflow_description = global::iChronoMe.Droid.Resource.String.abc_action_menu_overflow_description;
+			global::iChronoMe.Widgets.Resource.String.abc_action_mode_done = global::iChronoMe.Droid.Resource.String.abc_action_mode_done;
+			global::iChronoMe.Widgets.Resource.String.abc_activitychooserview_choose_application = global::iChronoMe.Droid.Resource.String.abc_activitychooserview_choose_application;
+			global::iChronoMe.Widgets.Resource.String.abc_activity_chooser_view_see_all = global::iChronoMe.Droid.Resource.String.abc_activity_chooser_view_see_all;
+			global::iChronoMe.Widgets.Resource.String.abc_capital_off = global::iChronoMe.Droid.Resource.String.abc_capital_off;
+			global::iChronoMe.Widgets.Resource.String.abc_capital_on = global::iChronoMe.Droid.Resource.String.abc_capital_on;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_body_1_material = global::iChronoMe.Droid.Resource.String.abc_font_family_body_1_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_body_2_material = global::iChronoMe.Droid.Resource.String.abc_font_family_body_2_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_button_material = global::iChronoMe.Droid.Resource.String.abc_font_family_button_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_caption_material = global::iChronoMe.Droid.Resource.String.abc_font_family_caption_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_display_1_material = global::iChronoMe.Droid.Resource.String.abc_font_family_display_1_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_display_2_material = global::iChronoMe.Droid.Resource.String.abc_font_family_display_2_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_display_3_material = global::iChronoMe.Droid.Resource.String.abc_font_family_display_3_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_display_4_material = global::iChronoMe.Droid.Resource.String.abc_font_family_display_4_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_headline_material = global::iChronoMe.Droid.Resource.String.abc_font_family_headline_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_menu_material = global::iChronoMe.Droid.Resource.String.abc_font_family_menu_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_subhead_material = global::iChronoMe.Droid.Resource.String.abc_font_family_subhead_material;
+			global::iChronoMe.Widgets.Resource.String.abc_font_family_title_material = global::iChronoMe.Droid.Resource.String.abc_font_family_title_material;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_alt_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_alt_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_ctrl_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_ctrl_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_delete_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_delete_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_enter_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_enter_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_function_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_function_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_meta_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_meta_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_shift_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_shift_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_space_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_space_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_menu_sym_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_menu_sym_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_prepend_shortcut_label = global::iChronoMe.Droid.Resource.String.abc_prepend_shortcut_label;
+			global::iChronoMe.Widgets.Resource.String.abc_searchview_description_clear = global::iChronoMe.Droid.Resource.String.abc_searchview_description_clear;
+			global::iChronoMe.Widgets.Resource.String.abc_searchview_description_query = global::iChronoMe.Droid.Resource.String.abc_searchview_description_query;
+			global::iChronoMe.Widgets.Resource.String.abc_searchview_description_search = global::iChronoMe.Droid.Resource.String.abc_searchview_description_search;
+			global::iChronoMe.Widgets.Resource.String.abc_searchview_description_submit = global::iChronoMe.Droid.Resource.String.abc_searchview_description_submit;
+			global::iChronoMe.Widgets.Resource.String.abc_searchview_description_voice = global::iChronoMe.Droid.Resource.String.abc_searchview_description_voice;
+			global::iChronoMe.Widgets.Resource.String.abc_search_hint = global::iChronoMe.Droid.Resource.String.abc_search_hint;
+			global::iChronoMe.Widgets.Resource.String.abc_shareactionprovider_share_with = global::iChronoMe.Droid.Resource.String.abc_shareactionprovider_share_with;
+			global::iChronoMe.Widgets.Resource.String.abc_shareactionprovider_share_with_application = global::iChronoMe.Droid.Resource.String.abc_shareactionprovider_share_with_application;
+			global::iChronoMe.Widgets.Resource.String.abc_toolbar_collapse_description = global::iChronoMe.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::iChronoMe.Widgets.Resource.String.search_menu_title = global::iChronoMe.Droid.Resource.String.search_menu_title;
+			global::iChronoMe.Widgets.Resource.String.status_bar_notification_info_overflow = global::iChronoMe.Droid.Resource.String.status_bar_notification_info_overflow;
+			global::iChronoMe.Widgets.Resource.Style.AlertDialog_AppCompat = global::iChronoMe.Droid.Resource.Style.AlertDialog_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.AlertDialog_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.AlertDialog_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Animation_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Animation_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Animation_AppCompat_DropDownUp = global::iChronoMe.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
+			global::iChronoMe.Widgets.Resource.Style.Animation_AppCompat_Tooltip = global::iChronoMe.Droid.Resource.Style.Animation_AppCompat_Tooltip;
+			global::iChronoMe.Widgets.Resource.Style.Base_AlertDialog_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_AlertDialog_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_AlertDialog_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_Animation_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::iChronoMe.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp;
+			global::iChronoMe.Widgets.Resource.Style.Base_Animation_AppCompat_Tooltip = global::iChronoMe.Droid.Resource.Style.Base_Animation_AppCompat_Tooltip;
+			global::iChronoMe.Widgets.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_DialogWindowTitle_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Button = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Large = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Small = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Title = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Tooltip = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Tooltip;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::iChronoMe.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
+			global::iChronoMe.Widgets.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::iChronoMe.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
+			global::iChronoMe.Widgets.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_V21_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_V21_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_V21_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::iChronoMe.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_V22_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_V22_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_V22_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_V23_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_V23_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_V23_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_V26_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_V26_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_V26_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_V26_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::iChronoMe.Droid.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
+			global::iChronoMe.Widgets.Resource.Style.Base_V28_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_V28_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_V28_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_V28_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Base_V7_Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::iChronoMe.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::iChronoMe.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::iChronoMe.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText;
+			global::iChronoMe.Widgets.Resource.Style.Base_V7_Widget_AppCompat_Toolbar = global::iChronoMe.Droid.Resource.Style.Base_V7_Widget_AppCompat_Toolbar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionButton = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActionMode = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Button = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Button;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Button_Small = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_EditText = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_EditText;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ImageButton = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ListMenuView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ListMenuView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ListView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ListView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_RatingBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_RatingBar_Small = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar_Small;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_SearchView = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_SearchView;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_SeekBar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Spinner = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Spinner;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Toolbar = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
+			global::iChronoMe.Widgets.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::iChronoMe.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::iChronoMe.Widgets.Resource.Style.Platform_AppCompat = global::iChronoMe.Droid.Resource.Style.Platform_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Platform_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Platform_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Platform_ThemeOverlay_AppCompat = global::iChronoMe.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::iChronoMe.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
+			global::iChronoMe.Widgets.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Platform_V21_AppCompat = global::iChronoMe.Droid.Resource.Style.Platform_V21_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Platform_V21_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Platform_V21_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Platform_V25_AppCompat = global::iChronoMe.Droid.Resource.Style.Platform_V25_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Platform_V25_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Platform_V25_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Platform_Widget_AppCompat_Spinner = global::iChronoMe.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::iChronoMe.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
+			global::iChronoMe.Widgets.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::iChronoMe.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
+			global::iChronoMe.Widgets.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::iChronoMe.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
+			global::iChronoMe.Widgets.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::iChronoMe.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Body1 = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Body2 = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Button = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Button;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Caption = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Caption;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Display1 = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Display1;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Display2 = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Display2;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Display3 = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Display3;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Display4 = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Display4;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Headline = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Headline;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Large = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Large;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Medium = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Medium;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Menu = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Menu;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Small = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Small;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Subhead = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Subhead;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Title;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Tooltip = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Tooltip;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::iChronoMe.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Info = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Info_Media = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Info_Media;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Line2_Media = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Line2_Media;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Media = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Media;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Time = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Time_Media = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Time_Media;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Compat_Notification_Title_Media = global::iChronoMe.Droid.Resource.Style.TextAppearance_Compat_Notification_Title_Media;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::iChronoMe.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::iChronoMe.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::iChronoMe.Widgets.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::iChronoMe.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat_Dark = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.ThemeOverlay_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.ThemeOverlay_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_CompactMenu = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_CompactMenu;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight_Dialog = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DayNight_NoActionBar = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DayNight_NoActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Dialog = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light_Dialog = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light_Dialog;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Theme_AppCompat_NoActionBar = global::iChronoMe.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionButton = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionButton;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActionMode = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActionMode;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ActivityChooserView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Button = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Button;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ButtonBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ButtonBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Button_Borderless = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Button_Borderless;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Button_Colored = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Button_Colored;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Button_Small = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Button_Small;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_EditText = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_EditText;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ImageButton = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ImageButton;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionButton = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_SearchView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_SearchView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ListMenuView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ListMenuView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ListPopupWindow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ListView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ListView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ListView_DropDown = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ListView_Menu = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ListView_Menu;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_PopupMenu = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_PopupMenu;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_PopupWindow = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_PopupWindow;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ProgressBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ProgressBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_RatingBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_RatingBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_RatingBar_Indicator = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_RatingBar_Indicator;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_RatingBar_Small = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_RatingBar_Small;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_SearchView = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_SearchView;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_SeekBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_SeekBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_SeekBar_Discrete = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_SeekBar_Discrete;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Spinner = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Spinner;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Toolbar = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Toolbar;
+			global::iChronoMe.Widgets.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::iChronoMe.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
+			global::iChronoMe.Widgets.Resource.Style.Widget_Compat_NotificationActionContainer = global::iChronoMe.Droid.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::iChronoMe.Widgets.Resource.Style.Widget_Compat_NotificationActionText = global::iChronoMe.Droid.Resource.Style.Widget_Compat_NotificationActionText;
+			global::iChronoMe.Widgets.Resource.Style.Widget_Support_CoordinatorLayout = global::iChronoMe.Droid.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar = global::iChronoMe.Droid.Resource.Styleable.ActionBar;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBarLayout = global::iChronoMe.Droid.Resource.Styleable.ActionBarLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::iChronoMe.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_background = global::iChronoMe.Droid.Resource.Styleable.ActionBar_background;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_backgroundSplit = global::iChronoMe.Droid.Resource.Styleable.ActionBar_backgroundSplit;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_backgroundStacked = global::iChronoMe.Droid.Resource.Styleable.ActionBar_backgroundStacked;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_contentInsetEnd = global::iChronoMe.Droid.Resource.Styleable.ActionBar_contentInsetEnd;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_contentInsetEndWithActions = global::iChronoMe.Droid.Resource.Styleable.ActionBar_contentInsetEndWithActions;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_contentInsetLeft = global::iChronoMe.Droid.Resource.Styleable.ActionBar_contentInsetLeft;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_contentInsetRight = global::iChronoMe.Droid.Resource.Styleable.ActionBar_contentInsetRight;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_contentInsetStart = global::iChronoMe.Droid.Resource.Styleable.ActionBar_contentInsetStart;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_contentInsetStartWithNavigation = global::iChronoMe.Droid.Resource.Styleable.ActionBar_contentInsetStartWithNavigation;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_customNavigationLayout = global::iChronoMe.Droid.Resource.Styleable.ActionBar_customNavigationLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_displayOptions = global::iChronoMe.Droid.Resource.Styleable.ActionBar_displayOptions;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_divider = global::iChronoMe.Droid.Resource.Styleable.ActionBar_divider;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_elevation = global::iChronoMe.Droid.Resource.Styleable.ActionBar_elevation;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_height = global::iChronoMe.Droid.Resource.Styleable.ActionBar_height;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_hideOnContentScroll = global::iChronoMe.Droid.Resource.Styleable.ActionBar_hideOnContentScroll;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_homeAsUpIndicator = global::iChronoMe.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_homeLayout = global::iChronoMe.Droid.Resource.Styleable.ActionBar_homeLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_icon = global::iChronoMe.Droid.Resource.Styleable.ActionBar_icon;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::iChronoMe.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_itemPadding = global::iChronoMe.Droid.Resource.Styleable.ActionBar_itemPadding;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_logo = global::iChronoMe.Droid.Resource.Styleable.ActionBar_logo;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_navigationMode = global::iChronoMe.Droid.Resource.Styleable.ActionBar_navigationMode;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_popupTheme = global::iChronoMe.Droid.Resource.Styleable.ActionBar_popupTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_progressBarPadding = global::iChronoMe.Droid.Resource.Styleable.ActionBar_progressBarPadding;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_progressBarStyle = global::iChronoMe.Droid.Resource.Styleable.ActionBar_progressBarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_subtitle = global::iChronoMe.Droid.Resource.Styleable.ActionBar_subtitle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_subtitleTextStyle = global::iChronoMe.Droid.Resource.Styleable.ActionBar_subtitleTextStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_title = global::iChronoMe.Droid.Resource.Styleable.ActionBar_title;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionBar_titleTextStyle = global::iChronoMe.Droid.Resource.Styleable.ActionBar_titleTextStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMenuItemView = global::iChronoMe.Droid.Resource.Styleable.ActionMenuItemView;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMenuItemView_android_minWidth = global::iChronoMe.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMenuView = global::iChronoMe.Droid.Resource.Styleable.ActionMenuView;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode = global::iChronoMe.Droid.Resource.Styleable.ActionMode;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode_background = global::iChronoMe.Droid.Resource.Styleable.ActionMode_background;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode_backgroundSplit = global::iChronoMe.Droid.Resource.Styleable.ActionMode_backgroundSplit;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode_closeItemLayout = global::iChronoMe.Droid.Resource.Styleable.ActionMode_closeItemLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode_height = global::iChronoMe.Droid.Resource.Styleable.ActionMode_height;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode_subtitleTextStyle = global::iChronoMe.Droid.Resource.Styleable.ActionMode_subtitleTextStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActionMode_titleTextStyle = global::iChronoMe.Droid.Resource.Styleable.ActionMode_titleTextStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.ActivityChooserView = global::iChronoMe.Droid.Resource.Styleable.ActivityChooserView;
+			global::iChronoMe.Widgets.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::iChronoMe.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.ActivityChooserView_initialActivityCount = global::iChronoMe.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog = global::iChronoMe.Droid.Resource.Styleable.AlertDialog;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_android_layout = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_android_layout;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_buttonIconDimen = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_buttonIconDimen;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_listItemLayout = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_listItemLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_listLayout = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_listLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_showTitle = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_showTitle;
+			global::iChronoMe.Widgets.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::iChronoMe.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableItem = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableItem;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableItem_android_id = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableItem_android_id;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableTransition = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableTransition;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible;
+			global::iChronoMe.Widgets.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId = global::iChronoMe.Droid.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatImageView = global::iChronoMe.Droid.Resource.Styleable.AppCompatImageView;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatImageView_android_src = global::iChronoMe.Droid.Resource.Styleable.AppCompatImageView_android_src;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatImageView_srcCompat = global::iChronoMe.Droid.Resource.Styleable.AppCompatImageView_srcCompat;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatImageView_tint = global::iChronoMe.Droid.Resource.Styleable.AppCompatImageView_tint;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatImageView_tintMode = global::iChronoMe.Droid.Resource.Styleable.AppCompatImageView_tintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatSeekBar = global::iChronoMe.Droid.Resource.Styleable.AppCompatSeekBar;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatSeekBar_android_thumb = global::iChronoMe.Droid.Resource.Styleable.AppCompatSeekBar_android_thumb;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatSeekBar_tickMark = global::iChronoMe.Droid.Resource.Styleable.AppCompatSeekBar_tickMark;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatSeekBar_tickMarkTint = global::iChronoMe.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTint;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode = global::iChronoMe.Droid.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_drawableBottom = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableBottom;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_drawableEnd = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableEnd;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_drawableLeft = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableLeft;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_drawableRight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableRight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_drawableStart = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableStart;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_drawableTop = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_drawableTop;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextHelper_android_textAppearance = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextHelper_android_textAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_android_textAppearance = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_autoSizePresetSizes = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_autoSizePresetSizes;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_autoSizeTextType = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_autoSizeTextType;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_fontFamily = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_fontFamily;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_lineHeight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_lineHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTextView_textAllCaps = global::iChronoMe.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarDivider = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarDivider;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarItemBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarItemBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarPopupTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarPopupTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarSize = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarSize;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarSplitStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarSplitStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarTabStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarTabStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionDropDownStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionDropDownStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionMenuTextColor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionMenuTextColor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeCutDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeCutDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeFindDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeFindDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModePasteDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModePasteDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeShareDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeShareDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeSplitBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeSplitBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_activityChooserViewStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_activityChooserViewStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_alertDialogStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_alertDialogStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_alertDialogTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_alertDialogTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_android_windowIsFloating = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_android_windowIsFloating;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_borderlessButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_borderlessButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonBarStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonBarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_buttonStyleSmall = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_buttonStyleSmall;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_checkboxStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_checkboxStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_checkedTextViewStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_checkedTextViewStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorAccent = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorAccent;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorBackgroundFloating = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorBackgroundFloating;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorButtonNormal = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorButtonNormal;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorControlActivated = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorControlActivated;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorControlHighlight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorControlHighlight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorControlNormal = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorControlNormal;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorError = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorError;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorPrimary = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorPrimary;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_controlBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_controlBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dialogCornerRadius = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dialogCornerRadius;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dialogTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dialogTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dividerHorizontal;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dividerVertical = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dividerVertical;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_dropDownListViewStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_dropDownListViewStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_editTextBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_editTextBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_editTextColor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_editTextColor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_editTextStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_editTextStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_homeAsUpIndicator = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_homeAsUpIndicator;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_imageButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_imageButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listDividerAlertDialog = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listDividerAlertDialog;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listMenuViewStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listMenuViewStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listPopupWindowStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listPopupWindowStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listPreferredItemHeight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_panelBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_panelBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_panelMenuListTheme = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_panelMenuListTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_panelMenuListWidth = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_panelMenuListWidth;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_popupMenuStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_popupMenuStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_popupWindowStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_popupWindowStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_radioButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_radioButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_ratingBarStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_searchViewStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_searchViewStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_seekBarStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_seekBarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_selectableItemBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_spinnerStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_spinnerStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_switchStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_switchStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_textColorSearchUrl = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_textColorSearchUrl;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_toolbarStyle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_toolbarStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_tooltipForegroundColor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_tooltipForegroundColor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_tooltipFrameBackground = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_tooltipFrameBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_viewInflaterClass = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_viewInflaterClass;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowActionBar = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowActionBar;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
+			global::iChronoMe.Widgets.Resource.Styleable.AppCompatTheme_windowNoTitle = global::iChronoMe.Droid.Resource.Styleable.AppCompatTheme_windowNoTitle;
+			global::iChronoMe.Widgets.Resource.Styleable.ButtonBarLayout = global::iChronoMe.Droid.Resource.Styleable.ButtonBarLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.ButtonBarLayout_allowStacking = global::iChronoMe.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
+			global::iChronoMe.Widgets.Resource.Styleable.ColorStateListItem = global::iChronoMe.Droid.Resource.Styleable.ColorStateListItem;
+			global::iChronoMe.Widgets.Resource.Styleable.ColorStateListItem_alpha = global::iChronoMe.Droid.Resource.Styleable.ColorStateListItem_alpha;
+			global::iChronoMe.Widgets.Resource.Styleable.ColorStateListItem_android_alpha = global::iChronoMe.Droid.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::iChronoMe.Widgets.Resource.Styleable.ColorStateListItem_android_color = global::iChronoMe.Droid.Resource.Styleable.ColorStateListItem_android_color;
+			global::iChronoMe.Widgets.Resource.Styleable.CompoundButton = global::iChronoMe.Droid.Resource.Styleable.CompoundButton;
+			global::iChronoMe.Widgets.Resource.Styleable.CompoundButton_android_button = global::iChronoMe.Droid.Resource.Styleable.CompoundButton_android_button;
+			global::iChronoMe.Widgets.Resource.Styleable.CompoundButton_buttonTint = global::iChronoMe.Droid.Resource.Styleable.CompoundButton_buttonTint;
+			global::iChronoMe.Widgets.Resource.Styleable.CompoundButton_buttonTintMode = global::iChronoMe.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_keylines = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::iChronoMe.Widgets.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::iChronoMe.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_barLength = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_barLength;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_color = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_color;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_drawableSize = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_spinBars = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
+			global::iChronoMe.Widgets.Resource.Styleable.DrawerArrowToggle_thickness = global::iChronoMe.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily = global::iChronoMe.Droid.Resource.Styleable.FontFamily;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_android_font = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_android_font;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_android_fontStyle = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_android_fontWeight = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_font = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_font;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_fontStyle = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_fontWeight = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamilyFont_ttcIndex = global::iChronoMe.Droid.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily_fontProviderAuthority = global::iChronoMe.Droid.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily_fontProviderCerts = global::iChronoMe.Droid.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::iChronoMe.Droid.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::iChronoMe.Droid.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily_fontProviderPackage = global::iChronoMe.Droid.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::iChronoMe.Widgets.Resource.Styleable.FontFamily_fontProviderQuery = global::iChronoMe.Droid.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor = global::iChronoMe.Droid.Resource.Styleable.GradientColor;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColorItem = global::iChronoMe.Droid.Resource.Styleable.GradientColorItem;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColorItem_android_color = global::iChronoMe.Droid.Resource.Styleable.GradientColorItem_android_color;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColorItem_android_offset = global::iChronoMe.Droid.Resource.Styleable.GradientColorItem_android_offset;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_centerColor = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_centerColor;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_centerX = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_centerX;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_centerY = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_centerY;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_endColor = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_endColor;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_endX = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_endX;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_endY = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_endY;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_gradientRadius = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_startColor = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_startColor;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_startX = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_startX;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_startY = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_startY;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_tileMode = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_tileMode;
+			global::iChronoMe.Widgets.Resource.Styleable.GradientColor_android_type = global::iChronoMe.Droid.Resource.Styleable.GradientColor_android_type;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_android_gravity = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_android_orientation = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_divider = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_divider;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_Layout = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_Layout;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
+			global::iChronoMe.Widgets.Resource.Styleable.LinearLayoutCompat_showDividers = global::iChronoMe.Droid.Resource.Styleable.LinearLayoutCompat_showDividers;
+			global::iChronoMe.Widgets.Resource.Styleable.ListPopupWindow = global::iChronoMe.Droid.Resource.Styleable.ListPopupWindow;
+			global::iChronoMe.Widgets.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::iChronoMe.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
+			global::iChronoMe.Widgets.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::iChronoMe.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup = global::iChronoMe.Droid.Resource.Styleable.MenuGroup;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup_android_checkableBehavior = global::iChronoMe.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup_android_enabled = global::iChronoMe.Droid.Resource.Styleable.MenuGroup_android_enabled;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup_android_id = global::iChronoMe.Droid.Resource.Styleable.MenuGroup_android_id;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup_android_menuCategory = global::iChronoMe.Droid.Resource.Styleable.MenuGroup_android_menuCategory;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup_android_orderInCategory = global::iChronoMe.Droid.Resource.Styleable.MenuGroup_android_orderInCategory;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuGroup_android_visible = global::iChronoMe.Droid.Resource.Styleable.MenuGroup_android_visible;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem = global::iChronoMe.Droid.Resource.Styleable.MenuItem;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_actionLayout = global::iChronoMe.Droid.Resource.Styleable.MenuItem_actionLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_actionProviderClass = global::iChronoMe.Droid.Resource.Styleable.MenuItem_actionProviderClass;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_actionViewClass = global::iChronoMe.Droid.Resource.Styleable.MenuItem_actionViewClass;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_alphabeticModifiers = global::iChronoMe.Droid.Resource.Styleable.MenuItem_alphabeticModifiers;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_checkable = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_checkable;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_checked = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_checked;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_enabled = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_enabled;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_icon = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_icon;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_id = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_id;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_menuCategory = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_menuCategory;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_numericShortcut = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_numericShortcut;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_onClick = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_onClick;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_orderInCategory = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_orderInCategory;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_title = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_title;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_titleCondensed = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_titleCondensed;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_android_visible = global::iChronoMe.Droid.Resource.Styleable.MenuItem_android_visible;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_contentDescription = global::iChronoMe.Droid.Resource.Styleable.MenuItem_contentDescription;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_iconTint = global::iChronoMe.Droid.Resource.Styleable.MenuItem_iconTint;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_iconTintMode = global::iChronoMe.Droid.Resource.Styleable.MenuItem_iconTintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_numericModifiers = global::iChronoMe.Droid.Resource.Styleable.MenuItem_numericModifiers;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_showAsAction = global::iChronoMe.Droid.Resource.Styleable.MenuItem_showAsAction;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuItem_tooltipText = global::iChronoMe.Droid.Resource.Styleable.MenuItem_tooltipText;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView = global::iChronoMe.Droid.Resource.Styleable.MenuView;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_headerBackground = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_headerBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_horizontalDivider = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_horizontalDivider;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_itemBackground = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_itemBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_itemTextAppearance = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_itemTextAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_verticalDivider = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_verticalDivider;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_android_windowAnimationStyle = global::iChronoMe.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_preserveIconSpacing = global::iChronoMe.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
+			global::iChronoMe.Widgets.Resource.Styleable.MenuView_subMenuArrow = global::iChronoMe.Droid.Resource.Styleable.MenuView_subMenuArrow;
+			global::iChronoMe.Widgets.Resource.Styleable.PopupWindow = global::iChronoMe.Droid.Resource.Styleable.PopupWindow;
+			global::iChronoMe.Widgets.Resource.Styleable.PopupWindowBackgroundState = global::iChronoMe.Droid.Resource.Styleable.PopupWindowBackgroundState;
+			global::iChronoMe.Widgets.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::iChronoMe.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
+			global::iChronoMe.Widgets.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::iChronoMe.Droid.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.PopupWindow_android_popupBackground = global::iChronoMe.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.PopupWindow_overlapAnchor = global::iChronoMe.Droid.Resource.Styleable.PopupWindow_overlapAnchor;
+			global::iChronoMe.Widgets.Resource.Styleable.RecycleListView = global::iChronoMe.Droid.Resource.Styleable.RecycleListView;
+			global::iChronoMe.Widgets.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::iChronoMe.Droid.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
+			global::iChronoMe.Widgets.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::iChronoMe.Droid.Resource.Styleable.RecycleListView_paddingTopNoTitle;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView = global::iChronoMe.Droid.Resource.Styleable.SearchView;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_android_focusable = global::iChronoMe.Droid.Resource.Styleable.SearchView_android_focusable;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_android_imeOptions = global::iChronoMe.Droid.Resource.Styleable.SearchView_android_imeOptions;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_android_inputType = global::iChronoMe.Droid.Resource.Styleable.SearchView_android_inputType;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_android_maxWidth = global::iChronoMe.Droid.Resource.Styleable.SearchView_android_maxWidth;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_closeIcon = global::iChronoMe.Droid.Resource.Styleable.SearchView_closeIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_commitIcon = global::iChronoMe.Droid.Resource.Styleable.SearchView_commitIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_defaultQueryHint = global::iChronoMe.Droid.Resource.Styleable.SearchView_defaultQueryHint;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_goIcon = global::iChronoMe.Droid.Resource.Styleable.SearchView_goIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_iconifiedByDefault = global::iChronoMe.Droid.Resource.Styleable.SearchView_iconifiedByDefault;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_layout = global::iChronoMe.Droid.Resource.Styleable.SearchView_layout;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_queryBackground = global::iChronoMe.Droid.Resource.Styleable.SearchView_queryBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_queryHint = global::iChronoMe.Droid.Resource.Styleable.SearchView_queryHint;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_searchHintIcon = global::iChronoMe.Droid.Resource.Styleable.SearchView_searchHintIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_searchIcon = global::iChronoMe.Droid.Resource.Styleable.SearchView_searchIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_submitBackground = global::iChronoMe.Droid.Resource.Styleable.SearchView_submitBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_suggestionRowLayout = global::iChronoMe.Droid.Resource.Styleable.SearchView_suggestionRowLayout;
+			global::iChronoMe.Widgets.Resource.Styleable.SearchView_voiceIcon = global::iChronoMe.Droid.Resource.Styleable.SearchView_voiceIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.Spinner = global::iChronoMe.Droid.Resource.Styleable.Spinner;
+			global::iChronoMe.Widgets.Resource.Styleable.Spinner_android_dropDownWidth = global::iChronoMe.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
+			global::iChronoMe.Widgets.Resource.Styleable.Spinner_android_entries = global::iChronoMe.Droid.Resource.Styleable.Spinner_android_entries;
+			global::iChronoMe.Widgets.Resource.Styleable.Spinner_android_popupBackground = global::iChronoMe.Droid.Resource.Styleable.Spinner_android_popupBackground;
+			global::iChronoMe.Widgets.Resource.Styleable.Spinner_android_prompt = global::iChronoMe.Droid.Resource.Styleable.Spinner_android_prompt;
+			global::iChronoMe.Widgets.Resource.Styleable.Spinner_popupTheme = global::iChronoMe.Droid.Resource.Styleable.Spinner_popupTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawableItem = global::iChronoMe.Droid.Resource.Styleable.StateListDrawableItem;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawableItem_android_drawable = global::iChronoMe.Droid.Resource.Styleable.StateListDrawableItem_android_drawable;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable_android_constantSize = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable_android_constantSize;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable_android_dither = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable_android_dither;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable_android_enterFadeDuration = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable_android_enterFadeDuration;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable_android_exitFadeDuration = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable_android_exitFadeDuration;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable_android_variablePadding = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable_android_variablePadding;
+			global::iChronoMe.Widgets.Resource.Styleable.StateListDrawable_android_visible = global::iChronoMe.Droid.Resource.Styleable.StateListDrawable_android_visible;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_android_textOff = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_android_textOff;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_android_textOn = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_android_textOn;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_android_thumb = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_android_thumb;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_showText = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_showText;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_splitTrack = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_splitTrack;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_switchMinWidth = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_switchMinWidth;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_switchPadding = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_switchPadding;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_switchTextAppearance = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_thumbTextPadding = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_thumbTint = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_thumbTint;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_thumbTintMode = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_thumbTintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_track = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_track;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_trackTint = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_trackTint;
+			global::iChronoMe.Widgets.Resource.Styleable.SwitchCompat_trackTintMode = global::iChronoMe.Droid.Resource.Styleable.SwitchCompat_trackTintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance = global::iChronoMe.Droid.Resource.Styleable.TextAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_fontFamily = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_fontFamily;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_shadowColor = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_shadowDx = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_shadowDx;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_shadowDy = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_shadowDy;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_shadowRadius = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_shadowRadius;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_textColor = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_textColor;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_textColorHint = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_textColorHint;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_textColorLink = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_textColorLink;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_textSize = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_textSize;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_textStyle = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_textStyle;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_android_typeface = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_android_typeface;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_fontFamily = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_fontFamily;
+			global::iChronoMe.Widgets.Resource.Styleable.TextAppearance_textAllCaps = global::iChronoMe.Droid.Resource.Styleable.TextAppearance_textAllCaps;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar = global::iChronoMe.Droid.Resource.Styleable.Toolbar;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_android_gravity = global::iChronoMe.Droid.Resource.Styleable.Toolbar_android_gravity;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_android_minHeight = global::iChronoMe.Droid.Resource.Styleable.Toolbar_android_minHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_buttonGravity = global::iChronoMe.Droid.Resource.Styleable.Toolbar_buttonGravity;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_collapseContentDescription = global::iChronoMe.Droid.Resource.Styleable.Toolbar_collapseContentDescription;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_collapseIcon = global::iChronoMe.Droid.Resource.Styleable.Toolbar_collapseIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_contentInsetEnd = global::iChronoMe.Droid.Resource.Styleable.Toolbar_contentInsetEnd;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_contentInsetEndWithActions = global::iChronoMe.Droid.Resource.Styleable.Toolbar_contentInsetEndWithActions;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_contentInsetLeft = global::iChronoMe.Droid.Resource.Styleable.Toolbar_contentInsetLeft;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_contentInsetRight = global::iChronoMe.Droid.Resource.Styleable.Toolbar_contentInsetRight;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_contentInsetStart = global::iChronoMe.Droid.Resource.Styleable.Toolbar_contentInsetStart;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_contentInsetStartWithNavigation = global::iChronoMe.Droid.Resource.Styleable.Toolbar_contentInsetStartWithNavigation;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_logo = global::iChronoMe.Droid.Resource.Styleable.Toolbar_logo;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_logoDescription = global::iChronoMe.Droid.Resource.Styleable.Toolbar_logoDescription;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_maxButtonHeight = global::iChronoMe.Droid.Resource.Styleable.Toolbar_maxButtonHeight;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_navigationContentDescription = global::iChronoMe.Droid.Resource.Styleable.Toolbar_navigationContentDescription;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_navigationIcon = global::iChronoMe.Droid.Resource.Styleable.Toolbar_navigationIcon;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_popupTheme = global::iChronoMe.Droid.Resource.Styleable.Toolbar_popupTheme;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_subtitle = global::iChronoMe.Droid.Resource.Styleable.Toolbar_subtitle;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_subtitleTextAppearance = global::iChronoMe.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_subtitleTextColor = global::iChronoMe.Droid.Resource.Styleable.Toolbar_subtitleTextColor;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_title = global::iChronoMe.Droid.Resource.Styleable.Toolbar_title;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleMargin = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleMargin;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleMarginBottom = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleMarginBottom;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleMarginEnd = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleMarginEnd;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleMargins = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleMargins;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleMarginStart = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleMarginStart;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleMarginTop = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleMarginTop;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleTextAppearance = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleTextAppearance;
+			global::iChronoMe.Widgets.Resource.Styleable.Toolbar_titleTextColor = global::iChronoMe.Droid.Resource.Styleable.Toolbar_titleTextColor;
+			global::iChronoMe.Widgets.Resource.Styleable.View = global::iChronoMe.Droid.Resource.Styleable.View;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewBackgroundHelper = global::iChronoMe.Droid.Resource.Styleable.ViewBackgroundHelper;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewBackgroundHelper_android_background = global::iChronoMe.Droid.Resource.Styleable.ViewBackgroundHelper_android_background;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::iChronoMe.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::iChronoMe.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewStubCompat = global::iChronoMe.Droid.Resource.Styleable.ViewStubCompat;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewStubCompat_android_id = global::iChronoMe.Droid.Resource.Styleable.ViewStubCompat_android_id;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewStubCompat_android_inflatedId = global::iChronoMe.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
+			global::iChronoMe.Widgets.Resource.Styleable.ViewStubCompat_android_layout = global::iChronoMe.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::iChronoMe.Widgets.Resource.Styleable.View_android_focusable = global::iChronoMe.Droid.Resource.Styleable.View_android_focusable;
+			global::iChronoMe.Widgets.Resource.Styleable.View_android_theme = global::iChronoMe.Droid.Resource.Styleable.View_android_theme;
+			global::iChronoMe.Widgets.Resource.Styleable.View_paddingEnd = global::iChronoMe.Droid.Resource.Styleable.View_paddingEnd;
+			global::iChronoMe.Widgets.Resource.Styleable.View_paddingStart = global::iChronoMe.Droid.Resource.Styleable.View_paddingStart;
+			global::iChronoMe.Widgets.Resource.Styleable.View_theme = global::iChronoMe.Droid.Resource.Styleable.View_theme;
+			global::iChronoMe.Widgets.Resource.Xml.xamarin_essentials_fileprovider_file_paths = global::iChronoMe.Droid.Resource.Xml.xamarin_essentials_fileprovider_file_paths;
 			global::Net.ArcanaStudio.ColorPicker.Resource.Animation.abc_fade_in = global::iChronoMe.Droid.Resource.Animation.abc_fade_in;
 			global::Net.ArcanaStudio.ColorPicker.Resource.Animation.abc_fade_out = global::iChronoMe.Droid.Resource.Animation.abc_fade_out;
 			global::Net.ArcanaStudio.ColorPicker.Resource.Animation.abc_grow_fade_in_from_bottom = global::iChronoMe.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -6771,7 +8414,7 @@ namespace iChronoMe.Droid
 			public const int icons8_appointment_reminders = 2131231138;
 			
 			// aapt resource value: 0x7F0801A3
-			public const int icons8_approval = 2131231139;
+			public const int icons8_approval_clrd = 2131231139;
 			
 			// aapt resource value: 0x7F0801A4
 			public const int icons8_available_updates = 2131231140;
@@ -6867,7 +8510,7 @@ namespace iChronoMe.Droid
 			public const int icons8_calendar_plus_9 = 2131231170;
 			
 			// aapt resource value: 0x7F0801C3
-			public const int icons8_cancel = 2131231171;
+			public const int icons8_cancel_clrd = 2131231171;
 			
 			// aapt resource value: 0x7F0801C4
 			public const int icons8_change_theme = 2131231172;
@@ -6945,7 +8588,7 @@ namespace iChronoMe.Droid
 			public const int icons8_month_view = 2131231196;
 			
 			// aapt resource value: 0x7F0801DD
-			public const int icons8_ok = 2131231197;
+			public const int icons8_ok_clrd = 2131231197;
 			
 			// aapt resource value: 0x7F0801DE
 			public const int icons8_overtime = 2131231198;
@@ -6990,109 +8633,112 @@ namespace iChronoMe.Droid
 			public const int icons8_sun_18 = 2131231211;
 			
 			// aapt resource value: 0x7F0801EC
-			public const int icons8_support = 2131231212;
+			public const int icons8_sun_clrd = 2131231212;
 			
 			// aapt resource value: 0x7F0801ED
-			public const int icons8_timeline = 2131231213;
+			public const int icons8_support = 2131231213;
 			
 			// aapt resource value: 0x7F0801EE
-			public const int icons8_timezone_0 = 2131231214;
+			public const int icons8_timeline = 2131231214;
 			
 			// aapt resource value: 0x7F0801EF
-			public const int icons8_timezone_1 = 2131231215;
+			public const int icons8_timezone_0 = 2131231215;
 			
 			// aapt resource value: 0x7F0801F0
-			public const int icons8_timezone_10 = 2131231216;
+			public const int icons8_timezone_1 = 2131231216;
 			
 			// aapt resource value: 0x7F0801F1
-			public const int icons8_timezone_11 = 2131231217;
+			public const int icons8_timezone_10 = 2131231217;
 			
 			// aapt resource value: 0x7F0801F2
-			public const int icons8_timezone_12 = 2131231218;
+			public const int icons8_timezone_11 = 2131231218;
 			
 			// aapt resource value: 0x7F0801F3
-			public const int icons8_timezone_2 = 2131231219;
+			public const int icons8_timezone_12 = 2131231219;
 			
 			// aapt resource value: 0x7F0801F4
-			public const int icons8_timezone_3 = 2131231220;
+			public const int icons8_timezone_2 = 2131231220;
 			
 			// aapt resource value: 0x7F0801F5
-			public const int icons8_timezone_4 = 2131231221;
+			public const int icons8_timezone_3 = 2131231221;
 			
 			// aapt resource value: 0x7F0801F6
-			public const int icons8_timezone_5 = 2131231222;
+			public const int icons8_timezone_4 = 2131231222;
 			
 			// aapt resource value: 0x7F0801F7
-			public const int icons8_timezone_6 = 2131231223;
+			public const int icons8_timezone_5 = 2131231223;
 			
 			// aapt resource value: 0x7F0801F8
-			public const int icons8_timezone_7 = 2131231224;
+			public const int icons8_timezone_6 = 2131231224;
 			
 			// aapt resource value: 0x7F0801F9
-			public const int icons8_timezone_8 = 2131231225;
+			public const int icons8_timezone_7 = 2131231225;
 			
 			// aapt resource value: 0x7F0801FA
-			public const int icons8_timezone_9 = 2131231226;
+			public const int icons8_timezone_8 = 2131231226;
 			
 			// aapt resource value: 0x7F0801FB
-			public const int icons8_timezone_clock = 2131231227;
+			public const int icons8_timezone_9 = 2131231227;
 			
 			// aapt resource value: 0x7F0801FC
-			public const int icons8_timezone_globe = 2131231228;
+			public const int icons8_timezone_clock = 2131231228;
 			
 			// aapt resource value: 0x7F0801FD
-			public const int icons8_timezone_m1 = 2131231229;
+			public const int icons8_timezone_globe = 2131231229;
 			
 			// aapt resource value: 0x7F0801FE
-			public const int icons8_timezone_m10 = 2131231230;
+			public const int icons8_timezone_m1 = 2131231230;
 			
 			// aapt resource value: 0x7F0801FF
-			public const int icons8_timezone_m11 = 2131231231;
+			public const int icons8_timezone_m10 = 2131231231;
 			
 			// aapt resource value: 0x7F080200
-			public const int icons8_timezone_m12 = 2131231232;
+			public const int icons8_timezone_m11 = 2131231232;
 			
 			// aapt resource value: 0x7F080201
-			public const int icons8_timezone_m2 = 2131231233;
+			public const int icons8_timezone_m12 = 2131231233;
 			
 			// aapt resource value: 0x7F080202
-			public const int icons8_timezone_m3 = 2131231234;
+			public const int icons8_timezone_m2 = 2131231234;
 			
 			// aapt resource value: 0x7F080203
-			public const int icons8_timezone_m4 = 2131231235;
+			public const int icons8_timezone_m3 = 2131231235;
 			
 			// aapt resource value: 0x7F080204
-			public const int icons8_timezone_m5 = 2131231236;
+			public const int icons8_timezone_m4 = 2131231236;
 			
 			// aapt resource value: 0x7F080205
-			public const int icons8_timezone_m6 = 2131231237;
+			public const int icons8_timezone_m5 = 2131231237;
 			
 			// aapt resource value: 0x7F080206
-			public const int icons8_timezone_m7 = 2131231238;
+			public const int icons8_timezone_m6 = 2131231238;
 			
 			// aapt resource value: 0x7F080207
-			public const int icons8_timezone_m8 = 2131231239;
+			public const int icons8_timezone_m7 = 2131231239;
 			
 			// aapt resource value: 0x7F080208
-			public const int icons8_timezone_m9 = 2131231240;
+			public const int icons8_timezone_m8 = 2131231240;
 			
 			// aapt resource value: 0x7F080209
-			public const int icons8_today = 2131231241;
+			public const int icons8_timezone_m9 = 2131231241;
 			
 			// aapt resource value: 0x7F08020A
-			public const int icons8_view_quilt = 2131231242;
+			public const int icons8_today = 2131231242;
 			
 			// aapt resource value: 0x7F08020B
-			public const int icons8_warning_clrd = 2131231243;
+			public const int icons8_view_quilt = 2131231243;
 			
 			// aapt resource value: 0x7F08020C
-			public const int icons8_waste = 2131231244;
+			public const int icons8_warning_clrd = 2131231244;
 			
 			// aapt resource value: 0x7F08020D
-			public const int icons8_week_view = 2131231245;
+			public const int icons8_waste = 2131231245;
 			
 			// aapt resource value: 0x7F08020E
-			public const int icons8_worldwide_location = 2131231246;
+			public const int icons8_week_view = 2131231246;
+			
+			// aapt resource value: 0x7F08020F
+			public const int icons8_worldwide_location = 2131231247;
 			
 			// aapt resource value: 0x7F08017E
 			public const int ic_arrow_down_24dp = 2131231102;
@@ -7127,98 +8773,98 @@ namespace iChronoMe.Droid
 			// aapt resource value: 0x7F080188
 			public const int ic_mtrl_chip_close_circle = 2131231112;
 			
-			// aapt resource value: 0x7F08020F
-			public const int middle_sun_time = 2131231247;
-			
 			// aapt resource value: 0x7F080210
-			public const int mtrl_snackbar_background = 2131231248;
+			public const int middle_sun_time = 2131231248;
 			
 			// aapt resource value: 0x7F080211
-			public const int mtrl_tabs_default_indicator = 2131231249;
+			public const int mtrl_snackbar_background = 2131231249;
 			
 			// aapt resource value: 0x7F080212
-			public const int navigation_empty_icon = 2131231250;
+			public const int mtrl_tabs_default_indicator = 2131231250;
 			
 			// aapt resource value: 0x7F080213
-			public const int notification_action_background = 2131231251;
+			public const int navigation_empty_icon = 2131231251;
 			
 			// aapt resource value: 0x7F080214
-			public const int notification_bg = 2131231252;
+			public const int notification_action_background = 2131231252;
 			
 			// aapt resource value: 0x7F080215
-			public const int notification_bg_low = 2131231253;
+			public const int notification_bg = 2131231253;
 			
 			// aapt resource value: 0x7F080216
-			public const int notification_bg_low_normal = 2131231254;
+			public const int notification_bg_low = 2131231254;
 			
 			// aapt resource value: 0x7F080217
-			public const int notification_bg_low_pressed = 2131231255;
+			public const int notification_bg_low_normal = 2131231255;
 			
 			// aapt resource value: 0x7F080218
-			public const int notification_bg_normal = 2131231256;
+			public const int notification_bg_low_pressed = 2131231256;
 			
 			// aapt resource value: 0x7F080219
-			public const int notification_bg_normal_pressed = 2131231257;
+			public const int notification_bg_normal = 2131231257;
 			
 			// aapt resource value: 0x7F08021A
-			public const int notification_icon_background = 2131231258;
+			public const int notification_bg_normal_pressed = 2131231258;
 			
 			// aapt resource value: 0x7F08021B
-			public const int notification_template_icon_bg = 2131231259;
+			public const int notification_icon_background = 2131231259;
 			
 			// aapt resource value: 0x7F08021C
-			public const int notification_template_icon_low_bg = 2131231260;
+			public const int notification_template_icon_bg = 2131231260;
 			
 			// aapt resource value: 0x7F08021D
-			public const int notification_tile_bg = 2131231261;
+			public const int notification_template_icon_low_bg = 2131231261;
 			
 			// aapt resource value: 0x7F08021E
-			public const int notify_panel_notification_icon_bg = 2131231262;
+			public const int notification_tile_bg = 2131231262;
 			
 			// aapt resource value: 0x7F08021F
-			public const int places_ic_clear = 2131231263;
+			public const int notify_panel_notification_icon_bg = 2131231263;
 			
 			// aapt resource value: 0x7F080220
-			public const int places_ic_search = 2131231264;
+			public const int places_ic_clear = 2131231264;
 			
 			// aapt resource value: 0x7F080221
-			public const int powered_by_google_dark = 2131231265;
+			public const int places_ic_search = 2131231265;
 			
 			// aapt resource value: 0x7F080222
-			public const int powered_by_google_light = 2131231266;
+			public const int powered_by_google_dark = 2131231266;
 			
 			// aapt resource value: 0x7F080223
-			public const int preference_list_divider_material = 2131231267;
+			public const int powered_by_google_light = 2131231267;
 			
 			// aapt resource value: 0x7F080224
-			public const int real_sun_time = 2131231268;
+			public const int preference_list_divider_material = 2131231268;
 			
 			// aapt resource value: 0x7F080225
-			public const int Recurrence = 2131231269;
+			public const int real_sun_time = 2131231269;
 			
 			// aapt resource value: 0x7F080226
-			public const int selector = 2131231270;
+			public const int Recurrence = 2131231270;
 			
 			// aapt resource value: 0x7F080227
-			public const int side_nav_bar = 2131231271;
+			public const int selector = 2131231271;
 			
 			// aapt resource value: 0x7F080228
-			public const int splash_screen = 2131231272;
+			public const int side_nav_bar = 2131231272;
 			
 			// aapt resource value: 0x7F080229
-			public const int sunclock = 2131231273;
+			public const int splash_screen = 2131231273;
 			
 			// aapt resource value: 0x7F08022A
-			public const int tooltip_frame_dark = 2131231274;
+			public const int sunclock = 2131231274;
 			
 			// aapt resource value: 0x7F08022B
-			public const int tooltip_frame_light = 2131231275;
+			public const int tooltip_frame_dark = 2131231275;
 			
 			// aapt resource value: 0x7F08022C
-			public const int transparent_shape = 2131231276;
+			public const int tooltip_frame_light = 2131231276;
 			
 			// aapt resource value: 0x7F08022D
-			public const int widget_dummy_shape = 2131231277;
+			public const int transparent_shape = 2131231277;
+			
+			// aapt resource value: 0x7F08022E
+			public const int widget_dummy_shape = 2131231278;
 			
 			static Drawable()
 			{
@@ -8220,218 +9866,215 @@ namespace iChronoMe.Droid
 			// aapt resource value: 0x7F09014E
 			public const int row_location_helper = 2131296590;
 			
-			// aapt resource value: 0x7F090150
-			public const int row_reminders = 2131296592;
-			
 			// aapt resource value: 0x7F09014F
 			public const int row_reminder_add = 2131296591;
 			
+			// aapt resource value: 0x7F090150
+			public const int row_start_helper = 2131296592;
+			
 			// aapt resource value: 0x7F090151
-			public const int row_start_helper = 2131296593;
+			public const int row_timetype = 2131296593;
 			
 			// aapt resource value: 0x7F090152
-			public const int row_timetype = 2131296594;
+			public const int satellite = 2131296594;
 			
 			// aapt resource value: 0x7F090153
-			public const int satellite = 2131296595;
+			public const int save_image_matrix = 2131296595;
 			
 			// aapt resource value: 0x7F090154
-			public const int save_image_matrix = 2131296596;
+			public const int save_non_transition_alpha = 2131296596;
 			
 			// aapt resource value: 0x7F090155
-			public const int save_non_transition_alpha = 2131296597;
+			public const int save_scale_type = 2131296597;
 			
 			// aapt resource value: 0x7F090156
-			public const int save_scale_type = 2131296598;
+			public const int sb_include_settings = 2131296598;
 			
 			// aapt resource value: 0x7F090157
-			public const int sb_include_settings = 2131296599;
+			public const int screen = 2131296599;
 			
 			// aapt resource value: 0x7F090158
-			public const int screen = 2131296600;
-			
-			// aapt resource value: 0x7F090159
-			public const int scroll = 2131296601;
-			
-			// aapt resource value: 0x7F09015D
-			public const int scrollable = 2131296605;
-			
-			// aapt resource value: 0x7F09015A
-			public const int scrollIndicatorDown = 2131296602;
-			
-			// aapt resource value: 0x7F09015B
-			public const int scrollIndicatorUp = 2131296603;
-			
-			// aapt resource value: 0x7F09015E
-			public const int scrollview = 2131296606;
+			public const int scroll = 2131296600;
 			
 			// aapt resource value: 0x7F09015C
-			public const int scrollView = 2131296604;
+			public const int scrollable = 2131296604;
+			
+			// aapt resource value: 0x7F090159
+			public const int scrollIndicatorDown = 2131296601;
+			
+			// aapt resource value: 0x7F09015A
+			public const int scrollIndicatorUp = 2131296602;
+			
+			// aapt resource value: 0x7F09015D
+			public const int scrollview = 2131296605;
+			
+			// aapt resource value: 0x7F09015B
+			public const int scrollView = 2131296603;
+			
+			// aapt resource value: 0x7F09015E
+			public const int search = 2131296606;
 			
 			// aapt resource value: 0x7F09015F
-			public const int search = 2131296607;
+			public const int search_badge = 2131296607;
 			
 			// aapt resource value: 0x7F090160
-			public const int search_badge = 2131296608;
+			public const int search_bar = 2131296608;
 			
 			// aapt resource value: 0x7F090161
-			public const int search_bar = 2131296609;
+			public const int search_button = 2131296609;
 			
 			// aapt resource value: 0x7F090162
-			public const int search_button = 2131296610;
+			public const int search_close_btn = 2131296610;
 			
 			// aapt resource value: 0x7F090163
-			public const int search_close_btn = 2131296611;
+			public const int search_edit_frame = 2131296611;
 			
 			// aapt resource value: 0x7F090164
-			public const int search_edit_frame = 2131296612;
+			public const int search_go_btn = 2131296612;
 			
 			// aapt resource value: 0x7F090165
-			public const int search_go_btn = 2131296613;
+			public const int search_mag_icon = 2131296613;
 			
 			// aapt resource value: 0x7F090166
-			public const int search_mag_icon = 2131296614;
+			public const int search_plate = 2131296614;
 			
 			// aapt resource value: 0x7F090167
-			public const int search_plate = 2131296615;
+			public const int search_src_text = 2131296615;
 			
 			// aapt resource value: 0x7F090168
-			public const int search_src_text = 2131296616;
+			public const int search_voice_btn = 2131296616;
 			
 			// aapt resource value: 0x7F090169
-			public const int search_voice_btn = 2131296617;
+			public const int seekbar = 2131296617;
 			
 			// aapt resource value: 0x7F09016A
-			public const int seekbar = 2131296618;
-			
-			// aapt resource value: 0x7F09016B
-			public const int seekbar_value = 2131296619;
-			
-			// aapt resource value: 0x7F09016D
-			public const int selected = 2131296621;
+			public const int seekbar_value = 2131296618;
 			
 			// aapt resource value: 0x7F09016C
-			public const int select_dialog_listview = 2131296620;
+			public const int selected = 2131296620;
+			
+			// aapt resource value: 0x7F09016B
+			public const int select_dialog_listview = 2131296619;
+			
+			// aapt resource value: 0x7F09016D
+			public const int shades_divider = 2131296621;
 			
 			// aapt resource value: 0x7F09016E
-			public const int shades_divider = 2131296622;
+			public const int shades_layout = 2131296622;
 			
 			// aapt resource value: 0x7F09016F
-			public const int shades_layout = 2131296623;
+			public const int shape_1 = 2131296623;
 			
 			// aapt resource value: 0x7F090170
-			public const int shape_1 = 2131296624;
+			public const int shape_2 = 2131296624;
 			
 			// aapt resource value: 0x7F090171
-			public const int shape_2 = 2131296625;
+			public const int shape_3 = 2131296625;
 			
 			// aapt resource value: 0x7F090172
-			public const int shape_3 = 2131296626;
+			public const int shape_4 = 2131296626;
 			
 			// aapt resource value: 0x7F090173
-			public const int shape_4 = 2131296627;
+			public const int shape_5 = 2131296627;
 			
 			// aapt resource value: 0x7F090174
-			public const int shape_5 = 2131296628;
+			public const int shape_overlay = 2131296628;
 			
 			// aapt resource value: 0x7F090175
-			public const int shape_overlay = 2131296629;
+			public const int shape_overlay_text_allday = 2131296629;
 			
 			// aapt resource value: 0x7F090176
-			public const int shape_overlay_text_allday = 2131296630;
+			public const int shape_overlay_text_h = 2131296630;
 			
 			// aapt resource value: 0x7F090177
-			public const int shape_overlay_text_h = 2131296631;
-			
-			// aapt resource value: 0x7F090178
-			public const int shape_overlay_text_m = 2131296632;
+			public const int shape_overlay_text_m = 2131296631;
 			
 			// aapt resource value: 0x7F090009
 			public const int SHIFT = 2131296265;
 			
+			// aapt resource value: 0x7F090178
+			public const int shortcut = 2131296632;
+			
 			// aapt resource value: 0x7F090179
-			public const int shortcut = 2131296633;
+			public const int showCustom = 2131296633;
 			
 			// aapt resource value: 0x7F09017A
-			public const int showCustom = 2131296634;
+			public const int showHome = 2131296634;
 			
 			// aapt resource value: 0x7F09017B
-			public const int showHome = 2131296635;
+			public const int showTitle = 2131296635;
 			
 			// aapt resource value: 0x7F09017C
-			public const int showTitle = 2131296636;
+			public const int skia_clock = 2131296636;
 			
 			// aapt resource value: 0x7F09017D
-			public const int skia_clock = 2131296637;
+			public const int smallLabel = 2131296637;
 			
 			// aapt resource value: 0x7F09017E
-			public const int smallLabel = 2131296638;
+			public const int snackbar_action = 2131296638;
 			
 			// aapt resource value: 0x7F09017F
-			public const int snackbar_action = 2131296639;
+			public const int snackbar_text = 2131296639;
 			
 			// aapt resource value: 0x7F090180
-			public const int snackbar_text = 2131296640;
+			public const int snap = 2131296640;
 			
 			// aapt resource value: 0x7F090181
-			public const int snap = 2131296641;
-			
-			// aapt resource value: 0x7F090182
-			public const int snapMargins = 2131296642;
-			
-			// aapt resource value: 0x7F09018C
-			public const int spacer = 2131296652;
-			
-			// aapt resource value: 0x7F090183
-			public const int spCalendar = 2131296643;
-			
-			// aapt resource value: 0x7F09018D
-			public const int spinner = 2131296653;
-			
-			// aapt resource value: 0x7F09018E
-			public const int split_action_bar = 2131296654;
-			
-			// aapt resource value: 0x7F090184
-			public const int spTimeType = 2131296644;
-			
-			// aapt resource value: 0x7F090185
-			public const int sp_calendar_timetype = 2131296645;
-			
-			// aapt resource value: 0x7F090186
-			public const int sp_clickaction = 2131296646;
-			
-			// aapt resource value: 0x7F090187
-			public const int sp_default_timetype = 2131296647;
-			
-			// aapt resource value: 0x7F090188
-			public const int sp_locationtype = 2131296648;
-			
-			// aapt resource value: 0x7F090189
-			public const int sp_method = 2131296649;
-			
-			// aapt resource value: 0x7F09018A
-			public const int sp_timespan = 2131296650;
+			public const int snapMargins = 2131296641;
 			
 			// aapt resource value: 0x7F09018B
-			public const int sp_topic = 2131296651;
+			public const int spacer = 2131296651;
+			
+			// aapt resource value: 0x7F090182
+			public const int spCalendar = 2131296642;
+			
+			// aapt resource value: 0x7F09018C
+			public const int spinner = 2131296652;
+			
+			// aapt resource value: 0x7F09018D
+			public const int split_action_bar = 2131296653;
+			
+			// aapt resource value: 0x7F090183
+			public const int spTimeType = 2131296643;
+			
+			// aapt resource value: 0x7F090184
+			public const int sp_calendar_timetype = 2131296644;
+			
+			// aapt resource value: 0x7F090185
+			public const int sp_clickaction = 2131296645;
+			
+			// aapt resource value: 0x7F090186
+			public const int sp_default_timetype = 2131296646;
+			
+			// aapt resource value: 0x7F090187
+			public const int sp_locationtype = 2131296647;
+			
+			// aapt resource value: 0x7F090188
+			public const int sp_method = 2131296648;
+			
+			// aapt resource value: 0x7F090189
+			public const int sp_timespan = 2131296649;
+			
+			// aapt resource value: 0x7F09018A
+			public const int sp_topic = 2131296650;
+			
+			// aapt resource value: 0x7F09018E
+			public const int square = 2131296654;
 			
 			// aapt resource value: 0x7F09018F
-			public const int square = 2131296655;
+			public const int src_atop = 2131296655;
 			
 			// aapt resource value: 0x7F090190
-			public const int src_atop = 2131296656;
+			public const int src_in = 2131296656;
 			
 			// aapt resource value: 0x7F090191
-			public const int src_in = 2131296657;
+			public const int src_over = 2131296657;
 			
 			// aapt resource value: 0x7F090192
-			public const int src_over = 2131296658;
+			public const int standard = 2131296658;
 			
 			// aapt resource value: 0x7F090193
-			public const int standard = 2131296659;
-			
-			// aapt resource value: 0x7F090194
-			public const int start = 2131296660;
+			public const int start = 2131296659;
 			
 			// aapt resource value: 0x7F09000B
 			public const int StartDate = 2131296267;
@@ -8442,260 +10085,257 @@ namespace iChronoMe.Droid
 			// aapt resource value: 0x7F09000D
 			public const int StartTime = 2131296269;
 			
+			// aapt resource value: 0x7F090194
+			public const int status_bar_latest_event_content = 2131296660;
+			
 			// aapt resource value: 0x7F090195
-			public const int status_bar_latest_event_content = 2131296661;
+			public const int stopAlarm = 2131296661;
 			
 			// aapt resource value: 0x7F090196
-			public const int stopAlarm = 2131296662;
-			
-			// aapt resource value: 0x7F090197
-			public const int stretch = 2131296663;
+			public const int stretch = 2131296662;
 			
 			// aapt resource value: 0x7F09000E
 			public const int Subject = 2131296270;
 			
+			// aapt resource value: 0x7F090197
+			public const int submenuarrow = 2131296663;
+			
 			// aapt resource value: 0x7F090198
-			public const int submenuarrow = 2131296664;
+			public const int submit_area = 2131296664;
 			
 			// aapt resource value: 0x7F090199
-			public const int submit_area = 2131296665;
-			
-			// aapt resource value: 0x7F09019A
-			public const int switchWidget = 2131296666;
+			public const int switchWidget = 2131296665;
 			
 			// aapt resource value: 0x7F09000A
 			public const int SYM = 2131296266;
 			
+			// aapt resource value: 0x7F09019A
+			public const int tabLayout = 2131296666;
+			
 			// aapt resource value: 0x7F09019B
-			public const int tabLayout = 2131296667;
+			public const int tabMode = 2131296667;
 			
 			// aapt resource value: 0x7F09019C
-			public const int tabMode = 2131296668;
+			public const int tag_transition_group = 2131296668;
 			
 			// aapt resource value: 0x7F09019D
-			public const int tag_transition_group = 2131296669;
+			public const int tag_unhandled_key_event_manager = 2131296669;
 			
 			// aapt resource value: 0x7F09019E
-			public const int tag_unhandled_key_event_manager = 2131296670;
+			public const int tag_unhandled_key_listeners = 2131296670;
 			
 			// aapt resource value: 0x7F09019F
-			public const int tag_unhandled_key_listeners = 2131296671;
+			public const int terrain = 2131296671;
 			
 			// aapt resource value: 0x7F0901A0
-			public const int terrain = 2131296672;
+			public const int text = 2131296672;
 			
 			// aapt resource value: 0x7F0901A1
-			public const int text = 2131296673;
-			
-			// aapt resource value: 0x7F0901A2
-			public const int text2 = 2131296674;
-			
-			// aapt resource value: 0x7F0901AB
-			public const int textinput_counter = 2131296683;
-			
-			// aapt resource value: 0x7F0901AC
-			public const int textinput_error = 2131296684;
-			
-			// aapt resource value: 0x7F0901AD
-			public const int textinput_helper_text = 2131296685;
-			
-			// aapt resource value: 0x7F0901A3
-			public const int textSpacerNoButtons = 2131296675;
-			
-			// aapt resource value: 0x7F0901A4
-			public const int textSpacerNoTitle = 2131296676;
-			
-			// aapt resource value: 0x7F0901A5
-			public const int textStart = 2131296677;
-			
-			// aapt resource value: 0x7F0901A6
-			public const int textView = 2131296678;
-			
-			// aapt resource value: 0x7F0901A7
-			public const int text_clock_area = 2131296679;
-			
-			// aapt resource value: 0x7F0901A8
-			public const int text_clock_location = 2131296680;
-			
-			// aapt resource value: 0x7F0901A9
-			public const int text_device_time_info = 2131296681;
+			public const int text2 = 2131296673;
 			
 			// aapt resource value: 0x7F0901AA
-			public const int text_input_password_toggle = 2131296682;
+			public const int textinput_counter = 2131296682;
 			
-			// aapt resource value: 0x7F0901AE
-			public const int tiEnd = 2131296686;
+			// aapt resource value: 0x7F0901AB
+			public const int textinput_error = 2131296683;
 			
-			// aapt resource value: 0x7F0901B0
-			public const int time = 2131296688;
+			// aapt resource value: 0x7F0901AC
+			public const int textinput_helper_text = 2131296684;
 			
-			// aapt resource value: 0x7F0901B1
-			public const int timePickerEnd = 2131296689;
+			// aapt resource value: 0x7F0901A2
+			public const int textSpacerNoButtons = 2131296674;
 			
-			// aapt resource value: 0x7F0901B2
-			public const int timePickerStart = 2131296690;
+			// aapt resource value: 0x7F0901A3
+			public const int textSpacerNoTitle = 2131296675;
 			
-			// aapt resource value: 0x7F0901BA
-			public const int timezone = 2131296698;
+			// aapt resource value: 0x7F0901A4
+			public const int textStart = 2131296676;
 			
-			// aapt resource value: 0x7F0901B3
-			public const int time_mst = 2131296691;
+			// aapt resource value: 0x7F0901A5
+			public const int textView = 2131296677;
 			
-			// aapt resource value: 0x7F0901B4
-			public const int time_offset_mst = 2131296692;
+			// aapt resource value: 0x7F0901A6
+			public const int text_clock_area = 2131296678;
 			
-			// aapt resource value: 0x7F0901B5
-			public const int time_offset_rdt = 2131296693;
+			// aapt resource value: 0x7F0901A7
+			public const int text_clock_location = 2131296679;
 			
-			// aapt resource value: 0x7F0901B6
-			public const int time_offset_tzt = 2131296694;
+			// aapt resource value: 0x7F0901A8
+			public const int text_device_time_info = 2131296680;
 			
-			// aapt resource value: 0x7F0901B7
-			public const int time_rdt = 2131296695;
+			// aapt resource value: 0x7F0901A9
+			public const int text_input_password_toggle = 2131296681;
 			
-			// aapt resource value: 0x7F0901B8
-			public const int time_switcher = 2131296696;
-			
-			// aapt resource value: 0x7F0901B9
-			public const int time_tzt = 2131296697;
+			// aapt resource value: 0x7F0901AD
+			public const int tiEnd = 2131296685;
 			
 			// aapt resource value: 0x7F0901AF
-			public const int tiStart = 2131296687;
+			public const int time = 2131296687;
+			
+			// aapt resource value: 0x7F0901B0
+			public const int timePickerEnd = 2131296688;
+			
+			// aapt resource value: 0x7F0901B1
+			public const int timePickerStart = 2131296689;
+			
+			// aapt resource value: 0x7F0901B2
+			public const int time_mst = 2131296690;
+			
+			// aapt resource value: 0x7F0901B3
+			public const int time_offset_mst = 2131296691;
+			
+			// aapt resource value: 0x7F0901B4
+			public const int time_offset_rdt = 2131296692;
+			
+			// aapt resource value: 0x7F0901B5
+			public const int time_offset_tzt = 2131296693;
+			
+			// aapt resource value: 0x7F0901B6
+			public const int time_rdt = 2131296694;
+			
+			// aapt resource value: 0x7F0901B7
+			public const int time_switcher = 2131296695;
+			
+			// aapt resource value: 0x7F0901B8
+			public const int time_tzt = 2131296696;
+			
+			// aapt resource value: 0x7F0901AE
+			public const int tiStart = 2131296686;
+			
+			// aapt resource value: 0x7F0901B9
+			public const int title = 2131296697;
+			
+			// aapt resource value: 0x7F0901BA
+			public const int titleDividerNoCustom = 2131296698;
 			
 			// aapt resource value: 0x7F0901BB
-			public const int title = 2131296699;
+			public const int title_template = 2131296699;
 			
 			// aapt resource value: 0x7F0901BC
-			public const int titleDividerNoCustom = 2131296700;
+			public const int title_text = 2131296700;
 			
 			// aapt resource value: 0x7F0901BD
-			public const int title_template = 2131296701;
+			public const int toolbar = 2131296701;
 			
 			// aapt resource value: 0x7F0901BE
-			public const int title_text = 2131296702;
+			public const int toolbar_spinner = 2131296702;
 			
 			// aapt resource value: 0x7F0901BF
-			public const int toolbar = 2131296703;
+			public const int top = 2131296703;
 			
 			// aapt resource value: 0x7F0901C0
-			public const int toolbar_spinner = 2131296704;
+			public const int topPanel = 2131296704;
 			
 			// aapt resource value: 0x7F0901C1
-			public const int top = 2131296705;
+			public const int top_separator = 2131296705;
 			
 			// aapt resource value: 0x7F0901C2
-			public const int topPanel = 2131296706;
+			public const int touch_outside = 2131296706;
 			
 			// aapt resource value: 0x7F0901C3
-			public const int top_separator = 2131296707;
+			public const int transition_current_scene = 2131296707;
 			
 			// aapt resource value: 0x7F0901C4
-			public const int touch_outside = 2131296708;
+			public const int transition_layout_save = 2131296708;
 			
 			// aapt resource value: 0x7F0901C5
-			public const int transition_current_scene = 2131296709;
+			public const int transition_position = 2131296709;
 			
 			// aapt resource value: 0x7F0901C6
-			public const int transition_layout_save = 2131296710;
+			public const int transition_scene_layoutid_cache = 2131296710;
 			
 			// aapt resource value: 0x7F0901C7
-			public const int transition_position = 2131296711;
+			public const int transition_transform = 2131296711;
 			
 			// aapt resource value: 0x7F0901C8
-			public const int transition_scene_layoutid_cache = 2131296712;
+			public const int transparency_layout = 2131296712;
 			
 			// aapt resource value: 0x7F0901C9
-			public const int transition_transform = 2131296713;
+			public const int transparency_seekbar = 2131296713;
 			
 			// aapt resource value: 0x7F0901CA
-			public const int transparency_layout = 2131296714;
+			public const int transparency_text = 2131296714;
 			
 			// aapt resource value: 0x7F0901CB
-			public const int transparency_seekbar = 2131296715;
+			public const int transparency_title = 2131296715;
 			
 			// aapt resource value: 0x7F0901CC
-			public const int transparency_text = 2131296716;
+			public const int tv_calendar_timetype = 2131296716;
 			
 			// aapt resource value: 0x7F0901CD
-			public const int transparency_title = 2131296717;
+			public const int uniform = 2131296717;
 			
 			// aapt resource value: 0x7F0901CE
-			public const int tv_calendar_timetype = 2131296718;
+			public const int unlabeled = 2131296718;
 			
 			// aapt resource value: 0x7F0901CF
-			public const int uniform = 2131296719;
+			public const int up = 2131296719;
 			
 			// aapt resource value: 0x7F0901D0
-			public const int unlabeled = 2131296720;
+			public const int useLogo = 2131296720;
 			
 			// aapt resource value: 0x7F0901D1
-			public const int up = 2131296721;
+			public const int view_DayView = 2131296721;
 			
 			// aapt resource value: 0x7F0901D2
-			public const int useLogo = 2131296722;
-			
-			// aapt resource value: 0x7F0901D3
-			public const int view_DayView = 2131296723;
-			
-			// aapt resource value: 0x7F0901D4
-			public const int view_MonthView = 2131296724;
-			
-			// aapt resource value: 0x7F0901D8
-			public const int view_offset_helper = 2131296728;
-			
-			// aapt resource value: 0x7F0901D5
-			public const int view_Timeline = 2131296725;
+			public const int view_MonthView = 2131296722;
 			
 			// aapt resource value: 0x7F0901D6
-			public const int view_WeekView = 2131296726;
+			public const int view_offset_helper = 2131296726;
+			
+			// aapt resource value: 0x7F0901D3
+			public const int view_Timeline = 2131296723;
+			
+			// aapt resource value: 0x7F0901D4
+			public const int view_WeekView = 2131296724;
+			
+			// aapt resource value: 0x7F0901D5
+			public const int view_WorkWeekView = 2131296725;
 			
 			// aapt resource value: 0x7F0901D7
-			public const int view_WorkWeekView = 2131296727;
+			public const int visible = 2131296727;
+			
+			// aapt resource value: 0x7F0901D8
+			public const int wallpaper_image = 2131296728;
 			
 			// aapt resource value: 0x7F0901D9
-			public const int visible = 2131296729;
+			public const int webview = 2131296729;
 			
 			// aapt resource value: 0x7F0901DA
-			public const int wallpaper_image = 2131296730;
+			public const int weekView = 2131296730;
 			
 			// aapt resource value: 0x7F0901DB
-			public const int webview = 2131296731;
+			public const int wide = 2131296731;
 			
 			// aapt resource value: 0x7F0901DC
-			public const int weekView = 2131296732;
+			public const int widget = 2131296732;
 			
 			// aapt resource value: 0x7F0901DD
-			public const int wide = 2131296733;
+			public const int widget_text = 2131296733;
 			
 			// aapt resource value: 0x7F0901DE
-			public const int widget = 2131296734;
+			public const int widget_title = 2131296734;
 			
 			// aapt resource value: 0x7F0901DF
-			public const int widget_text = 2131296735;
+			public const int widget_title_day = 2131296735;
 			
 			// aapt resource value: 0x7F0901E0
-			public const int widget_title = 2131296736;
+			public const int widget_title_dayname = 2131296736;
 			
 			// aapt resource value: 0x7F0901E1
-			public const int widget_title_day = 2131296737;
+			public const int widget_title_month = 2131296737;
 			
 			// aapt resource value: 0x7F0901E2
-			public const int widget_title_dayname = 2131296738;
+			public const int window = 2131296738;
 			
 			// aapt resource value: 0x7F0901E3
-			public const int widget_title_month = 2131296739;
+			public const int withText = 2131296739;
 			
 			// aapt resource value: 0x7F0901E4
-			public const int window = 2131296740;
+			public const int workWeekView = 2131296740;
 			
 			// aapt resource value: 0x7F0901E5
-			public const int withText = 2131296741;
-			
-			// aapt resource value: 0x7F0901E6
-			public const int workWeekView = 2131296742;
-			
-			// aapt resource value: 0x7F0901E7
-			public const int wrap_content = 2131296743;
+			public const int wrap_content = 2131296741;
 			
 			static Id()
 			{
