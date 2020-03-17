@@ -400,6 +400,8 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             base.OnResume();
 
+            bWelcomeScreenDone = bCalendarIsReady;
+
             if (ViewTypeSpinner != null)
             {
                 mContext.Title = "";
@@ -489,22 +491,26 @@ namespace iChronoMe.Droid.GUI.Calendar
             CheckCalendarWelcomeAssistant();
         }
 
+        bool bCalendarIsReady = false;
+        bool bWelcomeScreenDone = false;
         private async void CheckCalendarWelcomeAssistant()
         {
-            if (AppConfigHolder.CalendarViewConfig.WelcomeScreenDone < 1)
+            if (!bWelcomeScreenDone)
             {
+                bWelcomeScreenDone = true;
                 var def = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
                 if (def == null)
                 {
                     if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
                     {
-                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = Resources.GetString(Resource.String.app_name), IsPrimary = true, CanEditCalendar = true, CanEditEvents = true });
+                        await DeviceCalendar.DeviceCalendar.CreateDefaulCalendar();
+                        bCalendarIsReady = true;
                     }
                     else
                         return;
                 }
-                AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
-                AppConfigHolder.SaveCalendarViewConfig();
+                //AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
+                //AppConfigHolder.SaveCalendarViewConfig();
             }
         }
 

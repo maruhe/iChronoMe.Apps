@@ -21,12 +21,12 @@ namespace iChronoMe.Droid.GUI.Service
         {
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_setting_backgroundservice, container, false);
 
-            var model = new ClockNotificationViewModel(Activity);
+            var model = new ClockNotificationViewModel(Activity, bIsInfoActivity);
             binder = model.GetDataBinder(RootView);
             RootView.FindViewById<Button>(Resource.Id.btn_show_info).Click += model.ShowBackgroundServiceInfo;
             RootView.FindViewById<Button>(Resource.Id.btn_select_location).Click += model.ShowLocationSelector;
             RootView.FindViewById<Spinner>(Resource.Id.sp_clickaction).Adapter = model.ClickActionTypeAdapter;
-
+            
             return RootView;
         }
 

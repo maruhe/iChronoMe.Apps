@@ -15,7 +15,7 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
-
+using iChronoMe.Droid.Widgets;
 using Net.ArcanaStudio.ColorPicker;
 
 using static Android.App.DatePickerDialog;
@@ -185,18 +185,28 @@ namespace iChronoMe.Droid.GUI.Calendar
                 await mModel.WaitForReady();
                 RunOnUiThread(() =>
                 {
-                    if (string.IsNullOrEmpty(mModel.ExternalID))
-                        SetTitle(Resource.String.title_new_event);
-                    else
-                        SetTitle(Resource.String.title_edit_event);
-                    mBinder.Start();
-                    InvalidateOptionsMenu();
-                    reminderAdapter = new CalendarEventRemindersAdapter(this, mModel);
-                    reminderAdapter.CountChanged += ReminderAdapter_CountChanged;
-                    ReminderAdapter_CountChanged(null, null);
-                    FindViewById<ListView>(Resource.Id.lv_reminders).Adapter = reminderAdapter;                    
-                    if (calendarAdapter.IsReady)
-                        CalendarAdapter_ItemsLoadet(this, new EventArgs());
+                    try
+                    {
+                        if (mModel.HasErrors)
+                            throw new Exception();
+                        if (string.IsNullOrEmpty(mModel.ExternalID))
+                            SetTitle(Resource.String.title_new_event);
+                        else
+                            SetTitle(Resource.String.title_edit_event);
+                        mBinder.Start();
+                        InvalidateOptionsMenu();
+                        reminderAdapter = new CalendarEventRemindersAdapter(this, mModel);
+                        reminderAdapter.CountChanged += ReminderAdapter_CountChanged;
+                        ReminderAdapter_CountChanged(null, null);
+                        FindViewById<ListView>(Resource.Id.lv_reminders).Adapter = reminderAdapter;
+                        if (calendarAdapter.IsReady)
+                            CalendarAdapter_ItemsLoadet(this, new EventArgs());
+                    } 
+                    catch
+                    {
+                        StartActivity(MainWidgetBase.GetClickActionIntent(this, new iChronoMe.Widgets.ClickAction(iChronoMe.Widgets.ClickActionType.OpenCalendar), -1, null));
+                        FinishAndRemoveTask();
+                    }
                 });
             });
         }
@@ -205,7 +215,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             RunOnUiThread(() =>
             {
-                FindViewById<TableRow>(Resource.Id.row_reminders).SetMinimumHeight(sys.DpPx(41 * reminderAdapter.Count));
+                //FindViewById<TableRow>(Resource.Id.row_reminders).SetMinimumHeight(sys.DpPx(41 * reminderAdapter.Count));
                 if (sender != null)
                     FindViewById(Resource.Id.row_reminder_add).RequestFocus();
                 if (reminderAdapter.Count < 5)
@@ -214,7 +224,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     btnAddReminder.Visibility = ViewStates.Gone;
             });
         }
-
+        
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
             base.OnPrepareOptionsMenu(menu);
