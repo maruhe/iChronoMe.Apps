@@ -278,8 +278,6 @@
         </TableRow>
         <TableRow
             android:id="@+id/row_reminder_add"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
@@ -289,13 +287,30 @@
                 android:layout_span="2"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="41dp">
                 <Button
                     android:id="@+id/btn_add_reminder"
                     android:text="add reminder"
+                    android:background="@android:color/transparent"
                     android:layout_alignParentEnd="true"
+                    android:paddingEnd="40dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="40dp"/>
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp">
+                        <ImageButton
+                            android:contentDescription="add reminder"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/icons8_add_reminder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+                    </LinearLayout>
             </RelativeLayout>
         </TableRow>
         <TableRow
@@ -306,6 +321,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView                 
+                android:id="@+id/tv_description_title"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_span="2"
                 android:layout_weight="1"
                 android:text="@string/Description"

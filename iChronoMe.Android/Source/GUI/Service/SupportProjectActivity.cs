@@ -19,6 +19,8 @@ namespace iChronoMe.Droid.GUI.Service
             SetContentView(Resource.Layout.activity_dummy_frame);
             Toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(Toolbar);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayShowHomeEnabled(true);
 
             var frame = FindViewById<FrameLayout>(Resource.Id.main_frame);
 
@@ -30,6 +32,12 @@ namespace iChronoMe.Droid.GUI.Service
                 intent.PutExtra("Topic", 2);
                 StartActivity(intent);
             };
+        }
+
+        public override bool OnSupportNavigateUp()
+        {
+            OnBackPressed();
+            return true;
         }
     }
 }

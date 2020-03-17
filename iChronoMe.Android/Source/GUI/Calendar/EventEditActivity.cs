@@ -217,11 +217,11 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 //FindViewById<TableRow>(Resource.Id.row_reminders).SetMinimumHeight(sys.DpPx(41 * reminderAdapter.Count));
                 if (sender != null)
-                    FindViewById(Resource.Id.row_reminder_add).RequestFocus();
+                    FindViewById(Resource.Id.tv_description_title).RequestFocus();
                 if (reminderAdapter.Count < 5)
-                    btnAddReminder.Visibility = ViewStates.Visible;
+                    FindViewById(Resource.Id.row_reminder_add).Visibility = ViewStates.Visible;
                 else
-                    btnAddReminder.Visibility = ViewStates.Gone;
+                    FindViewById(Resource.Id.row_reminder_add).Visibility = ViewStates.Gone;
             });
         }
         
@@ -281,6 +281,12 @@ namespace iChronoMe.Droid.GUI.Calendar
                 Task.Factory.StartNew(async () =>
                 {
                     var saved = await mModel.SaveEvent();
+                    if (!AppConfigHolder.MainConfig.CalendarReminderWarningDone && mModel.Reminders.Count > 0)
+                    {
+                        AppConfigHolder.MainConfig.CalendarReminderWarningDone = true;
+                        AppConfigHolder.SaveMainConfig();
+                        await Tools.ShowMessageAndWait(this, "warning", "iChronoMe currently does no support notifications on reminders\nso be sure another calendar-app notifies you!");
+                    }
                     RunOnUiThread(() =>
                     {
                         if (saved)

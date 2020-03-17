@@ -77,6 +77,7 @@
   <string name="assistant_permission_storage" synced="x" sync="1">"and if you like we can display the preview for a widget with your wallpaper-image, therefore we need permission to the device-storage"</string>
   <string name="assistant_permission_welcome" synced="x" sync="1">"yep, we need some permissions:"</string>
   <string name="assistant_privacy_question" synced="x" sync="1">"you may mind about data privacy?"</string>
+	<string name="action_privacy_notice">terms of use and data privacy</string>
   <string name="Background" synced="x" sync="1">"background"</string>
   <string name="BackgroundColor" synced="x" sync="1">"background color"</string>
   <string name="BackgroundImage" synced="x" sync="1">"background image"</string>
