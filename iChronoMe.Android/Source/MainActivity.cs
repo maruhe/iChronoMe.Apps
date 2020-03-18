@@ -30,6 +30,7 @@ namespace iChronoMe.Droid
     public class MainActivity : BaseActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         int iNavigationItem = Resource.Id.nav_clock;
+        bool bNavDoneByCreate = false;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -38,7 +39,7 @@ namespace iChronoMe.Droid
             try
             {
 #if DEBUG
-                Task.Delay(2500).Wait();
+                //Task.Delay(5000).Wait();
 #endif
                 LoadAppTheme();
                 SetContentView(Resource.Layout.activity_main);
@@ -63,6 +64,8 @@ namespace iChronoMe.Droid
                     blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
                 }
 
+                ProcessNavigationChange(iNavigationItem);
+                bNavDoneByCreate = true;
                 Task.Factory.StartNew(() =>
                 {
                     Task.Delay(2500).Wait();
@@ -91,7 +94,9 @@ namespace iChronoMe.Droid
                 ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation }, 2);
             }
 
-            OnNavigationItemSelected(iNavigationItem);
+            if (!bNavDoneByCreate)
+                OnNavigationItemSelected(iNavigationItem);
+            bNavDoneByCreate = false;
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -175,82 +180,87 @@ namespace iChronoMe.Droid
         {
             Task.Factory.StartNew(() =>
             {
-                try
-                {
-                    ActivityFragment fr = null;
+                ProcessNavigationChange(id);
+            });
+            return true;
+        }
 
-                    if (id == Resource.Id.nav_clock)
-                    {
-                        //if (frClock == null)
-                        frClock = new ClockFragment();
-                        fr = frClock;
-                    }
-                    else if (id == Resource.Id.nav_calendar)
-                    {
-                        if (ActiveFragment is CalendarFragment)
-                            return;
-                        //if (frCalendar == null)
-                        frCalendar = new CalendarFragment();
-                        fr = frCalendar;
-                    }
-                    else if (id == Resource.Id.nav_world_time_map)
-                    {
-                        fr = new WorldTimeMapFragment();
-                    }
-                    else if (id == Resource.Id.nav_settings)
-                    {
-                        fr = new MainSettingsFragment();
-                    }
-                    else if (id == Resource.Id.nav_faq)
-                    {
-                        fr = new FaqFragment();
-                    }
-                    else if (id == Resource.Id.nav_about)
-                    {
+        private void ProcessNavigationChange(int id)
+        {
+            try
+            {
+                ActivityFragment fr = null;
+
+                if (id == Resource.Id.nav_clock)
+                {
+                    //if (frClock == null)
+                    frClock = new ClockFragment();
+                    fr = frClock;
+                }
+                else if (id == Resource.Id.nav_calendar)
+                {
+                    if (ActiveFragment is CalendarFragment)
+                        return;
+                    //if (frCalendar == null)
+                    frCalendar = new CalendarFragment();
+                    fr = frCalendar;
+                }
+                else if (id == Resource.Id.nav_world_time_map)
+                {
+                    fr = new WorldTimeMapFragment();
+                }
+                else if (id == Resource.Id.nav_settings)
+                {
+                    fr = new MainSettingsFragment();
+                }
+                else if (id == Resource.Id.nav_faq)
+                {
+                    fr = new FaqFragment();
+                }
+                else if (id == Resource.Id.nav_about)
+                {
 #if DExxBUG
                         fr = new DebugFragment();
 #else
-                        fr = new AboutFragment();
+                    fr = new AboutFragment();
 #endif
-                    }
-                    else if (id == Resource.Id.nav_theme)
-                    {
-                        ShowThemeSelector();
-                    }
-                    if (fr != null && blRestoreFragment != null)
-                        fr.OnViewStateRestored(blRestoreFragment);
-                    blRestoreFragment = null;
-
-                    RunOnUiThread(() =>
-                    {
-                        try
-                        {
-                            if (fr != null)
-                            {
-                                iNavigationItem = id;
-                                SupportFragmentManager.BeginTransaction()
-                                .Replace(Resource.Id.main_frame, fr)
-                                .Commit();
-                                ActiveFragment = fr;
-                            }
-                        }
-                        catch { }
-                    });
                 }
-                finally
+                else if (id == Resource.Id.nav_theme)
                 {
-                    RunOnUiThread(() =>
-                    {
-                        try
-                        {
-                            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-                            drawer.CloseDrawer(GravityCompat.Start);
-                        }
-                        catch { }
-                    });
+                    ShowThemeSelector();
                 }
-            });
-            return true;
+                if (fr != null && blRestoreFragment != null)
+                    fr.OnViewStateRestored(blRestoreFragment);
+                blRestoreFragment = null;
+
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        if (fr != null)
+                        {
+                            iNavigationItem = id;
+                            SupportFragmentManager.BeginTransaction()
+                            .Replace(Resource.Id.main_frame, fr)
+                            .Commit();
+                            ActiveFragment = fr;
+                        }
+                    }
+                    catch { }
+                });
+            }
+            finally
+            {
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+                        drawer.CloseDrawer(GravityCompat.Start);
+                    }
+                    catch { }
+                });
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

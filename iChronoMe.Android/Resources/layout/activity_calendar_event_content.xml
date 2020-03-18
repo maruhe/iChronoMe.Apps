@@ -248,6 +248,7 @@
                             android:layout_height="wrap_content"/>
                         <ImageView
                             android:src="@drawable/icons8_info_blue_clrd"
+                            android:contentDescription="info"
                             android:layout_marginStart="5dp"
                             android:layout_width="16dp"
                             android:layout_height="16dp"/>
@@ -290,7 +291,7 @@
                 android:layout_height="41dp">
                 <Button
                     android:id="@+id/btn_add_reminder"
-                    android:text="add reminder"
+                    android:text="@string/action_AddReminder"
                     android:background="@android:color/transparent"
                     android:layout_alignParentEnd="true"
                     android:paddingEnd="40dp"
@@ -314,23 +315,8 @@
             </RelativeLayout>
         </TableRow>
         <TableRow
+            android:id="@+id/row_decsription"
             android:layout_marginTop="@dimen/table_padding"
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView                 
-                android:id="@+id/tv_description_title"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:text="@string/Description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-        <TableRow
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"

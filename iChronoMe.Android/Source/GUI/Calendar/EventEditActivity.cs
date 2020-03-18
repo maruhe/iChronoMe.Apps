@@ -217,7 +217,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 //FindViewById<TableRow>(Resource.Id.row_reminders).SetMinimumHeight(sys.DpPx(41 * reminderAdapter.Count));
                 if (sender != null)
-                    FindViewById(Resource.Id.tv_description_title).RequestFocus();
+                    FindViewById(Resource.Id.row_decsription).RequestFocus();
                 if (reminderAdapter.Count < 5)
                     FindViewById(Resource.Id.row_reminder_add).Visibility = ViewStates.Visible;
                 else

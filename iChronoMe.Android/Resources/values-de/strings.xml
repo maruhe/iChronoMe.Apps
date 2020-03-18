@@ -2,6 +2,7 @@
 <resources>
   <string name="action_abort" synced="x" sync="1">"abbrechen"</string>
   <string name="action_accept" synced="x" sync="1">"akzeptieren"</string>
+  <string name="action_AddReminder" sync="x">"Erinnerung hinzufühen"</string>
   <string name="action_allow_send_errorlogs" synced="x" sync="1">"Fehlerberichte senden"</string>
   <string name="action_back" synced="x" sync="1">"zurück"</string>
   <string name="action_background" synced="x" sync="1">"Hintergrund"</string>
@@ -35,6 +36,7 @@
   <string name="action_notification_show_always" synced="x" sync="1">"Uhr im Benachrichtigungsbereich immer anzeigen"</string>
   <string name="action_ok" synced="x" sync="1">"ok"</string>
   <string name="action_options" synced="x" sync="1">"Optionen"</string>
+  <string name="action_privacy_notice" sync="x">"Informationen zu Nutzung und Datenschutz"</string>
   <string name="action_refresh_location" synced="x" sync="1">"Standord aktualisieren"</string>
   <string name="action_refresh_location_continuous" synced="x" sync="1">"meine Position aktualisieren"</string>
   <string name="action_remove" synced="x" sync="1">"entfernen"</string>
