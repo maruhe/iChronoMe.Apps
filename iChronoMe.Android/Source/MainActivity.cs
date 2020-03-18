@@ -37,6 +37,9 @@ namespace iChronoMe.Droid
 
             try
             {
+#if DEBUG
+                Task.Delay(2500).Wait();
+#endif
                 LoadAppTheme();
                 SetContentView(Resource.Layout.activity_main);
 

@@ -1002,7 +1002,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 {
                     TextColor = clText,
                     BackgroundColor = clSlotBack,
-                    TodayTextColor = clTodayText,
+                    TodayTextColor = clTitleText,
                     TodayBackgroundColor = clBack,
                     PreviousMonthBackgroundColor = clSlotAccent,
                     NextMonthBackgroundColor = clSlotAccent
