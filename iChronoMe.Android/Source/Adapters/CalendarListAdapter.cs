@@ -16,29 +16,29 @@ namespace iChronoMe.Droid.Adapters
     {
         protected Activity mContext { get; }
         protected Dictionary<string, Calendar> Items = new Dictionary<string, Calendar>();
-        private bool _primaryOnly = true;
         public bool IsReady { get; private set; } = false;
 
+        private int _secondaryCount = 0;
+        public bool HasSecondary { get => _secondaryCount > 0; }
 
-        public bool PrimaryOnly
+        private CalendarFilter _filter;
+        public CalendarFilter Filter
         {
-            get => _primaryOnly;
+            get => _filter;
             set
             {
-                if (_primaryOnly != value)
+                if (_filter != value)
                 {
-                    _primaryOnly = value;
+                    _filter = value;
                     Refresh();
                 }
             }
         }
 
-        private int _secondaryCount = 0;
-        public bool HasSecondary { get => _secondaryCount > 0; }
-
-        public CalendarListAdapter(Activity context)
+        public CalendarListAdapter(Activity context, CalendarFilter initFilter = CalendarFilter.PrimaryOnly)
         {
             mContext = context;
+            _filter = initFilter;
             Refresh();
         }
 
@@ -57,11 +57,22 @@ namespace iChronoMe.Droid.Adapters
                         if (cal.IsPrimary)
                             Items.Add(cal.AccountName + "_" + cal.Name, cal);
                     }
-                    if (!_primaryOnly)
+                    if (Filter == CalendarFilter.AllEditable || Filter == CalendarFilter.AllCalendars)
                     {
                         foreach (var cal in cals)
                         {
-                            if (!cal.IsPrimary)
+                            if (cal.CanEditEvents && !Items.ContainsValue(cal))
+                            {
+                                Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                                _secondaryCount++;
+                            }
+                        }
+                    }
+                    if (Filter == CalendarFilter.AllCalendars)
+                    {
+                        foreach (var cal in cals)
+                        {
+                            if (!cal.IsPrimary && !Items.ContainsValue(cal))
                             {
                                 Items.Add(cal.AccountName + "_" + cal.Name, cal);
                                 _secondaryCount++;
@@ -117,6 +128,12 @@ namespace iChronoMe.Droid.Adapters
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Name;
 
             return convertView;
+        }
+        public enum CalendarFilter
+        {
+            PrimaryOnly,
+            AllEditable,
+            AllCalendars
         }
     }
 }

@@ -14,8 +14,17 @@
             android:padding="@dimen/frame_padding"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/btn_locate"
+                android:src="@drawable/icons8_location_1"
+                android:contentDescription="@string/Location"
+                android:scaleType="fitCenter"
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
             <LinearLayout 
                 android:orientation="vertical"
+                android:paddingStart="53dp"
+                android:paddingTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -30,44 +39,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="init..."/>
-
-                <LinearLayout
-                    android:id="@+id/ll_device_time"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/img_device_time"
-                        android:layout_width="@dimen/image_size_text"
-                        android:layout_height="@dimen/image_size_text"/>
-
-                    <TextView
-                        android:id="@+id/text_device_time_info"
-                        android:text="init..."
-                        android:paddingStart="@dimen/frame_padding"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
-
             </LinearLayout>
-            <ImageButton
-                android:id="@+id/btn_locate"
-                android:src="@drawable/icons8_location"
-                android:layout_alignParentEnd="true"
-                android:scaleType="fitCenter"
-                android:layout_width="48dp"
-                android:layout_height="48dp"/>
-            <ImageButton
-                android:id="@+id/btn_animate"
-                android:src="@drawable/icons8_location"
+            <TextView
+                android:id="@+id/text_timezone_info"
+                android:paddingStart="5dp"
+                android:paddingTop="53dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="init..."/>
+            <LinearLayout
+                android:id="@+id/ll_device_time"
+                android:paddingTop="53dp"
+                android:orientation="horizontal"
                 android:visibility="gone"
-                android:layout_alignParentEnd="true"
-                android:scaleType="fitCenter"
-                android:layout_marginTop="64dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_device_time"
+                    android:layout_width="@dimen/image_size_text"
+                    android:layout_height="@dimen/image_size_text"/>
+
+                <TextView
+                    android:id="@+id/text_device_time_info"
+                    android:text="init..."
+                    android:paddingStart="@dimen/frame_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>            
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_alignParentBottom="true"

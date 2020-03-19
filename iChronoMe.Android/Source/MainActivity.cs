@@ -245,13 +245,14 @@ namespace iChronoMe.Droid
             try
             {
                 ActivityFragment fr = null;
-
+                string cTitle = localize.AppName;
                 if (id == Resource.Id.nav_clock)
                 {
                     //if (frClock == null)
                     frClock = new ClockFragment();
                     fr = frClock;
                     lastMainItem = id;
+                    cTitle = localize.menu_clock;
                 }
                 else if (id == Resource.Id.nav_calendar)
                 {
@@ -261,20 +262,24 @@ namespace iChronoMe.Droid
                     frCalendar = new CalendarFragment();
                     fr = frCalendar;
                     lastMainItem = id;
+                    cTitle = localize.menu_calendar;
                 }
                 else if (id == Resource.Id.nav_world_time_map)
                 {
                     fr = new WorldTimeMapFragment();
                     lastMainItem = id;
+                    cTitle = localize.menu_world_time_map;
                 }
                 else if (id == Resource.Id.nav_settings)
                 {
                     fr = new MainSettingsFragment();
+                    cTitle = localize.menu_settings;
                 }
-                else if (id == Resource.Id.nav_faq)
+                /*else if (id == Resource.Id.nav_faq)
                 {
                     fr = new FaqFragment();
-                }
+                    cTitle = localize.menu_faq;
+                }*/
                 else if (id == Resource.Id.nav_about)
                 {
 #if DExxBUG
@@ -282,6 +287,7 @@ namespace iChronoMe.Droid
 #else
                     fr = new AboutFragment();
 #endif
+                    cTitle = localize.menu_about;
                 }
                 else if (id == Resource.Id.nav_theme)
                 {
@@ -295,6 +301,7 @@ namespace iChronoMe.Droid
                 {
                     try
                     {
+                        Title = cTitle;
                         if (fr != null)
                         {
                             iNavigationItem = id;

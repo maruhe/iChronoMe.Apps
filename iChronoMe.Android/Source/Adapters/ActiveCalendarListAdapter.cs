@@ -21,6 +21,8 @@ namespace iChronoMe.Droid.Adapters
             if (convertView == null)
             {
                 convertView = mContext.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItemChecked, null);
+                convertView.FindViewById<CheckedTextView>(Android.Resource.Id.Text1).SetMaxLines(1);
+                convertView.FindViewById<CheckedTextView>(Android.Resource.Id.Text1).SetSingleLine(true);
             }
 
             bool bIsActive = !AppConfigHolder.CalendarViewConfig.HideCalendars.Contains(item.ExternalID);

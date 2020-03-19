@@ -15,9 +15,10 @@ using iChronoMe.Core.DataBinding;
 using iChronoMe.Core.Types;
 using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
+using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Widgets;
 using Net.ArcanaStudio.ColorPicker;
-
+using Xamarin.Essentials;
 using static Android.App.DatePickerDialog;
 using static Android.App.TimePickerDialog;
 
@@ -79,7 +80,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             eLocation.Adapter = new CalendarEventLocationAdapter(this, null);
             eLocation.Threshold = 3;
 
-            calendarAdapter = new CalendarListAdapter(this);
+            calendarAdapter = new CalendarListAdapter(this, CalendarListAdapter.CalendarFilter.AllEditable);
 
             if (string.IsNullOrEmpty(cEventId))
             {
@@ -151,9 +152,24 @@ namespace iChronoMe.Droid.GUI.Calendar
             mBinder.BindViewProperty(Resource.Id.row_location_helper, nameof(View.Visibility), mModel, nameof(CalendarEventEditViewModel.ShowLocationHelper));
 
             FindViewById<LinearLayout>(Resource.Id.row_location_helper).Click += llLocationHelper_Click;
+            FindViewById<ImageButton>(Resource.Id.btn_select_location).Click += btnSelectLocation_Click;
 
             btnAddReminder = FindViewById<Button>(Resource.Id.btn_add_reminder);
             btnAddReminder.Click += btnAddReminder_Click;
+        }
+
+        private async void btnSelectLocation_Click(object sender, EventArgs e)
+        {
+            Location current = null;
+            if (mModel.Extention.GotCorrectPosition)
+            {
+                current = new Location(mModel.Extention.Latitude, mModel.Extention.Longitude);
+            }
+            var pos = await LocationPickerDialog.SelectLocation(this, null, current);
+            if (pos != null)
+            {
+                mModel.UpdateLocation(sys.DezimalGradToString(pos.Latitude, pos.Longitude), pos.Latitude, pos.Longitude);
+            }
         }
 
         private void btnAddReminder_Click(object sender, EventArgs e)
@@ -327,8 +343,16 @@ namespace iChronoMe.Droid.GUI.Calendar
             int pos = calendarAdapter.GetCalendarPosition(mModel.CalendarId);
             if (pos < 0)
             {
-                if (calendarAdapter.PrimaryOnly)
-                    calendarAdapter.PrimaryOnly = false;
+                if (calendarAdapter.Filter == CalendarListAdapter.CalendarFilter.PrimaryOnly)
+                {
+                    calendarAdapter.Filter = CalendarListAdapter.CalendarFilter.AllEditable;
+                    return;
+                }
+                else if (calendarAdapter.Filter == CalendarListAdapter.CalendarFilter.AllEditable)
+                {
+                    calendarAdapter.Filter = CalendarListAdapter.CalendarFilter.AllCalendars;
+                    return;
+                }
                 else
                 {
                     Tools.ShowToast(this, "strange calendar error", true);

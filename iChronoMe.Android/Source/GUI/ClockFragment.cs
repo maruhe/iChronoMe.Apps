@@ -38,7 +38,7 @@ namespace iChronoMe.Droid.GUI
         private DrawerLayout Drawer;
         NavigationView navigationView;
         private CoordinatorLayout coordinator;
-        private TextView lTitle, lGeoPos, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3, lDeviceTimeInfo;
+        private TextView lTitle, lGeoPos, lTimeZoneInfo, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3, lDeviceTimeInfo;
         private ImageView imgTZ, imgClockBack, imgClockBackClr, imgDeviceTime;
         private SKCanvasView skiaView;
         private WidgetConfigHolder cfgHolder;
@@ -82,6 +82,7 @@ namespace iChronoMe.Droid.GUI
 
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
             lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
+            lTimeZoneInfo = RootView.FindViewById<TextView>(Resource.Id.text_timezone_info);
 
             imgDeviceTime = RootView.FindViewById<ImageView>(Resource.Id.img_device_time);
             lDeviceTimeInfo = RootView.FindViewById<TextView>(Resource.Id.text_device_time_info);
@@ -99,9 +100,6 @@ namespace iChronoMe.Droid.GUI
 
             RootView.FindViewById<ImageButton>(Resource.Id.btn_locate).Click += btnLocate_Click;
             TooltipCompat.SetTooltipText(RootView.FindViewById<ImageButton>(Resource.Id.btn_locate), localize.LocationType);
-            RootView.FindViewById<ImageButton>(Resource.Id.btn_animate).Click += btnAnimate_Click;
-            if (!sys.Debugmode)
-                RootView.FindViewById<ImageButton>(Resource.Id.btn_animate).Visibility = ViewStates.Gone;
 
             fabTimeType = RootView.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
             fabTimeType.Click += Fab_Click;
@@ -892,64 +890,6 @@ namespace iChronoMe.Droid.GUI
             }
         }
 
-        private void btnAnimate_Click(object sender, EventArgs e)
-        {
-            PopupMenu popup = new PopupMenu(Activity, sender as View);
-            foreach (var style in Enum.GetValues(typeof(ClockAnalog_AnimationStyle)))
-                popup.Menu.Add(0, (int)style, 0, style.ToString());
-
-            popup.MenuItemClick += (s, e) =>
-            {
-                ClockAnalog_AnimationStyle style = (ClockAnalog_AnimationStyle)Enum.ToObject(typeof(ClockAnalog_AnimationStyle), e.Item.ItemId);
-
-                TimeSpan tsDuriation = TimeSpan.FromSeconds(1);
-                DateTime tAnimateFrom = lth.GetTime(this.TimeType);
-                DateTime tAnimateTo = tAnimateFrom.Add(tsDuriation);
-
-                animator?.AbortAnimation();
-                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, style)
-                    .SetStart(tAnimateFrom)
-                    .SetEnd(tAnimateTo)
-                    .SetPushFrame((h, m, s) =>
-                    {
-                        nManualHour = h;
-                        nManualMinute = m;
-                        nManualSecond = s;
-                        mContext.RunOnUiThread(() =>
-                        {
-                            bNoClockUpdate = true;
-                            vClock.FlowMinuteHand = true;
-                            vClock.FlowSecondHand = true;
-                            skiaView.Invalidate();
-                        });
-                    })
-                    .SetLastRun((h, m, s) =>
-                    {
-                        nManualHour = h;
-                        nManualMinute = m;
-                        nManualSecond = s;
-
-                        mContext.RunOnUiThread(() =>
-                        {
-                            vClock.ReadConfig(clockCfg);
-                            skiaView.Invalidate();
-                        });
-                    })
-                    .SetFinally(() =>
-                    {
-                        mContext.RunOnUiThread(() =>
-                        {
-                            nManualHour = nManualMinute = nManualSecond = null;
-                            bNoClockUpdate = false;
-                        });
-                    })
-                    .StartAnimation();
-
-            };
-
-            popup.Show();
-        }
-
         private void btnLocate_Click(object sender, EventArgs e)
         {
             PopupMenu popup = new PopupMenu(Activity, sender as View);
@@ -1124,7 +1064,7 @@ namespace iChronoMe.Droid.GUI
                                 }
                                 tskStopLocationUpdates = null;
                                 locationManager?.RemoveUpdates(this);
-                                Tools.ShowToastDebug(Context, "LocationUpdates stopped..");
+                                //Tools.ShowToastDebug(Context, "LocationUpdates stopped..");
                             });
                         }
                     }
@@ -1276,9 +1216,10 @@ namespace iChronoMe.Droid.GUI
                     lGeoPos.Text = Resources.GetString(Resource.String.unknown_position);
                 else
                 {
-                    lGeoPos.Text = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) + "\nGMT " + lth.TimeZoneOffsetGmt.ToString("+#;-#;0");
+                    lGeoPos.Text = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
+                    lTimeZoneInfo.Text = "GMT " + lth.TimeZoneOffsetGmt.ToString("+#;-#;0");
                     if (lth.TimeZoneOffset != lth.TimeZoneOffsetGmt)
-                        lGeoPos.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
+                        lTimeZoneInfo.Text += "\nDST " + lth.TimeZoneOffset.ToString("+#;-#;0");
                 }
             });
         }

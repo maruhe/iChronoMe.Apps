@@ -390,7 +390,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     ConfigBinder.Stop();
                 else
                     ConfigBinder.Start();
-                calListAdapter.PrimaryOnly = true;
+                calListAdapter.Filter = CalendarListAdapter.CalendarFilter.PrimaryOnly;
             }
         }
 
@@ -429,7 +429,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void LvCalendars_Touch(object sender, View.TouchEventArgs e)
         {
-            calListAdapter.PrimaryOnly = false;
+            calListAdapter.Filter = CalendarListAdapter.CalendarFilter.AllCalendars;
             e.Handled = false;
         }
 
@@ -451,7 +451,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 {
                     spinner.Visibility = ViewStates.Gone;
                     spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
-                    mContext.Title = Resources.GetString(Resource.String.app_name);
+                    if (string.IsNullOrEmpty(mContext.Title))
+                        mContext.Title = localize.menu_calendar;
                 }
             }
             bKeepTitleOnPause = false;
