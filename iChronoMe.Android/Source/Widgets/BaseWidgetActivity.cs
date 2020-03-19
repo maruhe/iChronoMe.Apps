@@ -1,9 +1,11 @@
-﻿using Android.App;
+﻿using System.Threading;
+using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
+using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets
 {
@@ -64,6 +66,18 @@ namespace iChronoMe.Droid.Widgets
 
             if (wallpaperDrawable == null)
                 wallpaperDrawable = Resources.GetDrawable(Resource.Mipmap.dummy_wallpaper, Theme);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            new Thread(() =>
+            {
+                try { 
+                    System.IO.Directory.Delete(System.IO.Path.Combine(sys.PathCache, "WidgetPreview"), true); 
+                } catch { };
+            }).Start();
         }
     }
 }

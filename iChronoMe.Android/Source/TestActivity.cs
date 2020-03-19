@@ -47,7 +47,7 @@ namespace iChronoMe.Droid
 
             /*
              * 
-             * dd 
+             * dd  
              * 
             string cImageDir = ImageLoader.GetImagePathThumb(ImageLoader.filter_clockfaces);
             var cGroups = new List<string>(Directory.GetDirectories(cImageDir));

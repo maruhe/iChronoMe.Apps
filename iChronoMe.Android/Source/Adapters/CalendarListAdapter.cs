@@ -46,27 +46,36 @@ namespace iChronoMe.Droid.Adapters
         {
             Task.Factory.StartNew(async () =>
             {
-                _secondaryCount = 0;
-                var cals = await DeviceCalendar.DeviceCalendar.GetCalendarsAsync();
-                List<string> cS = new List<string>();
+            _secondaryCount = 0;
+            var cals = await DeviceCalendar.DeviceCalendar.GetCalendarsAsync();
+            List<string> cS = new List<string>();
                 lock (Items)
                 {
                     Items.Clear();
                     foreach (var cal in cals)
                     {
-                        if (!_primaryOnly || cal.IsPrimary)
+                        if (cal.IsPrimary)
                             Items.Add(cal.AccountName + "_" + cal.Name, cal);
-                        if (!cal.IsPrimary)
-                            _secondaryCount++;
                     }
-                }
-                IsReady = true;
-                mContext.RunOnUiThread(() =>
-                {
-                    this.NotifyDataSetChanged();
-                    ItemsLoadet?.Invoke(this, new EventArgs());
-                });
+                    if (!_primaryOnly)
+                    {
+                        foreach (var cal in cals)
+                        {
+                            if (!cal.IsPrimary)
+                            {
+                                Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                                _secondaryCount++;
+                            }
+                        }
+                    }
 
+                    IsReady = true;
+                    mContext.RunOnUiThread(() =>
+                    {
+                        this.NotifyDataSetChanged();
+                        ItemsLoadet?.Invoke(this, new EventArgs());
+                    });
+                }
             });
         }
 

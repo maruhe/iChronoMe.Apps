@@ -731,6 +731,41 @@ namespace iChronoMe.Droid.GUI
             {
                 Marker.ShowInfoWindow();
                 mGoogleMap.AnimateCamera(CameraUpdateFactory.NewLatLng(Marker.Position));
+                if (lth.AreaInfo == null || string.IsNullOrEmpty(lth.AreaInfo.toponymName))
+                    return;
+
+                Tools.ShowToast(mActivity, GetLoongAreaInfo(), false);
+            }
+
+            private string GetLoongAreaInfo()
+            {
+                var ai = lth.AreaInfo;
+                if (ai == null || string.IsNullOrEmpty(ai.toponymName))
+                    return sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
+                string cInfo = string.Empty;
+                if (!string.IsNullOrEmpty(ai.route))
+                    cInfo += ai.route + "\n";
+                if (!string.IsNullOrEmpty(ai.locality))
+                    cInfo += ai.locality + "\n";
+                if (!string.IsNullOrEmpty(ai.postalCode))
+                    cInfo += ai.postalCode + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea5))
+                    cInfo += ai.adminArea5 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea4))
+                    cInfo += ai.adminArea4 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea3))
+                    cInfo += ai.adminArea3 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea2))
+                    cInfo += ai.adminArea2 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea1))
+                    cInfo += ai.adminArea1 + "\n";
+                if (!string.IsNullOrEmpty(ai.countryName))
+                    cInfo += ai.countryName + "\n";
+
+                if (!string.IsNullOrEmpty(ai.toponymName) && !cInfo.Contains(ai.toponymName))
+                    cInfo = ai.toponymName + "\n" + cInfo;
+
+                return cInfo.Trim('\n');
             }
 
             private void lth_AreaChanged(object sender, AreaChangedEventArgs e)

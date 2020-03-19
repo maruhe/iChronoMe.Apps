@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Android;
@@ -69,15 +70,68 @@ namespace iChronoMe.Droid
                 Task.Factory.StartNew(() =>
                 {
                     Task.Delay(2500).Wait();
-                    BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
-                    CheckErrorLog();
-                    TimeZoneMap.GetTimeZone(1, 1);
+
+                    try
+                    {
+                        StatisticAppStart();
+                    }
+                    catch { }
+
+                    if (NeedsStartAssistant())
+                        return;
+
+                    try
+                    {
+                        BackgroundService.RestartService(this, AppWidgetManager.ActionAppwidgetUpdate);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        CheckErrorLog();
+                    }
+                    catch { }
+
+                    try
+                    {
+                        TimeZoneMap.GetTimeZone(1, 1);
+                    }
+                    catch { }
                     //sys.DebugLogException(new Exception("lalaaa"));
                 });
             }
             catch (Exception ex)
             {
                 sys.LogException(ex);
+            }
+        }
+
+        private void StatisticAppStart()
+        {
+            try
+            {
+                var stat = AppConfigHolder.UsageInfo;
+
+                //check and do after update..
+                if (stat.LastAppVersionCode != sys.iAppVersionCode)
+                {
+                    if (stat.LastAppVersionCode > 0)
+                    {
+                        //App has been updated
+
+                    }
+                    stat.LastAppVersion = sys.cAppVersionInfo;
+                    stat.LastAppVersionCode = sys.iAppVersionCode;
+                }
+
+                stat.LastAppStart = DateTime.Now;
+                stat.AppStartCount++;
+                AppConfigHolder.SaveUsageInfo();
+            }
+            catch (ThreadAbortException) { }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
             }
         }
 
@@ -130,6 +184,7 @@ namespace iChronoMe.Droid
                 blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
         }
 
+        int lastMainItem = Resource.Id.nav_clock;
         public override void OnBackPressed()
         {
             DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -145,7 +200,7 @@ namespace iChronoMe.Droid
                         base.OnBackPressed();
                 }
                 else
-                    OnNavigationItemSelected(Resource.Id.nav_clock);
+                    OnNavigationItemSelected(lastMainItem);
             }
         }
 
@@ -196,6 +251,7 @@ namespace iChronoMe.Droid
                     //if (frClock == null)
                     frClock = new ClockFragment();
                     fr = frClock;
+                    lastMainItem = id;
                 }
                 else if (id == Resource.Id.nav_calendar)
                 {
@@ -204,10 +260,12 @@ namespace iChronoMe.Droid
                     //if (frCalendar == null)
                     frCalendar = new CalendarFragment();
                     fr = frCalendar;
+                    lastMainItem = id;
                 }
                 else if (id == Resource.Id.nav_world_time_map)
                 {
                     fr = new WorldTimeMapFragment();
+                    lastMainItem = id;
                 }
                 else if (id == Resource.Id.nav_settings)
                 {

@@ -1,49 +1,54 @@
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="@dimen/frame_padding"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/btn_show_info"
-        android:text="@string/backgroundservice_info_why"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="@dimen/frame_padding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
-    <CheckBox
-        android:id="@+id/cb_showalways"
-        android:text="@string/action_backgroundservice_showalways"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_show_info"
+            android:text="@string/backgroundservice_info_why"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:text="@string/action_location_type_promt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/cb_showalways"
+            android:text="@string/action_backgroundservice_showalways"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <me.ichrono.droid.Controls.AlwaysSpinner
-        android:id="@+id/sp_locationtype"
-        android:prompt="@string/action_location_type_promt"
-        android:entries="@array/label_locationtypes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/action_location_type_promt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/btn_select_location"
-        android:text="@string/action_select_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <me.ichrono.droid.Controls.AlwaysSpinner
+            android:id="@+id/sp_locationtype"
+            android:prompt="@string/action_location_type_promt"
+            android:entries="@array/label_locationtypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:text="@string/action_notification_click_action"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_select_location"
+            android:text="@string/action_select_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <me.ichrono.droid.Controls.AlwaysSpinner
-        android:id="@+id/sp_clickaction"
-        android:prompt="@string/action_notification_click_action"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/action_notification_click_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</LinearLayout>
+        <me.ichrono.droid.Controls.AlwaysSpinner
+            android:id="@+id/sp_clickaction"
+            android:prompt="@string/action_notification_click_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>

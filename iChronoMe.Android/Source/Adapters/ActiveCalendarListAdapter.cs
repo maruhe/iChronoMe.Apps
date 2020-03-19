@@ -48,9 +48,9 @@ namespace iChronoMe.Droid.Adapters
 
         public void ListView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
-            //ItemClick(sender, e.Position);
+            ItemClick(sender, e.Position);
         }
-
+        
         public void ItemClick(object sender, int position)
         {
             var cal = Items.Values.ElementAt(position);
@@ -65,6 +65,5 @@ namespace iChronoMe.Droid.Adapters
 
         public event EventHandler HiddenCalendarsChanged;
         private ListView parentListView;
-        private ImageView btnExpand;
     }
 }
