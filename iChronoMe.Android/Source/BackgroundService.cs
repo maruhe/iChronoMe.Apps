@@ -1015,7 +1015,7 @@ namespace iChronoMe.Droid
                             xLog.Debug("EnableLocationUpdate: network: " + e.Message);
                         }
 
-                        if (!bGetNetworkLocation || sys.Debugmode)
+                        if (!bGetNetworkLocation)
                         {
                             try
                             {

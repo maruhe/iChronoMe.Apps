@@ -1213,7 +1213,7 @@ namespace iChronoMe.Droid.GUI
                 imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
                 lTitle.Text = lth.AreaName + (string.IsNullOrEmpty(lth.CountryName) ? string.Empty : ", " + lth.CountryName);
                 if (lth.Latitude == 0 && lth.Longitude == 0)
-                    lGeoPos.Text = Resources.GetString(Resource.String.unknown_position);
+                    lGeoPos.Text = Resources.GetString(Resource.String.text_unknown_position);
                 else
                 {
                     lGeoPos.Text = sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
