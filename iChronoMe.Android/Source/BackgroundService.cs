@@ -59,7 +59,7 @@ namespace iChronoMe.Droid
 
             //RegisterForegroundService();
 
-            Tools.ShowToastDebugDebug(this, "Service Created");
+            Tools.ShowToastDebug(this, "Service Created");
 
             Task.Factory.StartNew(() =>
             {

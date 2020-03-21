@@ -339,10 +339,18 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
+#flags
+drawable-v1/
+
+#additional icons
+icons8_calendar_plus_*.xml
+icons8_calendar_*.xml
+icons8_alarm_clock_*.xml
+icons8_alarm_*.xml
+
 #Secrets
 secrets.cs
 secrets.*.cs
 secrets.xml
 secrets_*.xml
 *.keystore
-drawable-v1/
