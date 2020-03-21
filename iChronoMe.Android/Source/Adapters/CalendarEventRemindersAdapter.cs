@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
-using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using iChronoMe.Core.Classes;
+
 using iChronoMe.Core.ViewModels;
 using iChronoMe.DeviceCalendar;
 
@@ -33,7 +29,8 @@ namespace iChronoMe.Droid.Adapters
 
         public override long GetItemId(int position) => position;
 
-        public override int Count {
+        public override int Count
+        {
             get
             {
                 if (lastCount != mModel.Reminders.Count)
@@ -58,7 +55,7 @@ namespace iChronoMe.Droid.Adapters
             {
                 holder = new CalendarEventRemindersAdapterViewHolder();
                 var inflater = mContext.GetSystemService(Context.LayoutInflaterService).JavaCast<LayoutInflater>();
-                
+
                 view = inflater.Inflate(Resource.Layout.listitem_event_reminder, parent, false);
 
                 view.Focusable = true;
@@ -94,7 +91,7 @@ namespace iChronoMe.Droid.Adapters
             //holder.spMethod.DispatchSetSelected(false);
             //holder.spMethod.SetSelection((int)reminder.Method, false);
 
-            holder.spTimeSpan.Tag = holder.spMethod.Tag = holder.btnDelete.Tag = position;            
+            holder.spTimeSpan.Tag = holder.spMethod.Tag = holder.btnDelete.Tag = position;
 
             return view;
         }
@@ -105,7 +102,8 @@ namespace iChronoMe.Droid.Adapters
             {
                 int pos = (int)(sender as ImageButton).Tag;
                 mModel.Reminders.RemoveAt(pos);
-            } catch { }
+            }
+            catch { }
             NotifyDataSetChanged();
         }
 
@@ -116,7 +114,8 @@ namespace iChronoMe.Droid.Adapters
             {
                 int pos = (int)(sender as Spinner).Tag;
                 mModel.Reminders[pos].Method = (CalendarReminderMethod)Enum.ToObject(typeof(CalendarReminderMethod), pos);
-            } catch { }
+            }
+            catch { }
             NotifyDataSetChanged();
         }
 
@@ -134,13 +133,14 @@ namespace iChronoMe.Droid.Adapters
                 if (Equals(mModel.Reminders[pos].TimeBefore, ts))
                     return;
                 mModel.Reminders[pos].TimeBefore = ts;
-            } catch { }
+            }
+            catch { }
             NotifyDataSetChanged();
         }
 
         public event EventHandler CountChanged;
     }
-            
+
     class CalendarEventRemindersAdapterViewHolder : Java.Lang.Object
     {
         public Spinner spTimeSpan { get; set; }

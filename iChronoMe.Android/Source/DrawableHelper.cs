@@ -25,7 +25,7 @@ namespace iChronoMe.Droid
                     List<int> list = new List<int>();
                     foreach (var prop in typeof(Resource.Drawable).GetFields())
                     {
-                        if (prop.Name.Contains("_clrd") || "real_sun_time".Equals(prop.Name))
+                        if (prop.Name.Contains("_clrd"))
                             list.Add((int)prop.GetValue(null));
                     }
                     _coloredIcons = list;

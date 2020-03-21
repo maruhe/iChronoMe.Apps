@@ -75,7 +75,7 @@ namespace iChronoMe.Droid.Widgets
             llDummy = null;
             ViewHolders.Clear();
             ViewHolders = null;
-            inflater = null;            
+            inflater = null;
         }
 
         Dictionary<int, int> Times = new Dictionary<int, int>();

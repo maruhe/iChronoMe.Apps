@@ -17,8 +17,11 @@ using iChronoMe.Core.ViewModels;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.Widgets;
+
 using Net.ArcanaStudio.ColorPicker;
+
 using Xamarin.Essentials;
+
 using static Android.App.DatePickerDialog;
 using static Android.App.TimePickerDialog;
 
@@ -217,7 +220,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                         FindViewById<ListView>(Resource.Id.lv_reminders).Adapter = reminderAdapter;
                         if (calendarAdapter.IsReady)
                             CalendarAdapter_ItemsLoadet(this, new EventArgs());
-                    } 
+                    }
                     catch
                     {
                         StartActivity(MainWidgetBase.GetClickActionIntent(this, new iChronoMe.Widgets.ClickAction(iChronoMe.Widgets.ClickActionType.OpenCalendar), -1, null));
@@ -240,7 +243,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     FindViewById(Resource.Id.row_reminder_add).Visibility = ViewStates.Gone;
             });
         }
-        
+
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
             base.OnPrepareOptionsMenu(menu);

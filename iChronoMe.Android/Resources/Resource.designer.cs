@@ -8711,130 +8711,124 @@ namespace iChronoMe.Droid
 			public const int icons8_services = 2131231213;
 			
 			// aapt resource value: 0x7F0801EE
-			public const int icons8_services_filled = 2131231214;
+			public const int icons8_settings_3 = 2131231214;
 			
 			// aapt resource value: 0x7F0801EF
-			public const int icons8_settings_3 = 2131231215;
+			public const int icons8_share = 2131231215;
 			
 			// aapt resource value: 0x7F0801F0
-			public const int icons8_share = 2131231216;
+			public const int icons8_sun_1 = 2131231216;
 			
 			// aapt resource value: 0x7F0801F1
-			public const int icons8_sun = 2131231217;
+			public const int icons8_sun_18 = 2131231217;
 			
 			// aapt resource value: 0x7F0801F2
-			public const int icons8_sun_1 = 2131231218;
+			public const int icons8_sun_clrd = 2131231218;
 			
 			// aapt resource value: 0x7F0801F3
-			public const int icons8_sun_18 = 2131231219;
+			public const int icons8_support = 2131231219;
 			
 			// aapt resource value: 0x7F0801F4
-			public const int icons8_sun_clrd = 2131231220;
+			public const int icons8_timeline = 2131231220;
 			
 			// aapt resource value: 0x7F0801F5
-			public const int icons8_support = 2131231221;
+			public const int icons8_timezone_0 = 2131231221;
 			
 			// aapt resource value: 0x7F0801F6
-			public const int icons8_timeline = 2131231222;
+			public const int icons8_timezone_1 = 2131231222;
 			
 			// aapt resource value: 0x7F0801F7
-			public const int icons8_timezone_0 = 2131231223;
+			public const int icons8_timezone_10 = 2131231223;
 			
 			// aapt resource value: 0x7F0801F8
-			public const int icons8_timezone_1 = 2131231224;
+			public const int icons8_timezone_11 = 2131231224;
 			
 			// aapt resource value: 0x7F0801F9
-			public const int icons8_timezone_10 = 2131231225;
+			public const int icons8_timezone_12 = 2131231225;
 			
 			// aapt resource value: 0x7F0801FA
-			public const int icons8_timezone_11 = 2131231226;
+			public const int icons8_timezone_2 = 2131231226;
 			
 			// aapt resource value: 0x7F0801FB
-			public const int icons8_timezone_12 = 2131231227;
+			public const int icons8_timezone_3 = 2131231227;
 			
 			// aapt resource value: 0x7F0801FC
-			public const int icons8_timezone_2 = 2131231228;
+			public const int icons8_timezone_4 = 2131231228;
 			
 			// aapt resource value: 0x7F0801FD
-			public const int icons8_timezone_3 = 2131231229;
+			public const int icons8_timezone_5 = 2131231229;
 			
 			// aapt resource value: 0x7F0801FE
-			public const int icons8_timezone_4 = 2131231230;
+			public const int icons8_timezone_6 = 2131231230;
 			
 			// aapt resource value: 0x7F0801FF
-			public const int icons8_timezone_5 = 2131231231;
+			public const int icons8_timezone_7 = 2131231231;
 			
 			// aapt resource value: 0x7F080200
-			public const int icons8_timezone_6 = 2131231232;
+			public const int icons8_timezone_8 = 2131231232;
 			
 			// aapt resource value: 0x7F080201
-			public const int icons8_timezone_7 = 2131231233;
+			public const int icons8_timezone_9 = 2131231233;
 			
 			// aapt resource value: 0x7F080202
-			public const int icons8_timezone_8 = 2131231234;
+			public const int icons8_timezone_clock = 2131231234;
 			
 			// aapt resource value: 0x7F080203
-			public const int icons8_timezone_9 = 2131231235;
+			public const int icons8_timezone_globe = 2131231235;
 			
 			// aapt resource value: 0x7F080204
-			public const int icons8_timezone_clock = 2131231236;
+			public const int icons8_timezone_m1 = 2131231236;
 			
 			// aapt resource value: 0x7F080205
-			public const int icons8_timezone_globe = 2131231237;
+			public const int icons8_timezone_m10 = 2131231237;
 			
 			// aapt resource value: 0x7F080206
-			public const int icons8_timezone_m1 = 2131231238;
+			public const int icons8_timezone_m11 = 2131231238;
 			
 			// aapt resource value: 0x7F080207
-			public const int icons8_timezone_m10 = 2131231239;
+			public const int icons8_timezone_m12 = 2131231239;
 			
 			// aapt resource value: 0x7F080208
-			public const int icons8_timezone_m11 = 2131231240;
+			public const int icons8_timezone_m2 = 2131231240;
 			
 			// aapt resource value: 0x7F080209
-			public const int icons8_timezone_m12 = 2131231241;
+			public const int icons8_timezone_m3 = 2131231241;
 			
 			// aapt resource value: 0x7F08020A
-			public const int icons8_timezone_m2 = 2131231242;
+			public const int icons8_timezone_m4 = 2131231242;
 			
 			// aapt resource value: 0x7F08020B
-			public const int icons8_timezone_m3 = 2131231243;
+			public const int icons8_timezone_m5 = 2131231243;
 			
 			// aapt resource value: 0x7F08020C
-			public const int icons8_timezone_m4 = 2131231244;
+			public const int icons8_timezone_m6 = 2131231244;
 			
 			// aapt resource value: 0x7F08020D
-			public const int icons8_timezone_m5 = 2131231245;
+			public const int icons8_timezone_m7 = 2131231245;
 			
 			// aapt resource value: 0x7F08020E
-			public const int icons8_timezone_m6 = 2131231246;
+			public const int icons8_timezone_m8 = 2131231246;
 			
 			// aapt resource value: 0x7F08020F
-			public const int icons8_timezone_m7 = 2131231247;
+			public const int icons8_timezone_m9 = 2131231247;
 			
 			// aapt resource value: 0x7F080210
-			public const int icons8_timezone_m8 = 2131231248;
+			public const int icons8_today = 2131231248;
 			
 			// aapt resource value: 0x7F080211
-			public const int icons8_timezone_m9 = 2131231249;
+			public const int icons8_view_quilt = 2131231249;
 			
 			// aapt resource value: 0x7F080212
-			public const int icons8_today = 2131231250;
+			public const int icons8_warning_clrd = 2131231250;
 			
 			// aapt resource value: 0x7F080213
-			public const int icons8_view_quilt = 2131231251;
+			public const int icons8_waste = 2131231251;
 			
 			// aapt resource value: 0x7F080214
-			public const int icons8_warning_clrd = 2131231252;
+			public const int icons8_week_view = 2131231252;
 			
 			// aapt resource value: 0x7F080215
-			public const int icons8_waste = 2131231253;
-			
-			// aapt resource value: 0x7F080216
-			public const int icons8_week_view = 2131231254;
-			
-			// aapt resource value: 0x7F080217
-			public const int icons8_worldwide_location = 2131231255;
+			public const int icons8_worldwide_location = 2131231253;
 			
 			// aapt resource value: 0x7F080188
 			public const int ic_arrow_down_24dp = 2131231112;
@@ -8869,101 +8863,98 @@ namespace iChronoMe.Droid
 			// aapt resource value: 0x7F080192
 			public const int ic_mtrl_chip_close_circle = 2131231122;
 			
+			// aapt resource value: 0x7F080216
+			public const int middle_sun_time = 2131231254;
+			
+			// aapt resource value: 0x7F080217
+			public const int mtrl_snackbar_background = 2131231255;
+			
 			// aapt resource value: 0x7F080218
-			public const int middle_sun_time = 2131231256;
+			public const int mtrl_tabs_default_indicator = 2131231256;
 			
 			// aapt resource value: 0x7F080219
-			public const int mtrl_snackbar_background = 2131231257;
+			public const int navigation_empty_icon = 2131231257;
 			
 			// aapt resource value: 0x7F08021A
-			public const int mtrl_tabs_default_indicator = 2131231258;
+			public const int notification_action_background = 2131231258;
 			
 			// aapt resource value: 0x7F08021B
-			public const int navigation_empty_icon = 2131231259;
+			public const int notification_bg = 2131231259;
 			
 			// aapt resource value: 0x7F08021C
-			public const int notification_action_background = 2131231260;
+			public const int notification_bg_low = 2131231260;
 			
 			// aapt resource value: 0x7F08021D
-			public const int notification_bg = 2131231261;
+			public const int notification_bg_low_normal = 2131231261;
 			
 			// aapt resource value: 0x7F08021E
-			public const int notification_bg_low = 2131231262;
+			public const int notification_bg_low_pressed = 2131231262;
 			
 			// aapt resource value: 0x7F08021F
-			public const int notification_bg_low_normal = 2131231263;
+			public const int notification_bg_normal = 2131231263;
 			
 			// aapt resource value: 0x7F080220
-			public const int notification_bg_low_pressed = 2131231264;
+			public const int notification_bg_normal_pressed = 2131231264;
 			
 			// aapt resource value: 0x7F080221
-			public const int notification_bg_normal = 2131231265;
+			public const int notification_icon_background = 2131231265;
 			
 			// aapt resource value: 0x7F080222
-			public const int notification_bg_normal_pressed = 2131231266;
+			public const int notification_template_icon_bg = 2131231266;
 			
 			// aapt resource value: 0x7F080223
-			public const int notification_icon_background = 2131231267;
+			public const int notification_template_icon_low_bg = 2131231267;
 			
 			// aapt resource value: 0x7F080224
-			public const int notification_template_icon_bg = 2131231268;
+			public const int notification_tile_bg = 2131231268;
 			
 			// aapt resource value: 0x7F080225
-			public const int notification_template_icon_low_bg = 2131231269;
+			public const int notify_panel_notification_icon_bg = 2131231269;
 			
 			// aapt resource value: 0x7F080226
-			public const int notification_tile_bg = 2131231270;
+			public const int places_ic_clear = 2131231270;
 			
 			// aapt resource value: 0x7F080227
-			public const int notify_panel_notification_icon_bg = 2131231271;
+			public const int places_ic_search = 2131231271;
 			
 			// aapt resource value: 0x7F080228
-			public const int places_ic_clear = 2131231272;
+			public const int powered_by_google_dark = 2131231272;
 			
 			// aapt resource value: 0x7F080229
-			public const int places_ic_search = 2131231273;
+			public const int powered_by_google_light = 2131231273;
 			
 			// aapt resource value: 0x7F08022A
-			public const int powered_by_google_dark = 2131231274;
+			public const int preference_list_divider_material = 2131231274;
 			
 			// aapt resource value: 0x7F08022B
-			public const int powered_by_google_light = 2131231275;
+			public const int real_sun_time_clrd = 2131231275;
 			
 			// aapt resource value: 0x7F08022C
-			public const int preference_list_divider_material = 2131231276;
+			public const int Recurrence = 2131231276;
 			
 			// aapt resource value: 0x7F08022D
-			public const int real_sun_time = 2131231277;
+			public const int selector = 2131231277;
 			
 			// aapt resource value: 0x7F08022E
-			public const int real_sun_time_clrd = 2131231278;
+			public const int side_nav_bar = 2131231278;
 			
 			// aapt resource value: 0x7F08022F
-			public const int Recurrence = 2131231279;
+			public const int splash_screen = 2131231279;
 			
 			// aapt resource value: 0x7F080230
-			public const int selector = 2131231280;
+			public const int sunclock = 2131231280;
 			
 			// aapt resource value: 0x7F080231
-			public const int side_nav_bar = 2131231281;
+			public const int tooltip_frame_dark = 2131231281;
 			
 			// aapt resource value: 0x7F080232
-			public const int splash_screen = 2131231282;
+			public const int tooltip_frame_light = 2131231282;
 			
 			// aapt resource value: 0x7F080233
-			public const int sunclock = 2131231283;
+			public const int transparent_shape = 2131231283;
 			
 			// aapt resource value: 0x7F080234
-			public const int tooltip_frame_dark = 2131231284;
-			
-			// aapt resource value: 0x7F080235
-			public const int tooltip_frame_light = 2131231285;
-			
-			// aapt resource value: 0x7F080236
-			public const int transparent_shape = 2131231286;
-			
-			// aapt resource value: 0x7F080237
-			public const int widget_dummy_shape = 2131231287;
+			public const int widget_dummy_shape = 2131231284;
 			
 			static Drawable()
 			{

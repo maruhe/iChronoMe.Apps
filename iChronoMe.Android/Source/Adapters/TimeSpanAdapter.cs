@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Adapters
@@ -64,7 +60,7 @@ namespace iChronoMe.Droid.Adapters
         public override int Count => items.Count;
 
         public override long GetItemId(int position) => position;
-        
+
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var view = (convertView as TextView) ?? new TextView(mContext);
@@ -93,7 +89,7 @@ namespace iChronoMe.Droid.Adapters
                 {
                     cSpan = "";
                     if (item.TotalDays > 1)
-                        cSpan += string.Format("{0} days", (int)item.TotalDays)+", ";
+                        cSpan += string.Format("{0} days", (int)item.TotalDays) + ", ";
                     if (item.TotalHours % 24 > 1)
                         cSpan += string.Format("{0} hours", (int)item.TotalHours % 24) + ", ";
                     if (item.TotalMinutes % 60 > 1)

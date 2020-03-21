@@ -52,7 +52,7 @@ namespace iChronoMe.Droid.Adapters
         {
             ItemClick(sender, e.Position);
         }
-        
+
         public void ItemClick(object sender, int position)
         {
             var cal = Items.Values.ElementAt(position);

@@ -36,7 +36,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:src="@drawable/real_sun_time"
+            android:src="@drawable/real_sun_time_clrd"
             android:layout_width="@dimen/image_size_text"
             android:layout_height="@dimen/image_size_text"/>
 

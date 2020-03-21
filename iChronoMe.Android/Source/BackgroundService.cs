@@ -31,12 +31,12 @@ namespace iChronoMe.Droid
     [Service(Label = "@string/label_BackgroundService", Exported = true)]
     public class BackgroundService : Service
     {
-        public static WidgetUpdateThreadHolder updateHolder { get; private set; }
-        public static BackgroundService currentService { get; private set; }
-        public static Location lastLocation { get; set; }
-        public static List<int> EffectedWidges { get; private set; } = new List<int>();
+        internal static WidgetUpdateThreadHolder updateHolder { get; private set; }
+        internal static BackgroundService currentService { get; private set; }
+        internal static Location lastLocation { get; set; }
+        internal static List<int> EffectedWidges { get; private set; } = new List<int>();
 
-        public static string cLauncherName { get; private set; } = null;
+        internal static string cLauncherName { get; private set; } = null;
 
         ClockUpdateBroadcastReceiver mReceiver;
         AppWidgetManager manager;
@@ -58,6 +58,8 @@ namespace iChronoMe.Droid
             this.RegisterReceiver(mReceiver, intentFilter);
 
             //RegisterForegroundService();
+
+            Tools.ShowToastDebugDebug(this, "Service Created");
 
             Task.Factory.StartNew(() =>
             {
@@ -397,6 +399,8 @@ namespace iChronoMe.Droid
             pm = (PowerManager)ctx.GetSystemService(Context.PowerService);
             cfgHolder = new WidgetConfigHolder();
 
+            Tools.ShowToastDebug(ctx, "new ThreadHolder");
+
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(ctx, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             List<int> iS = new List<int>();
             iS.AddRange(appWidgetID2s);
@@ -419,6 +423,7 @@ namespace iChronoMe.Droid
             }
             int[] appWidgetIDs = iS.ToArray();
 
+            tLastLocationStart = DateTime.MinValue;
             //CheckLocationNeedet
             foreach (int iWidgetId in appWidgetIDs)
             {
@@ -556,6 +561,9 @@ namespace iChronoMe.Droid
                     {
                         try
                         {
+                            if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
+                                BackgroundService.EffectedWidges.Add(iWidgetId);
+
                             iRun++;
                             xLog.Verbose("AnalogClock " + iWidgetId + "\tRun " + iRun);
                             while (!IsInteractive && (tLastRun.AddMinutes(5) > DateTime.Now) && bRunning)
@@ -634,9 +642,6 @@ namespace iChronoMe.Droid
                             tLastRun = DateTime.Now;
                             xLog.Verbose("UpdateDone: AnalogClock " + iWidgetId);
 
-                            if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
-                                BackgroundService.EffectedWidges.Add(iWidgetId);
-
                             if (iRun == 1)
                             {
                                 //Beim ersten mal etwas warten, Hindergrundbildrechte übernhemen, und dann geht's los..
@@ -714,6 +719,7 @@ namespace iChronoMe.Droid
         {
             try
             {
+
                 var cfgOld = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
                 cfgHolder = new WidgetConfigHolder();
                 var cfgNew = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
@@ -815,6 +821,11 @@ namespace iChronoMe.Droid
 #endif
 
                 }
+                if (cfgNew.PositionType == WidgetCfgPositionType.LivePosition &&
+                    bPartialGpsOnlyMode &&
+                    tLastLocationStart != DateTime.MinValue &&
+                    tLastLocationStart.AddMinutes(15) < DateTime.Now)
+                    EnableLocationUpdate(ctx);
             }
             catch (Exception ex)
             {
@@ -940,6 +951,7 @@ namespace iChronoMe.Droid
 
         private void LthLocal_AreaChanged(object sender, AreaChangedEventArgs e)
         {
+            Tools.ShowToastDebug(ctx, "Area Changed");
             BackgroundService.EffectedWidges.Clear();
         }
 
@@ -973,10 +985,12 @@ namespace iChronoMe.Droid
 
         int minTime = 15000;
         int minDistance = 25;
+        bool bPartialGpsOnlyMode = false;
 
         protected void EnableLocationUpdate(Context ctx)
         {
             xLog.Debug("EnableLocationUpdate");
+            tLastLocationStart = DateTime.Now;
             if (locationManager == null)
             {
                 Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
@@ -985,6 +999,7 @@ namespace iChronoMe.Droid
                     {
                         xLog.Debug("EnableLocationUpdate: init");
                         locationManager = (LocationManager)ctx.GetSystemService(Context.LocationService);
+                        bPartialGpsOnlyMode = false;
 
                         if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
@@ -998,6 +1013,7 @@ namespace iChronoMe.Droid
                             xLog.Debug("EnableLocationUpdate: passive");
                             locationManager.RequestLocationUpdates(LocationManager.PassiveProvider, minTime, minDistance, this);
                             xLog.Debug("EnableLocationUpdate: passive: done");
+                            Tools.ShowToastDebug(ctx, "EnableLocationUpdate: passive: done");
                         }
                         catch (Exception e)
                         {
@@ -1009,6 +1025,7 @@ namespace iChronoMe.Droid
                             locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, minTime, minDistance, this);
                             bGetNetworkLocation = true;
                             xLog.Debug("EnableLocationUpdate: network: done");
+                            Tools.ShowToastDebug(ctx, "EnableLocationUpdate: network: done");
                         }
                         catch (Exception e)
                         {
@@ -1022,6 +1039,13 @@ namespace iChronoMe.Droid
                                 xLog.Debug("EnableLocationUpdate: gps");
                                 locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
                                 xLog.Debug("EnableLocationUpdate: gps: done");
+                                Tools.ShowToastDebug(ctx, "EnableLocationUpdate: gps: done");
+                                if (!AppConfigHolder.MainConfig.ContinuousLocationUpdates && myLocationStopper == null)
+                                {
+                                    bPartialGpsOnlyMode = true;
+                                    myLocationStopper = NewLocationStopper();
+                                    myLocationStopper.Start();
+                                }
                             }
                             catch (Exception e)
                             {
@@ -1039,8 +1063,20 @@ namespace iChronoMe.Droid
             }
         }
 
+        Thread myLocationStopper = null;
+        DateTime tLastLocationStart = DateTime.MinValue;
+        public Thread NewLocationStopper()
+            => new Thread(() =>
+            {
+                while (tLastLocationStart.AddSeconds(30) > DateTime.Now)
+                    Thread.Sleep(1000);
+
+                DisableLocationUpdate();
+            });
+
         protected void DisableLocationUpdate()
         {
+            Tools.ShowToastDebug(ctx, "DisableLocationUpdate!!!!!");
             xLog.Debug("DisableLocationUpdate!!!!!");
             if (locationManager != null)
             {
@@ -1055,11 +1091,21 @@ namespace iChronoMe.Droid
 
         public void OnLocationChanged(Location location)
         {
-            if (lastLocation?.Latitude == location.Latitude && lastLocation?.Longitude == location.Longitude)
-                return;
-            lastLocation = location;
-            BackgroundService.EffectedWidges.Clear();
-            xLog.Debug("GotLocation; " + location.Provider);
+            try
+            {
+                if (lastLocation?.Latitude == location.Latitude && lastLocation?.Longitude == location.Longitude)
+                    return;
+                Tools.ShowToastDebug(ctx, "OnLocationChanged");
+                lastLocation = location;
+                lthLocal?.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
+                BackgroundService.EffectedWidges.Clear();
+                xLog.Debug("GotLocation; " + location.Provider);
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
+            return;
             if (lastLocation.HasSpeed || tLastSpeed > DateTime.MinValue)
             {
                 lock (mSpeedS)

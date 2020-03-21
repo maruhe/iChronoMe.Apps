@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+
 using Android.Content;
 using Android.Content.Res;
 using Android.OS;
@@ -9,6 +10,7 @@ using Android.Support.V7.App;
 using Android.Text.Method;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Source.Adapters;
 

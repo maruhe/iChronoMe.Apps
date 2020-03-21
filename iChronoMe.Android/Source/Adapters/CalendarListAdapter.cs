@@ -46,9 +46,9 @@ namespace iChronoMe.Droid.Adapters
         {
             Task.Factory.StartNew(async () =>
             {
-            _secondaryCount = 0;
-            var cals = await DeviceCalendar.DeviceCalendar.GetCalendarsAsync();
-            List<string> cS = new List<string>();
+                _secondaryCount = 0;
+                var cals = await DeviceCalendar.DeviceCalendar.GetCalendarsAsync();
+                List<string> cS = new List<string>();
                 lock (Items)
                 {
                     Items.Clear();

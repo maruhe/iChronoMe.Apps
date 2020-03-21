@@ -26,7 +26,7 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Button>(Resource.Id.btn_show_info).Click += model.ShowBackgroundServiceInfo;
             RootView.FindViewById<Button>(Resource.Id.btn_select_location).Click += model.ShowLocationSelector;
             RootView.FindViewById<Spinner>(Resource.Id.sp_clickaction).Adapter = model.ClickActionTypeAdapter;
-            
+
             return RootView;
         }
 

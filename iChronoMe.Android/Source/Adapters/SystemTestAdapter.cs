@@ -73,7 +73,7 @@ namespace iChronoMe.Droid.Adapters
                     {
                         icon.Visibility = ViewStates.Visible;
                         progress.Visibility = ViewStates.Gone;
-                        int imgRes = Resource.Drawable.real_sun_time;
+                        int imgRes = Resource.Drawable.real_sun_time_clrd;
                         if (status == TestStatus.OK)
                             imgRes = Resource.Drawable.icons8_approval_clrd;
                         else if (status == TestStatus.Warning)

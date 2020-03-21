@@ -1,10 +1,12 @@
 ﻿using System.Threading;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Widgets
@@ -74,9 +76,11 @@ namespace iChronoMe.Droid.Widgets
 
             new Thread(() =>
             {
-                try { 
-                    System.IO.Directory.Delete(System.IO.Path.Combine(sys.PathCache, "WidgetPreview"), true); 
-                } catch { };
+                try
+                {
+                    System.IO.Directory.Delete(System.IO.Path.Combine(sys.PathCache, "WidgetPreview"), true);
+                }
+                catch { };
             }).Start();
         }
     }

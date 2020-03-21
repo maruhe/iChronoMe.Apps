@@ -87,7 +87,7 @@ namespace iChronoMe.Droid.GUI
             imgDeviceTime = RootView.FindViewById<ImageView>(Resource.Id.img_device_time);
             lDeviceTimeInfo = RootView.FindViewById<TextView>(Resource.Id.text_device_time_info);
             //if (sys.Debugmode)
-              //  RootView.FindViewById(Resource.Id.ll_device_time).Visibility = ViewStates.Visible;
+            //  RootView.FindViewById(Resource.Id.ll_device_time).Visibility = ViewStates.Visible;
 
             RootView.FindViewById<TextView>(Resource.Id.title).Visibility = ViewStates.Gone;
             lTime1 = RootView.FindViewById<TextView>(Resource.Id.time_rdt);
@@ -288,7 +288,7 @@ namespace iChronoMe.Droid.GUI
                             RefreshDeviceTimeInfo();
                             skiaView.Invalidate();
                             //if (sys.Debugmode)
-                              //  this.lTitle.Text = lth.AreaName + "\n" + vClock.PerformanceInfo;
+                            //  this.lTitle.Text = lth.AreaName + "\n" + vClock.PerformanceInfo;
                         });
                     });
                 }

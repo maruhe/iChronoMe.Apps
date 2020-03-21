@@ -33,7 +33,7 @@ using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid
 {
-    public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler
+    public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler, ILocationListener
     {
         public Android.Support.V7.Widget.Toolbar Toolbar { get; protected set; } = null;
         public DrawerLayout Drawer { get; protected set; } = null;
@@ -266,7 +266,8 @@ namespace iChronoMe.Droid
                 try
                 {
                     ClockHandConfig.CheckUpdateLocalData(this);
-                } catch { }
+                }
+                catch { }
                 try
                 {
                     TimeZoneMap.GetTimeZone(1, 1);
@@ -358,7 +359,7 @@ namespace iChronoMe.Droid
                     Task.Factory.StartNew(async () =>
                     {
                         bKillOnClose = false;
-                        bStartAssistantActive = false;
+                        //bStartAssistantActive = false;
                         await this.RequestPermissionsAsync(req.ToArray(), 2);
 
                         if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
@@ -366,6 +367,7 @@ namespace iChronoMe.Droid
                             AppConfigHolder.MainConfig.InitScreenPermission = 1;
                             AppConfigHolder.SaveMainConfig();
                         }
+                        SetAssistantDone();
                     });
                 })
                 .SetOnCancelListener(new KillOnCancelListener(this))
@@ -387,6 +389,8 @@ namespace iChronoMe.Droid
             Task.Factory.StartNew(async () =>
             {
                 await Task.Delay(1000);
+                if (Looper.MainLooper == null)
+                    Looper.Prepare();
                 SelectPositionResult selPos = null;
                 if (Build.VERSION.SdkInt < BuildVersionCodes.M || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
                 {
@@ -419,8 +423,8 @@ namespace iChronoMe.Droid
                         while (lastLocation == null && iTry < 3)
                         {
                             iTry++;
-                            try { locationManager.RequestSingleUpdate(LocationManager.NetworkProvider, null); } catch { this.ToString(); }
-                            try { locationManager.RequestSingleUpdate(LocationManager.GpsProvider, null); } catch { this.ToString(); }
+                            try { locationManager.RequestSingleUpdate(LocationManager.NetworkProvider, this, Looper.MainLooper); } catch { this.ToString(); }
+                            try { locationManager.RequestSingleUpdate(LocationManager.GpsProvider, this, Looper.MainLooper); } catch { this.ToString(); }
                             Task.Delay(1500).Wait();
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
                             if (lastLocation == null)
@@ -766,6 +770,26 @@ namespace iChronoMe.Droid
                     KillActivity(this);
                 }
             });
+        }
+
+        void ILocationListener.OnLocationChanged(Location location)
+        {
+            xLog.Debug("OnLocationChanged: " + location.ToString());
+        }
+
+        void ILocationListener.OnProviderDisabled(string provider)
+        {
+            xLog.Debug("OnProviderDisabled: " + provider);
+        }
+
+        void ILocationListener.OnProviderEnabled(string provider)
+        {
+            xLog.Debug("OnProviderEnabled: " + provider);
+        }
+
+        void ILocationListener.OnStatusChanged(string provider, Availability status, Bundle extras)
+        {
+            xLog.Debug("OnStatusChanged: " + provider + ": " + status.ToString());
         }
     }
 

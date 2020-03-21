@@ -485,7 +485,7 @@ namespace iChronoMe.Droid
             switch (tType)
             {
                 case TimeType.RealSunTime:
-                    return "real_sun_time";
+                    return "real_sun_time_clrd";
                 case TimeType.MiddleSunTime:
                     return "middle_sun_time";
                 case TimeType.TimeZoneTime:
