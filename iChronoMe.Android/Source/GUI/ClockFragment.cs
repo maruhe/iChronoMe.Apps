@@ -82,7 +82,7 @@ namespace iChronoMe.Droid.GUI
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             skiaView.PaintSurface += skiaView_OnPaintSurface;
             pbClock = RootView.FindViewById<ProgressBar>(Resource.Id.pb_clock);
-            int pad = (int)(sys.DisplayShortSiteDp / 2.5);
+            int pad = (int)(sys.DisplayShortSiteDp / 2);
             pbClock.SetPadding(pad, pad, pad, pad);
 
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
@@ -481,7 +481,7 @@ namespace iChronoMe.Droid.GUI
             {
                 vClock.ReadConfig(clockCfg);
                 string cFile = string.IsNullOrEmpty(clockCfg.BackgroundImage) ? null : vClock.GetClockFacePng(clockCfg.BackgroundImage, ClockSize);
-                MainThread.BeginInvokeOnMainThread(() =>
+                Activity.RunOnUiThread(() =>
                 {
                     try
                     {
@@ -495,7 +495,10 @@ namespace iChronoMe.Droid.GUI
                             else
                                 imgClockBack.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
                             if (clockCfg.BackgroundImage.Equals(cFile))
+                            {
+                                var clr = vClock.ClockfaceInfo != null ? vClock.ClockfaceInfo.xMainColor.Invert().ToAndroid() : Android.Graphics.Color.DarkOliveGreen;
                                 pbClock.Visibility = ViewStates.Visible;
+                            }
                         }
                         imgClockBackClr.SetImageDrawable(null);
                         if (vClock.ColorBackground.A > 0)
@@ -557,10 +560,10 @@ namespace iChronoMe.Droid.GUI
         {
             if (item.ItemId == menu_options)
             {
-                if (Drawer.IsDrawerOpen((int)GravityFlags.Right))
-                    Drawer.CloseDrawer((int)GravityFlags.Right);
+                if (Drawer.IsDrawerOpen((int)GravityFlags.End))
+                    Drawer.CloseDrawer((int)GravityFlags.End);
                 else
-                    Drawer.OpenDrawer((int)GravityFlags.Right);
+                    Drawer.OpenDrawer((int)GravityFlags.End);
             }
 
             if (item.ItemId == menu_debug_error)
@@ -799,7 +802,7 @@ namespace iChronoMe.Droid.GUI
                 return true;
             }
             navigationView.Selected = false;
-            Drawer.CloseDrawer((int)GravityFlags.Right);
+            Drawer.CloseDrawer((int)GravityFlags.End);
             return true;
         }
 

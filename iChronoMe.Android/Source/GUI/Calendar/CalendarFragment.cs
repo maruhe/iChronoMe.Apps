@@ -450,7 +450,6 @@ namespace iChronoMe.Droid.GUI.Calendar
                 if (spinner != null)
                 {
                     spinner.Visibility = ViewStates.Gone;
-                    spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
                     if (string.IsNullOrEmpty(mContext.Title))
                         mContext.Title = localize.menu_calendar;
                 }

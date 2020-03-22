@@ -7,5 +7,5 @@
 	<!-- place the image in the center of the screen -->
 	<item android:gravity="center" android:drawable="@mipmap/splash"/>
 	<!--https://www.schriftgenerator.eu/fonts/Arabolical/?size=96&color=21b7d8&bg=none-->
-	<item android:gravity="bottom|end"  android:drawable="@mipmap/inspired" android:end="15dp" android:bottom="10dp"/>
+	<item android:gravity="bottom|right"  android:drawable="@mipmap/inspired" android:right="15dp" android:bottom="10dp"/>
 </layer-list>

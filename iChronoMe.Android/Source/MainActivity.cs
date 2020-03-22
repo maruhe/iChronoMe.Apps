@@ -22,7 +22,7 @@ using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.GUI.Service;
-
+using iChronoMe.Widgets;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
@@ -115,10 +115,19 @@ namespace iChronoMe.Droid
                 //check and do after update..
                 if (stat.LastAppVersionCode != sys.iAppVersionCode)
                 {
-                    if (stat.LastAppVersionCode > 0)
+                    try
                     {
-                        //App has been updated
-
+                        if (stat.LastAppVersionCode > 0)
+                        {
+                            //App has been updated
+                            ImageLoader.ClearCache(ImageLoader.filter_clockfaces);
+                            ClockHandConfig.ClearCache();
+                        }
+                    }
+                    catch (ThreadAbortException) { }
+                    catch (Exception ex)
+                    {
+                        xLog.Error(ex);
                     }
                     stat.LastAppVersion = sys.cAppVersionInfo;
                     stat.LastAppVersionCode = sys.iAppVersionCode;

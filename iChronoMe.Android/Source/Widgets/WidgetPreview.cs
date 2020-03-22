@@ -42,6 +42,7 @@ namespace iChronoMe.Droid.Widgets
         PartialLoadHandler PartialLoadHandler = null;
         Random rnd = new Random(DateTime.Now.Millisecond);
         ViewGroup Parent = null;
+        Color clIconTint = Color.Black;
 
         public WidgetPreviewListAdapter(Activity context, IWidgetConfigAssistant<T> assistant, System.Drawing.Point size, Drawable wallpaperDrawable, DynamicCalendarModel calendarModel = null, EventCollection eventsMonth = null, EventCollection eventsList = null)
         {
@@ -60,6 +61,7 @@ namespace iChronoMe.Droid.Widgets
             myEventsMonth = eventsMonth;
             myEventsList = eventsList;
 
+            clIconTint = Tools.GetThemeColor(context, Resource.Attribute.iconTint);
             nScale = Math.Min(1F, sys.DisplayShortSiteDp * .9F / wSize.X);
             iHeightPreview = iHeightPreviewWallpaper = (int)(wSize.Y * sys.DisplayDensity * nScale);
             if (WallpaperDrawable != null)
@@ -233,7 +235,7 @@ namespace iChronoMe.Droid.Widgets
                         shape.SetShape(ShapeType.Rectangle);
                         shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                         shape.SetColor(xColor.FromHex(cTitle).ToAndroid());
-                        shape.SetStroke(sys.DisplayDensity, Color.Black);
+                        shape.SetStroke(sys.DisplayDensity, clIconTint);
                         llClr.Background = shape;
 
                         viewHolder.colors.AddView(llClr);
@@ -263,7 +265,7 @@ namespace iChronoMe.Droid.Widgets
                                 shape.SetShape(ShapeType.Rectangle);
                                 shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                                 shape.SetColor(clr.ToAndroid());
-                                shape.SetStroke(sys.DisplayDensity, Color.Black);
+                                shape.SetStroke(sys.DisplayDensity, clIconTint);
                                 llClr.Background = shape;
 
                                 viewHolder.colors.AddView(llClr);
@@ -328,7 +330,7 @@ namespace iChronoMe.Droid.Widgets
                     shape.SetShape(ShapeType.Rectangle);
                     shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                     shape.SetColor(xColor.FromHex(sample.Title).ToAndroid());
-                    shape.SetStroke(sys.DisplayDensity, Color.Black);
+                    shape.SetStroke(sys.DisplayDensity, clIconTint);
                     v.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(shape);
                     v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title.Replace("#FF", "#");
                 }

@@ -200,12 +200,18 @@ namespace iChronoMe.Droid.GUI.Service
                 .SetMessage(Resource.String.progress_clearcache_message)
                 .SetPositiveButton(Resource.String.action_continue, (s, e) =>
                 {
-                    AppConfigHolder.MainConfig.LastCheckClockFaces = DateTime.MinValue;
-                    AppConfigHolder.MainConfig.LastCheckClockHands = DateTime.MinValue;
-                    AppConfigHolder.SaveMainConfig();
+                    ImageLoader.ClearCache(ImageLoader.filter_clockfaces);
+                    ClockHandConfig.ClearCache();
 
                     db.dbAreaCache.Close();
-                    try { Directory.Delete(sys.PathCache, true); } catch { };
+                    try 
+                    { 
+                        Directory.Delete(sys.PathCache, true); 
+                    }
+                    catch (Exception ex)
+                    {
+                        Tools.ShowToast(Context, ex.Message);
+                    }
 
                     Activity.MoveTaskToBack(true);
                     Process.KillProcess(Process.MyPid());

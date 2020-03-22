@@ -5,7 +5,7 @@
                                         android:id="@+id/drawer_layout"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        tools:openDrawer="right">
+                                        tools:openDrawer="end">
     <android.support.design.widget.CoordinatorLayout 
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
@@ -97,7 +97,9 @@
                 android:layout_height="match_parent"/>
             <ProgressBar
                 android:id="@+id/pb_clock"
-                android:indeterminateDrawable="@drawable/pbTest"
+                android:indeterminateDrawable="@drawable/ProgressIndeterminateBeans"
+                android:indeterminateTintMode="src_in"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </RelativeLayout>
@@ -116,7 +118,8 @@
     android:id="@+id/nav_view"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_gravity="right"
+    android:layout_gravity="end"
+    android:textAlignment="viewStart"
     app:menu="@menu/clock_drawer">
 
     </android.support.design.widget.NavigationView>

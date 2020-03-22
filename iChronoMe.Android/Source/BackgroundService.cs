@@ -533,8 +533,9 @@ namespace iChronoMe.Droid
                 clockView.ClockFaceLoaded += ClockView_ClockFaceLoaded;
                 clockView.ReadConfig(cfg);
 
+                bool bShowClockProgress = false;
                 DateTime tBackgroundUpdate = DateTime.MinValue;
-                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfg, iClockSize);
+                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfg, iClockSize, ref bShowClockProgress);
 
                 Bitmap bmpBackgroundColor = null;
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
@@ -609,6 +610,9 @@ namespace iChronoMe.Droid
                                 swStart = DateTime.Now;
                                 bool bDoFullUpdate = tLastFullUpdate.AddSeconds(15) < DateTime.Now;
                                 var rv = GetClockAnalogRemoteView(ctx, cfg, clockView, iClockSize, lth, lth.GetTime(tType), uBackgroundImage, bmpBackgroundColor, true);
+                                rv.SetViewVisibility(Resource.Id.clock_progress, bShowClockProgress ? ViewStates.Visible : ViewStates.Gone);
+                                if (bShowClockProgress)
+                                    rv.SetViewPadding(Resource.Id.clock_progress, iClockSize / 3, iClockSize / 3, iClockSize / 3, iClockSize / 3);
                                 manager.UpdateAppWidget(iWidgetId, rv);
                                 if (bDoFullUpdate && iRun > 3)
                                     tLastFullUpdate = DateTime.Now;
@@ -758,8 +762,9 @@ namespace iChronoMe.Droid
                     WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
                     clockView.ReadConfig(cfgNew);
 
+                    bool bShowClockProgress = false;
                     DateTime tBackgroundUpdate = DateTime.MinValue;
-                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfgNew, iClockSize);
+                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfgNew, iClockSize, ref bShowClockProgress);
 
                     Bitmap bmpBackgroundColor = null;
                     if (cfgNew.ColorBackground.ToAndroid() != Color.Transparent)
@@ -834,16 +839,15 @@ namespace iChronoMe.Droid
             }
         }
 
-        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetView_ClockAnalog vClock, WidgetCfg_ClockAnalog cfg, int sizePX)
+        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetView_ClockAnalog vClock, WidgetCfg_ClockAnalog cfg, int sizePX, ref bool bShowClockProgress)
         {
             try
             {
                 if (!string.IsNullOrEmpty(cfg.BackgroundImage))
                 {
-                    string cBackImgPath = cfg.BackgroundImage;
-                    if (!cfg.BackgroundImage.Contains("/"))
-                        cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockfaces"), cfg.BackgroundImage);
-                    Java.IO.File fBack = new Java.IO.File(vClock.GetClockFacePng(cfg.BackgroundImage, sizePX));
+                    string cBackImgPath = vClock.GetClockFacePng(cfg.BackgroundImage, sizePX);
+                    bShowClockProgress = Equals(cBackImgPath, cfg.BackgroundImage);
+                    Java.IO.File fBack = new Java.IO.File(cBackImgPath);
                     bool bBackEx = fBack.Exists();
                     if (bBackEx)
                     {

@@ -12,7 +12,7 @@
    
         <TextView
             android:text="@string/label_default_TimeType"
-               android:layout_width="match_parent"
+               android:layout_width="wrap_content"
                android:layout_height="wrap_content"/>
 
         <Spinner
@@ -23,13 +23,13 @@
         <CheckBox
             android:id="@+id/cb_calendar_default_timetype"
             android:text="@string/action_calendar_UsesDefaultTimeType"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_calendar_timetype"
             android:text="@string/label_calendar_TimeType"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Spinner
@@ -40,7 +40,7 @@
         <CheckBox
             android:id="@+id/cb_notification_showalways"
             android:text="@string/action_notification_show_always"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <CheckBox
@@ -52,7 +52,7 @@
         <CheckBox
             android:id="@+id/cb_deny_error_screens"
             android:text="@string/action_deny_error_screentshot"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
@@ -69,6 +69,7 @@
 
         <Button
             android:id="@+id/btn_livewallpaper_config"
+            android:visibility="gone"
             android:text="wallpaper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

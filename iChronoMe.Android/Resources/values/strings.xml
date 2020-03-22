@@ -159,10 +159,10 @@ if you have enough colors just click 'back' or somewhere outside the window"</st
   <string name="ezmz_runningwidgets_more" synced="x" sync="1">"{0} widgets active"</string>
   <string name="ezmz_runningwidgets_one" synced="x" sync="1">"one widget active"</string>
   <string name="ezmz_runningwidgets_zero" synced="x" sync="1">"no active widget"</string>
-  <string name="faq_item_001" sync="x">"why does not 'timzone-time' match with the device-time?"</string>
-  <string name="faq_item_001_value" sync="x">"we use time-servers to determine the current gmt-time, so if there is an offset of some seconds or minutes may your device-time is not correct"</string>
-  <string name="faq_item_002" sync="x">"why isn't this app more beautiful?"</string>
-  <string name="faq_item_002_value" sync="x">"it's not? contact us with your ideas :-)"</string>
+  <string name="faq_item_001" sync="1">"why does not 'timzone-time' match with the device-time?"</string>
+  <string name="faq_item_001_value" sync="1">"we use time-servers to determine the current gmt-time, so if there is an offset of some seconds or minutes may your device-time is not correct"</string>
+  <string name="faq_item_002" sync="1">"why isn't this app more beautiful?"</string>
+  <string name="faq_item_002_value" sync="1">"it's not? contact us with your ideas :-)"</string>
   <string name="Filling" synced="x" sync="1">"fill"</string>
   <string name="fiveColors" synced="x" sync="1">"five colors"</string>
   <string name="Flow" synced="x" sync="1">"flow"</string>
@@ -267,6 +267,7 @@ you can create new widgets on your launcher-screen!"</string>
   <string name="shortcut_create_calender_event_disabled" synced="x" sync="1">"not working? why not?"</string>
   <string name="shortcut_create_calender_event_long" synced="x" sync="1">"long description..."</string>
   <string name="stop_alarm" synced="x" sync="1">"thanks"</string>
+  <string name="text_Icon" sync="x">"Icon"</string>
   <string name="text_Offset" synced="x" sync="1">"Offset"</string>
   <string name="text_OnClick" synced="x" sync="1">"on click"</string>
   <string name="text_oneMonth" synced="x" sync="1">"one Month"</string>

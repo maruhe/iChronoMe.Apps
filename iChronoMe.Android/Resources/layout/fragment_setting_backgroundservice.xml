@@ -18,12 +18,12 @@
         <CheckBox
             android:id="@+id/cb_showalways"
             android:text="@string/action_backgroundservice_showalways"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:text="@string/action_location_type_promt"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <me.ichrono.droid.Controls.AlwaysSpinner
@@ -41,7 +41,7 @@
 
         <TextView
             android:text="@string/action_notification_click_action"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <me.ichrono.droid.Controls.AlwaysSpinner

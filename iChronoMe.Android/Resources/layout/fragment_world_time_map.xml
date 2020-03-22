@@ -13,8 +13,7 @@
 
     <HorizontalScrollView
         android:id="@+id/scrollview"
-        android:paddingLeft="@dimen/frame_padding"
-        android:paddingRight="@dimen/frame_padding"
+        android:paddingHorizontal="@dimen/frame_padding"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="80sp">
