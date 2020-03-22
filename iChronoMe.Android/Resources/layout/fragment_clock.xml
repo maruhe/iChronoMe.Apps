@@ -97,7 +97,7 @@
                 android:layout_height="match_parent"/>
             <ProgressBar
                 android:id="@+id/pb_clock"
-                android:indeterminateDrawable="@drawable/ProgressIndeterminateBeans"
+                android:indeterminateDrawable="@drawable/progress_indeterminate_beans"
                 android:indeterminateTintMode="src_in"
                 android:visibility="gone"
                 android:layout_width="match_parent"

@@ -1956,10 +1956,10 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ProgressIndeterminateRectangle.xml" />
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_rectangle.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ProgressIndeterminatePins.xml" />
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_pins.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\load_spinner_pins.xml" />
@@ -1968,19 +1968,19 @@
     <AndroidResource Include="Resources\drawable\load_spinner_squares.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ProgressIndeterminateSquares.xml" />
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_squares.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\load_spinner_bubbles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ProgressIndeterminateBubbles.xml" />
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_bubbles.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\load_spinner_beans.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ProgressIndeterminateBeans.xml" />
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_beans.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

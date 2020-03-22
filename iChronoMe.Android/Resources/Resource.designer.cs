@@ -8939,19 +8939,19 @@ namespace iChronoMe.Droid
 			public const int preference_list_divider_material = 2131231278;
 			
 			// aapt resource value: 0x7F08022F
-			public const int ProgressIndeterminateBeans = 2131231279;
+			public const int progressindeterminatebeans = 2131231279;
 			
 			// aapt resource value: 0x7F080230
-			public const int ProgressIndeterminateBubbles = 2131231280;
+			public const int progressindeterminatebubbles = 2131231280;
 			
 			// aapt resource value: 0x7F080231
-			public const int ProgressIndeterminatePins = 2131231281;
+			public const int progressindeterminatepins = 2131231281;
 			
 			// aapt resource value: 0x7F080232
-			public const int ProgressIndeterminateRectangle = 2131231282;
+			public const int progressindeterminaterectangle = 2131231282;
 			
 			// aapt resource value: 0x7F080233
-			public const int ProgressIndeterminateSquares = 2131231283;
+			public const int progressindeterminatesquares = 2131231283;
 			
 			// aapt resource value: 0x7F080234
 			public const int real_sun_time_clrd = 2131231284;
