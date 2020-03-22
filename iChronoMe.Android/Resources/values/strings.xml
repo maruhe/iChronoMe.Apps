@@ -159,14 +159,10 @@ if you have enough colors just click 'back' or somewhere outside the window"</st
   <string name="ezmz_runningwidgets_more" synced="x" sync="1">"{0} widgets active"</string>
   <string name="ezmz_runningwidgets_one" synced="x" sync="1">"one widget active"</string>
   <string name="ezmz_runningwidgets_zero" synced="x" sync="1">"no active widget"</string>
-  <string name="faq_item_1" synced="x" sync="1">"this is a cute question"</string>
-  <string name="faq_item_1_value" synced="x" sync="1">"and here the answer
-with line 2"</string>
-  <string name="faq_item_2" synced="x" sync="1">"here another question"</string>
-  <string name="faq_item_2_value" synced="x" sync="1">"and also a answer
-with a line 2
-line3
-and line 4"</string>
+  <string name="faq_item_001" sync="x">"why does not 'timzone-time' match with the device-time?"</string>
+  <string name="faq_item_001_value" sync="x">"we use time-servers to determine the current gmt-time, so if there is an offset of some seconds or minutes may your device-time is not correct"</string>
+  <string name="faq_item_002" sync="x">"why isn't this app more beautiful?"</string>
+  <string name="faq_item_002_value" sync="x">"it's not? contact us with your ideas :-)"</string>
   <string name="Filling" synced="x" sync="1">"fill"</string>
   <string name="fiveColors" synced="x" sync="1">"five colors"</string>
   <string name="Flow" synced="x" sync="1">"flow"</string>

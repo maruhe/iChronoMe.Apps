@@ -446,7 +446,7 @@ namespace iChronoMe.Droid
         Dictionary<int, LocationTimeHolder> mLths = new Dictionary<int, LocationTimeHolder>();
         public bool IsWidgetThreadAlive(int iWidgetID)
             => mThreads.ContainsKey(iWidgetID);
-
+        
         public void StartWidgetTask(int iWidgetId)
         {
             lock (mThreads)
@@ -809,7 +809,7 @@ namespace iChronoMe.Droid
                         })
                         .StartAnimation();
 
-#if DEfBUG
+#if DExxxBUG
                     Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
                     changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
                     changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);

@@ -24,7 +24,6 @@ namespace iChronoMe.Droid
 {
     public static class Tools
     {
-
         public static void ShowToastDebug(Context context, string text, bool bShowLong = false)
         {
 #if DEBUG

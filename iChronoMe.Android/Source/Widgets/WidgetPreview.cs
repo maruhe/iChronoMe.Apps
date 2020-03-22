@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.OS;
 using Android.Views;
 using Android.Widget;
 
@@ -16,6 +17,7 @@ using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
+using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
 {
@@ -37,6 +39,9 @@ namespace iChronoMe.Droid.Widgets
         //float nImgScale = 0.5F;
         int iHeightPreview;
         int iHeightPreviewWallpaper;
+        PartialLoadHandler PartialLoadHandler = null;
+        Random rnd = new Random(DateTime.Now.Millisecond);
+        ViewGroup Parent = null;
 
         public WidgetPreviewListAdapter(Activity context, IWidgetConfigAssistant<T> assistant, System.Drawing.Point size, Drawable wallpaperDrawable, DynamicCalendarModel calendarModel = null, EventCollection eventsMonth = null, EventCollection eventsList = null)
         {
@@ -46,6 +51,9 @@ namespace iChronoMe.Droid.Widgets
 
             mContext = context;
             mAssistant = assistant;
+            PartialLoadHandler = assistant.PartialLoadHandler;
+            if (PartialLoadHandler != null)
+                PartialLoadHandler.OnListChanged = ParialItemsChaned;
             wSize = new Point(size.X, size.Y);
             WallpaperDrawable = wallpaperDrawable;
             CalendarModel = calendarModel;
@@ -81,15 +89,15 @@ namespace iChronoMe.Droid.Widgets
         Dictionary<int, int> Times = new Dictionary<int, int>();
         Dictionary<int, ViewHolder> ViewHolders = new Dictionary<int, ViewHolder>();
 
-        public override int Count => mAssistant.Samples.Count;
+        public override int Count => PartialLoadHandler != null && !PartialLoadHandler.IsDone ? mAssistant.Samples.Count + 1 : mAssistant.Samples.Count;
 
         public override Java.Lang.Object GetItem(int position)
-            => mAssistant.Samples[position] as Java.Lang.Object;
+            => position < mAssistant.Samples.Count ? mAssistant.Samples[position] as Java.Lang.Object : rnd.Next(10000);
 
         public override long GetItemId(int position)
-            => mAssistant.Samples[position].GetHashCode();
+            => position < mAssistant.Samples.Count ? mAssistant.Samples[position].GetHashCode() : rnd.Next(10000);
 
-        public override int ViewTypeCount => 1 + (mAssistant.ShowColors ? 1 : 0) + (!mAssistant.ShowPreviewImage ? 1 : 0);
+        public override int ViewTypeCount => 1 + (mAssistant.ShowColors ? 1 : 0) + (!mAssistant.ShowPreviewImage ? 1 : 0) + (PartialLoadHandler == null ? 0 : 1);
 
         public class ViewHolder : Java.Lang.Object, IWidgetViewHolder
         {
@@ -153,6 +161,13 @@ namespace iChronoMe.Droid.Widgets
 
         public override View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
+            if (position >= mAssistant.Samples.Count)
+            {
+                var v = inflater.Inflate(Resource.Layout.listitem_loading, null); 
+                v.FindViewById<TextView>(Resource.Id.title).Text = PartialLoadHandler?.LoadingText ?? localize.loading;
+                return v;
+            }
+
             xLog.Debug("GetView Widget " + position);
 
             if (mAssistant.ShowPreviewImage || (mAssistant.ShowFirstPreviewImage && position == 0))
@@ -160,6 +175,7 @@ namespace iChronoMe.Droid.Widgets
                 ViewHolder viewHolder = null;
                 if (convertView == null || convertView.Id != Resource.Id.row_layout_widgetprev)
                 {
+                    Parent = parent;
                     convertView = inflater.Inflate(Resource.Layout.widget_preview_row_layout, null);
                     convertView.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, iHeightPreviewWallpaper);
                     viewHolder = new ViewHolder(convertView);
@@ -324,6 +340,14 @@ namespace iChronoMe.Droid.Widgets
                 }
                 return v;
             }
+        }
+
+        public void ParialItemsChaned()
+        {
+            mContext.RunOnUiThread(() =>
+            {
+                NotifyDataSetChanged();
+            });
         }
 
         #region obosled

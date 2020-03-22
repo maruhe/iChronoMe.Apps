@@ -95,6 +95,11 @@
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+            <ProgressBar
+                android:id="@+id/pb_clock"
+                android:indeterminateDrawable="@drawable/pbTest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton

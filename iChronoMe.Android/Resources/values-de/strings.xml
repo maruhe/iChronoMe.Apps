@@ -37,8 +37,8 @@
   <string name="action_ok" synced="x" sync="1">"ok"</string>
   <string name="action_options" synced="x" sync="1">"Optionen"</string>
   <string name="action_privacy_notice" sync="1">"Informationen zu Nutzung und Datenschutz"</string>
-  <string name="action_refresh_location" synced="x" sync="1">"Standort aktualisieren"</string>
-  <string name="action_refresh_location_continuous" synced="x" sync="1">"meine Position aktualisieren"</string>
+  <string name="action_refresh_location" synced="x" sync="1">"meinen Standort aktualisieren"</string>
+  <string name="action_refresh_location_continuous" synced="x" sync="1">"Standort laufend aktualisieren"</string>
   <string name="action_remove" synced="x" sync="1">"entfernen"</string>
   <string name="action_remove_all" synced="x" sync="1">"alle entfernen"</string>
   <string name="action_save" synced="x" sync="1">"speichern"</string>

@@ -40,6 +40,7 @@ namespace iChronoMe.Droid.GUI
         private CoordinatorLayout coordinator;
         private TextView lTitle, lGeoPos, lTimeZoneInfo, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3, lDeviceTimeInfo;
         private ImageView imgTZ, imgClockBack, imgClockBackClr, imgDeviceTime;
+        private ProgressBar pbClock;
         private SKCanvasView skiaView;
         private WidgetConfigHolder cfgHolder;
         private WidgetCfg_ClockAnalog clockCfg;
@@ -50,6 +51,7 @@ namespace iChronoMe.Droid.GUI
         private WidgetAnimator_ClockAnalog animator;
         private LocationManager locationManager;
         private IMenuItem miFlowClock;
+        private static bool bIstFirstRun = true;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -79,6 +81,9 @@ namespace iChronoMe.Droid.GUI
             imgClockBackClr = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background_color);
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             skiaView.PaintSurface += skiaView_OnPaintSurface;
+            pbClock = RootView.FindViewById<ProgressBar>(Resource.Id.pb_clock);
+            int pad = (int)(sys.DisplayShortSiteDp / 2.5);
+            pbClock.SetPadding(pad, pad, pad, pad);
 
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
             lGeoPos = RootView.FindViewById<TextView>(Resource.Id.text_clock_location);
@@ -139,45 +144,49 @@ namespace iChronoMe.Droid.GUI
             if (lth.Latitude == 0 || lth.Longitude == 0)
                 return;
 
-            animator?.AbortAnimation();
-            animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
-            .SetStart(tAnimateFrom)
-            .SetEnd(tAnimateTo)
-            .SetPushFrame((h, m, s) =>
+            if (bIstFirstRun)
             {
-                nManualHour = h;
-                nManualMinute = m;
-                nManualSecond = s;
-                mContext.RunOnUiThread(() =>
+                bIstFirstRun = false;
+                animator?.AbortAnimation();
+                animator = new WidgetAnimator_ClockAnalog(vClock, tsDuriation, ClockAnalog_AnimationStyle.HandsDirect)
+                .SetStart(tAnimateFrom)
+                .SetEnd(tAnimateTo)
+                .SetPushFrame((h, m, s) =>
                 {
-                    bNoClockUpdate = true;
-                    vClock.FlowMinuteHand = true;
-                    vClock.FlowSecondHand = true;
-                    skiaView.Invalidate();
-                });
-            })
-            .SetLastRun((h, m, s) =>
-            {
-                nManualHour = h;
-                nManualMinute = m;
-                nManualSecond = s;
+                    nManualHour = h;
+                    nManualMinute = m;
+                    nManualSecond = s;
+                    mContext.RunOnUiThread(() =>
+                    {
+                        bNoClockUpdate = true;
+                        vClock.FlowMinuteHand = true;
+                        vClock.FlowSecondHand = true;
+                        skiaView.Invalidate();
+                    });
+                })
+                .SetLastRun((h, m, s) =>
+                {
+                    nManualHour = h;
+                    nManualMinute = m;
+                    nManualSecond = s;
 
-                mContext.RunOnUiThread(() =>
+                    mContext.RunOnUiThread(() =>
+                    {
+                        vClock.ReadConfig(clockCfg);
+                        skiaView.Invalidate();
+                    });
+                })
+                .SetFinally(() =>
                 {
-                    vClock.ReadConfig(clockCfg);
-                    skiaView.Invalidate();
-                });
-            })
-            .SetFinally(() =>
-            {
-                mContext.RunOnUiThread(() =>
-                {
-                    vClock.ReadConfig(clockCfg);
-                    nManualHour = nManualMinute = nManualSecond = null;
-                    bNoClockUpdate = false;
-                });
-            })
-            .StartAnimation();
+                    mContext.RunOnUiThread(() =>
+                    {
+                        vClock.ReadConfig(clockCfg);
+                        nManualHour = nManualMinute = nManualSecond = null;
+                        bNoClockUpdate = false;
+                    });
+                })
+                .StartAnimation();
+            }
         }
 
         public override void OnPause()
@@ -389,6 +398,13 @@ namespace iChronoMe.Droid.GUI
         {
             try
             {
+
+                int size = Math.Min((int)e.Info.Width, (int)e.Info.Height);
+                if (ClockSize != size)
+                {
+                    ClockSize = size;
+                    RefreshClockCfg();
+                }
                 /*if (false && vClock.svgHourHand != null)
                 {
                     tLastClockTime = lth.GetTime(this.TimeType);
@@ -443,7 +459,6 @@ namespace iChronoMe.Droid.GUI
                         tLastClockTime = lth.GetTime(this.TimeType);
                         if (lth.Latitude == 0 || lth.Longitude == 0)
                             tLastClockTime = DateTime.Today;
-                        ClockSize = Math.Min((int)e.Info.Width, (int)e.Info.Height);
                         vClock.DrawCanvas(e.Surface.Canvas, tLastClockTime, (int)e.Info.Width, (int)e.Info.Height, false);
                     }
                     else
@@ -460,32 +475,40 @@ namespace iChronoMe.Droid.GUI
         {
             if (clockCfg == null)
                 return;
-            vClock?.ReadConfig(clockCfg);
-            Activity?.RunOnUiThread(() =>
+            if (vClock == null)
+                return;
+            Task.Factory.StartNew(() =>
             {
-                try
+                vClock.ReadConfig(clockCfg);
+                string cFile = string.IsNullOrEmpty(clockCfg.BackgroundImage) ? null : vClock.GetClockFacePng(clockCfg.BackgroundImage, ClockSize);
+                MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    imgClockBack.SetImageURI(null);
-                    if (!string.IsNullOrEmpty(clockCfg.BackgroundImage))
+                    try
                     {
-                        string cFile = vClock.GetClockFacePng(clockCfg.BackgroundImage, ClockSize);
-                        imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
-                        if (clockCfg.BackgroundImageTint == xColor.Transparent)
-                            imgClockBack.SetColorFilter(null);
-                        else
-                            imgClockBack.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
+                        imgClockBack.SetImageURI(null);
+                        pbClock.Visibility = ViewStates.Gone;
+                        if (!string.IsNullOrEmpty(cFile))
+                        {
+                            imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
+                            if (clockCfg.BackgroundImageTint == xColor.Transparent)
+                                imgClockBack.SetColorFilter(null);
+                            else
+                                imgClockBack.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
+                            if (clockCfg.BackgroundImage.Equals(cFile))
+                                pbClock.Visibility = ViewStates.Visible;
+                        }
+                        imgClockBackClr.SetImageDrawable(null);
+                        if (vClock.ColorBackground.A > 0)
+                        {
+                            imgClockBackClr.SetImageDrawable(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.circle_shape_max, vClock.ColorBackground.ToAndroid()));
+                        }
                     }
-                    imgClockBackClr.SetImageDrawable(null);
-                    if (vClock.ColorBackground.A > 0)
+                    catch (Exception ex)
                     {
-                        imgClockBackClr.SetImageDrawable(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.circle_shape_max, vClock.ColorBackground.ToAndroid()));
+                        xLog.Error(ex);
+                        Tools.ShowToast(Context, ex.Message, true);
                     }
-                }
-                catch (Exception ex)
-                {
-                    xLog.Error(ex);
-                    Tools.ShowToast(Context, ex.Message, true);
-                }
+                });
             });
         }
 
