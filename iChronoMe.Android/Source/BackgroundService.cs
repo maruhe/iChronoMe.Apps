@@ -63,6 +63,7 @@ namespace iChronoMe.Droid
 
             Task.Factory.StartNew(() =>
             {
+                return;
                 //archive lost configs
                 int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
                 int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
@@ -473,9 +474,7 @@ namespace iChronoMe.Droid
 
                 DateTime swStart = DateTime.Now;
                 WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
-                if (cfg == null)
-                    return;
-                if (cfg.PositionType == WidgetCfgPositionType.None)
+                if (cfg == null || cfg.PositionType == WidgetCfgPositionType.None)
                 {
                     RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_unconfigured);
 

@@ -97,11 +97,12 @@ namespace iChronoMe.Droid
             bStartAssistantActive = false;
         }
 
+        string cThemeFile = Path.Combine(sys.PathConfig, "apptheme");
         public void LoadAppTheme()
         {
             try
             {
-                string cThemeName = AppConfigHolder.MainConfig.AppThemeName;
+                string cThemeName = File.Exists(cThemeFile) ? File.ReadAllText(cThemeFile) : null;
                 if (string.IsNullOrEmpty(cThemeName))
                     cThemeName = nameof(Resource.Style.AppTheme_iChronoMe_Dark);
                 int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
@@ -109,8 +110,7 @@ namespace iChronoMe.Droid
             }
             catch (Exception ex)
             {
-                AppConfigHolder.MainConfig.AppThemeName = string.Empty;
-                AppConfigHolder.SaveMainConfig();
+                File.WriteAllText(cThemeFile, string.Empty);
                 sys.LogException(ex);
                 SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
             }
@@ -131,8 +131,7 @@ namespace iChronoMe.Droid
             }
             if (theme >= 0)
             {
-                AppConfigHolder.MainConfig.AppThemeName = adapter[theme].Text1;
-                AppConfigHolder.SaveMainConfig();
+                File.WriteAllText(cThemeFile, adapter[theme].Text1);
                 RunOnUiThread(() =>
                 {
                     Recreate();

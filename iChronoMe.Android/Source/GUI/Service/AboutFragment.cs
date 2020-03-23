@@ -22,6 +22,7 @@ namespace iChronoMe.Droid.GUI.Service
         {
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_service_about, container, false);
 
+            RootView.FindViewById<TextView>(Resource.Id.tv_version).Text = "v" + sys.cAppVersionInfo;
             RootView.FindViewById<ListView>(Resource.Id.lv_contributors).Adapter = new ContributorAdapter(Activity);
 
             RootView.FindViewById<Button>(Resource.Id.btnContact).Click += (s, e) =>

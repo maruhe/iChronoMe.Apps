@@ -484,10 +484,11 @@ namespace iChronoMe.Droid.GUI
                 Activity.RunOnUiThread(() =>
                 {
                     try
-                    {
-                        imgClockBack.SetImageURI(null);
+                    {                        
                         pbClock.Visibility = ViewStates.Gone;
-                        if (!string.IsNullOrEmpty(cFile))
+                        if (string.IsNullOrEmpty(cFile))
+                            imgClockBack.SetImageURI(null);
+                        else
                         {
                             imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
                             if (clockCfg.BackgroundImageTint == xColor.Transparent)

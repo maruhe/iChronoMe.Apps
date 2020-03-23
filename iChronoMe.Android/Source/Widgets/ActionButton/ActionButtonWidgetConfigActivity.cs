@@ -17,11 +17,9 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 {
     [Activity(Label = "ActionButtonWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.ActionButton.ActionButtonWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
-    public class ActionButtonWidgetConfigActivity : BaseWidgetActivity
+    public class ActionButtonWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_ActionButton>
     {
         DynamicCalendarModel CalendarModel;
-        AlertDialog pDlg;
-        WidgetConfigHolder holder;
 
         protected override void OnResume()
         {
@@ -42,20 +40,12 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 #endif
 
             if (NeedsStartAssistant())
-                ShowStartAssistant();
-            else
             {
-                var progressBar = new ProgressBar(this);
-                progressBar.Indeterminate = true;
-                pDlg = new AlertDialog.Builder(this)
-                    .SetCancelable(false)
-                    .SetTitle(Resource.String.progress_preparing_data)
-                    .SetView(progressBar)
-                    .Create();
-                pDlg.Show();
-
-                StartWidgetSelection();
+                ShowStartAssistant();
+                pDlg?.Dismiss();
             }
+            else
+                StartWidgetSelection();
         }
 
         System.Drawing.Point wSize = new System.Drawing.Point(100, 100);
@@ -68,7 +58,8 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 {
                     Task.Delay(100).Wait();
 
-                    holder = new WidgetConfigHolder();
+                    if (cfgHolder == null)
+                        cfgHolder = new WidgetConfigHolder();
 
                     iChronoMe.Widgets.AndroidHelpers.Tools.HelperContext = this;
                     if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
@@ -103,7 +94,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
             }
 
             var tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_ClickAction);
-            var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId, false);
+            var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId, false);
             if (cfg != null)
                 tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_OptionsBase);
             if (cfg == null)
@@ -136,16 +127,6 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     FinishAndRemoveTask();
                 }
             });
-        }
-
-        public void UpdateWidget()
-        {
-            Intent updateIntent = new Intent(this, typeof(ActionButtonWidget));
-            updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
-            AppWidgetManager widgetManager = AppWidgetManager.GetInstance(this);
-            int[] ids = new int[] { appWidgetId };
-            updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
-            SendBroadcast(updateIntent);
         }
     }
 }

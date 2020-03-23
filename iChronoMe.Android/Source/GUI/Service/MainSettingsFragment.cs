@@ -203,15 +203,23 @@ namespace iChronoMe.Droid.GUI.Service
                     ImageLoader.ClearCache(ImageLoader.filter_clockfaces);
                     ClockHandConfig.ClearCache();
 
-                    db.dbAreaCache.Close();
                     try 
-                    { 
+                    {
+                        db.dbAreaCache.Close();
                         Directory.Delete(sys.PathCache, true); 
                     }
                     catch (Exception ex)
                     {
                         Tools.ShowToast(Context, ex.Message);
+                        return;
                     }
+                    try
+                    {
+                        var cfg = AppConfigHolder.LocationConfig;
+                        cfg.AreaName = string.Empty;
+                        cfg.CountryName = string.Empty;
+                        AppConfigHolder.SaveLocationConfig();
+                    } catch { }
 
                     Activity.MoveTaskToBack(true);
                     Process.KillProcess(Process.MyPid());

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 
@@ -19,7 +20,7 @@ namespace iChronoMe.Droid.GUI.Service
         ViewGroup content;
         Spinner spTopic;
         EditText etName, etEmail, etSubject, etMessage;
-        CheckBox cbIncludeDeviceinfo, cbIncludeLocation;
+        CheckBox cbIncludeDeviceinfo, cbIncludeSettings, cbIncludeLocation;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,6 +43,7 @@ namespace iChronoMe.Droid.GUI.Service
             etSubject = content.FindViewById<EditText>(Resource.Id.et_subject);
             etMessage = content.FindViewById<EditText>(Resource.Id.et_message);
             cbIncludeDeviceinfo = content.FindViewById<CheckBox>(Resource.Id.cb_include_deviceinfo);
+            cbIncludeSettings = content.FindViewById<CheckBox>(Resource.Id.sb_include_settings);
             cbIncludeLocation = content.FindViewById<CheckBox>(Resource.Id.cb_include_location);
 
             content.FindViewById<Button>(Resource.Id.btn_send).Click += btnSend_Click; ;
@@ -84,38 +86,57 @@ namespace iChronoMe.Droid.GUI.Service
                     etMessage.RequestFocus();
                     return;
                 }
-                string cSendContent = DateTime.Now.ToString("s") + "." + DateTime.Now.Millisecond + "\n" +
+                var dlg = ProgressDlg.NewInstance("sending...");
+                dlg.Show(SupportFragmentManager, "");
+
+                new Thread(async () =>
+                {
+                    try
+                    {
+                        string cSendContent = DateTime.Now.ToString("s") + "." + DateTime.Now.Millisecond + "\n" +
                     "topic: " + spTopic.SelectedItem.ToString() + "\n" +
                     "name: " + etName.Text + "\n" +
                     "email: " + etEmail.Text + "\n" +
                     "subject: " + etSubject.Text + "\n" +
                     "message: " + etMessage.Text + "\n\n";
 
-                if (!string.IsNullOrEmpty(sys.cAppVersionInfo))
-                    cSendContent += "\nApp: " + sys.cAppVersionInfo;
+                        if (!string.IsNullOrEmpty(sys.cAppVersionInfo))
+                            cSendContent += "\nApp: " + sys.cAppVersionInfo;
 
-                if (cbIncludeDeviceinfo.Checked)
-                {
-                    if (!string.IsNullOrEmpty(sys.cDeviceInfo))
-                        cSendContent += "\nDeviceInfo:\n" + sys.cDeviceInfo;
-                }
-                else
-                    cSendContent += "\nDeviceToken: " + sys.cDeviceToken;
+                        if (cbIncludeDeviceinfo.Checked)
+                        {
+                            if (!string.IsNullOrEmpty(sys.cDeviceInfo))
+                                cSendContent += "\nDeviceInfo:\n" + sys.cDeviceInfo;
+                        }
+                        else
+                            cSendContent += "\nDeviceToken: " + sys.cDeviceToken;
 
-                if (cbIncludeLocation.Checked)
-                    cSendContent += "\nLocation: " + sys.DezimalGradToGrad(sys.lastUserLocation.Latitude, sys.lastUserLocation.Longitude);
+                        if (cbIncludeLocation.Checked)
+                            cSendContent += "\nLocation: " + sys.DezimalGradToGrad(sys.lastUserLocation.Latitude, sys.lastUserLocation.Longitude);
 
-                var dlg = ProgressDlg.NewInstance("sending...");
-                dlg.Show(SupportFragmentManager, "");
+                        if (cbIncludeSettings.Checked)
+                        {
+                            foreach (string cfgFile in Directory.GetFiles(sys.PathConfig, "*.cfg"))
+                            {
+                                try
+                                {
+                                    if (cfgFile.ToLower().Contains("locationconfig.cfg") && !cbIncludeLocation.Checked)
+                                        continue;
+                                    cSendContent += "\n\n--------------------------------\n\n" + Path.GetFileName(cfgFile) + "\n" + File.ReadAllText(cfgFile);
+                                } 
+                                catch (Exception ex)
+                                {
+                                    cSendContent += "\n\n--------------------------------\n\n" + Path.GetFileName(cfgFile) + "\n" + ex.GetType().Name + "\n" + ex.Message;
+                                }
+                            }
 
-                new Thread(async () =>
-                {
-                    string cUrl = Secrets.zAppResponseUrl + "upload.php?app=iChronoMe&type=Feedback&os=" + sys.OsType.ToString();
+                            cSendContent += "\n\n--------------------------------\n";
+                        }
+
+                        string cUrl = Secrets.zAppResponseUrl + "upload.php?app=iChronoMe&type=Feedback&os=" + sys.OsType.ToString();
 #if DEBUG
-                    cUrl += "&debug";
+                        cUrl += "&debug";
 #endif
-                    try
-                    {
                         HttpClient client = new HttpClient();
                         HttpContent content = new StringContent(cSendContent);
                         HttpResponseMessage response = await client.PutAsync(cUrl, content);

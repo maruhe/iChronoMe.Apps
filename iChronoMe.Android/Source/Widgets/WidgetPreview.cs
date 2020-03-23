@@ -27,6 +27,8 @@ namespace iChronoMe.Droid.Widgets
         public static string GlobalCachePath { get; } = System.IO.Path.Combine(sys.PathCache, "WidgetPreview");
         public string AdapterCachePath { get; }
 
+        List<WidgetCfgSample<T>> items = null;
+
         public Activity mContext { get; private set; }
         static IWidgetConfigAssistant<T> mAssistant;
         Point wSize;
@@ -52,6 +54,7 @@ namespace iChronoMe.Droid.Widgets
 
             mContext = context;
             mAssistant = assistant;
+            items = new List<WidgetCfgSample<T>>(mAssistant.Samples);
             PartialLoadHandler = assistant.PartialLoadHandler;
             if (PartialLoadHandler != null)
                 PartialLoadHandler.OnListChanged = ParialItemsChaned;
@@ -91,13 +94,13 @@ namespace iChronoMe.Droid.Widgets
         Dictionary<int, int> Times = new Dictionary<int, int>();
         Dictionary<int, ViewHolder> ViewHolders = new Dictionary<int, ViewHolder>();
 
-        public override int Count => PartialLoadHandler != null && !PartialLoadHandler.IsDone ? mAssistant.Samples.Count + 1 : mAssistant.Samples.Count;
+        public override int Count => PartialLoadHandler != null && !PartialLoadHandler.IsDone ? items.Count + 1 : items.Count;
 
         public override Java.Lang.Object GetItem(int position)
-            => position < mAssistant.Samples.Count ? mAssistant.Samples[position] as Java.Lang.Object : rnd.Next(10000);
+            => position < items.Count ? items[position] as Java.Lang.Object : rnd.Next(10000);
 
         public override long GetItemId(int position)
-            => position < mAssistant.Samples.Count ? mAssistant.Samples[position].GetHashCode() : rnd.Next(10000);
+            => position < items.Count ? items[position].GetHashCode() : rnd.Next(10000);
 
         public override int ViewTypeCount => 1 + (mAssistant.ShowColors ? 1 : 0) + (!mAssistant.ShowPreviewImage ? 1 : 0) + (PartialLoadHandler == null ? 0 : 1);
 
@@ -163,7 +166,7 @@ namespace iChronoMe.Droid.Widgets
 
         public override View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
-            if (position >= mAssistant.Samples.Count)
+            if (position >= items.Count)
             {
                 var v = inflater.Inflate(Resource.Layout.listitem_loading, null); 
                 v.FindViewById<TextView>(Resource.Id.title).Text = PartialLoadHandler?.LoadingText ?? localize.loading;
@@ -202,7 +205,7 @@ namespace iChronoMe.Droid.Widgets
                         ViewHolders.Add(viewHolder.Position, viewHolder);
                     }
 
-                    var sample = mAssistant.Samples[position];
+                    var sample = items[position];
                     string cTitle = sample.Title;
 
                     if (!cTitle.StartsWith("#"))
@@ -322,7 +325,7 @@ namespace iChronoMe.Droid.Widgets
             }
             else
             {
-                var sample = mAssistant.Samples[position];
+                var sample = items[position];
                 var v = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
                 if (sample.Title.StartsWith("#"))
                 {
@@ -348,6 +351,7 @@ namespace iChronoMe.Droid.Widgets
         {
             mContext.RunOnUiThread(() =>
             {
+                items = new List<WidgetCfgSample<T>>(mAssistant.Samples);
                 NotifyDataSetChanged();
             });
         }
