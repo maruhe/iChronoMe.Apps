@@ -764,7 +764,7 @@ namespace iChronoMe.Droid.GUI
 
                 Task.Factory.StartNew(async () =>
                 {
-                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_BackgroundImage), clockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                    var cfg = await mgr.StartAt(typeof(WidgetCfgAssistant_ClockAnalog_Background), clockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
                     if (cfg != null)
                     {
                         clockCfg = cfg.GetConfigClone();
