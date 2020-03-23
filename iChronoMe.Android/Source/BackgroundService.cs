@@ -203,7 +203,8 @@ namespace iChronoMe.Droid
             var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Min);
             chan.Description = this.Resources.GetString(Resource.String.description_BackgroundService);
             chan.LightColor = Color.Blue;
-            chan.LockscreenVisibility = NotificationVisibility.Private;
+            chan.LockscreenVisibility = NotificationVisibility.Public;
+            chan.SetShowBadge(false);
             var service = GetSystemService(NotificationService) as NotificationManager;
             service.CreateNotificationChannel(chan);
             return channelId;
