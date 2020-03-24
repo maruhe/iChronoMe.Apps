@@ -371,28 +371,21 @@
     <AndroidResource Include="Resources\drawable-v1\flag_xk.webp" />
     <AndroidResource Include="Resources\drawable-v1\flag_zm.webp" />
     <AndroidResource Include="Resources\drawable-v1\flag_zw.webp" />
-    <AndroidResource Include="Resources\mipmap\icon.webp" />
     <AndroidResource Include="Resources\mipmap\inspired.webp" />
     <AndroidResource Include="Resources\mipmap\moon1.webp" />
     <AndroidResource Include="Resources\mipmap\overlay_click.webp" />
     <AndroidResource Include="Resources\mipmap\widgetprev_clock_analog.webp" />
     <AndroidResource Include="Resources\mipmap\widgetprev_lifetime.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.webp" />
-    <AndroidResource Include="Resources\mipmap-hdpi\icon.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\inspired.webp" />
-    <AndroidResource Include="Resources\mipmap-ldpi\icon.webp" />
     <AndroidResource Include="Resources\mipmap-ldpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_foreground.webp" />
-    <AndroidResource Include="Resources\mipmap-mdpi\icon.webp" />
     <AndroidResource Include="Resources\mipmap-mdpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_foreground.webp" />
-    <AndroidResource Include="Resources\mipmap-xhdpi\icon.webp" />
     <AndroidResource Include="Resources\mipmap-xhdpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.webp" />
-    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.webp" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.webp" />
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.webp" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\inspired.webp" />
   </ItemGroup>
   <ItemGroup>
@@ -1076,9 +1069,6 @@
     <AndroidResource Include="Resources\mipmap\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1601,6 +1591,24 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v1\flag_za.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-ldpi\icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
