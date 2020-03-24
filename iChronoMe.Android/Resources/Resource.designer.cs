@@ -11242,44 +11242,41 @@ namespace iChronoMe.Droid
 		public partial class Mipmap
 		{
 			
-			// aapt resource value: 0x7F0E0001
-			public const int dummy_wallpaper = 2131623937;
-			
-			// aapt resource value: 0x7F0E0005
-			public const int icon = 2131623941;
-			
-			// aapt resource value: 0x7F0E0002
-			public const int ic_launcher = 2131623938;
-			
-			// aapt resource value: 0x7F0E0003
-			public const int ic_launcher_foreground = 2131623939;
+			// aapt resource value: 0x7F0E0000
+			public const int dummy_wallpaper = 2131623936;
 			
 			// aapt resource value: 0x7F0E0004
-			public const int ic_launcher_round = 2131623940;
+			public const int icon = 2131623940;
+			
+			// aapt resource value: 0x7F0E0001
+			public const int ic_launcher = 2131623937;
+			
+			// aapt resource value: 0x7F0E0002
+			public const int ic_launcher_foreground = 2131623938;
+			
+			// aapt resource value: 0x7F0E0003
+			public const int ic_launcher_round = 2131623939;
+			
+			// aapt resource value: 0x7F0E0005
+			public const int inspired = 2131623941;
 			
 			// aapt resource value: 0x7F0E0006
-			public const int inspired = 2131623942;
+			public const int moon1 = 2131623942;
 			
 			// aapt resource value: 0x7F0E0007
-			public const int moon1 = 2131623943;
+			public const int overlay_click = 2131623943;
 			
 			// aapt resource value: 0x7F0E0008
-			public const int overlay_click = 2131623944;
+			public const int splash = 2131623944;
 			
 			// aapt resource value: 0x7F0E0009
-			public const int splash = 2131623945;
+			public const int widgetprev_calendar = 2131623945;
 			
 			// aapt resource value: 0x7F0E000A
-			public const int widgetprev_calendar = 2131623946;
+			public const int widgetprev_clock_analog = 2131623946;
 			
 			// aapt resource value: 0x7F0E000B
-			public const int widgetprev_clock_analog = 2131623947;
-			
-			// aapt resource value: 0x7F0E000C
-			public const int widgetprev_lifetime = 2131623948;
-			
-			// aapt resource value: 0x7F0E0000
-			public const int _clockface_sun_junior = 2131623936;
+			public const int widgetprev_lifetime = 2131623947;
 			
 			static Mipmap()
 			{
