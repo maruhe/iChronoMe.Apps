@@ -29,6 +29,7 @@ namespace iChronoMe.Droid
         Dictionary<string, WidgetView_ClockAnalog> configS = new Dictionary<string, WidgetView_ClockAnalog>();
         List<SKCanvasView> skViewS = new List<SKCanvasView>();
 
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
