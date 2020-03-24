@@ -56,6 +56,9 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Button>(Resource.Id.btn_widgets_config).Click += btnWidgetsConfig_Click;
 #if DEBUG
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Click += btnLiveWallpaper_Click;
+            RootView.FindViewById<Button>(Resource.Id.btn_debug_clear_data).Visibility = ViewStates.Visible;
+            RootView.FindViewById<Button>(Resource.Id.btn_debug_clear_data).Click += btnDebugClearData_Click;
+            
 #else
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Visibility = ViewStates.Gone;
 #endif
@@ -66,6 +69,19 @@ namespace iChronoMe.Droid.GUI.Service
             binder.UserChangedProperty += Binder_UserChangedProperty;
 
             return RootView;
+        }
+
+        private void btnDebugClearData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Directory.Delete(sys.PathShare, true);
+            }
+            catch (Exception ex)
+            {
+                Tools.ShowToast(Context, ex.Message);
+                return;
+            }
         }
 
         public Task<int> UserInputTaskTask { get { return tcsUI == null ? Task.FromResult(-1) : tcsUI.Task; } }
