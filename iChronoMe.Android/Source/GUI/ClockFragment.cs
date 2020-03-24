@@ -82,7 +82,7 @@ namespace iChronoMe.Droid.GUI
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
             skiaView.PaintSurface += skiaView_OnPaintSurface;
             pbClock = RootView.FindViewById<ProgressBar>(Resource.Id.pb_clock);
-            int pad = (int)(sys.DisplayShortSiteDp / 2);
+            int pad = (int)(sys.DisplayShortSite / 3);
             pbClock.SetPadding(pad, pad, pad, pad);
 
             lTitle = RootView.FindViewById<TextView>(Resource.Id.text_clock_area);
