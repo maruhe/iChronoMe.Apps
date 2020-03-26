@@ -934,7 +934,7 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 clTitleText = Tools.GetThemeColor(theme, Resource.Attribute.titleTextColor).Value;
                 clTitleBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimary).Value;//Color.ParseColor("#2c3e50");
-                clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColorPrimary).Value;
+                clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColor).Value;
                 clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
                 clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
 

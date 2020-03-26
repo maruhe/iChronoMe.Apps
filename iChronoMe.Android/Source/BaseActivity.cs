@@ -98,6 +98,7 @@ namespace iChronoMe.Droid
         }
 
         string cThemeFile = Path.Combine(sys.PathConfig, "apptheme");
+        string currentTheme = string.Empty;
         public void LoadAppTheme()
         {
             try
@@ -107,6 +108,7 @@ namespace iChronoMe.Droid
                     cThemeName = nameof(Resource.Style.AppTheme_iChronoMe_Dark);
                 int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
                 SetTheme(iThemeId);
+                currentTheme = cThemeName;
             }
             catch (Exception ex)
             {
@@ -122,6 +124,11 @@ namespace iChronoMe.Droid
             var adapter = new ThemeAdapter(this);
             string title = bStartAssistantActive ? base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_theme_firsttime) : Resources.GetString(Resource.String.action_change_theme);
             var theme = await Tools.ShowSingleChoiseDlg(this, title, adapter, false);
+            if (theme >= 0)
+            {
+                if (currentTheme.Equals(adapter[theme].Text1))
+                    theme = -1;
+            }
             if (bStartAssistantActive)
             {
                 AppConfigHolder.MainConfig.InitScreenTheme = 1;
@@ -161,6 +168,8 @@ namespace iChronoMe.Droid
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
+            
+            ActiveFragment?.OnActivityResult(requestCode, (int)resultCode, data);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)

@@ -328,8 +328,11 @@ namespace iChronoMe.Droid.Widgets
                 else if (manager != null)
                 {
                     AppWidgetProviderInfo inf = manager.GetAppWidgetInfo(iWidgetId);
-                    iWidth = (int)(inf.MinWidth);
-                    iHeigth = (int)(inf.MinHeight);
+                    if (inf != null)
+                    {
+                        iWidth = (int)(inf.MinWidth);
+                        iHeigth = (int)(inf.MinHeight);
+                    }
                 }
             }
             /*if (iWidth > sys.DisplayShortSiteDp)

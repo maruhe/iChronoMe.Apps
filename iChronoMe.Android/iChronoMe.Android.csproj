@@ -158,6 +158,7 @@
     <Compile Include="Source\GUI\WorldTimeMapFragment.cs" />
     <Compile Include="Source\MainActivity.cs" />
     <Compile Include="Source\MapsView.cs" />
+    <Compile Include="Source\Receivers\ScreenOnReceiver.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
     <Compile Include="Source\Receivers\ErrorReceiver.cs" />
     <Compile Include="Source\Receivers\CalendarChangedReceiver.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Source\Widgets\Clock\AnalogClockWidget.cs" />
     <Compile Include="Source\Widgets\Clock\AnalogClockWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\Clock\ClockUpdateBroadcastReceiver.cs" />
+    <Compile Include="Source\Widgets\Clock\ClockWidgetService.cs" />
     <Compile Include="Source\Widgets\Lifetime\LifetimeWidget.cs" />
     <Compile Include="Source\Widgets\Lifetime\LifetimeWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\MainWidgetBase.cs" />
@@ -1609,6 +1611,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-ldpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\shortcut_calendar_plus.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\shortcut_overtime.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>

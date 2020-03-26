@@ -28,6 +28,7 @@ using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 namespace iChronoMe.Droid
 {
     [Activity(Label = "@string/app_name", Name = "me.ichrono.droid.MainActivity", Theme = "@style/splashscreen", MainLauncher = true, LaunchMode = LaunchMode.SingleTask)]
+    [MetaData("android.app.shortcuts", Resource = "@xml/shortcuts")]
     public class MainActivity : BaseActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         int iNavigationItem = Resource.Id.nav_clock;
@@ -79,6 +80,11 @@ namespace iChronoMe.Droid
 
                     if (NeedsStartAssistant())
                         return;
+
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.M && (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted))
+                    {
+                        ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation }, 2);
+                    }
 
                     try
                     {
@@ -151,11 +157,7 @@ namespace iChronoMe.Droid
             if (NeedsStartAssistant())
             {
                 ShowStartAssistant();
-            }
-            else if (Build.VERSION.SdkInt >= BuildVersionCodes.M && (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted))
-            {
-                ActivityCompat.RequestPermissions(this, new string[] { Manifest.Permission.AccessFineLocation, Manifest.Permission.AccessCoarseLocation }, 2);
-            }
+            }            
 
             if (!bNavDoneByCreate)
                 OnNavigationItemSelected(iNavigationItem);
@@ -253,6 +255,9 @@ namespace iChronoMe.Droid
         {
             try
             {
+                if (id == -2) //from static Shortcut
+                    id = Resource.Id.nav_calendar;
+
                 ActivityFragment fr = null;
                 string cTitle = localize.AppName;
                 if (id == Resource.Id.nav_clock)

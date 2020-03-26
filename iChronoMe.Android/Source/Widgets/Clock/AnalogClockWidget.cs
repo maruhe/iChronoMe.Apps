@@ -50,3 +50,72 @@ namespace iChronoMe.Droid.Widgets.Clock
         }
     }
 }
+
+/*
+Job Intent-Service
+
+
+        public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+        {
+            xLog.Verbose("start");
+
+            Intent intent = new Intent();
+            intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, appWidgetIds);
+            if (intent.GetIntExtra(ClockWidgetService.Extra_FromTimer, -1) == 1)
+                intent.PutExtra(ClockWidgetService.Extra_FromTimer, 1);
+            else
+                intent.PutExtra(ClockWidgetService.Extra_UpdateFromWidget, 1);
+            ClockWidgetService.EnqueueWork(context, intent);
+
+            base.OnUpdate(context, appWidgetManager, appWidgetIds);
+            return;
+
+            var holder = new WidgetConfigHolder();
+
+            foreach (int appWidgetId in appWidgetIds)
+            {
+                try
+                {
+                    List<int> loadWidgetIdS = new List<int>();
+                    if (holder.WidgetExists(appWidgetId))
+                    {
+                        loadWidgetIdS.Add(appWidgetId);
+                    }
+                    else
+                    {
+                        RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_unconfigured);
+                        rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionPendingIntent(context, new ClickAction(ClickActionType.OpenSettings), appWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.AnalogClockWidgetConfigActivity"));
+                        appWidgetManager.UpdateAppWidget(appWidgetId, rv);
+                    }
+                    if (loadWidgetIdS.Count > 0)
+                    {
+                        intent = new Intent();
+                        intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, loadWidgetIdS.ToArray());
+                        if (intent.GetIntExtra(ClockWidgetService.Extra_FromTimer, -1) == 1)
+                            intent.PutExtra(ClockWidgetService.Extra_FromTimer, 1);
+                        else
+                            intent.PutExtra(ClockWidgetService.Extra_UpdateFromWidget, 1);
+                        ClockWidgetService.EnqueueWork(context, intent);
+                    }
+                }
+                catch { }
+            }
+
+            base.OnUpdate(context, appWidgetManager, appWidgetIds);
+        }
+
+        public static void updateWidgets(Context context, int iWidgetID = -1)
+        {
+            Intent intent = new Intent(context.ApplicationContext, typeof(AnalogClockWidget));
+            intent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
+            int[] ids = new int[] { iWidgetID };
+            if (iWidgetID < 0)
+            {
+                AppWidgetManager widgetManager = AppWidgetManager.GetInstance(context);
+                ids = widgetManager.GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+            }
+            intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
+            context.SendBroadcast(intent);
+        }
+
+ */

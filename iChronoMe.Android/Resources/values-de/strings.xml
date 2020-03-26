@@ -211,6 +211,7 @@ am Startbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="Lines" synced="x" sync="1">"Zeilen"</string>
   <string name="loading" synced="x" sync="1">"lade..."</string>
   <string name="Location" synced="x" sync="1">"Standort"</string>
+  <string name="location_premission_denied" sync="1">"Zugriff auf Standort-Dieste verweigert"</string>
   <string name="location_provider_disabled_alert" synced="x" sync="1">"die Standort-Dienste scheinen deaktiviert zu sein"</string>
   <string name="location_provider_disabled_question" synced="x" sync="1">"möchtest du sie aktivieren?"</string>
   <string name="LocationType" synced="x" sync="1">"Standort-Typ"</string>
@@ -259,11 +260,11 @@ am Startbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="shortcut_create_alarm" synced="x" sync="1">"Wecker stellen"</string>
   <string name="shortcut_create_alarm_disabled" synced="x" sync="1">"geht nit? warum nit?"</string>
   <string name="shortcut_create_alarm_long" synced="x" sync="1">"long description..."</string>
-  <string name="shortcut_create_calender_event" synced="x" sync="1">"Termin erstellen"</string>
+  <string name="shortcut_create_calender_event" synced="x" sync="1">"neuer Termin"</string>
   <string name="shortcut_create_calender_event_disabled" synced="x" sync="1">"geht nit? warum nit?"</string>
-  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"long description..."</string>
+  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"neuen Termin anlegen"</string>
   <string name="stop_alarm" synced="x" sync="1">"danke"</string>
-  <string name="text_Icon" sync="x">"Symbol"</string>
+  <string name="text_Icon" sync="1">"Symbol"</string>
   <string name="text_Offset" synced="x" sync="1">"Abweichung"</string>
   <string name="text_OnClick" synced="x" sync="1">"beim Klick"</string>
   <string name="text_oneMonth" synced="x" sync="1">"ein Monat"</string>

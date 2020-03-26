@@ -215,6 +215,7 @@ you can create new widgets on your launcher-screen!"</string>
   <string name="Lines" synced="x" sync="1">"lines"</string>
   <string name="loading" synced="x" sync="1">"loading..."</string>
   <string name="Location" synced="x" sync="1">"location"</string>
+  <string name="location_premission_denied" sync="1">"missing location premission"</string>
   <string name="location_provider_disabled_alert" synced="x" sync="1">"location-services seems to be disabled"</string>
   <string name="location_provider_disabled_question" synced="x" sync="1">"do you want to enable it?"</string>
   <string name="LocationType" synced="x" sync="1">"location type"</string>
@@ -263,11 +264,11 @@ you can create new widgets on your launcher-screen!"</string>
   <string name="shortcut_create_alarm" synced="x" sync="1">"add alarm"</string>
   <string name="shortcut_create_alarm_disabled" synced="x" sync="1">"not working? why not?"</string>
   <string name="shortcut_create_alarm_long" synced="x" sync="1">"long description..."</string>
-  <string name="shortcut_create_calender_event" synced="x" sync="1">"create event"</string>
+  <string name="shortcut_create_calender_event" synced="x" sync="1">"new event"</string>
   <string name="shortcut_create_calender_event_disabled" synced="x" sync="1">"not working? why not?"</string>
-  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"long description..."</string>
+  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"create new event"</string>
   <string name="stop_alarm" synced="x" sync="1">"thanks"</string>
-  <string name="text_Icon" sync="x">"Icon"</string>
+  <string name="text_Icon" sync="1">"Icon"</string>
   <string name="text_Offset" synced="x" sync="1">"Offset"</string>
   <string name="text_OnClick" synced="x" sync="1">"on click"</string>
   <string name="text_oneMonth" synced="x" sync="1">"one Month"</string>

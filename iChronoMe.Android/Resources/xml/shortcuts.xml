@@ -1,21 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <shortcut
+	<shortcut
     android:shortcutId="create_calender_event"
     android:enabled="true"
-    android:icon="@drawable/icons8_calendar_plus"
+    android:icon="@drawable/shortcut_calendar_plus"
     android:shortcutShortLabel="@string/shortcut_create_calender_event"
     android:shortcutLongLabel="@string/shortcut_create_calender_event_long"
     android:shortcutDisabledMessage="@string/shortcut_create_calender_event_disabled">
-    <intent
+		<intent
       android:action="android.intent.action.VIEW"
       android:targetPackage="me.ichrono.droid"
       android:targetClass="me.ichrono.droid.GUI.Calendar.EventEditActivity">
 
-    </intent>
-    <categories android:name="timeToTimeTools" />
-  </shortcut>
+		</intent>
+		<categories android:name="calendar" />
+	</shortcut>
+	<shortcut
+    android:shortcutId="open_calender"
+    android:enabled="true"
+    android:icon="@drawable/shortcut_overtime"
+    android:shortcutShortLabel="@string/menu_calendar"
+    android:shortcutLongLabel="@string/ClickActionType_OpenCalendar"
+    android:shortcutDisabledMessage="@string/shortcut_create_calender_event_disabled">
+		<intent
+      android:action="android.intent.action.VIEW"
+      android:targetPackage="me.ichrono.droid"
+      android:targetClass="me.ichrono.droid.MainActivity">
+			<extra android:name="NavigationItem" android:value="-2" />
+		</intent>
+		<categories android:name="calendar" />
+	</shortcut>
   <!--
   <shortcut
     android:shortcutId="create_alarm"
