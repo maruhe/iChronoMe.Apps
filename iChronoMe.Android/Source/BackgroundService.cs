@@ -19,6 +19,7 @@ using Android.Widget;
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
+using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
@@ -182,17 +183,29 @@ namespace iChronoMe.Droid
             }
         }
 
-        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction)
+        static Bitmap bmpNotify = Bitmap.CreateBitmap(sys.DpPx(48), sys.DpPx(48), Bitmap.Config.Argb8888);
+        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction, string timeTypeIcon = null)
         {
             string channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? createNotificationChannel() : null;
 
-            Notification notification = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
+            var builder = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
                 .SetContentTitle(cTitle)
                 .SetContentText(cText)
                 .SetSmallIcon(Resource.Drawable.sunclock)
                 .SetContentIntent(MainWidgetBase.GetClickActionPendingIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
-                .SetOngoing(true)
-                .Build();
+                .SetOngoing(true);
+            if (timeTypeIcon != null)
+            {
+                var bmp = DrawableHelper.GetIconBitmap(this, timeTypeIcon, 36, Resources.GetColor(Resource.Color.deepDarkGrayBlue, Theme).ToColor());
+                RectF targetRect = new RectF(sys.DpPx(6), sys.DpPx(6), sys.DpPx(42), sys.DpPx(42));
+                Canvas canvas = new Canvas(bmpNotify);
+                canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
+                canvas.DrawBitmap(bmp, null, targetRect, null);
+                bmp.Recycle();
+
+                builder.SetLargeIcon(bmpNotify);
+            }
+            Notification notification = builder.Build();
 
             return notification;
         }
@@ -636,7 +649,7 @@ namespace iChronoMe.Droid
                                         cText = cfg.WidgetTitle + ", " + sys.DezimalGradToGrad(cfg.Latitude, true, false) + ", " + sys.DezimalGradToGrad(cfg.Longitude, false, false);
                                     }
 
-                                    Notification notification = BackgroundService.currentService.GetForegroundNotification(cTitle, cText, cfg.ClickAction);
+                                    Notification notification = BackgroundService.currentService.GetForegroundNotification(cTitle, cText, cfg.ClickAction, Tools.GetTimeTypeIconName(tType, lth));
 
                                     NotificationManager mNotificationManager = (NotificationManager)ctx.GetSystemService(Context.NotificationService);
                                     mNotificationManager.Notify(101, notification);
