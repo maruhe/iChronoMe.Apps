@@ -60,6 +60,12 @@ namespace iChronoMe.Droid.Widgets
             pDlg.Show();
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            iChronoMe.Widgets.AndroidHelpers.Tools.HelperContext = this;
+        }
+
         protected void TryGetWallpaper()
         {
             try

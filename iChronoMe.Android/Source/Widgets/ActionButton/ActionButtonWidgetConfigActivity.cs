@@ -61,7 +61,6 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     if (cfgHolder == null)
                         cfgHolder = new WidgetConfigHolder();
 
-                    iChronoMe.Widgets.AndroidHelpers.Tools.HelperContext = this;
                     if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
                     {
                         RunOnUiThread(() => ShowExitMessage("Die Widget's funktionieren (aktuell) nur mit Standort-Zugriff!"));
@@ -93,7 +92,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     sys.AllDrawables.Add(prop.Name);
             }
 
-            var tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_ClickAction);
+            var tStartAssistant = typeof(WidgetCfgAssistant_Universal_ClickAction<WidgetCfg_ActionButton>);
             var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ActionButton>(appWidgetId, false);
             if (cfg != null)
                 tStartAssistant = typeof(WidgetCfgAssistant_ActionButton_OptionsBase);

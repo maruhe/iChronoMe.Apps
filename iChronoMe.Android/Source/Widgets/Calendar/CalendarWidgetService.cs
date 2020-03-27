@@ -311,21 +311,10 @@ namespace iChronoMe.Droid.Widgets.Calendar
             }
 
             //Title Click
-            //Intent startMainActivityIntent = new Intent(context, typeof(MainActivity));
-            Intent startMainActivityIntent = new Intent(Intent.ActionMain);
-            startMainActivityIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.MainActivity"));
-            startMainActivityIntent.SetFlags(ActivityFlags.ReorderToFront);
-            startMainActivityIntent.PutExtra("NavigationItem", Resource.Id.nav_calendar);
-            PendingIntent startMainActivityPendingIntent = PendingIntent.GetActivity(context, 11, startMainActivityIntent, PendingIntentFlags.UpdateCurrent);
-            rv.SetOnClickPendingIntent(Resource.Id.widget, startMainActivityPendingIntent);
+            rv.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionPendingIntent(context, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity"));
 
             //Config Click
-            Intent cfgIntent = new Intent(Intent.ActionMain);
-            cfgIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity"));
-            cfgIntent.SetFlags(ActivityFlags.NoHistory);
-            cfgIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-            var cfgPendingIntent = PendingIntent.GetActivity(context, iWidgetId, cfgIntent, PendingIntentFlags.UpdateCurrent);
-            rv.SetOnClickPendingIntent(Resource.Id.btn_config, cfgPendingIntent);
+            rv.SetOnClickPendingIntent(Resource.Id.btn_config, MainWidgetBase.GetClickActionPendingIntent(context, new ClickAction(ClickActionType.OpenSettings), iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity"));
 
             //Refresh Click
             Intent refreshIntent = new Intent(context.ApplicationContext, typeof(CalendarWidget));
@@ -335,10 +324,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
             rv.SetOnClickPendingIntent(Resource.Id.btn_refresh, refreshPendingIntent);
 
             //CreateEvent Click
-            Intent createEventIntent = new Intent(context, typeof(ShortCutActivity));
-            createEventIntent.SetFlags(ActivityFlags.NoHistory);
-            createEventIntent.PutExtra("shortcut", "create_calender_event");
-            PendingIntent createEventPendingIntent = PendingIntent.GetActivity(context, iWidgetId, createEventIntent, PendingIntentFlags.UpdateCurrent);
+            PendingIntent createEventPendingIntent = MainWidgetBase.GetClickActionPendingIntent(context, new ClickAction(ClickActionType.CreateEvent), iWidgetId, null);
+
             rv.SetOnClickPendingIntent(Resource.Id.btn_add_event, createEventPendingIntent);
             rv.SetOnClickPendingIntent(Resource.Id.empty_view, createEventPendingIntent);
 
