@@ -499,14 +499,14 @@ namespace iChronoMe.Droid
                 }
 
                 LocationTimeHolder lth = null;
-                if (cfg.PositionType == WidgetCfgPositionType.LivePosition || cfg.WidgetId == -101)
+                if (cfg.PositionType == WidgetCfgPositionType.LivePosition)
                 {
                     //Alle Widges mit lokaler Position bekommen den selben Holder
                     if (lthLocal != null)
                         lth = lthLocal;
                     else
                     {
-                        lth = lthLocal = LocationTimeHolder.LocalInstance;
+                        lth = lthLocal = LocationTimeHolder.LocalInstanceClone;
                         lth.ChangePositionDelay(cfg.Latitude, cfg.Longitude);
                         lthLocal.AreaChanged += LthLocal_AreaChanged;
                     }
@@ -728,12 +728,14 @@ namespace iChronoMe.Droid
                 cfgHolder = new WidgetConfigHolder();
                 var cfgNew = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
 
+                TimeSpan tMaxLocationDelay = TimeSpan.FromMinutes(20);
                 if (cfgNew.CurrentTimeType == cfgOld.CurrentTimeType)
                 {
                     StartWidgetTask(iWidgetId);// quick update
                 }
                 else
                 {
+                    tMaxLocationDelay = TimeSpan.FromMinutes(5);
                     lock (mThreads)
                     {
                         if (mThreads.ContainsKey(iWidgetId))
@@ -785,6 +787,9 @@ namespace iChronoMe.Droid
                     DateTime tAnimateFrom = lth.GetTime(cfgOld.CurrentTimeType);
                     DateTime tAnimateTo = lth.GetTime(cfgNew.CurrentTimeType);
 
+                    if (string.IsNullOrEmpty(cfgNew.WidgetTitle) && !string.IsNullOrEmpty(cfgOld.WidgetTitle))
+                        cfgNew.WidgetTitle = cfgOld.WidgetTitle;
+
                     var animator = new WidgetAnimator_ClockAnalog(clockView, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
                         .SetStart(tAnimateFrom)
                         .SetEnd(tAnimateTo)
@@ -797,7 +802,6 @@ namespace iChronoMe.Droid
                             }
 
                             var rv = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
-                            rv.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
                             rv.SetImageViewBitmap(Resource.Id.time_switcher, null);
                             manager.UpdateAppWidget(iWidgetId, rv);
                         })
@@ -805,7 +809,6 @@ namespace iChronoMe.Droid
                         {
                             clockView.ReadConfig(cfgNew);
                             var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, true);
-                            rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
                             manager.UpdateAppWidget(iWidgetId, rvf);
                         })
                         .SetFinally(() =>
@@ -829,7 +832,7 @@ namespace iChronoMe.Droid
                 if (cfgNew.PositionType == WidgetCfgPositionType.LivePosition &&
                     bPartialGpsOnlyMode &&
                     tLastLocationStart != DateTime.MinValue &&
-                    tLastLocationStart.AddMinutes(15) < DateTime.Now)
+                    tLastLocationStart.Add(tMaxLocationDelay) < DateTime.Now)
                     EnableLocationUpdate(ctx);
             }
             catch (Exception ex)

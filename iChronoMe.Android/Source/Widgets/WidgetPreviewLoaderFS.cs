@@ -115,8 +115,8 @@ namespace iChronoMe.Droid.Widgets
                     viewHolder.preview.SetImageURI(Android.Net.Uri.FromFile(file));
                 else
                     viewHolder.preview.SetImageResource(Resource.Drawable.icons8_error_clrd);
-                if (sys.Debugmode)
-                    viewHolder.title.Text = cInfo + (int)(DateTime.Now - tStart).TotalMilliseconds + "all "; ;
+                //if (sys.Debugmode)
+                  //  viewHolder.title.Text = cInfo + (int)(DateTime.Now - tStart).TotalMilliseconds + "all "; ;
                 viewHolder.progress.Visibility = ViewStates.Gone;
             }
             catch (ThreadAbortException) { }

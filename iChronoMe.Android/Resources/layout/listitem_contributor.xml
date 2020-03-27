@@ -35,6 +35,11 @@
             android:text="blablabla\ndasdasdsadsad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:minWidth="30px"
+            android:minHeight="30px"
+            xmlns="http://schemas.android.com/apk/res/android"
+            android:id="@+id/textView1" />
 
     </TableRow>
 
@@ -50,6 +55,11 @@
             android:textColor="?attr/android:textColorLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:minWidth="30px"
+            android:minHeight="30px"
+            xmlns="http://schemas.android.com/apk/res/android"
+            android:id="@+id/textView2" />
     </TableRow>
 
 </TableLayout>

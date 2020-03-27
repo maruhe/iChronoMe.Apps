@@ -5,6 +5,7 @@ using System.Threading;
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
@@ -23,7 +24,6 @@ namespace iChronoMe.Droid.Widgets
         protected WidgetConfigHolder cfgHolder = null;
         protected List<T> DeletedWidgets { get; } = new List<T>();
         protected AlertDialog pDlg;
-
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -65,7 +65,7 @@ namespace iChronoMe.Droid.Widgets
             try
             {
                 WallpaperManager wpMgr = WallpaperManager.GetInstance(this);
-                wallpaperDrawable = wpMgr.FastDrawable;
+                wallpaperDrawable = wpMgr.Drawable;
                 wpMgr.Dispose();
             }
             catch (System.Exception ex)
@@ -86,6 +86,25 @@ namespace iChronoMe.Droid.Widgets
 
             if (wallpaperDrawable == null)
                 wallpaperDrawable = Resources.GetDrawable(Resource.Mipmap.dummy_wallpaper, Theme);
+            {
+                if (wallpaperDrawable is BitmapDrawable)
+                {
+                    //scale down wallpaper so it's fast in list scrolling
+                    try
+                    {
+                        Bitmap b = ((BitmapDrawable)wallpaperDrawable).Bitmap;
+                        if (b.Height > sys.DisplayShortSite / 2)
+                        {
+                            Bitmap bitmapResized = Bitmap.CreateScaledBitmap(b, b.Width * sys.DisplayShortSite / b.Height / 2, sys.DisplayShortSite / 2, false);
+
+                            var p1 = new Point(b.Width, b.Height);
+                            var p2 = new Point(bitmapResized.Width, bitmapResized.Height);
+
+                            wallpaperDrawable = new BitmapDrawable(Resources, bitmapResized);
+                        }
+                    } catch { }
+                }
+            }
         }
 
         protected void SearchForDeletedWidgets(WidgetConfigHolder cfgHolderArc = null, WidgetConfigHolder cfgHolderExtra = null)

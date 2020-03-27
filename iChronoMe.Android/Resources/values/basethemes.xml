@@ -19,7 +19,6 @@
 		<item name="iconTint">@color/smokyWhite</item>
 		<item name="iconTitleTint">@android:color/white</item>
 		<item name="colorBackgroundAccent">@color/deepDarkGray</item>
-		<item name="android:textColor">@color/smokyWhite</item>
 
 		<item name="AppBarOverlay">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
 		<item name="PopupOverlay">@style/ThemeOverlay.AppCompat.Light</item>

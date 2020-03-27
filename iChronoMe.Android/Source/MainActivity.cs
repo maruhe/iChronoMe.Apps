@@ -20,6 +20,7 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
+using iChronoMe.Droid.GUI.Debug;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.GUI.Service;
 using iChronoMe.Widgets;
@@ -296,7 +297,7 @@ namespace iChronoMe.Droid
                 }*/
                 else if (id == Resource.Id.nav_about)
                 {
-#if DExxBUG
+#if DEBUG
                         fr = new DebugFragment();
 #else
                     fr = new AboutFragment();

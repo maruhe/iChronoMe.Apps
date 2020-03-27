@@ -68,7 +68,7 @@ namespace iChronoMe.Droid.Widgets
             nScale = Math.Min(1F, sys.DisplayShortSiteDp * .9F / wSize.X);
             iHeightPreview = iHeightPreviewWallpaper = (int)(wSize.Y * sys.DisplayDensity * nScale);
             if (WallpaperDrawable != null)
-                iHeightPreviewWallpaper = iHeightPreview + 20 * sys.DisplayDensity;
+                iHeightPreviewWallpaper = (int)(iHeightPreview + 20 * sys.DisplayDensity);
 
             llDummy = new LinearLayout(context.ApplicationContext);
             llDummy.LayoutParameters = new LinearLayout.LayoutParams(wSize.X * (int)sys.DisplayDensity, wSize.Y * (int)sys.DisplayDensity);
@@ -226,7 +226,7 @@ namespace iChronoMe.Droid.Widgets
                     viewHolder.colors.Visibility = ViewStates.Gone;
                     if (cTitle.StartsWith("#"))
                     {
-                        int size = 20 * sys.DisplayDensity;
+                        int size = (int)(20 * sys.DisplayDensity);
                         viewHolder.colors.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)(size * 1.2));
                         viewHolder.colors.Visibility = ViewStates.Visible;
                         viewHolder.colors.SetGravity(GravityFlags.Center);
@@ -238,7 +238,7 @@ namespace iChronoMe.Droid.Widgets
                         shape.SetShape(ShapeType.Rectangle);
                         shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                         shape.SetColor(xColor.FromHex(cTitle).ToAndroid());
-                        shape.SetStroke(sys.DisplayDensity, clIconTint);
+                        shape.SetStroke((int)Math.Round(sys.DisplayDensity, 0), clIconTint);
                         llClr.Background = shape;
 
                         viewHolder.colors.AddView(llClr);
@@ -252,7 +252,7 @@ namespace iChronoMe.Droid.Widgets
 
                         if (clrList != null && clrList.Length > 0)
                         {
-                            int size = 20 * sys.DisplayDensity;
+                            int size = (int)(20 * sys.DisplayDensity);
                             viewHolder.colors.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)(size * 1.2));
                             viewHolder.colors.Visibility = ViewStates.Visible;
                             viewHolder.colors.SetGravity(GravityFlags.Center);
@@ -268,7 +268,7 @@ namespace iChronoMe.Droid.Widgets
                                 shape.SetShape(ShapeType.Rectangle);
                                 shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                                 shape.SetColor(clr.ToAndroid());
-                                shape.SetStroke(sys.DisplayDensity, clIconTint);
+                                shape.SetStroke((int)Math.Round(sys.DisplayDensity, 0), clIconTint);
                                 llClr.Background = shape;
 
                                 viewHolder.colors.AddView(llClr);
@@ -333,7 +333,7 @@ namespace iChronoMe.Droid.Widgets
                     shape.SetShape(ShapeType.Rectangle);
                     shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                     shape.SetColor(xColor.FromHex(sample.Title).ToAndroid());
-                    shape.SetStroke(sys.DisplayDensity, clIconTint);
+                    shape.SetStroke((int)Math.Round(sys.DisplayDensity, 0), clIconTint);
                     v.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(shape);
                     v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title.Replace("#FF", "#");
                 }

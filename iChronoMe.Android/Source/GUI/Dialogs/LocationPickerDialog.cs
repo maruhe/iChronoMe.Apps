@@ -116,8 +116,9 @@ namespace iChronoMe.Droid.GUI.Dialogs
 
             googleMap.UiSettings.ZoomControlsEnabled = true;
             googleMap.UiSettings.MapToolbarEnabled = false;
-            googleMap.UiSettings.CompassEnabled = true;
+            googleMap.UiSettings.CompassEnabled = false;
             googleMap.UiSettings.MyLocationButtonEnabled = true;
+            googleMap.UiSettings.RotateGesturesEnabled = false;
 
             mGoogleMap.MapClick += MGoogleMap_MapClick;
             mGoogleMap.MarkerDragEnd += MGoogleMap_MarkerDragEnd;

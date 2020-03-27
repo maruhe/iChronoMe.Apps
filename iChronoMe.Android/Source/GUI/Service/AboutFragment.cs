@@ -60,7 +60,7 @@ namespace iChronoMe.Droid.GUI.Service
                     textView.Text += ex.Message;
                     sys.LogException(ex);
                 }
-                int pad = 5 * sys.DisplayDensity;
+                int pad = (int)(5 * sys.DisplayDensity);
                 textView.SetPadding(pad, pad, pad, pad);
                 textView.MovementMethod = LinkMovementMethod.Instance;
                 var scroll = new ScrollView(Context);
