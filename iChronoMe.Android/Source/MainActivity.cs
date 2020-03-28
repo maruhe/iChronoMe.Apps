@@ -8,6 +8,7 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -28,12 +29,15 @@ using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
 {
-    [Activity(Label = "@string/app_name", Name = "me.ichrono.droid.MainActivity", Theme = "@style/splashscreen", MainLauncher = true, LaunchMode = LaunchMode.SingleTask)]
+    [Activity(Label = "@string/app_name", Name = "me.ichrono.droid.MainActivity", Theme = "@style/splashscreen", MainLauncher = true, ScreenOrientation = ScreenOrientation.FullUser, LaunchMode = LaunchMode.SingleTask)]
     [MetaData("android.app.shortcuts", Resource = "@xml/shortcuts")]
     public class MainActivity : BaseActivity, NavigationView.IOnNavigationItemSelectedListener
     {
         int iNavigationItem = Resource.Id.nav_clock;
         bool bNavDoneByCreate = false;
+        ImageButton btnNavPin;
+        CoordinatorLayout mainAppBar;
+        View vSpaceHolder;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -51,9 +55,9 @@ namespace iChronoMe.Droid
                 SetSupportActionBar(Toolbar);
 
                 Drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-                Drawer.AddDrawerListener(toggle);
-                toggle.SyncState();
+                Drawer.SetScrimColor(base.Resources.GetColor(Resource.Color.navigationScrim, Theme));
+                DrawerToggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
+                Drawer.AddDrawerListener(DrawerToggle);                
 
                 NavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
                 NavigationView.SetNavigationItemSelectedListener(this);
@@ -66,6 +70,9 @@ namespace iChronoMe.Droid
                     iNavigationItem = savedInstanceState.GetInt("NavigationItem", iNavigationItem);
                     blRestoreFragment = savedInstanceState.GetBundle("ActiveFragment");
                 }
+
+                mainAppBar = FindViewById<CoordinatorLayout>(Resource.Id.main_app_bar);
+                vSpaceHolder = FindViewById(Resource.Id.v_placeholder);
 
                 ProcessNavigationChange(iNavigationItem);
                 bNavDoneByCreate = true;
@@ -113,6 +120,53 @@ namespace iChronoMe.Droid
             }
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            return;
+            Task.Factory.StartNew(() =>
+            {
+                while (bNavDoneByCreate || ActiveFragment == null)
+                    Task.Delay(100).Wait();
+                Task.Delay(100).Wait();
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        var header = NavigationView.GetHeaderView(0);
+                        btnNavPin = header.FindViewById<ImageButton>(Resource.Id.btn_nav_pin);
+                        btnNavPin.Click += BtnNavPin_Click;
+
+                        if (sys.DisplayOrientation == Xamarin.Essentials.DisplayOrientation.Landscape)
+                        {
+                            btnNavPin.Visibility = ViewStates.Visible;
+                            if (AppConfigHolder.MainConfig.MainNavigationPiddend)
+                                LockNavigationOpen();
+                        }
+                        else
+                        {
+                            btnNavPin.Visibility = ViewStates.Gone;
+                            if (AppConfigHolder.MainConfig.MainNavigationPiddend)
+                                UnlockNavigationDrawer();
+                        }
+                    }
+                    catch { }
+                });
+            });
+        }
+
+        protected override void OnPostCreate(Bundle savedInstanceState)
+        {
+            base.OnPostCreate(savedInstanceState);
+            DrawerToggle.SyncState();
+        }
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            base.OnConfigurationChanged(newConfig);
+            DrawerToggle.OnConfigurationChanged(newConfig);
+        }
+
         private void StatisticAppStart()
         {
             try
@@ -158,6 +212,7 @@ namespace iChronoMe.Droid
             if (NeedsStartAssistant())
             {
                 ShowStartAssistant();
+                return;
             }            
 
             if (!bNavDoneByCreate)
@@ -199,10 +254,9 @@ namespace iChronoMe.Droid
         int lastMainItem = Resource.Id.nav_clock;
         public override void OnBackPressed()
         {
-            DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if (drawer.IsDrawerOpen(GravityCompat.Start))
+            if (Drawer.IsDrawerOpen(GravityCompat.Start) && Drawer.GetDrawerLockMode(GravityCompat.Start) != DrawerLayout.LockModeLockedOpen)
             {
-                drawer.CloseDrawer(GravityCompat.Start);
+                Drawer.CloseDrawer(GravityCompat.Start);
             }
             else
             {
@@ -232,6 +286,42 @@ namespace iChronoMe.Droid
             View view = (View)sender;
             Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
                 .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+        }
+
+        private void BtnNavPin_Click(object sender, EventArgs e)
+        {
+            AppConfigHolder.MainConfig.MainNavigationPiddend = !AppConfigHolder.MainConfig.MainNavigationPiddend;
+            AppConfigHolder.SaveMainConfig();
+
+            if (AppConfigHolder.MainConfig.MainNavigationPiddend)
+                LockNavigationOpen();
+            else
+                UnlockNavigationDrawer();
+        }
+
+        private void LockNavigationOpen()
+        {
+            if (!Drawer.IsDrawerOpen((int)GravityFlags.Start))
+                Drawer.OpenDrawer((int)GravityFlags.Start);
+            Drawer.SetScrimColor(Android.Graphics.Color.Transparent);
+            Drawer.SetDrawerLockMode(DrawerLayout.LockModeLockedOpen, (int)GravityFlags.Start);
+            vSpaceHolder.LayoutParameters = new LinearLayout.LayoutParams(NavigationView.Width, LinearLayout.LayoutParams.MatchParent);
+            vSpaceHolder.Visibility = ViewStates.Visible;
+            DrawerToggle.DrawerIndicatorEnabled = false;
+            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
+            DrawerToggle.SyncState();
+        }
+
+        private void UnlockNavigationDrawer(bool bCloseIfOpen = true)
+        {
+            Drawer.SetDrawerLockMode(DrawerLayout.LockModeUnlocked, (int)GravityFlags.Start);
+            if (bCloseIfOpen && Drawer.IsDrawerOpen((int)GravityFlags.Start))
+                Drawer.CloseDrawer((int)GravityFlags.Start);
+            Drawer.SetScrimColor(base.Resources.GetColor(Resource.Color.navigationScrim, Theme));
+            DrawerToggle.DrawerIndicatorEnabled = true;
+            vSpaceHolder.Visibility = ViewStates.Gone;
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            DrawerToggle.SyncState();
         }
 
         ActivityFragment frClock = null;
@@ -298,7 +388,7 @@ namespace iChronoMe.Droid
                 else if (id == Resource.Id.nav_about)
                 {
 #if DEBUG
-                        fr = new DebugFragment();
+                    fr = new DebugFragment();
 #else
                     fr = new AboutFragment();
 #endif
@@ -331,15 +421,18 @@ namespace iChronoMe.Droid
             }
             finally
             {
-                RunOnUiThread(() =>
+                if (Drawer.GetDrawerLockMode(GravityCompat.Start) != DrawerLayout.LockModeLockedOpen)
                 {
-                    try
+                    RunOnUiThread(() =>
                     {
-                        DrawerLayout drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-                        drawer.CloseDrawer(GravityCompat.Start);
-                    }
-                    catch { }
-                });
+                        try
+                        {
+
+                            Drawer.CloseDrawer(GravityCompat.Start);
+                        }
+                        catch { }
+                    });
+                }
             }
         }
 
@@ -378,13 +471,13 @@ namespace iChronoMe.Droid
                                         .SetTitle(Resource.String.progress_senderrorlog_title)
                                         .SetMessage(Resource.String.progress_senderrorlog_message)
                                         .SetView(cb)
-                                        .SetPositiveButton(Resources.GetString(Resource.String.action_yes), (s, e) =>
+                                        .SetPositiveButton(base.Resources.GetString(Resource.String.action_yes), (s, e) =>
                                         {
                                             AppConfigHolder.MainConfig.SendErrorLogs = true;
                                             AppConfigHolder.SaveMainConfig();
                                             ErrorLogDlg.SendLogs();
                                         })
-                                        .SetNegativeButton(Resources.GetString(Resource.String.action_no), (s, e) =>
+                                        .SetNegativeButton(base.Resources.GetString(Resource.String.action_no), (s, e) =>
                                         {
                                             try { Directory.Delete(cErrorPath, true); } catch { };
                                             Tools.ShowToast(this, Resource.String.progress_deleteerrorlog_done);

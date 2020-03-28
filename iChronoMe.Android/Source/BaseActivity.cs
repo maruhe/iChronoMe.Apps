@@ -37,6 +37,7 @@ namespace iChronoMe.Droid
     {
         public Android.Support.V7.Widget.Toolbar Toolbar { get; protected set; } = null;
         public DrawerLayout Drawer { get; protected set; } = null;
+        public Android.Support.V7.App.ActionBarDrawerToggle DrawerToggle { get; protected set; } = null;
         public NavigationView NavigationView { get; protected set; } = null;
         public ActivityFragment ActiveFragment { get; protected set; } = null;
 
