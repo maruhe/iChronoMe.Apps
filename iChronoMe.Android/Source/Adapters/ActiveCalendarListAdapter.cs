@@ -4,6 +4,7 @@ using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Adapters
 {
@@ -21,6 +22,7 @@ namespace iChronoMe.Droid.Adapters
             if (convertView == null)
             {
                 convertView = mContext.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItemChecked, null);
+                convertView.SetMinimumHeight(sys.DpPx(48));
                 convertView.FindViewById<CheckedTextView>(Android.Resource.Id.Text1).SetMaxLines(1);
                 convertView.FindViewById<CheckedTextView>(Android.Resource.Id.Text1).SetSingleLine(true);
             }

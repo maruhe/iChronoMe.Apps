@@ -52,11 +52,16 @@ namespace iChronoMe.Droid.GUI
             MapsInitializer.Initialize(Context);
 
             mMapView = (MapView)view.FindViewById(Resource.Id.mapView);
-            mMapView.OnCreate(savedInstanceState);
-            mMapView.OnResume();// needed to get the map to display immediately
-            mMapView.GetMapAsync(this);
+            mMapView.OnCreate(savedInstanceState);            
 
             return view;
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            mMapView.OnResume();// needed to get the map to display immediately
+            mMapView.GetMapAsync(this);
         }
 
         public override void OnSaveInstanceState(Bundle outState)
@@ -70,6 +75,7 @@ namespace iChronoMe.Droid.GUI
                 outState.PutDouble("marker_" + i + "_lng", item.Location.Longitude);
                 i++;
             }
+            blRestore = outState;
         }
 
         public override void OnPause()

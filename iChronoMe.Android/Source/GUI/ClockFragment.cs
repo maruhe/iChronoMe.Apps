@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Android;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Locations;
 using Android.OS;
@@ -75,6 +76,7 @@ namespace iChronoMe.Droid.GUI
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_clock, container, false);
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
             Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            Drawer.SetScrimColor(Color.Transparent);
             imgClockBack = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background);
             imgClockBackClr = RootView.FindViewById<ImageView>(Resource.Id.img_clock_background_color);
             skiaView = RootView.FindViewById<SKCanvasView>(Resource.Id.skia_clock);
@@ -482,17 +484,13 @@ namespace iChronoMe.Droid.GUI
                 mContext.RunOnUiThread(() =>
                 {
                     try
-                    {                        
+                    {
                         pbClock.Visibility = ViewStates.Gone;
                         if (string.IsNullOrEmpty(cFile))
                             imgClockBack.SetImageURI(null);
                         else
                         {
                             imgClockBack.SetImageURI(Android.Net.Uri.FromFile(new Java.IO.File(cFile)));
-                            if (clockCfg.BackgroundImageTint == xColor.Transparent)
-                                imgClockBack.SetColorFilter(null);
-                            else
-                                imgClockBack.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
                             if (clockCfg.BackgroundImage.Equals(cFile))
                             {
                                 var clr = vClock.ClockfaceInfo != null ? vClock.ClockfaceInfo.xMainColor.Invert().ToAndroid() : Android.Graphics.Color.DarkOliveGreen;

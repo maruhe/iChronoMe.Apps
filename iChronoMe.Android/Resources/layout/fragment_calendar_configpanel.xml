@@ -1,44 +1,37 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout 
+    android:layout_height="match_parent">
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ListView
+        android:layout_height="wrap_content">
+
+        <me.ichrono.droid.Controls.NonScrollingListView
             android:id="@+id/lv_calendars"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
         
-                <include
-                    layout="@layout/fragment_calendar_configpanel_timeline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include
-                    layout="@layout/fragment_calendar_configpanel_dayview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include
-                    layout="@layout/fragment_calendar_configpanel_weekview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include
-                    layout="@layout/fragment_calendar_configpanel_workweek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <include
-                    layout="@layout/fragment_calendar_configpanel_monthview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </ScrollView>     
-</LinearLayout>
-</RelativeLayout>
+        <include
+            layout="@layout/fragment_calendar_configpanel_timeline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/fragment_calendar_configpanel_dayview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/fragment_calendar_configpanel_weekview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/fragment_calendar_configpanel_workweek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/fragment_calendar_configpanel_monthview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>     

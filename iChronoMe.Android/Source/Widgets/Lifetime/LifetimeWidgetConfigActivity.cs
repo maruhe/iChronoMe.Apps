@@ -221,27 +221,6 @@ namespace iChronoMe.Droid.Widgets.Lifetime
             */
         }
 
-        private void ShowKeyboard(EditText userInput)
-        {
-            try
-            {
-                userInput.RequestFocus();
-                InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-                imm.ToggleSoftInput(ShowFlags.Forced, 0);
-            }
-            catch { }
-        }
-
-        private void HideKeyboard(EditText userInput)
-        {
-            try
-            {
-                InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-                imm.HideSoftInputFromWindow(userInput.WindowToken, 0);
-            }
-            catch { }
-        }
-
         protected override void OnStop()
         {
             base.OnStop();

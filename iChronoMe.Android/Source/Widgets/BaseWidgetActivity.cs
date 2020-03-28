@@ -93,15 +93,18 @@ namespace iChronoMe.Droid.Widgets
             if (wallpaperDrawable == null)
                 wallpaperDrawable = Resources.GetDrawable(Resource.Mipmap.dummy_wallpaper, Theme);
             {
-                if (wallpaperDrawable is BitmapDrawable)
+                if (wallpaperDrawable is BitmapDrawable && sys.DisplayOrientation == Xamarin.Essentials.DisplayOrientation.Landscape)
                 {
                     //scale down wallpaper so it's fast in list scrolling
                     try
                     {
                         Bitmap b = ((BitmapDrawable)wallpaperDrawable).Bitmap;
-                        if (b.Height > sys.DisplayShortSite / 2)
+                        int min = Math.Min(b.Width, b.Height);
+                        if (min > sys.DisplayShortSite / 2)
                         {
-                            Bitmap bitmapResized = Bitmap.CreateScaledBitmap(b, b.Width * sys.DisplayShortSite / b.Height / 2, sys.DisplayShortSite / 2, false);
+                            int w = b.Width < b.Height ? sys.DisplayShortSite / 2 : b.Height * sys.DisplayShortSite / b.Width / 2;
+                            int h = b.Width < b.Height ? b.Width * sys.DisplayShortSite / b.Height / 2 : sys.DisplayShortSite / 2;
+                            Bitmap bitmapResized = Bitmap.CreateScaledBitmap(b, w, h, false);
 
                             var p1 = new Point(b.Width, b.Height);
                             var p2 = new Point(bitmapResized.Width, bitmapResized.Height);

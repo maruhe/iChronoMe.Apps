@@ -157,7 +157,6 @@
     <Compile Include="Source\GUI\Service\BackgroundServiceSettingsFragment.cs" />
     <Compile Include="Source\GUI\WorldTimeMapFragment.cs" />
     <Compile Include="Source\MainActivity.cs" />
-    <Compile Include="Source\MapsView.cs" />
     <Compile Include="Source\Receivers\ScreenOnReceiver.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
     <Compile Include="Source\Receivers\ErrorReceiver.cs" />

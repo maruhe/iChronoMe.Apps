@@ -20,6 +20,7 @@ using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
+using iChronoMe.Droid.Receivers;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
@@ -40,6 +41,7 @@ namespace iChronoMe.Droid
         internal static string cLauncherName { get; private set; } = null;
 
         ClockUpdateBroadcastReceiver mReceiver;
+        ScreenOnOffReceiver screenOnOffReceiver;
         AppWidgetManager manager;
 
         public override void OnCreate()
@@ -58,9 +60,16 @@ namespace iChronoMe.Droid
             mReceiver.CommandReceived += MReceiver_CommandReceived;
             this.RegisterReceiver(mReceiver, intentFilter);
 
+            intentFilter = new IntentFilter();
+            intentFilter.AddAction(Intent.ActionScreenOn);
+            intentFilter.AddAction(Intent.ActionScreenOff);
+            screenOnOffReceiver = new ScreenOnOffReceiver();
+            screenOnOffReceiver.ScreenStateReceived += ScreenOnOffReceiver_ScreenStateReceived;
+            this.RegisterReceiver(screenOnOffReceiver, intentFilter);
+
             //RegisterForegroundService();
 
-            Tools.ShowToastDebug(this, "Service Created");
+            //Tools.ShowToastDebug(this, "Service Created");
 
             Task.Factory.StartNew(() =>
             {
@@ -102,6 +111,17 @@ namespace iChronoMe.Droid
                     holderArc.SaveToFile();
                 }
             });
+        }
+
+        private void ScreenOnOffReceiver_ScreenStateReceived(bool bIsScreenOn)
+        {
+            if (bIsScreenOn)
+                xxRestartUpdate();
+            else
+            {
+                StopUpdate();
+                EffectedWidges.Clear();
+            }
         }
 
         private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
@@ -165,6 +185,8 @@ namespace iChronoMe.Droid
         public override void OnDestroy()
         {
             StopUpdate();
+            UnregisterReceiver(mReceiver);
+            UnregisterReceiver(screenOnOffReceiver);
             base.OnDestroy();
         }
 
@@ -196,7 +218,7 @@ namespace iChronoMe.Droid
                 .SetOngoing(true);
             if (timeTypeIcon != null)
             {
-                var bmp = DrawableHelper.GetIconBitmap(this, timeTypeIcon, 36, Resources.GetColor(Resource.Color.deepDarkGrayBlue, Theme).ToColor());
+                var bmp = DrawableHelper.GetIconBitmap(this, timeTypeIcon, 36, xColor.DimGray);
                 RectF targetRect = new RectF(sys.DpPx(6), sys.DpPx(6), sys.DpPx(42), sys.DpPx(42));
                 Canvas canvas = new Canvas(bmpNotify);
                 canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
@@ -205,6 +227,7 @@ namespace iChronoMe.Droid
 
                 builder.SetLargeIcon(bmpNotify);
             }
+
             Notification notification = builder.Build();
 
             return notification;
@@ -414,7 +437,7 @@ namespace iChronoMe.Droid
             pm = (PowerManager)ctx.GetSystemService(Context.PowerService);
             cfgHolder = new WidgetConfigHolder();
 
-            Tools.ShowToastDebug(ctx, "new ThreadHolder");
+            //Tools.ShowToastDebug(ctx, "new ThreadHolder");
 
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(ctx, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             List<int> iS = new List<int>();
@@ -483,7 +506,7 @@ namespace iChronoMe.Droid
 
             var tsk = new Thread(() =>
             {
-                xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
+                //xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
 
                 DateTime swStart = DateTime.Now;
                 WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
@@ -580,12 +603,12 @@ namespace iChronoMe.Droid
 
                             iRun++;
                             xLog.Verbose("AnalogClock " + iWidgetId + "\tRun " + iRun);
-                            while (!IsInteractive && (tLastRun.AddMinutes(5) > DateTime.Now) && bRunning)
+                            /*while (!IsInteractive && (tLastRun.AddMinutes(5) > DateTime.Now) && bRunning)
                                 Thread.Sleep(250);
 
                             if (Build.VERSION.SdkInt >= BuildVersionCodes.LollipopMr1)
                                 if (pm.IsPowerSaveMode)
-                                    clockView.ShowSecondHand = clockView.FlowMinuteHand = false;
+                                    clockView.ShowSecondHand = clockView.FlowMinuteHand = false;*/
 
                             swStart = DateTime.Now;
                             if (cfg.PositionType == WidgetCfgPositionType.LivePosition)
@@ -971,7 +994,7 @@ namespace iChronoMe.Droid
 
         private void LthLocal_AreaChanged(object sender, AreaChangedEventArgs e)
         {
-            Tools.ShowToastDebug(ctx, "Area Changed");
+            //Tools.ShowToastDebug(ctx, "Area Changed");
             BackgroundService.EffectedWidges.Clear();
         }
 
@@ -1033,7 +1056,7 @@ namespace iChronoMe.Droid
                             xLog.Debug("EnableLocationUpdate: passive");
                             locationManager.RequestLocationUpdates(LocationManager.PassiveProvider, minTime, minDistance, this);
                             xLog.Debug("EnableLocationUpdate: passive: done");
-                            Tools.ShowToastDebug(ctx, "EnableLocationUpdate: passive: done");
+                            //Tools.ShowToastDebug(ctx, "EnableLocationUpdate: passive: done");
                         }
                         catch (Exception e)
                         {
@@ -1045,7 +1068,7 @@ namespace iChronoMe.Droid
                             locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, minTime, minDistance, this);
                             bGetNetworkLocation = true;
                             xLog.Debug("EnableLocationUpdate: network: done");
-                            Tools.ShowToastDebug(ctx, "EnableLocationUpdate: network: done");
+                            //Tools.ShowToastDebug(ctx, "EnableLocationUpdate: network: done");
                         }
                         catch (Exception e)
                         {
@@ -1059,7 +1082,7 @@ namespace iChronoMe.Droid
                                 xLog.Debug("EnableLocationUpdate: gps");
                                 locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
                                 xLog.Debug("EnableLocationUpdate: gps: done");
-                                Tools.ShowToastDebug(ctx, "EnableLocationUpdate: gps: done");
+                                //Tools.ShowToastDebug(ctx, "EnableLocationUpdate: gps: done");
                                 if (!AppConfigHolder.MainConfig.ContinuousLocationUpdates && myLocationStopper == null)
                                 {
                                     bPartialGpsOnlyMode = true;
@@ -1096,7 +1119,7 @@ namespace iChronoMe.Droid
 
         protected void DisableLocationUpdate()
         {
-            Tools.ShowToastDebug(ctx, "DisableLocationUpdate!!!!!");
+            //Tools.ShowToastDebug(ctx, "DisableLocationUpdate!!!!!");
             xLog.Debug("DisableLocationUpdate!!!!!");
             if (locationManager != null)
             {
@@ -1115,7 +1138,7 @@ namespace iChronoMe.Droid
             {
                 if (lastLocation?.Latitude == location.Latitude && lastLocation?.Longitude == location.Longitude)
                     return;
-                Tools.ShowToastDebug(ctx, "OnLocationChanged");
+                //Tools.ShowToastDebug(ctx, "OnLocationChanged");
                 lastLocation = location;
                 lthLocal?.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
                 BackgroundService.EffectedWidges.Clear();

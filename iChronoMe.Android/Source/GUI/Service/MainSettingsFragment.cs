@@ -98,7 +98,7 @@ namespace iChronoMe.Droid.GUI.Service
 
                 if (clockS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
                 {
-                    Tools.ShowToast(Context, localize.info_no_widgets_found);
+                    Tools.ShowToast(Context, localize.info_no_widgets_found, true);
                     return;
                 }
 

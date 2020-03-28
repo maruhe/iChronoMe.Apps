@@ -18,6 +18,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Text.Method;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 
 using iChronoMe.Core;
@@ -641,6 +642,41 @@ namespace iChronoMe.Droid
             bKillOnClose = false;
             bStartAssistantActive = false;
             ShowStartAssistant();
+        }
+
+        public void ShowKeyboard(View userInput)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(100).Wait();
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        userInput.RequestFocus();
+                        InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
+                        imm.ToggleSoftInput(ShowFlags.Forced, 0);
+                    }
+                    catch { }
+                });
+            });
+        }
+
+        public void HideKeyboard(View userInput)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(100).Wait();
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
+                        imm.HideSoftInputFromWindow(userInput.WindowToken, 0);
+                    }
+                    catch { }
+                });
+            });
         }
 
         public static void KillActivity(Activity activity)

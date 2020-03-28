@@ -266,10 +266,12 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         public bool OnMenuItemClick(IMenuItem item)
         {
+            HideKeyboard(rootView);
             if (item.ItemId == 10)
             {
                 Task.Factory.StartNew(async () =>
                 {
+                    await Task.Delay(150);
                     var clrDlg = ColorPickerDialog.NewBuilder()
                         .SetDialogType(ColorPickerDialog.DialogType.Preset)
                         .SetAllowCustom(false)
@@ -445,6 +447,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             var date = (DateTime)prop.GetValue(mModel);
             var dlg = new DatePickerDialog(this, DateDlgChaged, date.Year, date.Month - 1, date.Day);
             dlg.Show();
+            HideKeyboard(rootView);
         }
 
         public void ShowTimeDialog(string property)
@@ -454,6 +457,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             var time = (TimeSpan)prop.GetValue(mModel);
             var dlg = new TimePickerDialog(this, TimeDlgChanged, time.Hours, time.Minutes, CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.StartsWith("HH"));
             dlg.Show();
+            HideKeyboard(rootView);
         }
 
         protected void DateDlgChaged(object sender, DateSetEventArgs e)

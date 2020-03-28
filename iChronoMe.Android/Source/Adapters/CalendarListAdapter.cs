@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-
+using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
 
@@ -122,6 +122,7 @@ namespace iChronoMe.Droid.Adapters
             if (convertView == null)
             {
                 convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
+                convertView.SetMinimumHeight(sys.DpPx(48));
             }
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.circle_shape, xColor.FromHex(item.Color, xColor.MaterialBlue)));

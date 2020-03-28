@@ -213,10 +213,10 @@ namespace iChronoMe.Droid
             {
                 ShowStartAssistant();
                 return;
-            }            
+            }
 
-            if (!bNavDoneByCreate)
-                OnNavigationItemSelected(iNavigationItem);
+            //if (!bNavDoneByCreate)
+            //    OnNavigationItemSelected(iNavigationItem);
             bNavDoneByCreate = false;
         }
 
@@ -227,6 +227,8 @@ namespace iChronoMe.Droid
             if (intent.Extras != null)
             {
                 iNavigationItem = intent.GetIntExtra("NavigationItem", iNavigationItem);
+                if (ActiveFragment != null)
+                    OnNavigationItemSelected(iNavigationItem);
             }
         }
 
@@ -427,7 +429,6 @@ namespace iChronoMe.Droid
                     {
                         try
                         {
-
                             Drawer.CloseDrawer(GravityCompat.Start);
                         }
                         catch { }

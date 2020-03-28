@@ -75,6 +75,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
             Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             Drawer.DrawerStateChanged += Drawer_DrawerStateChanged;
+            Drawer.SetScrimColor(Color.Transparent);
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
             ViewTypeAdapter = new TitleSpinnerAdapter(mContext, "init..", Resources.GetStringArray(Resource.Array.calendar_viewtypes));
@@ -114,7 +115,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                         schedule.ItemsSource = null;
 
                         schedule.HeaderHeight = 0;
-                        schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.guiDisplayStart), EndTime = nameof(CalendarEvent.guiDisplayEnd), IsAllDay = nameof(CalendarEvent.guiAllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.Description), Color = nameof(CalendarEvent.javaColor) };
+                        schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.guiDisplayStart), EndTime = nameof(CalendarEvent.guiDisplayEnd), IsAllDay = nameof(CalendarEvent.guiAllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.ExternalID), Color = nameof(CalendarEvent.javaColor) };
 
                         schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
                         schedule.CellTapped += Schedule_CellTapped;
@@ -311,13 +312,11 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void Schedule_MonthInlineAppointmentTapped(object sender, MonthInlineAppointmentTappedEventArgs e)
         {
-            return;
             if (e.ScheduleAppointment != null)
             {
                 try
                 {
-                    var evnt = calEvents.ListedDates[0];
-                    OpenEventForEdit(evnt.ExternalID);
+                    OpenEventForEdit(e.ScheduleAppointment.Notes);
                 }
                 catch (Exception ex)
                 {
@@ -494,6 +493,32 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             ResetTitleSpinner(tFirst, tLast);
             LoadEvents(tFirst, tLast);
+
+            if (schedule.SelectedDate != null)
+            {
+                var sel = sys.DateTimeFromJava(schedule.SelectedDate);
+                if (sel < tFirst || sel > tLast)
+                {
+                    int iDayCount = 1;
+                    switch (schedule.ScheduleView)
+                    {
+                        case ScheduleView.WeekView:
+                            iDayCount = 5;
+                            break;
+                        case ScheduleView.WorkWeekView:
+                            iDayCount = 7;
+                            break;
+                        case ScheduleView.MonthView:
+                            iDayCount = DateTime.DaysInMonth(sel.Year, sel.Month);
+                            break;
+                    }
+                    while (sel < tFirst)
+                        sel = sel.AddDays(iDayCount);
+                    while (sel > tLast)
+                        sel = sel.AddDays(-(iDayCount));
+                    schedule.SelectedDate = sys.DateTimeToJava(sel);
+                }
+            }
         }
 
         DateTime tFirstVisible = DateTime.MinValue, tLastVisible = DateTime.MinValue;
@@ -515,7 +540,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                     tLastVisible = tFirstVisible.AddDays(1);
             }
             await calEvents.DoLoadCalendarEventsListed(tFirstVisible.AddDays(-1), tLastVisible.AddDays(1));
-            mContext.RunOnUiThread(() => { schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
+            mContext.RunOnUiThread(() => { 
+                schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
 
             CheckCalendarWelcomeAssistant();
         }
@@ -820,14 +846,15 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             if (ViewTypeSpinner != null)
             {
-                string cTitle = tFirstVisible.ToString("MMM yyyy");
+                DateTime tMiddle = tFirstVisible.AddDays((tLastVisible - tFirstVisible).TotalDays / 2);
+                string cTitle = tMiddle.ToString("MMM yyyy");
                 if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
                 {
                     switch (schedule.ScheduleView)
                     {
                         case ScheduleView.Timeline:
                         case ScheduleView.DayView:
-                            cTitle = tFirstVisible.ToString("MMMM yyyy");
+                            cTitle = tLastVisible.ToString("MMMM yyyy");
                             break;
                         case ScheduleView.WeekView:
                         case ScheduleView.WorkWeekView:
@@ -836,7 +863,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                                 cTitle += " - " + tLastVisible.ToString("MMMM yyyy");
                             break;
                         case ScheduleView.MonthView:
-                            cTitle = tFirstVisible.AddDays((tLastVisible - tFirstVisible).Days / 2).ToString("MMMM yyyy");
+                            cTitle = tMiddle.ToString("MMMM yyyy");
                             break;
                     }
                 }
@@ -967,6 +994,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
                 clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
 
+                Tools.ShowToast(mContext, clText.ToColor().HexString);
+
                 /*
 
                 Color clTitleText = Color.White;
@@ -1010,14 +1039,17 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.DayViewSettings.TimeSlotColor = clSlotBack;
                 schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.DayViewSettings.DayLabelSettings.TimeLabelColor = clText;
+                schedule.DayViewSettings.AllDayAppointmentBackgroundColor = clSlotBack;
 
                 schedule.WeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.WeekViewSettings.WeekLabelSettings.TimeLabelColor = clText;
+                schedule.WeekViewSettings.AllDayAppointmentBackgroundColor = clSlotBack;
 
                 schedule.WorkWeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WorkWeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeLabelColor = clText;
+                schedule.WorkWeekViewSettings.AllDayAppointmentBackgroundColor = clSlotBack;
 
                 schedule.MonthViewSettings.AgendaViewStyle = new AgendaViewStyle
                 {

@@ -31,6 +31,10 @@
         android:entries="@array/calendar_monthview_appointmentdisplaycount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <TextView
+        android:text="@string/calendar_monthview_navigation_direction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <Spinner
         android:id="@+id/cfg_monthview_sp_navigation_direction"
         android:entries="@array/calendar_monthview_navigation_directions"
