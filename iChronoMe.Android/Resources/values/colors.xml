@@ -8,5 +8,6 @@
 	<color name="lightGray">#8F8F8F</color>
 	<color name="deepDarkGray">#262626</color>
 	<color name="almostBlack">#1a1a1a</color>
+	<color name="navigationScrim">#a0000000</color>
 </resources>
  

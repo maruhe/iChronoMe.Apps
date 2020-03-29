@@ -6,7 +6,7 @@ using System.Threading;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
-
+using iChronoMe.Core.Classes;
 using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets
@@ -19,9 +19,11 @@ namespace iChronoMe.Droid.Widgets
         private IWidgetPreviewListAdapter adapter;
         string cInfo = string.Empty;
         public static Dictionary<int, DateTime> StartTimes { get; } = new Dictionary<int, DateTime>();
+        DateTime tStart;
 
         protected override bool RunInBackground(params object[] @params)
         {
+            tStart = DateTime.Now;
             Bitmap bmp = null;
             try
             {
@@ -35,7 +37,7 @@ namespace iChronoMe.Droid.Widgets
                 if (!Directory.Exists(adapter.AdapterCachePath))
                     return false;
 
-                ImagePath = System.IO.Path.Combine(adapter.AdapterCachePath, myCfg.GetHashCode() + ".png");
+                ImagePath = System.IO.Path.Combine(adapter.AdapterCachePath, myCfg.GetHashCode() + ".prev");
                 if (File.Exists(ImagePath))
                 {
                     cInfo += "+";
@@ -67,11 +69,8 @@ namespace iChronoMe.Droid.Widgets
 
                 bmp.Recycle();
                 bmp = null;
-
-                cInfo += (int)(DateTime.Now - swStart).TotalMilliseconds + "cln ";
-
-                swStart = DateTime.Now;
                 GC.Collect();
+
                 cInfo += (int)(DateTime.Now - swStart).TotalMilliseconds + "gc ";
 
                 if (viewHolder.ConfigID != myCfg.GetHashCode())
@@ -99,7 +98,8 @@ namespace iChronoMe.Droid.Widgets
 
         protected override void OnPostExecute(bool result)
         {
-            base.OnPostExecute(result);
+            if (IsCancelled)
+                return;
 
             try
             {
@@ -115,7 +115,8 @@ namespace iChronoMe.Droid.Widgets
                     viewHolder.preview.SetImageURI(Android.Net.Uri.FromFile(file));
                 else
                     viewHolder.preview.SetImageResource(Resource.Drawable.icons8_error_clrd);
-                //viewHolder.title.Text = cInfo;
+                //if (sys.Debugmode)
+                  //  viewHolder.title.Text = cInfo + (int)(DateTime.Now - tStart).TotalMilliseconds + "all "; ;
                 viewHolder.progress.Visibility = ViewStates.Gone;
             }
             catch (ThreadAbortException) { }

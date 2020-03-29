@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:minHeight="48dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dp">
+        android:paddingStart="8dp">
         <ImageView
             android:id="@+id/icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:gravity="left" />
+            android:layout_alignParentStart="true"
+            android:gravity="start" />
 />
         <CheckedTextView
             android:id="@+id/title"
@@ -22,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="34dp"
-            android:gravity="left" />
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="34dp"
+            android:gravity="start" />
     </RelativeLayout>
 </LinearLayout>

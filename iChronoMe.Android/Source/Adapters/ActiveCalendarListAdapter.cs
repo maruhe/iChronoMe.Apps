@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using iChronoMe.Core.Classes;
 
 namespace iChronoMe.Droid.Adapters
 {
@@ -16,7 +12,7 @@ namespace iChronoMe.Droid.Adapters
     {
         public ActiveCalendarListAdapter(Activity context) : base(context)
         {
-            
+
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)
@@ -26,6 +22,9 @@ namespace iChronoMe.Droid.Adapters
             if (convertView == null)
             {
                 convertView = mContext.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItemChecked, null);
+                convertView.SetMinimumHeight(sys.DpPx(48));
+                convertView.FindViewById<CheckedTextView>(Android.Resource.Id.Text1).SetMaxLines(1);
+                convertView.FindViewById<CheckedTextView>(Android.Resource.Id.Text1).SetSingleLine(true);
             }
 
             bool bIsActive = !AppConfigHolder.CalendarViewConfig.HideCalendars.Contains(item.ExternalID);
@@ -70,6 +69,5 @@ namespace iChronoMe.Droid.Adapters
 
         public event EventHandler HiddenCalendarsChanged;
         private ListView parentListView;
-        private ImageView btnExpand;
     }
 }

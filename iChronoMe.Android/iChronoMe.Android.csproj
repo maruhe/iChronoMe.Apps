@@ -18,7 +18,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
@@ -112,16 +112,20 @@
   <ItemGroup>
     <Compile Include="Source\Adapters\ActiveCalendarListAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventLocationAdapter.cs" />
+    <Compile Include="Source\Adapters\CalendarEventRemindersAdapter.cs" />
     <Compile Include="Source\Adapters\CalendarEventTitleAdapter.cs" />
     <Compile Include="Source\Adapters\ClickActionTypeAdapter.cs" />
     <Compile Include="Source\Adapters\ContributorAdapter.cs" />
     <Compile Include="Source\Adapters\ExpandableMenuAdapter.cs" />
     <Compile Include="Source\Adapters\FaqAdapter.cs" />
     <Compile Include="Source\Adapters\OtherAppAdapter.cs" />
+    <Compile Include="Source\Adapters\ReminderMethodAdapter.cs" />
     <Compile Include="Source\Adapters\ThemeAdapter.cs" />
+    <Compile Include="Source\Adapters\TimeSpanAdapter.cs" />
     <Compile Include="Source\Adapters\TitleSpinnerAdapter.cs" />
     <Compile Include="Source\BuzzerManager.cs" />
     <Compile Include="Source\Controls\FlowLayout.cs" />
+    <Compile Include="Source\Controls\NonScrollingListView.cs" />
     <Compile Include="Source\Controls\TitleBarSpinner.cs" />
     <Compile Include="Source\DlgTools.cs" />
     <Compile Include="Source\DrawableHelper.cs" />
@@ -153,7 +157,7 @@
     <Compile Include="Source\GUI\Service\BackgroundServiceSettingsFragment.cs" />
     <Compile Include="Source\GUI\WorldTimeMapFragment.cs" />
     <Compile Include="Source\MainActivity.cs" />
-    <Compile Include="Source\MapsView.cs" />
+    <Compile Include="Source\Receivers\ScreenOnReceiver.cs" />
     <Compile Include="Source\Receivers\AutoStartReceiver.cs" />
     <Compile Include="Source\Receivers\ErrorReceiver.cs" />
     <Compile Include="Source\Receivers\CalendarChangedReceiver.cs" />
@@ -177,6 +181,7 @@
     <Compile Include="Source\Widgets\Clock\AnalogClockWidget.cs" />
     <Compile Include="Source\Widgets\Clock\AnalogClockWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\Clock\ClockUpdateBroadcastReceiver.cs" />
+    <Compile Include="Source\Widgets\Clock\ClockWidgetService.cs" />
     <Compile Include="Source\Widgets\Lifetime\LifetimeWidget.cs" />
     <Compile Include="Source\Widgets\Lifetime\LifetimeWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\MainWidgetBase.cs" />
@@ -191,6 +196,198 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\mipmap-land-xxhdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-land-xxxhdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-ldpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-mdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap\dummy_wallpaper.webp" />
+    <AndroidResource Include="Resources\mipmap\splash.webp" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_calendar.webp" />
+    <AndroidResource Include="Resources\mipmap-hdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-land\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-land-hdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-land-ldpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-land-mdpi\splash.webp" />
+    <AndroidResource Include="Resources\mipmap-land-xhdpi\splash.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ad.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_af.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ag.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ai.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_al.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_an.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ao.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_aq.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ar.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_as.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_aw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_az.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ba.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bb.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bd.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bf.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bl.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bo.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_br.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bs.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bt.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_by.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_bz.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ca.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cc.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ck.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cl.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cu.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cv.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cx.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_cy.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_dj.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_dm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_do.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_dz.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ec.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_eg.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_eh.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_er.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_es.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_et.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_eu.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_fj.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_fk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_fm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gd.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gh.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gi.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gl.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gq.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gs.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gt.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gu.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_gw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_hk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_hn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_hr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ht.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_im.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_in.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_io.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_iq.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ir.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_je.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_jp.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ke.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_kg.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_kh.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ki.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_km.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_kp.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_kr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ky.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_kz.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_la.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_lb.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_lc.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_li.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_lk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_lr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ls.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ly.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ma.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_md.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_me.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mh.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mo.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mp.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mq.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ms.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mt.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mv.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mx.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_my.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_mz.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_nc.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_nf.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ni.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_np.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_nr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_om.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pa.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pe.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pf.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pg.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ph.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pt.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_pw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_py.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_rs.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_rw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sa.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sg.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_si.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_so.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ss.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sv.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sx.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sy.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_sz.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tc.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tf.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tg.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tj.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tr.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tt.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tv.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_tw.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ug.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_uy.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_va.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ve.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_vg.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_vi.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_vn.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_vu.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_ws.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_xk.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_zm.webp" />
+    <AndroidResource Include="Resources\drawable-v1\flag_zw.webp" />
+    <AndroidResource Include="Resources\mipmap\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap\moon1.webp" />
+    <AndroidResource Include="Resources\mipmap\overlay_click.webp" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_clock_analog.webp" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_lifetime.webp" />
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-hdpi\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap-ldpi\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-mdpi\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.webp" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\inspired.webp" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -251,6 +448,10 @@
     <PackageReference Include="Xamarin.GooglePlayServices.Places">
       <Version>71.1600.0</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.1.0" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0" />
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0" />
+    <PackageReference Include="Xamarin.AndroidX.Preference" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\iChronoMe.Base\iChronoMe.Core\iChronoMe.Core.csproj">
@@ -275,7 +476,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\real_sun_time.png" />
+    <AndroidResource Include="Resources\drawable\real_sun_time_clrd.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
@@ -287,22 +488,7 @@
     <AndroidResource Include="Resources\drawable\widget_dummy_shape.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\widgetprev_calendar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\widgetprev_clock_analog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\widgetprev_lifetime.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\dummy_wallpaper.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\middle_sun_time.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\moon1.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\main_drawer.xml" />
@@ -446,9 +632,6 @@
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\overlay_click.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\fragment_calendar_configpanel.xml">
@@ -608,136 +791,13 @@
     <AndroidResource Include="Resources\drawable-v21\icons8_alarm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_2_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_3.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_4.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_5_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_6.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_7_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_8_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_1_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_10.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_2_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_3_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_4_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_5.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_6_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_7_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_8_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_9_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_calendar.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_1_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_10.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_11_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_12_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_2.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_3.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_4_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_5_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_6.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_7.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_8_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_9_clrd.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_calendar_filled.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_10_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_11.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_2.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_3.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_4_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_5.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_6.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_7_clrd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_8.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_9.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_add.xml" />
@@ -806,9 +866,6 @@
     <AndroidResource Include="Resources\drawable-v21\icons8_share.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_sun.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_sun_1.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -821,22 +878,10 @@
     <AndroidResource Include="Resources\drawable-v21\middle_sun_time.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\real_sun_time.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_sun_18.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\widget_calendar_universal.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_approval.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_cancel.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_ok.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_refresh.xml" />
@@ -873,9 +918,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_geography.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-v21\icons8_services_filled.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_themetemplate.xml">
@@ -991,12 +1033,6 @@
     <AndroidResource Include="Resources\drawable-v21\circle_shape.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\_clockface_sun_junior.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\inspired.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\listitem_contributor.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -1034,88 +1070,16 @@
     <AndroidResource Include="Resources\mipmap\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land-hdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land-ldpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land-mdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land-xhdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land-xxhdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-land-xxxhdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-ldpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-ldpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-mdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xhdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\splash.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-anydpi-v999\ic_launcher.xml" />
@@ -1125,9 +1089,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_round.png" />
@@ -1160,10 +1121,516 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\icons8_save.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_event_reminder.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_cancel_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_ok_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_sun_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_approval_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v23\splash_screen.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\real_sun_time_clrd.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-land-v23\splash_screen.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_5.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_6_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_7_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_8_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_9_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_10.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_2_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_3.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_4.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_5_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_6.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_7_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_8_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_1_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_2_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_3_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_alarm_clock_4_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_8.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_9.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_11.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_1_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_3.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_4_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_5_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_6.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_7.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_8_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_9_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_10.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_11_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_12_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_2.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_3.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_4_clrd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_5.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\icons8_calendar_plus_6.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listitem_loading.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_rectangle.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_pins.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\load_spinner_pins.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\load_spinner_squares.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_squares.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\load_spinner_bubbles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_bubbles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\load_spinner_beans.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\progress_indeterminate_beans.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_loading.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\text_justamoment.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_loadet.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ae.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_am.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_at.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_au.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_be.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bj.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_bw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_cd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_cf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_cg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ci.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_co.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_cz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_de.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_dk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_fi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_fo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_fr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ga.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_gy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_hm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_hu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_id.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ie.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_il.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_is.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_it.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_jm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_jo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_kn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_kw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_lt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_lu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_lv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_mc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_mf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_mg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_mk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ml.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_mu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_na.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ne.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_nl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_no.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_nu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_nz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_pl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_pm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ps.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_qa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_re.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ru.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_sb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_sc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_sd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_se.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_sh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_sj.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_sl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_st.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_td.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_th.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_tl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_to.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_tz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ua.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_um.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_us.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_uz.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_vc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_wf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_ye.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_yt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v1\flag_za.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xxhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-xhdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-mdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-hdpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\mipmap-ldpi\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\shortcut_calendar_plus.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-v21\shortcut_overtime.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
     Other similar extension points exist, see Microsoft.Common.targets.

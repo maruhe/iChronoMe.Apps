@@ -52,11 +52,16 @@ namespace iChronoMe.Droid.GUI
             MapsInitializer.Initialize(Context);
 
             mMapView = (MapView)view.FindViewById(Resource.Id.mapView);
-            mMapView.OnCreate(savedInstanceState);
-            mMapView.OnResume();// needed to get the map to display immediately
-            mMapView.GetMapAsync(this);
+            mMapView.OnCreate(savedInstanceState);            
 
             return view;
+        }
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            mMapView.OnResume();// needed to get the map to display immediately
+            mMapView.GetMapAsync(this);
         }
 
         public override void OnSaveInstanceState(Bundle outState)
@@ -70,6 +75,7 @@ namespace iChronoMe.Droid.GUI
                 outState.PutDouble("marker_" + i + "_lng", item.Location.Longitude);
                 i++;
             }
+            blRestore = outState;
         }
 
         public override void OnPause()
@@ -144,7 +150,8 @@ namespace iChronoMe.Droid.GUI
                 var item = wtItems[e.Marker.Id];
                 if (item != null)
                 {
-                    item.lth.ChangePositionDelay(e.Marker.Position.Latitude, e.Marker.Position.Longitude);
+                    item.lth.ChangePositionOffline(e.Marker.Position.Latitude, e.Marker.Position.Longitude);
+                    item.Delayer.SetDelay(250);
                     item.Update();
                 }
             }
@@ -606,9 +613,22 @@ namespace iChronoMe.Droid.GUI
             public Marker Marker { get; set; }
             public TableLayout InfoView { get; private set; }
             TextView tvArea, tvRDT, tvMST, tvTZT, tvRDToffset, tvMSToffset, tvTZToffset;
-            ImageView imgTZ;
+            ImageView imgFlag, imgTZ;
             public string ID { get; }
             static string blinkingID;
+
+            private Delayer _delayer;
+            public Delayer Delayer { get
+                {
+                    if (_delayer == null)
+                    {
+                        _delayer = new Delayer(
+                            () => lth?.StartRefreshLocationInfo()
+                            , 1250, 0);
+                    }
+                    return _delayer;
+                } 
+            }
 
             public WorldTimeItem(Marker marker)
             {
@@ -620,6 +640,7 @@ namespace iChronoMe.Droid.GUI
 
                 InfoView = (TableLayout)mActivity.LayoutInflater.Inflate(Resource.Layout.listitem_location_times, null);
 
+                imgFlag = InfoView.FindViewById<ImageView>(Resource.Id.img_flag);
                 tvArea = InfoView.FindViewById<TextView>(Resource.Id.title);
                 tvRDT = InfoView.FindViewById<TextView>(Resource.Id.time_rdt);
                 tvRDToffset = InfoView.FindViewById<TextView>(Resource.Id.time_offset_rdt);
@@ -730,6 +751,41 @@ namespace iChronoMe.Droid.GUI
             {
                 Marker.ShowInfoWindow();
                 mGoogleMap.AnimateCamera(CameraUpdateFactory.NewLatLng(Marker.Position));
+                if (lth.AreaInfo == null || string.IsNullOrEmpty(lth.AreaInfo.toponymName))
+                    return;
+
+                Tools.ShowToast(mActivity, GetLoongAreaInfo(), false);
+            }
+
+            private string GetLoongAreaInfo()
+            {
+                var ai = lth.AreaInfo;
+                if (ai == null || string.IsNullOrEmpty(ai.toponymName))
+                    return sys.DezimalGradToGrad(lth.Latitude, lth.Longitude);
+                string cInfo = string.Empty;
+                if (!string.IsNullOrEmpty(ai.route))
+                    cInfo += ai.route + "\n";
+                if (!string.IsNullOrEmpty(ai.locality))
+                    cInfo += ai.locality + "\n";
+                if (!string.IsNullOrEmpty(ai.postalCode))
+                    cInfo += ai.postalCode + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea5))
+                    cInfo += ai.adminArea5 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea4))
+                    cInfo += ai.adminArea4 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea3))
+                    cInfo += ai.adminArea3 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea2))
+                    cInfo += ai.adminArea2 + "\n";
+                if (!string.IsNullOrEmpty(ai.adminArea1))
+                    cInfo += ai.adminArea1 + "\n";
+                if (!string.IsNullOrEmpty(ai.countryName))
+                    cInfo += ai.countryName + "\n";
+
+                if (!string.IsNullOrEmpty(ai.toponymName) && !cInfo.Contains(ai.toponymName))
+                    cInfo = ai.toponymName + "\n" + cInfo;
+
+                return cInfo.Trim('\n');
             }
 
             private void lth_AreaChanged(object sender, AreaChangedEventArgs e)
@@ -740,8 +796,17 @@ namespace iChronoMe.Droid.GUI
                     {
                         if (Marker.Position.Latitude != lth.Latitude || Marker.Position.Longitude != lth.Longitude)
                             return;
+                        try
+                        {
+                            var flag = typeof(Resource.Drawable).GetField("flag_" + lth.AreaInfo.countryCode.ToLower());
+                            imgFlag.SetImageResource((int)flag.GetValue(null));
+                        }
+                        catch
+                        {
+                            imgFlag.SetImageResource(0);
+                        }
                         imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
-                        string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName + ", " + lth.CountryName;
+                        string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName;
                         tvArea.Text = cText;
                         Marker.Title = cText;
                         Marker.ShowInfoWindow();

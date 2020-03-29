@@ -34,6 +34,7 @@ using iChronoMe.Droid.ViewModels;
 using Java.Util;
 
 using Xamarin.Essentials;
+
 using PopupMenu = Android.Support.V7.Widget.PopupMenu;
 using Random = System.Random;
 
@@ -52,6 +53,7 @@ namespace iChronoMe.Droid.GUI.Calendar
         private CalendarConfigViewModel ConfigModel;
         private DataBinder ConfigBinder;
         private ListView lvCalendars;
+        private ProgressBar pbLoading;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -70,55 +72,118 @@ namespace iChronoMe.Droid.GUI.Calendar
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Permission.Granted)
                 ActivityCompat.RequestPermissions(mContext, new string[] { Android.Manifest.Permission.ReadCalendar, Android.Manifest.Permission.WriteCalendar }, 1);
 
-            View view = inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
-            Drawer = view.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            RootView = (ViewGroup)inflater.Inflate(Resource.Layout.fragment_calendar, container, false);
+            Drawer = RootView.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             Drawer.DrawerStateChanged += Drawer_DrawerStateChanged;
-            coordinator = view.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
+            Drawer.SetScrimColor(Color.Transparent);
+            coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
             ViewTypeAdapter = new TitleSpinnerAdapter(mContext, "init..", Resources.GetStringArray(Resource.Array.calendar_viewtypes));
-            ViewTypeAdapter.UpdateIcons(new int[] { Resource.Drawable.icons8_today, Resource.Drawable.icons8_timeline, Resource.Drawable.icons8_day_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_month_view });
+            ViewTypeAdapter.UpdateIcons(new int[] { Resource.Drawable.icons8_date_to_1, Resource.Drawable.icons8_timeline, Resource.Drawable.icons8_day_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_month_view });
             ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (ViewTypeSpinner != null)
             {
                 ViewTypeSpinner.ItemSelected += ViewTypeSpinner_ItemSelected;
                 ViewTypeSpinner.Adapter = ViewTypeAdapter;
             }
-            lvCalendars = view.FindViewById<ListView>(Resource.Id.lv_calendars);
+            lvCalendars = RootView.FindViewById<ListView>(Resource.Id.lv_calendars);
 
-            schedule = view.FindViewById<SfSchedule>(Resource.Id.calendar_schedule);
-            schedule.Locale = Resources.Configuration.Locale;
-            schedule.ItemsSource = null;
+            pbLoading = RootView.FindViewById<ProgressBar>(Resource.Id.pb_loading);
+            int pad = (int)(sys.DisplayShortSite / 3);
+            pbLoading.SetPadding(pad, pad, pad, pad);
 
-            schedule.HeaderHeight = 0;
-            schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.guiDisplayStart), EndTime = nameof(CalendarEvent.guiDisplayEnd), IsAllDay = nameof(CalendarEvent.guiAllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.Description), Color = nameof(CalendarEvent.javaColor) };
-
-            schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
-            schedule.CellTapped += Schedule_CellTapped;
-            schedule.CellDoubleTapped += Schedule_CellDoubleTapped;
-            schedule.CellLongPressed += Schedule_CellLongPressed;
-            schedule.MonthInlineAppointmentTapped += Schedule_MonthInlineAppointmentTapped;
-            schedule.AppointmentDrop += Schedule_AppointmentDrop;
-            schedule.AppointmentDragOver += Schedule_AppointmentDragOver;
-            schedule.AppointmentLoaded += Schedule_AppointmentLoaded;
-            schedule.MonthInlineLoaded += Schedule_MonthInlineLoaded;
-
-            if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
-                SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
-            else
-                SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.DefaultViewType));
-            //SearchScheduleColors(schedule, null);
-            LoadCalendarConfig();
-
-            ConfigModel = new CalendarConfigViewModel(Activity, schedule);
-            ConfigBinder = ConfigModel.GetDataBinder(view.FindViewById<NavigationView>(Resource.Id.nav_view));
-
-            fabTimeType = view.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
+            fabTimeType = RootView.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
             fabTimeType.Click += Fab_Click;
 
-            //SearchScheduleColors(schedule, view.FindViewById<LinearLayout>(Resource.Id.ll_colorlist));
-            cColorTree.ToString();
+            return RootView;
+        }
 
-            return view;
+        public override void OnStart()
+        {
+            base.OnStart();
+
+            if (schedule == null)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(100).Wait();
+                    new SfSchedule(mContext);
+                    mContext.RunOnUiThread(() =>
+                    {
+                        schedule = new SfSchedule(mContext);
+                        schedule.Locale = Resources.Configuration.Locale;
+                        schedule.ItemsSource = null;
+
+                        schedule.HeaderHeight = 0;
+                        schedule.AppointmentMapping = new AppointmentMapping() { Subject = nameof(CalendarEvent.Title), StartTime = nameof(CalendarEvent.guiDisplayStart), EndTime = nameof(CalendarEvent.guiDisplayEnd), IsAllDay = nameof(CalendarEvent.guiAllDay), Location = nameof(CalendarEvent.Location), Notes = nameof(CalendarEvent.ExternalID), Color = nameof(CalendarEvent.javaColor) };
+
+                        schedule.VisibleDatesChanged += Schedule_VisibleDatesChanged;
+                        schedule.CellTapped += Schedule_CellTapped;
+                        schedule.CellDoubleTapped += Schedule_CellDoubleTapped;
+                        schedule.CellLongPressed += Schedule_CellLongPressed;
+                        schedule.MonthInlineAppointmentTapped += Schedule_MonthInlineAppointmentTapped;
+                        schedule.AppointmentDrop += Schedule_AppointmentDrop;
+                        schedule.AppointmentDragOver += Schedule_AppointmentDragOver;
+                        schedule.AppointmentLoaded += Schedule_AppointmentLoaded;
+                        schedule.MonthInlineLoaded += Schedule_MonthInlineLoaded;
+
+                        if (AppConfigHolder.CalendarViewConfig.DefaultViewType < 0)
+                            SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.LastViewType));
+                        else
+                            SetViewType((ScheduleView)Enum.ToObject(typeof(ScheduleView), AppConfigHolder.CalendarViewConfig.DefaultViewType));
+                        //SearchScheduleColors(schedule, null);
+                        LoadCalendarConfig();
+
+                        ConfigModel = new CalendarConfigViewModel(Activity, schedule);
+                        ConfigBinder = ConfigModel.GetDataBinder(RootView.FindViewById<NavigationView>(Resource.Id.nav_view));
+
+                        RootView.FindViewById(Resource.Id.pb_loading).Visibility = ViewStates.Gone;
+                        var baseLayout = RootView.FindViewById<ViewGroup>(Resource.Id.coordinator_layout);
+                        baseLayout.AddView(schedule);
+                        OnResume();
+
+                        //SearchScheduleColors(schedule, new LinearLayout(mContext));
+                        //cColorTree.ToString();
+                    });
+                });
+            }
+        }
+
+        bool bPermissionCheckOk = false;
+        ActiveCalendarListAdapter calListAdapter;
+        public override void OnResume()
+        {
+            base.OnResume();
+
+            if (schedule == null)
+                return;
+
+            bWelcomeScreenDone = bCalendarIsReady;
+
+            if (ViewTypeSpinner != null)
+            {
+                mContext.Title = "";
+                ViewTypeSpinner.Visibility = ViewStates.Visible;
+            }
+
+            if (!bPermissionCheckOk)
+                bPermissionCheckOk = Build.VERSION.SdkInt < BuildVersionCodes.M || (mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted);
+            if (bPermissionCheckOk)
+            {
+                if (lvCalendars.Adapter == null)
+                {
+                    lvCalendars.ChoiceMode = ChoiceMode.Multiple;
+                    lvCalendars.ItemsCanFocus = false;
+                    calListAdapter = new ActiveCalendarListAdapter(Activity);
+                    lvCalendars.Adapter = calListAdapter;
+                    lvCalendars.ItemClick += calListAdapter.ListView_ItemClick;
+                    calListAdapter.HiddenCalendarsChanged += Adapter_HiddenCalendarsChanged;
+
+                    lvCalendars.Touch += LvCalendars_Touch;
+                }
+                if (tFirstVisible != DateTime.MinValue && tLastVisible != DateTime.MinValue)
+                    LoadEvents();
+            }
         }
 
         private void Schedule_AppointmentDragOver(object sender, AppointmentDragEventArgs e)
@@ -158,27 +223,77 @@ namespace iChronoMe.Droid.GUI.Calendar
 
                 calEvent.guiPropertiesChanged = (async () =>
                 {
+                    //this will be executed after SfSchedule changed event properties
                     try
                     {
                         var model = new CalendarEventEditViewModel(calEvent.ExternalID, Activity as IUserIO);
                         await model.WaitForReady();
 
-                        if (model.TimeType != calEvents.timeType && !calEvent.AllDay)
-                        {
-                            var items = new string[] { calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(model.TimeType), calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(calEvents.timeType) };
+                        var options = new Dictionary<string, int>();
 
-                            var go = await Tools.ShowSingleChoiseDlg(Activity, "choose a time-type", items);
+
+                        if (!calEvent.AllDay)
+                        {
+                            options.Add(calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(model.TimeType), 10);
+
+                            if (model.TimeType != calEvents.timeType)
+                                options.Add(calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(calEvents.timeType), 20);
+
+                            if (model.TimeType != TimeType.TimeZoneTime && calEvents.timeType != TimeType.TimeZoneTime)
+                                options.Add(calEvent.DisplayStart.ToString("HH:mm") + " " + localeHelper.GetTimeTypeText(TimeType.TimeZoneTime), 100);
+
+                            if (dropTime.TimeOfDay.TotalHours < 2 || dropTime.TimeOfDay.TotalHours > 22)
+                                options.Add("make all-day", 200);
+                        }
+
+                        options.Add(localize.action_edit_event, 800);
+                        options.Add(localize.action_delete_event, 900);
+
+                        if (calEvent.AllDay && (dropTime.TimeOfDay.TotalHours < 2 || dropTime.TimeOfDay.TotalHours > 22))
+                            options.Clear();
+
+                        if (options.Count > 0)
+                        {
+                            var go = await Tools.ShowSingleChoiseDlg(Activity, "choose a action", options.Keys.ToArray());
 
                             if (go < 0)
                                 return;
-                            
-                            if (go == 1)
+
+                            int action = options[options.Keys.ElementAt(go)];
+
+                            switch (action)
                             {
-                                model.TimeType = calEvents.timeType;
-                                Tools.ShowToast(Context, "event-time-type has been changed");
+                                case 10:
+                                    //all fine, just move it
+                                    break;
+                                case 20:
+                                    //change to current Schedule Time-Type
+                                    model.TimeType = calEvents.timeType;
+                                    Tools.ShowToast(Context, "event-time-type has been changed");
+                                    break;
+                                case 100:
+                                    //change to TimeZone-Time
+                                    model.TimeType = TimeType.TimeZoneTime;
+                                    Tools.ShowToast(Context, "event-time-type has been changed");
+                                    break;
+                                case 200:
+                                    calEvent.AllDay = true;
+                                    break;
+                                case 800:
+                                    OpenEventForEdit(model.ExternalID);
+                                    return;
+                                case 900:
+                                    if (await Tools.ShowYesNoMessage(Context, "confirm delete", string.IsNullOrEmpty(model.Title) ? model.Description : model.Title, localize.action_delete, localize.action_abort))
+                                    {
+                                        await DeviceCalendar.DeviceCalendar.DeleteEventAsync(model.Calendar, calEvent);
+                                        LoadEvents();
+                                    }
+                                    return;
+
+                                default:
+                                    return;
                             }
                         }
-
                         model.ChangeDisplayTime(calEvent.DisplayStart, calEvent.DisplayEnd, calEvent.AllDay);
 
                         if (!await model.SaveEvent())
@@ -198,15 +313,11 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void Schedule_MonthInlineAppointmentTapped(object sender, MonthInlineAppointmentTappedEventArgs e)
         {
-            return;
             if (e.ScheduleAppointment != null)
             {
                 try
                 {
-                    var evnt = calEvents.ListedDates[0];
-                    var intent = new Intent(Activity, typeof(EventEditActivity));
-                    intent.PutExtra(EventEditActivity.extra_EventID, evnt.ExternalID);
-                    Activity.StartActivity(intent);
+                    OpenEventForEdit(e.ScheduleAppointment.Notes);
                 }
                 catch (Exception ex)
                 {
@@ -222,16 +333,26 @@ namespace iChronoMe.Droid.GUI.Calendar
                 try
                 {
                     var evnt = (CalendarEvent)e.Appointment;
-                    var intent = new Intent(Activity, typeof(EventEditActivity));
-                    intent.PutExtra(EventEditActivity.extra_EventID, evnt.ExternalID);
-                    bKeepTitleOnPause = true;
-                    Activity.StartActivity(intent);
+                    OpenEventForEdit(evnt.ExternalID);
                 }
                 catch (Exception ex)
                 {
                     sys.LogException(ex);
                 }
             }
+        }
+
+        private void OpenEventForEdit(string externalID = null, DateTime? tStart = null, TimeType? timeType = null)
+        {
+            var intent = new Intent(Activity, typeof(EventEditActivity));
+            if (!string.IsNullOrEmpty(externalID))
+                intent.PutExtra(EventEditActivity.extra_EventID, externalID);
+            if (tStart.HasValue)
+                intent.PutExtra(EventEditActivity.extra_StartTime, tStart.Value.Ticks);
+            if (timeType.HasValue)
+                intent.PutExtra(EventEditActivity.extra_TimeType, (int)timeType.Value);
+            bKeepTitleOnPause = true;
+            Activity.StartActivity(intent);
         }
 
         private void Schedule_CellDoubleTapped(object sender, CellTappedEventArgs e)
@@ -262,16 +383,13 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             var time = sys.DateTimeFromJava(e.Calendar);
             var intent = new Intent(Activity, typeof(EventEditActivity));
-            intent.PutExtra(EventEditActivity.extra_StartTime, time.Ticks);
-            intent.PutExtra(EventEditActivity.extra_TimeType, (int)calEvents.timeType);
-            bKeepTitleOnPause = true;
-            Activity.StartActivity(intent);
+            OpenEventForEdit(null, time, calEvents.timeType);
             return;
 
             try
             {
                 var evnt = (CalendarEvent)e.Appointment;
-                
+
                 PopupMenu popup = new PopupMenu(Activity, sender as View);
                 popup.Menu.Add(0, 10, 0, Resource.String.shortcut_create_calender_event);
                 if (evnt != null)
@@ -334,44 +452,13 @@ namespace iChronoMe.Droid.GUI.Calendar
                     ConfigBinder.Stop();
                 else
                     ConfigBinder.Start();
-                calListAdapter.PrimaryOnly = true;
-            }
-        }
-
-        bool bPermissionCheckOk = false;
-        ActiveCalendarListAdapter calListAdapter;
-        public override void OnResume()
-        {
-            base.OnResume();
-
-            if (ViewTypeSpinner != null)
-            {
-                mContext.Title = "";
-                ViewTypeSpinner.Visibility = ViewStates.Visible;
-            }
-
-            bPermissionCheckOk = Build.VERSION.SdkInt < BuildVersionCodes.M || (mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted);
-            if (bPermissionCheckOk)
-            {
-                if (lvCalendars.Adapter == null)
-                {
-                    lvCalendars.ChoiceMode = ChoiceMode.Multiple;
-                    lvCalendars.ItemsCanFocus = false;
-                    calListAdapter = new ActiveCalendarListAdapter(Activity);
-                    lvCalendars.Adapter = calListAdapter;
-                    lvCalendars.ItemClick += calListAdapter.ListView_ItemClick;
-                    calListAdapter.HiddenCalendarsChanged += Adapter_HiddenCalendarsChanged;
-
-                    lvCalendars.Touch += LvCalendars_Touch;
-                }
-                if (tFirstVisible != DateTime.MinValue && tLastVisible != DateTime.MinValue)
-                    LoadEvents();
+                calListAdapter.Filter = CalendarListAdapter.CalendarFilter.PrimaryOnly;
             }
         }
 
         private void LvCalendars_Touch(object sender, View.TouchEventArgs e)
         {
-            calListAdapter.PrimaryOnly = false;
+            calListAdapter.Filter = CalendarListAdapter.CalendarFilter.AllCalendars;
             e.Handled = false;
         }
 
@@ -392,8 +479,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 if (spinner != null)
                 {
                     spinner.Visibility = ViewStates.Gone;
-                    spinner.ItemSelected -= ViewTypeSpinner_ItemSelected;
-                    mContext.Title = Resources.GetString(Resource.String.app_name);
+                    if (string.IsNullOrEmpty(mContext.Title))
+                        mContext.Title = localize.menu_calendar;
                 }
             }
             bKeepTitleOnPause = false;
@@ -407,13 +494,40 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             ResetTitleSpinner(tFirst, tLast);
             LoadEvents(tFirst, tLast);
+
+            if (schedule.SelectedDate != null)
+            {
+                var sel = sys.DateTimeFromJava(schedule.SelectedDate);
+                if (sel < tFirst || sel > tLast)
+                {
+                    int iDayCount = 1;
+                    switch (schedule.ScheduleView)
+                    {
+                        case ScheduleView.WeekView:
+                            iDayCount = 5;
+                            break;
+                        case ScheduleView.WorkWeekView:
+                            iDayCount = 7;
+                            break;
+                        case ScheduleView.MonthView:
+                            iDayCount = DateTime.DaysInMonth(sel.Year, sel.Month);
+                            break;
+                    }
+                    while (sel < tFirst)
+                        sel = sel.AddDays(iDayCount);
+                    while (sel > tLast)
+                        sel = sel.AddDays(-(iDayCount));
+                    schedule.SelectedDate = sys.DateTimeToJava(sel);
+                }
+            }
         }
 
         DateTime tFirstVisible = DateTime.MinValue, tLastVisible = DateTime.MinValue;
 
         private async void LoadEvents(DateTime? tVon = null, DateTime? tBis = null)
         {
-            mContext.RunOnUiThread(() => {
+            mContext.RunOnUiThread(() =>
+            {
                 TooltipCompat.SetTooltipText(fabTimeType, localize.TimeType + " (" + localeHelper.GetTimeTypeText(calEvents.timeType) + ")");
                 fabTimeType.SetImageResource(Tools.GetTimeTypeIconID(calEvents.timeType, LocationTimeHolder.LocalInstance));
             });
@@ -427,27 +541,33 @@ namespace iChronoMe.Droid.GUI.Calendar
                     tLastVisible = tFirstVisible.AddDays(1);
             }
             await calEvents.DoLoadCalendarEventsListed(tFirstVisible.AddDays(-1), tLastVisible.AddDays(1));
-            mContext.RunOnUiThread(() => { schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
-            
+            mContext.RunOnUiThread(() => { 
+                schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
+
             CheckCalendarWelcomeAssistant();
         }
 
+        bool bCalendarIsReady = false;
+        bool bWelcomeScreenDone = false;
         private async void CheckCalendarWelcomeAssistant()
         {
-            if (AppConfigHolder.CalendarViewConfig.WelcomeScreenDone < 1)
+            if (!bWelcomeScreenDone)
             {
+                bWelcomeScreenDone = true;
                 var def = await DeviceCalendar.DeviceCalendar.GetDefaultCalendar();
-                if (def == null)
+                if (def != null)
                 {
-                    if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
-                    {
-                        await DeviceCalendar.DeviceCalendar.AddOrUpdateCalendarAsync(new DeviceCalendar.Calendar { Name = Resources.GetString(Resource.String.app_name), IsPrimary=true, CanEditCalendar = true, CanEditEvents = true });
-                    }
-                    else
-                        return;
+                    bCalendarIsReady = true;
+                    return;
                 }
-                AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
-                AppConfigHolder.SaveCalendarViewConfig();
+                if (await Tools.ShowYesNoMessage(Context, Resources.GetString(Resource.String.alert_no_calendar_found), Resources.GetString(Resource.String.question_create_new_calendar)))
+                {
+                    await DeviceCalendar.DeviceCalendar.CreateDefaulCalendar();
+                    bCalendarIsReady = true;
+                    calListAdapter.Refresh();
+                }
+                //AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
+                //AppConfigHolder.SaveCalendarViewConfig();
             }
         }
 
@@ -506,23 +626,31 @@ namespace iChronoMe.Droid.GUI.Calendar
                 }
                 */
 #if DEBUG
-                var sub = menu.AddSubMenu(0, 0, 0, "Debug");
-                sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
-                sub.Item.SetShowAsAction(ShowAsAction.Always);
+                if (sys.DisplayOrientation == DisplayOrientation.Landscape)
+                {
+                    var sub = menu.AddSubMenu(0, 0, 0, "Debug");
+                    sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+                    sub.Item.SetShowAsAction(ShowAsAction.Always);
 
-                item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
-                item.SetIcon(Resource.Drawable.icons8_add);
-                item.SetOnMenuItemClickListener(this);
+                    item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
+                    item.SetIcon(Resource.Drawable.icons8_add);
+                    item.SetOnMenuItemClickListener(this);
 
-                item = sub.Add(0, menu_debug_delete_events, 0, "Delete Events");
-                item.SetIcon(Resource.Drawable.icons8_delete);
-                item.SetOnMenuItemClickListener(this);
+                    item = sub.Add(0, menu_debug_delete_events, 0, "Delete Events");
+                    item.SetIcon(Resource.Drawable.icons8_delete);
+                    item.SetOnMenuItemClickListener(this);
+                }
 #endif
             }
             catch (Exception ex)
             {
                 sys.LogException(ex);
             }
+
+            return;
+
+            this.ToString();
+
         }
 
         public bool OnMenuItemClick(IMenuItem item)
@@ -719,14 +847,15 @@ namespace iChronoMe.Droid.GUI.Calendar
         {
             if (ViewTypeSpinner != null)
             {
-                string cTitle = tFirstVisible.ToString("MMM yyyy");
+                DateTime tMiddle = tFirstVisible.AddDays((tLastVisible - tFirstVisible).TotalDays / 2);
+                string cTitle = tMiddle.ToString("MMM yyyy");
                 if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
                 {
                     switch (schedule.ScheduleView)
                     {
                         case ScheduleView.Timeline:
                         case ScheduleView.DayView:
-                            cTitle = tFirstVisible.ToString("MMMM yyyy");
+                            cTitle = tLastVisible.ToString("MMMM yyyy");
                             break;
                         case ScheduleView.WeekView:
                         case ScheduleView.WorkWeekView:
@@ -735,7 +864,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                                 cTitle += " - " + tLastVisible.ToString("MMMM yyyy");
                             break;
                         case ScheduleView.MonthView:
-                            cTitle = tFirstVisible.AddDays((tLastVisible - tFirstVisible).Days / 2).ToString("MMMM yyyy");
+                            cTitle = tMiddle.ToString("MMMM yyyy");
                             break;
                     }
                 }
@@ -866,6 +995,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
                 clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
 
+                Tools.ShowToast(mContext, clText.ToColor().HexString);
+
                 /*
 
                 Color clTitleText = Color.White;
@@ -907,16 +1038,19 @@ namespace iChronoMe.Droid.GUI.Calendar
                 schedule.TimelineViewSettings.LabelSettings.TimeLabelColor = clText;
 
                 schedule.DayViewSettings.TimeSlotColor = clSlotBack;
-                schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent; 
+                schedule.DayViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.DayViewSettings.DayLabelSettings.TimeLabelColor = clText;
+                schedule.DayViewSettings.AllDayAppointmentBackgroundColor = clSlotBack;
 
                 schedule.WeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.WeekViewSettings.WeekLabelSettings.TimeLabelColor = clText;
+                schedule.WeekViewSettings.AllDayAppointmentBackgroundColor = clSlotBack;
 
                 schedule.WorkWeekViewSettings.TimeSlotColor = clSlotBack;
                 schedule.WorkWeekViewSettings.NonWorkingHoursTimeSlotColor = clSlotAccent;
                 schedule.WorkWeekViewSettings.WorkWeekLabelSettings.TimeLabelColor = clText;
+                schedule.WorkWeekViewSettings.AllDayAppointmentBackgroundColor = clSlotBack;
 
                 schedule.MonthViewSettings.AgendaViewStyle = new AgendaViewStyle
                 {
@@ -930,7 +1064,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 {
                     TextColor = clText,
                     BackgroundColor = clSlotBack,
-                    TodayTextColor = clTodayText,
+                    TodayTextColor = clTitleText,
                     TodayBackgroundColor = clBack,
                     PreviousMonthBackgroundColor = clSlotAccent,
                     NextMonthBackgroundColor = clSlotAccent

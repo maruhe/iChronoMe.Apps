@@ -20,14 +20,11 @@ namespace iChronoMe.Droid.Widgets.Calendar
 {
     [Activity(Label = "CalendarWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
-    public class CalendarWidgetConfigActivity : BaseWidgetActivity
+    public class CalendarWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_Calendar>
     {
         DynamicCalendarModel CalendarModel;
         EventCollection myEventsMonth;
         EventCollection myEventsList;
-        AlertDialog pDlg;
-        List<WidgetCfg_Calendar> DeletedWidgets = new List<WidgetCfg_Calendar>();
-        WidgetConfigHolder holder;
 
         bool bPermissionTryed = false;
 
@@ -55,26 +52,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     return;
                 }
 
-                holder = new WidgetConfigHolder();
-                if (false && holder.WidgetExists<WidgetCfg_Calendar>(appWidgetId))
-                {
-                    var it = new Intent(this, typeof(CalendarWidgetConfigActivityAdvanced));
-                    it.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
-                    StartActivity(it);
-                }
-                //else
-                {
-                    var progressBar = new Android.Widget.ProgressBar(this);
-                    progressBar.Indeterminate = true;
-                    pDlg = new AlertDialog.Builder(this)
-                        .SetCancelable(false)
-                        .SetTitle(Resource.String.progress_preparing_data)
-                        .SetView(progressBar)
-                        .Create();
-                    pDlg.Show();
-
-                    StartWidgetSelection();
-                }
+                StartWidgetSelection();
             }
         }
 
@@ -94,40 +72,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 {
                     Task.Delay(100).Wait();
 
-                    //int iWidth = Math.Min(400, (int)(sys.DisplayShortSiteDp * .9));
-                    //wSize = new Point(iWidth, (int)(iWidth * .75));
-
-                    AppWidgetManager widgetManager = AppWidgetManager.GetInstance(this);
-                    List<int> ids = new List<int>(widgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name)));
-
-                    /*
-                    try
-                    {
-                        foreach (var cfg in holder.AllCfgs())
-                        {
-                            if (cfg is WidgetCfg_Calendar && !ids.Contains(cfg.WidgetId))
-                                DeletedWidgets.Add((WidgetCfg_Calendar)cfg);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        sys.LogException(ex);
-                    }
-
-                    try
-                    {
-                        WidgetConfigHolder cfgHolderArc = new WidgetConfigHolder(true);
-                        foreach (var cfgArc in cfgHolderArc.AllCfgs())
-                        {
-                            if (cfgArc is WidgetCfg_Calendar)
-                                DeletedWidgets.Add((WidgetCfg_Calendar)cfgArc);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        sys.LogException(ex);
-                    }
-                    */
+                    SearchForDeletedWidgets();
 
                     TryGetWallpaper();
 
@@ -159,14 +104,14 @@ namespace iChronoMe.Droid.Widgets.Calendar
         private void ShowWidgetTypeSelector()
         {
             var tStartAssistant = typeof(WidgetCfgAssistant_Calendar_Start);
-            if (holder.WidgetExists<WidgetCfg_CalendarCircleWave>(appWidgetId))
+            if (cfgHolder.WidgetExists<WidgetCfg_CalendarCircleWave>(appWidgetId))
             {
                 ShowWidgetCircleWaveSelector();
                 return;
             }
-            else if (holder.WidgetExists<WidgetCfg_Calendar>(appWidgetId))
+            else if (cfgHolder.WidgetExists<WidgetCfg_Calendar>(appWidgetId))
                 tStartAssistant = typeof(WidgetCfgAssistant_Calendar_OptionsBase);
-            var cfg = holder.GetWidgetCfg<WidgetCfg_Calendar>(appWidgetId, false);
+            var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_Calendar>(appWidgetId, false);
             var manager = new WidgetConfigAssistantManager<WidgetCfg_Calendar>(this, CalendarModel, myEventsList, myEventsMonth, wallpaperDrawable);
             Task.Factory.StartNew(async () =>
             {
@@ -177,7 +122,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     if (result != null)
                     {
                         result.WidgetConfig.WidgetId = appWidgetId;
-                        holder.SetWidgetCfg(result.WidgetConfig);
+                        cfgHolder.SetWidgetCfg(result.WidgetConfig);
 
                         if (cfg == null && result.WidgetConfig is WidgetCfg_CalendarCircleWave)
                         {
@@ -212,7 +157,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             var tStartAssistant = typeof(WidgetCfgAssistant_CalendarCircleWave_OptionsBase);
             if (bIsFirstCreate)
                 tStartAssistant = typeof(WidgetCfgAssistant_CalendarCircleWave_Length);
-            var cfg = holder.GetWidgetCfg<WidgetCfg_CalendarCircleWave>(appWidgetId, false);
+            var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_CalendarCircleWave>(appWidgetId, false);
             var manager = new WidgetConfigAssistantManager<WidgetCfg_CalendarCircleWave>(this, CalendarModel, myEventsList, myEventsMonth, wallpaperDrawable);
             Task.Factory.StartNew(async () =>
             {
@@ -222,7 +167,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                     if (result != null)
                     {
                         result.WidgetConfig.WidgetId = appWidgetId;
-                        holder.SetWidgetCfg(result.WidgetConfig);
+                        cfgHolder.SetWidgetCfg(result.WidgetConfig);
 
                         Intent resultValue = new Intent();
                         resultValue.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
@@ -243,16 +188,6 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 }
             });
 
-        }
-
-        public void UpdateWidget()
-        {
-            Intent updateIntent = new Intent(this, typeof(CalendarWidget));
-            updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
-            AppWidgetManager widgetManager = AppWidgetManager.GetInstance(this);
-            int[] ids = new int[] { appWidgetId };
-            updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
-            SendBroadcast(updateIntent);
         }
     }
 }

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+		<!-- color of spaces not covered by the image -->
+		<color android:color="@color/medDarkGrayBlue" />
+	</item>
+	<!-- place the image in the center of the screen -->
+	<item android:gravity="center" android:drawable="@mipmap/splash"/>
+	<!--https://www.schriftgenerator.eu/fonts/Arabolical/?size=96&color=21b7d8&bg=none-->
+	<item android:gravity="bottom|right"  android:drawable="@mipmap/inspired" android:right="15dp" android:bottom="20dp"/>
+</layer-list>

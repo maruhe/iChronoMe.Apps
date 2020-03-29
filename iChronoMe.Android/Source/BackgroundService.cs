@@ -19,6 +19,8 @@ using Android.Widget;
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DynamicCalendar;
+using iChronoMe.Core.Types;
+using iChronoMe.Droid.Receivers;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
@@ -31,14 +33,15 @@ namespace iChronoMe.Droid
     [Service(Label = "@string/label_BackgroundService", Exported = true)]
     public class BackgroundService : Service
     {
-        public static WidgetUpdateThreadHolder updateHolder { get; private set; }
-        public static BackgroundService currentService { get; private set; }
-        public static Location lastLocation { get; set; }
-        public static List<int> EffectedWidges { get; private set; } = new List<int>();
+        internal static WidgetUpdateThreadHolder updateHolder { get; private set; }
+        internal static BackgroundService currentService { get; private set; }
+        internal static Location lastLocation { get; set; }
+        internal static List<int> EffectedWidges { get; private set; } = new List<int>();
 
-        public static string cLauncherName { get; private set; } = null;
+        internal static string cLauncherName { get; private set; } = null;
 
         ClockUpdateBroadcastReceiver mReceiver;
+        ScreenOnOffReceiver screenOnOffReceiver;
         AppWidgetManager manager;
 
         public override void OnCreate()
@@ -57,10 +60,20 @@ namespace iChronoMe.Droid
             mReceiver.CommandReceived += MReceiver_CommandReceived;
             this.RegisterReceiver(mReceiver, intentFilter);
 
+            intentFilter = new IntentFilter();
+            intentFilter.AddAction(Intent.ActionScreenOn);
+            intentFilter.AddAction(Intent.ActionScreenOff);
+            screenOnOffReceiver = new ScreenOnOffReceiver();
+            screenOnOffReceiver.ScreenStateReceived += ScreenOnOffReceiver_ScreenStateReceived;
+            this.RegisterReceiver(screenOnOffReceiver, intentFilter);
+
             //RegisterForegroundService();
+
+            //Tools.ShowToastDebug(this, "Service Created");
 
             Task.Factory.StartNew(() =>
             {
+                return;
                 //archive lost configs
                 int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
                 int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
@@ -98,6 +111,17 @@ namespace iChronoMe.Droid
                     holderArc.SaveToFile();
                 }
             });
+        }
+
+        private void ScreenOnOffReceiver_ScreenStateReceived(bool bIsScreenOn)
+        {
+            if (bIsScreenOn)
+                xxRestartUpdate();
+            else
+            {
+                StopUpdate();
+                EffectedWidges.Clear();
+            }
         }
 
         private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
@@ -161,6 +185,8 @@ namespace iChronoMe.Droid
         public override void OnDestroy()
         {
             StopUpdate();
+            UnregisterReceiver(mReceiver);
+            UnregisterReceiver(screenOnOffReceiver);
             base.OnDestroy();
         }
 
@@ -179,17 +205,30 @@ namespace iChronoMe.Droid
             }
         }
 
-        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction)
+        static Bitmap bmpNotify = Bitmap.CreateBitmap(sys.DpPx(48), sys.DpPx(48), Bitmap.Config.Argb8888);
+        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction, string timeTypeIcon = null)
         {
             string channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? createNotificationChannel() : null;
 
-            Notification notification = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
+            var builder = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
                 .SetContentTitle(cTitle)
                 .SetContentText(cText)
                 .SetSmallIcon(Resource.Drawable.sunclock)
                 .SetContentIntent(MainWidgetBase.GetClickActionPendingIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
-                .SetOngoing(true)
-                .Build();
+                .SetOngoing(true);
+            if (timeTypeIcon != null)
+            {
+                var bmp = DrawableHelper.GetIconBitmap(this, timeTypeIcon, 36, xColor.DimGray);
+                RectF targetRect = new RectF(sys.DpPx(6), sys.DpPx(6), sys.DpPx(42), sys.DpPx(42));
+                Canvas canvas = new Canvas(bmpNotify);
+                canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
+                canvas.DrawBitmap(bmp, null, targetRect, null);
+                bmp.Recycle();
+
+                builder.SetLargeIcon(bmpNotify);
+            }
+
+            Notification notification = builder.Build();
 
             return notification;
         }
@@ -201,7 +240,8 @@ namespace iChronoMe.Droid
             var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Min);
             chan.Description = this.Resources.GetString(Resource.String.description_BackgroundService);
             chan.LightColor = Color.Blue;
-            chan.LockscreenVisibility = NotificationVisibility.Private;
+            chan.LockscreenVisibility = NotificationVisibility.Public;
+            chan.SetShowBadge(false);
             var service = GetSystemService(NotificationService) as NotificationManager;
             service.CreateNotificationChannel(chan);
             return channelId;
@@ -295,41 +335,44 @@ namespace iChronoMe.Droid
 
         public static void RestartService(Context context, string cAction, int? iAppWidgetID = null)
         {
-            bool running = IsServiceRunning(context, typeof(BackgroundService));
-            if (running)
+            try
             {
-                try { running = updateHolder?.IsAlive ?? false; }
-                catch { running = false; }
-            }
-            if (!running)
-            {
-                int[] appWidgetIDs = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
-
-                if (appWidgetIDs.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
-                    return;
-
-                if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
-                    return;
-
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                bool running = IsServiceRunning(context, typeof(BackgroundService));
+                if (running)
                 {
-                    context.StartForegroundService(new Intent(context, typeof(BackgroundService)));
+                    try { running = updateHolder?.IsAlive ?? false; }
+                    catch { running = false; }
+                }
+                if (!running)
+                {
+                    int[] appWidgetIDs = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+
+                    if (appWidgetIDs.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                        return;
+
+                    if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                        return;
+
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                    {
+                        context.StartForegroundService(new Intent(context, typeof(BackgroundService)));
+                    }
+                    else
+                    {
+                        context.StartService(new Intent(context, typeof(BackgroundService)));
+                    }
                 }
                 else
                 {
-                    context.StartService(new Intent(context, typeof(BackgroundService)));
+                    Intent update_widget = new Intent();
+                    update_widget.SetAction(ClockUpdateBroadcastReceiver.intentFilter);
+                    update_widget.PutExtra(ClockUpdateBroadcastReceiver.command, ClockUpdateBroadcastReceiver.cmdRestartUpdates);
+                    update_widget.PutExtra(ClockUpdateBroadcastReceiver.baseaction, cAction);
+                    if (iAppWidgetID != null)
+                        update_widget.PutExtra(AppWidgetManager.ExtraAppwidgetId, iAppWidgetID.Value);
+                    context.SendBroadcast(update_widget);
                 }
-            }
-            else
-            {
-                Intent update_widget = new Intent();
-                update_widget.SetAction(ClockUpdateBroadcastReceiver.intentFilter);
-                update_widget.PutExtra(ClockUpdateBroadcastReceiver.command, ClockUpdateBroadcastReceiver.cmdRestartUpdates);
-                update_widget.PutExtra(ClockUpdateBroadcastReceiver.baseaction, cAction);
-                if (iAppWidgetID != null)
-                    update_widget.PutExtra(AppWidgetManager.ExtraAppwidgetId, iAppWidgetID.Value);
-                context.SendBroadcast(update_widget);
-            }
+            } catch { }
         }
 
         public static bool IsServiceRunning(Context context, System.Type ClassTypeof)
@@ -397,6 +440,8 @@ namespace iChronoMe.Droid
             pm = (PowerManager)ctx.GetSystemService(Context.PowerService);
             cfgHolder = new WidgetConfigHolder();
 
+            //Tools.ShowToastDebug(ctx, "new ThreadHolder");
+
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(ctx, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             List<int> iS = new List<int>();
             iS.AddRange(appWidgetID2s);
@@ -419,6 +464,7 @@ namespace iChronoMe.Droid
             }
             int[] appWidgetIDs = iS.ToArray();
 
+            tLastLocationStart = DateTime.MinValue;
             //CheckLocationNeedet
             foreach (int iWidgetId in appWidgetIDs)
             {
@@ -441,7 +487,7 @@ namespace iChronoMe.Droid
         Dictionary<int, LocationTimeHolder> mLths = new Dictionary<int, LocationTimeHolder>();
         public bool IsWidgetThreadAlive(int iWidgetID)
             => mThreads.ContainsKey(iWidgetID);
-
+        
         public void StartWidgetTask(int iWidgetId)
         {
             lock (mThreads)
@@ -463,13 +509,11 @@ namespace iChronoMe.Droid
 
             var tsk = new Thread(() =>
             {
-                xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
+                //xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
 
                 DateTime swStart = DateTime.Now;
                 WidgetCfg_ClockAnalog cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId, false);
-                if (cfg == null)
-                    return;
-                if (cfg.PositionType == WidgetCfgPositionType.None)
+                if (cfg == null || cfg.PositionType == WidgetCfgPositionType.None)
                 {
                     RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_unconfigured);
 
@@ -494,14 +538,14 @@ namespace iChronoMe.Droid
                 }
 
                 LocationTimeHolder lth = null;
-                if (cfg.PositionType == WidgetCfgPositionType.LivePosition || cfg.WidgetId == -101)
+                if (cfg.PositionType == WidgetCfgPositionType.LivePosition)
                 {
                     //Alle Widges mit lokaler Position bekommen den selben Holder
                     if (lthLocal != null)
                         lth = lthLocal;
                     else
                     {
-                        lth = lthLocal = LocationTimeHolder.LocalInstance;
+                        lth = lthLocal = LocationTimeHolder.LocalInstanceClone;
                         lth.ChangePositionDelay(cfg.Latitude, cfg.Longitude);
                         lthLocal.AreaChanged += LthLocal_AreaChanged;
                     }
@@ -528,8 +572,9 @@ namespace iChronoMe.Droid
                 clockView.ClockFaceLoaded += ClockView_ClockFaceLoaded;
                 clockView.ReadConfig(cfg);
 
+                bool bShowClockProgress = false;
                 DateTime tBackgroundUpdate = DateTime.MinValue;
-                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfg, iClockSize);
+                Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfg, iClockSize, ref bShowClockProgress);
 
                 Bitmap bmpBackgroundColor = null;
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
@@ -556,14 +601,17 @@ namespace iChronoMe.Droid
                     {
                         try
                         {
+                            if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
+                                BackgroundService.EffectedWidges.Add(iWidgetId);
+
                             iRun++;
                             xLog.Verbose("AnalogClock " + iWidgetId + "\tRun " + iRun);
-                            while (!IsInteractive && (tLastRun.AddMinutes(5) > DateTime.Now) && bRunning)
+                            /*while (!IsInteractive && (tLastRun.AddMinutes(5) > DateTime.Now) && bRunning)
                                 Thread.Sleep(250);
 
                             if (Build.VERSION.SdkInt >= BuildVersionCodes.LollipopMr1)
                                 if (pm.IsPowerSaveMode)
-                                    clockView.ShowSecondHand = clockView.FlowMinuteHand = false;
+                                    clockView.ShowSecondHand = clockView.FlowMinuteHand = false;*/
 
                             swStart = DateTime.Now;
                             if (cfg.PositionType == WidgetCfgPositionType.LivePosition)
@@ -601,6 +649,9 @@ namespace iChronoMe.Droid
                                 swStart = DateTime.Now;
                                 bool bDoFullUpdate = tLastFullUpdate.AddSeconds(15) < DateTime.Now;
                                 var rv = GetClockAnalogRemoteView(ctx, cfg, clockView, iClockSize, lth, lth.GetTime(tType), uBackgroundImage, bmpBackgroundColor, true);
+                                rv.SetViewVisibility(Resource.Id.clock_progress, bShowClockProgress ? ViewStates.Visible : ViewStates.Gone);
+                                if (bShowClockProgress)
+                                    rv.SetViewPadding(Resource.Id.clock_progress, iClockSize / 3, iClockSize / 3, iClockSize / 3, iClockSize / 3);
                                 manager.UpdateAppWidget(iWidgetId, rv);
                                 if (bDoFullUpdate && iRun > 3)
                                     tLastFullUpdate = DateTime.Now;
@@ -624,7 +675,7 @@ namespace iChronoMe.Droid
                                         cText = cfg.WidgetTitle + ", " + sys.DezimalGradToGrad(cfg.Latitude, true, false) + ", " + sys.DezimalGradToGrad(cfg.Longitude, false, false);
                                     }
 
-                                    Notification notification = BackgroundService.currentService.GetForegroundNotification(cTitle, cText, cfg.ClickAction);
+                                    Notification notification = BackgroundService.currentService.GetForegroundNotification(cTitle, cText, cfg.ClickAction, Tools.GetTimeTypeIconName(tType, lth));
 
                                     NotificationManager mNotificationManager = (NotificationManager)ctx.GetSystemService(Context.NotificationService);
                                     mNotificationManager.Notify(101, notification);
@@ -633,9 +684,6 @@ namespace iChronoMe.Droid
 
                             tLastRun = DateTime.Now;
                             xLog.Verbose("UpdateDone: AnalogClock " + iWidgetId);
-
-                            if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
-                                BackgroundService.EffectedWidges.Add(iWidgetId);
 
                             if (iRun == 1)
                             {
@@ -677,7 +725,7 @@ namespace iChronoMe.Droid
                                 }
                             }
                         }
-                        catch (ThreadAbortException) { return; } //all fine
+                        catch (ThreadAbortException) { } //all fine
                         catch (Exception e)
                         {
                             sys.LogException(e, "OnUpdateWidget " + iWidgetId, false);
@@ -714,16 +762,19 @@ namespace iChronoMe.Droid
         {
             try
             {
+
                 var cfgOld = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
                 cfgHolder = new WidgetConfigHolder();
                 var cfgNew = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
 
+                TimeSpan tMaxLocationDelay = TimeSpan.FromMinutes(20);
                 if (cfgNew.CurrentTimeType == cfgOld.CurrentTimeType)
                 {
                     StartWidgetTask(iWidgetId);// quick update
                 }
                 else
                 {
+                    tMaxLocationDelay = TimeSpan.FromMinutes(5);
                     lock (mThreads)
                     {
                         if (mThreads.ContainsKey(iWidgetId))
@@ -752,8 +803,9 @@ namespace iChronoMe.Droid
                     WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
                     clockView.ReadConfig(cfgNew);
 
+                    bool bShowClockProgress = false;
                     DateTime tBackgroundUpdate = DateTime.MinValue;
-                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfgNew, iClockSize);
+                    Android.Net.Uri uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfgNew, iClockSize, ref bShowClockProgress);
 
                     Bitmap bmpBackgroundColor = null;
                     if (cfgNew.ColorBackground.ToAndroid() != Color.Transparent)
@@ -774,6 +826,9 @@ namespace iChronoMe.Droid
                     DateTime tAnimateFrom = lth.GetTime(cfgOld.CurrentTimeType);
                     DateTime tAnimateTo = lth.GetTime(cfgNew.CurrentTimeType);
 
+                    if (string.IsNullOrEmpty(cfgNew.WidgetTitle) && !string.IsNullOrEmpty(cfgOld.WidgetTitle))
+                        cfgNew.WidgetTitle = cfgOld.WidgetTitle;
+
                     var animator = new WidgetAnimator_ClockAnalog(clockView, tsDuriation, ClockAnalog_AnimationStyle.HandsNatural)
                         .SetStart(tAnimateFrom)
                         .SetEnd(tAnimateTo)
@@ -786,14 +841,13 @@ namespace iChronoMe.Droid
                             }
 
                             var rv = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
-                            rv.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                            rv.SetImageViewBitmap(Resource.Id.time_switcher, null);
                             manager.UpdateAppWidget(iWidgetId, rv);
                         })
                         .SetLastRun((h, m, s) =>
                         {
                             clockView.ReadConfig(cfgNew);
-                            var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, false);
-                            rvf.SetTextViewText(Resource.Id.clock_title, cfgOld.WidgetTitle);
+                            var rvf = GetClockAnalogRemoteView(ctx, cfgNew, clockView, iClockSize, lth, h, m, s, uBackgroundImage, bmpBackgroundColor, true);
                             manager.UpdateAppWidget(iWidgetId, rvf);
                         })
                         .SetFinally(() =>
@@ -802,7 +856,7 @@ namespace iChronoMe.Droid
                         })
                         .StartAnimation();
 
-#if DEfBUG
+#if DExxxBUG
                     Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
                     changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
                     changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
@@ -814,6 +868,11 @@ namespace iChronoMe.Droid
 #endif
 
                 }
+                if (cfgNew.PositionType == WidgetCfgPositionType.LivePosition &&
+                    bPartialGpsOnlyMode &&
+                    tLastLocationStart != DateTime.MinValue &&
+                    tLastLocationStart.Add(tMaxLocationDelay) < DateTime.Now)
+                    EnableLocationUpdate(ctx);
             }
             catch (Exception ex)
             {
@@ -822,16 +881,15 @@ namespace iChronoMe.Droid
             }
         }
 
-        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetView_ClockAnalog vClock, WidgetCfg_ClockAnalog cfg, int sizePX)
+        public static Android.Net.Uri GetWidgetBackgroundUri(Context ctx, WidgetView_ClockAnalog vClock, WidgetCfg_ClockAnalog cfg, int sizePX, ref bool bShowClockProgress)
         {
             try
             {
                 if (!string.IsNullOrEmpty(cfg.BackgroundImage))
                 {
-                    string cBackImgPath = cfg.BackgroundImage;
-                    if (!cfg.BackgroundImage.Contains("/"))
-                        cfg.BackgroundImage = System.IO.Path.Combine(System.IO.Path.Combine(sys.PathShare, "imgCache_clockfaces"), cfg.BackgroundImage);
-                    Java.IO.File fBack = new Java.IO.File(vClock.GetClockFacePng(cfg.BackgroundImage, sizePX));
+                    string cBackImgPath = vClock.GetClockFacePng(cfg.BackgroundImage, sizePX);
+                    bShowClockProgress = Equals(cBackImgPath, cfg.BackgroundImage);
+                    Java.IO.File fBack = new Java.IO.File(cBackImgPath);
                     bool bBackEx = fBack.Exists();
                     if (bBackEx)
                     {
@@ -898,7 +956,7 @@ namespace iChronoMe.Droid
                 Intent changeTypeIntent = new Intent(ctx, typeof(AnalogClockWidget));
                 changeTypeIntent.SetAction(MainWidgetBase.ActionChangeTimeType);
                 changeTypeIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
-                    changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)MainWidgetBase.GetOtherTimeType(cfg.CurrentTimeType, cfg.WidgetTimeType));
+                changeTypeIntent.PutExtra(MainWidgetBase.ExtraTimeType, (int)MainWidgetBase.GetOtherTimeType(cfg.CurrentTimeType, cfg.WidgetTimeType));
                 PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
                 updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
             }
@@ -939,6 +997,7 @@ namespace iChronoMe.Droid
 
         private void LthLocal_AreaChanged(object sender, AreaChangedEventArgs e)
         {
+            //Tools.ShowToastDebug(ctx, "Area Changed");
             BackgroundService.EffectedWidges.Clear();
         }
 
@@ -972,10 +1031,12 @@ namespace iChronoMe.Droid
 
         int minTime = 15000;
         int minDistance = 25;
+        bool bPartialGpsOnlyMode = false;
 
         protected void EnableLocationUpdate(Context ctx)
         {
             xLog.Debug("EnableLocationUpdate");
+            tLastLocationStart = DateTime.Now;
             if (locationManager == null)
             {
                 Xamarin.Essentials.MainThread.BeginInvokeOnMainThread(() =>
@@ -984,6 +1045,7 @@ namespace iChronoMe.Droid
                     {
                         xLog.Debug("EnableLocationUpdate: init");
                         locationManager = (LocationManager)ctx.GetSystemService(Context.LocationService);
+                        bPartialGpsOnlyMode = false;
 
                         if (lastLocation == null)
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
@@ -997,6 +1059,7 @@ namespace iChronoMe.Droid
                             xLog.Debug("EnableLocationUpdate: passive");
                             locationManager.RequestLocationUpdates(LocationManager.PassiveProvider, minTime, minDistance, this);
                             xLog.Debug("EnableLocationUpdate: passive: done");
+                            //Tools.ShowToastDebug(ctx, "EnableLocationUpdate: passive: done");
                         }
                         catch (Exception e)
                         {
@@ -1008,19 +1071,27 @@ namespace iChronoMe.Droid
                             locationManager.RequestLocationUpdates(LocationManager.NetworkProvider, minTime, minDistance, this);
                             bGetNetworkLocation = true;
                             xLog.Debug("EnableLocationUpdate: network: done");
+                            //Tools.ShowToastDebug(ctx, "EnableLocationUpdate: network: done");
                         }
                         catch (Exception e)
                         {
                             xLog.Debug("EnableLocationUpdate: network: " + e.Message);
                         }
 
-                        if (!bGetNetworkLocation || sys.Debugmode)
+                        if (!bGetNetworkLocation)
                         {
                             try
                             {
                                 xLog.Debug("EnableLocationUpdate: gps");
                                 locationManager.RequestLocationUpdates(LocationManager.GpsProvider, minTime, minDistance, this);
                                 xLog.Debug("EnableLocationUpdate: gps: done");
+                                //Tools.ShowToastDebug(ctx, "EnableLocationUpdate: gps: done");
+                                if (!AppConfigHolder.MainConfig.ContinuousLocationUpdates && myLocationStopper == null)
+                                {
+                                    bPartialGpsOnlyMode = true;
+                                    myLocationStopper = NewLocationStopper();
+                                    myLocationStopper.Start();
+                                }
                             }
                             catch (Exception e)
                             {
@@ -1038,8 +1109,20 @@ namespace iChronoMe.Droid
             }
         }
 
+        Thread myLocationStopper = null;
+        DateTime tLastLocationStart = DateTime.MinValue;
+        public Thread NewLocationStopper()
+            => new Thread(() =>
+            {
+                while (tLastLocationStart.AddSeconds(30) > DateTime.Now)
+                    Thread.Sleep(1000);
+
+                DisableLocationUpdate();
+            });
+
         protected void DisableLocationUpdate()
         {
+            //Tools.ShowToastDebug(ctx, "DisableLocationUpdate!!!!!");
             xLog.Debug("DisableLocationUpdate!!!!!");
             if (locationManager != null)
             {
@@ -1054,11 +1137,21 @@ namespace iChronoMe.Droid
 
         public void OnLocationChanged(Location location)
         {
-            if (lastLocation?.Latitude == location.Latitude && lastLocation?.Longitude == location.Longitude)
-                return;
-            lastLocation = location;
-            BackgroundService.EffectedWidges.Clear();
-            xLog.Debug("GotLocation; " + location.Provider);
+            try
+            {
+                if (lastLocation?.Latitude == location.Latitude && lastLocation?.Longitude == location.Longitude)
+                    return;
+                //Tools.ShowToastDebug(ctx, "OnLocationChanged");
+                lastLocation = location;
+                lthLocal?.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
+                BackgroundService.EffectedWidges.Clear();
+                xLog.Debug("GotLocation; " + location.Provider);
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex);
+            }
+            return;
             if (lastLocation.HasSpeed || tLastSpeed > DateTime.MinValue)
             {
                 lock (mSpeedS)
@@ -1087,12 +1180,12 @@ namespace iChronoMe.Droid
 
         public void OnProviderEnabled(string provider)
         {
-            
+
         }
 
         public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
         {
-                
+
         }
 
         #region IDisposable Support

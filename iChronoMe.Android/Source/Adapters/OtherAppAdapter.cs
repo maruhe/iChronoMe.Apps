@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
@@ -65,7 +61,7 @@ namespace iChronoMe.Droid.Adapters
             }
 
             SortedDictionary<string, ApplicationInfo> temp = new SortedDictionary<string, ApplicationInfo>();
-            foreach(string package in packages)
+            foreach (string package in packages)
             {
                 try
                 {
@@ -74,7 +70,7 @@ namespace iChronoMe.Droid.Adapters
                     while (temp.ContainsKey(cLabel))
                         cLabel += "Z";
                     temp.Add(cLabel, info);
-                } 
+                }
                 catch (Exception ex)
                 {
                     ex.ToString();
@@ -110,4 +106,3 @@ namespace iChronoMe.Droid.Adapters
         }
     }
 }
- 

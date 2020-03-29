@@ -25,7 +25,7 @@ namespace iChronoMe.Droid
                     List<int> list = new List<int>();
                     foreach (var prop in typeof(Resource.Drawable).GetFields())
                     {
-                        if (prop.Name.Contains("_clrd") || "real_sun_time".Equals(prop.Name))
+                        if (prop.Name.Contains("_clrd"))
                             list.Add((int)prop.GetValue(null));
                     }
                     _coloredIcons = list;
@@ -60,7 +60,7 @@ namespace iChronoMe.Droid
                     context.Theme.ToString();
 
                 var mDrawable = ContextCompat.GetDrawable(context, drawableRes);
-                if ((!(mDrawable is VectorDrawable) && !(mDrawable is GradientDrawable)) || ColoredIcons.Contains(drawableRes))
+                if ((!(mDrawable is VectorDrawable) && !(mDrawable is GradientDrawable) && !(mDrawable is RotateDrawable)) || ColoredIcons.Contains(drawableRes))
                     return mDrawable;
 
                 try

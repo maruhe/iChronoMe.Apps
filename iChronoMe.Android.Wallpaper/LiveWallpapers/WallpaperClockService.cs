@@ -24,9 +24,9 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             return new WallpaperClockEngine(this);
         }
 
-        class WallpaperClockEngine : WallpaperService.Engine
+        public class WallpaperClockEngine : WallpaperService.Engine
         {
-            private Handler mHandler = new Handler();
+            public Handler mHandler { get; } = new Handler();
             Context mContext;
 
             private Paint paint = new Paint();
@@ -45,7 +45,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             private LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
             private WallpaperClockView clockView = new WallpaperClockView();
 
-            public WallpaperClockEngine(WallpaperClockService wall) : base(wall)
+            public WallpaperClockEngine(Context wall) : base(wall as WallpaperClockService)
             {
                 mContext = wall;
                 start_time = SystemClock.ElapsedRealtime();
@@ -168,6 +168,8 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             // here. This example draws a wireframe cube.
             void DrawFrame()
             {
+                if (SurfaceHolder == null)
+                    return;
                 ISurfaceHolder holder = SurfaceHolder;
 
                 Canvas c = null;
@@ -207,7 +209,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             // Draw a wireframe cube by drawing 12 3 dimensional lines between
             // adjacent corners of the cube
             Bitmap background = null;
-            void DrawWallpaper(Canvas c)
+            public void DrawWallpaper(Canvas c)
             {
                 try
                 {

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
@@ -22,7 +23,6 @@ using iChronoMe.Droid.Widgets.Clock;
 using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 using iChronoMe.Widgets.Assistants;
-using static iChronoMe.Droid.Tools;
 
 namespace iChronoMe.Droid.GUI.Service
 {
@@ -56,6 +56,9 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Button>(Resource.Id.btn_widgets_config).Click += btnWidgetsConfig_Click;
 #if DEBUG
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Click += btnLiveWallpaper_Click;
+            RootView.FindViewById<Button>(Resource.Id.btn_debug_clear_data).Visibility = ViewStates.Visible;
+            RootView.FindViewById<Button>(Resource.Id.btn_debug_clear_data).Click += btnDebugClearData_Click;
+            
 #else
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Visibility = ViewStates.Gone;
 #endif
@@ -66,6 +69,19 @@ namespace iChronoMe.Droid.GUI.Service
             binder.UserChangedProperty += Binder_UserChangedProperty;
 
             return RootView;
+        }
+
+        private void btnDebugClearData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Directory.Delete(sys.PathShare, true);
+            }
+            catch (Exception ex)
+            {
+                Tools.ShowToast(Context, ex.Message);
+                return;
+            }
         }
 
         public Task<int> UserInputTaskTask { get { return tcsUI == null ? Task.FromResult(-1) : tcsUI.Task; } }
@@ -80,9 +96,9 @@ namespace iChronoMe.Droid.GUI.Service
                 int[] buttons = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
                 int[] chronos = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
 
-                if (clockS.Length+calendars.Length+buttons.Length+chronos.Length == 0)
+                if (clockS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
                 {
-                    Tools.ShowToast(Context, localize.info_no_widgets_found);
+                    Tools.ShowToast(Context, localize.info_no_widgets_found, true);
                     return;
                 }
 
@@ -200,12 +216,26 @@ namespace iChronoMe.Droid.GUI.Service
                 .SetMessage(Resource.String.progress_clearcache_message)
                 .SetPositiveButton(Resource.String.action_continue, (s, e) =>
                 {
-                    AppConfigHolder.MainConfig.LastCheckClockFaces = DateTime.MinValue;
-                    AppConfigHolder.MainConfig.LastCheckClockHands = DateTime.MinValue;
-                    AppConfigHolder.SaveMainConfig();
+                    ImageLoader.ClearCache(ImageLoader.filter_clockfaces);
+                    ClockHandConfig.ClearCache();
 
-                    db.dbAreaCache.Close();
-                    try { Directory.Delete(sys.PathCache, true); } catch { };
+                    try 
+                    {
+                        db.dbAreaCache.Close();
+                        Directory.Delete(sys.PathCache, true); 
+                    }
+                    catch (Exception ex)
+                    {
+                        Tools.ShowToast(Context, ex.Message);
+                        return;
+                    }
+                    try
+                    {
+                        var cfg = AppConfigHolder.LocationConfig;
+                        cfg.AreaName = string.Empty;
+                        cfg.CountryName = string.Empty;
+                        AppConfigHolder.SaveLocationConfig();
+                    } catch { }
 
                     Activity.MoveTaskToBack(true);
                     Process.KillProcess(Process.MyPid());

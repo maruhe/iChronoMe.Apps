@@ -21,13 +21,16 @@ namespace iChronoMe.Droid.Widgets.Lifetime
     [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
 
-    public class LifetimeWidgetConfigActivity : BaseWidgetActivity
+    public class LifetimeWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_Lifetime>
     {
         protected override void OnResume()
         {
             base.OnResume();
             if (NeedsStartAssistant())
+            {
                 ShowStartAssistant();
+                pDlg?.Dismiss();
+            }
             else
             {
                 var holder = new WidgetConfigHolder();
@@ -59,6 +62,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                     RunOnUiThread(() =>
                     {
 
+                        pDlg?.Dismiss();
                         //gespeicherte Wesen vorschlagen
                         var cache = db.dbConfig.Query<Creature>("select * from Creature", new object[0]);
                         if (cache.Count > 0)
@@ -215,27 +219,6 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                 });
             });
             */
-        }
-
-        private void ShowKeyboard(EditText userInput)
-        {
-            try
-            {
-                userInput.RequestFocus();
-                InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-                imm.ToggleSoftInput(ShowFlags.Forced, 0);
-            }
-            catch { }
-        }
-
-        private void HideKeyboard(EditText userInput)
-        {
-            try
-            {
-                InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
-                imm.HideSoftInputFromWindow(userInput.WindowToken, 0);
-            }
-            catch { }
         }
 
         protected override void OnStop()

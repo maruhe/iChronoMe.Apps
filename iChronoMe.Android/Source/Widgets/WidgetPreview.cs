@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.OS;
 using Android.Views;
 using Android.Widget;
 
@@ -14,7 +15,9 @@ using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
+
 using SkiaSharp.Views.Android;
+using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
 {
@@ -23,6 +26,8 @@ namespace iChronoMe.Droid.Widgets
     {
         public static string GlobalCachePath { get; } = System.IO.Path.Combine(sys.PathCache, "WidgetPreview");
         public string AdapterCachePath { get; }
+
+        List<WidgetCfgSample<T>> items = null;
 
         public Activity mContext { get; private set; }
         static IWidgetConfigAssistant<T> mAssistant;
@@ -36,6 +41,10 @@ namespace iChronoMe.Droid.Widgets
         //float nImgScale = 0.5F;
         int iHeightPreview;
         int iHeightPreviewWallpaper;
+        PartialLoadHandler PartialLoadHandler = null;
+        Random rnd = new Random(DateTime.Now.Millisecond);
+        ViewGroup Parent = null;
+        Color clIconTint = Color.Black;
 
         public WidgetPreviewListAdapter(Activity context, IWidgetConfigAssistant<T> assistant, System.Drawing.Point size, Drawable wallpaperDrawable, DynamicCalendarModel calendarModel = null, EventCollection eventsMonth = null, EventCollection eventsList = null)
         {
@@ -45,16 +54,21 @@ namespace iChronoMe.Droid.Widgets
 
             mContext = context;
             mAssistant = assistant;
+            items = new List<WidgetCfgSample<T>>(mAssistant.Samples);
+            PartialLoadHandler = assistant.PartialLoadHandler;
+            if (PartialLoadHandler != null)
+                PartialLoadHandler.OnListChanged = ParialItemsChaned;
             wSize = new Point(size.X, size.Y);
             WallpaperDrawable = wallpaperDrawable;
             CalendarModel = calendarModel;
             myEventsMonth = eventsMonth;
             myEventsList = eventsList;
 
+            clIconTint = Tools.GetThemeColor(context, Resource.Attribute.iconTint);
             nScale = Math.Min(1F, sys.DisplayShortSiteDp * .9F / wSize.X);
             iHeightPreview = iHeightPreviewWallpaper = (int)(wSize.Y * sys.DisplayDensity * nScale);
             if (WallpaperDrawable != null)
-                iHeightPreviewWallpaper = iHeightPreview + 20 * sys.DisplayDensity;
+                iHeightPreviewWallpaper = (int)(iHeightPreview + 20 * sys.DisplayDensity);
 
             llDummy = new LinearLayout(context.ApplicationContext);
             llDummy.LayoutParameters = new LinearLayout.LayoutParams(wSize.X * (int)sys.DisplayDensity, wSize.Y * (int)sys.DisplayDensity);
@@ -75,22 +89,20 @@ namespace iChronoMe.Droid.Widgets
             ViewHolders.Clear();
             ViewHolders = null;
             inflater = null;
-
-            try { System.IO.Directory.Delete(AdapterCachePath, true); } catch { };
         }
 
         Dictionary<int, int> Times = new Dictionary<int, int>();
         Dictionary<int, ViewHolder> ViewHolders = new Dictionary<int, ViewHolder>();
 
-        public override int Count => mAssistant.Samples.Count;
+        public override int Count => PartialLoadHandler != null && !PartialLoadHandler.IsDone ? items.Count + 1 : items.Count;
 
         public override Java.Lang.Object GetItem(int position)
-            => mAssistant.Samples[position] as Java.Lang.Object;
+            => position < items.Count ? items[position] as Java.Lang.Object : rnd.Next(10000);
 
         public override long GetItemId(int position)
-            => mAssistant.Samples[position].GetHashCode();
+            => position < items.Count ? items[position].GetHashCode() : rnd.Next(10000);
 
-        public override int ViewTypeCount => 1 + (mAssistant.ShowColors ? 1 : 0) + (!mAssistant.ShowPreviewImage ? 1 : 0);
+        public override int ViewTypeCount => 1 + (mAssistant.ShowColors ? 1 : 0) + (!mAssistant.ShowPreviewImage ? 1 : 0) + (PartialLoadHandler == null ? 0 : 1);
 
         public class ViewHolder : Java.Lang.Object, IWidgetViewHolder
         {
@@ -137,7 +149,8 @@ namespace iChronoMe.Droid.Widgets
                         view.ReadConfig(cfg as WidgetCfg_ClockAnalog);
                         view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
                     }
-                } catch { }
+                }
+                catch { }
             }
 
             protected override void Dispose(bool disposing)
@@ -153,6 +166,13 @@ namespace iChronoMe.Droid.Widgets
 
         public override View GetView(int position, Android.Views.View convertView, ViewGroup parent)
         {
+            if (position >= items.Count)
+            {
+                var v = inflater.Inflate(Resource.Layout.listitem_loading, null); 
+                v.FindViewById<TextView>(Resource.Id.title).Text = PartialLoadHandler?.LoadingText ?? localize.loading;
+                return v;
+            }
+
             xLog.Debug("GetView Widget " + position);
 
             if (mAssistant.ShowPreviewImage || (mAssistant.ShowFirstPreviewImage && position == 0))
@@ -160,6 +180,7 @@ namespace iChronoMe.Droid.Widgets
                 ViewHolder viewHolder = null;
                 if (convertView == null || convertView.Id != Resource.Id.row_layout_widgetprev)
                 {
+                    Parent = parent;
                     convertView = inflater.Inflate(Resource.Layout.widget_preview_row_layout, null);
                     convertView.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, iHeightPreviewWallpaper);
                     viewHolder = new ViewHolder(convertView);
@@ -184,7 +205,7 @@ namespace iChronoMe.Droid.Widgets
                         ViewHolders.Add(viewHolder.Position, viewHolder);
                     }
 
-                    var sample = mAssistant.Samples[position];
+                    var sample = items[position];
                     string cTitle = sample.Title;
 
                     if (!cTitle.StartsWith("#"))
@@ -205,7 +226,7 @@ namespace iChronoMe.Droid.Widgets
                     viewHolder.colors.Visibility = ViewStates.Gone;
                     if (cTitle.StartsWith("#"))
                     {
-                        int size = 20 * sys.DisplayDensity;
+                        int size = (int)(20 * sys.DisplayDensity);
                         viewHolder.colors.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)(size * 1.2));
                         viewHolder.colors.Visibility = ViewStates.Visible;
                         viewHolder.colors.SetGravity(GravityFlags.Center);
@@ -217,7 +238,7 @@ namespace iChronoMe.Droid.Widgets
                         shape.SetShape(ShapeType.Rectangle);
                         shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                         shape.SetColor(xColor.FromHex(cTitle).ToAndroid());
-                        shape.SetStroke(sys.DisplayDensity, Color.Black);
+                        shape.SetStroke((int)Math.Round(sys.DisplayDensity, 0), clIconTint);
                         llClr.Background = shape;
 
                         viewHolder.colors.AddView(llClr);
@@ -231,7 +252,7 @@ namespace iChronoMe.Droid.Widgets
 
                         if (clrList != null && clrList.Length > 0)
                         {
-                            int size = 20 * sys.DisplayDensity;
+                            int size = (int)(20 * sys.DisplayDensity);
                             viewHolder.colors.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, (int)(size * 1.2));
                             viewHolder.colors.Visibility = ViewStates.Visible;
                             viewHolder.colors.SetGravity(GravityFlags.Center);
@@ -247,7 +268,7 @@ namespace iChronoMe.Droid.Widgets
                                 shape.SetShape(ShapeType.Rectangle);
                                 shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
                                 shape.SetColor(clr.ToAndroid());
-                                shape.SetStroke(sys.DisplayDensity, Color.Black);
+                                shape.SetStroke((int)Math.Round(sys.DisplayDensity, 0), clIconTint);
                                 llClr.Background = shape;
 
                                 viewHolder.colors.AddView(llClr);
@@ -292,7 +313,7 @@ namespace iChronoMe.Droid.Widgets
                         }
 
                         viewHolder.progress.Visibility = ViewStates.Visible;
-                        
+
                         new WidgetPreviewLoaderFS().Execute(this, viewHolder, cfg);
                     }
                 }
@@ -304,13 +325,35 @@ namespace iChronoMe.Droid.Widgets
             }
             else
             {
-                var sample = mAssistant.Samples[position];
+                var sample = items[position];
                 var v = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
-                if (sample.Icon != 0)
-                    v.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(sample.Icon);
-                v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title;
+                if (sample.Title.StartsWith("#"))
+                {
+                    GradientDrawable shape = new GradientDrawable();
+                    shape.SetShape(ShapeType.Rectangle);
+                    shape.SetCornerRadii(new float[] { 2, 2, 2, 2, 2, 2, 2, 2 });
+                    shape.SetColor(xColor.FromHex(sample.Title).ToAndroid());
+                    shape.SetStroke((int)Math.Round(sys.DisplayDensity, 0), clIconTint);
+                    v.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(shape);
+                    v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title.Replace("#FF", "#");
+                }
+                else
+                {
+                    if (sample.Icon != 0)
+                        v.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(sample.Icon);
+                    v.FindViewById<TextView>(Resource.Id.title).Text = sample.Title;
+                }
                 return v;
             }
+        }
+
+        public void ParialItemsChaned()
+        {
+            mContext.RunOnUiThread(() =>
+            {
+                items = new List<WidgetCfgSample<T>>(mAssistant.Samples);
+                NotifyDataSetChanged();
+            });
         }
 
         #region obosled

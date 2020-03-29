@@ -24,7 +24,6 @@ namespace iChronoMe.Droid
 {
     public static class Tools
     {
-
         public static void ShowToastDebug(Context context, string text, bool bShowLong = false)
         {
 #if DEBUG
@@ -124,6 +123,35 @@ namespace iChronoMe.Droid
         }
 
         public static async Task<bool> ShowMessageAndWait(Context context, int title, int text)
+        {
+            if (context == null)
+                return false;
+
+            tcsYnMsg = new TaskCompletionSource<bool>();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    var dlg = new AlertDialog.Builder(context).
+                    SetTitle(title)
+                    .SetMessage(text)
+                    .SetPositiveButton(Resource.String.action_ok, (s, e) => { tcsYnMsg.TrySetResult(true); })
+                    .SetOnCancelListener(new AsyncDialogCancelListener<bool>(tcsYnMsg))
+                    .Create();
+
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsYnMsg.TrySetResult(false);
+                }
+            });
+            await tskYnMsg;
+            return tskYnMsg.Result;
+        }
+
+        public static async Task<bool> ShowMessageAndWait(Context context, string title, string text)
         {
             if (context == null)
                 return false;
@@ -456,7 +484,7 @@ namespace iChronoMe.Droid
             switch (tType)
             {
                 case TimeType.RealSunTime:
-                    return "real_sun_time";
+                    return "real_sun_time_clrd";
                 case TimeType.MiddleSunTime:
                     return "middle_sun_time";
                 case TimeType.TimeZoneTime:

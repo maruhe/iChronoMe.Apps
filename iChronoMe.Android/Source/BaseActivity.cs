@@ -18,6 +18,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Text.Method;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 
 using iChronoMe.Core;
@@ -33,10 +34,11 @@ using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid
 {
-    public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler
+    public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler, ILocationListener
     {
         public Android.Support.V7.Widget.Toolbar Toolbar { get; protected set; } = null;
         public DrawerLayout Drawer { get; protected set; } = null;
+        public Android.Support.V7.App.ActionBarDrawerToggle DrawerToggle { get; protected set; } = null;
         public NavigationView NavigationView { get; protected set; } = null;
         public ActivityFragment ActiveFragment { get; protected set; } = null;
 
@@ -97,20 +99,22 @@ namespace iChronoMe.Droid
             bStartAssistantActive = false;
         }
 
+        string cThemeFile = Path.Combine(sys.PathConfig, "apptheme");
+        string currentTheme = string.Empty;
         public void LoadAppTheme()
         {
             try
             {
-                string cThemeName = AppConfigHolder.MainConfig.AppThemeName;
+                string cThemeName = File.Exists(cThemeFile) ? File.ReadAllText(cThemeFile) : null;
                 if (string.IsNullOrEmpty(cThemeName))
                     cThemeName = nameof(Resource.Style.AppTheme_iChronoMe_Dark);
                 int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
                 SetTheme(iThemeId);
+                currentTheme = cThemeName;
             }
             catch (Exception ex)
             {
-                AppConfigHolder.MainConfig.AppThemeName = string.Empty;
-                AppConfigHolder.SaveMainConfig();
+                File.WriteAllText(cThemeFile, string.Empty);
                 sys.LogException(ex);
                 SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
             }
@@ -122,32 +126,24 @@ namespace iChronoMe.Droid
             var adapter = new ThemeAdapter(this);
             string title = bStartAssistantActive ? base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_theme_firsttime) : Resources.GetString(Resource.String.action_change_theme);
             var theme = await Tools.ShowSingleChoiseDlg(this, title, adapter, false);
+            if (theme >= 0)
+            {
+                if (currentTheme.Equals(adapter[theme].Text1))
+                    theme = -1;
+            }
             if (bStartAssistantActive)
             {
                 AppConfigHolder.MainConfig.InitScreenTheme = 1;
                 AppConfigHolder.SaveMainConfig();
                 if (theme < 0)
-                    theme = 0;
+                    SetAssistantDone();
             }
             if (theme >= 0)
             {
-                AppConfigHolder.MainConfig.AppThemeName = adapter[theme].Text1;
-                AppConfigHolder.SaveMainConfig();
+                File.WriteAllText(cThemeFile, adapter[theme].Text1);
                 RunOnUiThread(() =>
                 {
                     Recreate();
-                    /*if (bStartAssistantActive)
-                    {
-                        //my android5 huawai does the OnResume() twice on recreate
-                        if (Build.VERSION.SdkInt < BuildVersionCodes.N)
-                            Task.Factory.StartNew(() =>
-                            {
-                                Task.Delay(250).Wait();
-                                SetAssistantDone();
-                            });
-                        else
-                            SetAssistantDone();
-                    }*/
                 });
                 return;
             }
@@ -174,6 +170,8 @@ namespace iChronoMe.Droid
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
+            
+            ActiveFragment?.OnActivityResult(requestCode, (int)resultCode, data);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
@@ -275,7 +273,16 @@ namespace iChronoMe.Droid
             {
                 bStartAssistantActive = false; // for in case the user minimizes the app while progress
                 bKillOnClose = true; // to be sure
-                ClockHandConfig.CheckUpdateLocalData(this);
+                try
+                {
+                    ClockHandConfig.CheckUpdateLocalData(this);
+                }
+                catch { }
+                try
+                {
+                    TimeZoneMap.GetTimeZone(1, 1);
+                }
+                catch { }
                 AppConfigHolder.MainConfig.InitBaseDataDownload = 1;
                 AppConfigHolder.SaveMainConfig();
                 SetAssistantDone();
@@ -306,7 +313,9 @@ namespace iChronoMe.Droid
                     AppConfigHolder.SaveMainConfig();
                     SetAssistantDone();
                 })
-                .SetOnCancelListener(new QuitOnCancelListener(this))
+                .SetOnCancelListener(new KillOnCancelListener(this))
+                .SetCancelable(false)
+                .SetOnKeyListener(new KillOnBackPressListener(this))
                 .Create();
             dlgToClose.Show();
         }
@@ -360,7 +369,7 @@ namespace iChronoMe.Droid
                     Task.Factory.StartNew(async () =>
                     {
                         bKillOnClose = false;
-                        bStartAssistantActive = false;
+                        //bStartAssistantActive = false;
                         await this.RequestPermissionsAsync(req.ToArray(), 2);
 
                         if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted && ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
@@ -368,9 +377,12 @@ namespace iChronoMe.Droid
                             AppConfigHolder.MainConfig.InitScreenPermission = 1;
                             AppConfigHolder.SaveMainConfig();
                         }
+                        SetAssistantDone();
                     });
                 })
-                .SetOnCancelListener(new QuitOnCancelListener(this))
+                .SetOnCancelListener(new KillOnCancelListener(this))
+                .SetCancelable(false)
+                .SetOnKeyListener(new KillOnBackPressListener(this))
                 .Create();
             dlgToClose.Show();
         }
@@ -387,6 +399,8 @@ namespace iChronoMe.Droid
             Task.Factory.StartNew(async () =>
             {
                 await Task.Delay(1000);
+                if (Looper.MainLooper == null)
+                    Looper.Prepare();
                 SelectPositionResult selPos = null;
                 if (Build.VERSION.SdkInt < BuildVersionCodes.M || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Permission.Granted)
                 {
@@ -419,8 +433,8 @@ namespace iChronoMe.Droid
                         while (lastLocation == null && iTry < 3)
                         {
                             iTry++;
-                            try { locationManager.RequestSingleUpdate(LocationManager.NetworkProvider, null); } catch { this.ToString(); }
-                            try { locationManager.RequestSingleUpdate(LocationManager.GpsProvider, null); } catch { this.ToString(); }
+                            try { locationManager.RequestSingleUpdate(LocationManager.NetworkProvider, this, Looper.MainLooper); } catch { this.ToString(); }
+                            try { locationManager.RequestSingleUpdate(LocationManager.GpsProvider, this, Looper.MainLooper); } catch { this.ToString(); }
                             Task.Delay(1500).Wait();
                             lastLocation = locationManager.GetLastKnownLocation(LocationManager.NetworkProvider);
                             if (lastLocation == null)
@@ -484,7 +498,9 @@ namespace iChronoMe.Droid
                             {
                                 StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
                             })
-                            .SetOnCancelListener(new FinishOnCancelListener(this))
+                            .SetOnCancelListener(new KillOnCancelListener(this))
+                            .SetCancelable(false)
+                            .SetOnKeyListener(new KillOnBackPressListener(this))
                             .Create();
 
                             pDlg.SetProgressDone();
@@ -497,9 +513,11 @@ namespace iChronoMe.Droid
                 }
             });
         }
+
         public void ShowInitScreen_UserLocationManual()
         {
-            Task.Factory.StartNew(async() => { 
+            Task.Factory.StartNew(async () =>
+            {
                 var loc = await LocationPickerDialog.SelectLocation(this);
 
                 if (loc != null)
@@ -551,7 +569,9 @@ namespace iChronoMe.Droid
                     AppConfigHolder.SaveMainConfig();
                     SetAssistantDone();
                 })
-                .SetOnCancelListener(new QuitOnCancelListener(this))
+                .SetOnCancelListener(new KillOnCancelListener(this))
+                .SetCancelable(false)
+                .SetOnKeyListener(new KillOnBackPressListener(this))
                 .Create();
             dlgToClose.Show();
         }
@@ -588,7 +608,7 @@ namespace iChronoMe.Droid
                 textView.Text += ex.Message;
                 sys.LogException(ex);
             }
-            int pad = 5 * sys.DisplayDensity;
+            int pad = (int)(5 * sys.DisplayDensity);
             textView.SetPadding(pad, pad, pad, pad);
             textView.MovementMethod = LinkMovementMethod.Instance;
             var scroll = new ScrollView(this);
@@ -611,7 +631,7 @@ namespace iChronoMe.Droid
                         {
                             FinishAndRemoveTask();
                         })
-                        .SetOnCancelListener(new QuitOnCancelListener(this))
+                        .SetOnCancelListener(new KillOnCancelListener(this))
                     .Create();
             dlgToClose.Show();
             dlgToClose.Window.SetLayout(WindowManagerLayoutParams.MatchParent, WindowManagerLayoutParams.MatchParent);
@@ -622,6 +642,41 @@ namespace iChronoMe.Droid
             bKillOnClose = false;
             bStartAssistantActive = false;
             ShowStartAssistant();
+        }
+
+        public void ShowKeyboard(View userInput)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(100).Wait();
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        userInput.RequestFocus();
+                        InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
+                        imm.ToggleSoftInput(ShowFlags.Forced, 0);
+                    }
+                    catch { }
+                });
+            });
+        }
+
+        public void HideKeyboard(View userInput)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(100).Wait();
+                RunOnUiThread(() =>
+                {
+                    try
+                    {
+                        InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
+                        imm.HideSoftInputFromWindow(userInput.WindowToken, 0);
+                    }
+                    catch { }
+                });
+            });
         }
 
         public static void KillActivity(Activity activity)
@@ -722,6 +777,7 @@ namespace iChronoMe.Droid
                     var alert = new AlertDialog.Builder(this)
                        .SetMessage(cMessage)
                        .SetCancelable(false)
+                       .SetOnKeyListener(new KillOnBackPressListener(this))
                        .SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
                        {
                            (senderAlert as IDialogInterface).Dismiss();
@@ -744,7 +800,8 @@ namespace iChronoMe.Droid
                 {
                     var alert = new AlertDialog.Builder(this)
                    .SetMessage(iMessage)
-                   .SetCancelable(false);
+                   .SetCancelable(false)
+                   .SetOnKeyListener(new KillOnBackPressListener(this));
                     alert.SetPositiveButton(Resource.String.action_ok, (senderAlert, args) =>
                     {
                         (senderAlert as IDialogInterface).Dismiss();
@@ -759,27 +816,72 @@ namespace iChronoMe.Droid
                 }
             });
         }
+
+        void ILocationListener.OnLocationChanged(Location location)
+        {
+            xLog.Debug("OnLocationChanged: " + location.ToString());
+        }
+
+        void ILocationListener.OnProviderDisabled(string provider)
+        {
+            xLog.Debug("OnProviderDisabled: " + provider);
+        }
+
+        void ILocationListener.OnProviderEnabled(string provider)
+        {
+            xLog.Debug("OnProviderEnabled: " + provider);
+        }
+
+        void ILocationListener.OnStatusChanged(string provider, Availability status, Bundle extras)
+        {
+            xLog.Debug("OnStatusChanged: " + provider + ": " + status.ToString());
+        }
     }
 
-    public class QuitOnCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
+    public class KillOnCancelListener : Java.Lang.Object, IDialogInterfaceOnCancelListener
     {
-        BaseActivity mContext;
+        Activity myActivity;
 
-        public QuitOnCancelListener(BaseActivity context)
+        public KillOnCancelListener(Activity activity)
         {
-            mContext = context;
+            myActivity = activity;
         }
 
         public void OnCancel(IDialogInterface dialog)
         {
-            dialog?.Dismiss();
-            mContext.FinishAndRemoveTask();
+            BaseActivity.KillActivity(myActivity);
         }
 
         protected override void Dispose(bool disposing)
         {
-            mContext = null;
             base.Dispose(disposing);
+            myActivity = null;
+        }
+    }
+
+    public class KillOnBackPressListener : Java.Lang.Object, IDialogInterfaceOnKeyListener
+    {
+        Activity myActivity;
+
+        public KillOnBackPressListener(Activity activity)
+        {
+            myActivity = activity;
+        }
+        public bool OnKey(IDialogInterface dialog, [GeneratedEnum] Keycode keyCode, KeyEvent e)
+        {
+            if (keyCode == Keycode.Back)
+            {
+                dialog.Dismiss();
+                BaseActivity.KillActivity(myActivity);
+                return true;
+            }
+            return false;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            myActivity = null;
         }
     }
 }

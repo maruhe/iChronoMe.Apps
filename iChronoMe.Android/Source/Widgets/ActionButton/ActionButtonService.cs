@@ -29,6 +29,17 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 
             SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
             lth = LocationTimeHolder.LocalInstance;
+
+            if (tLastCacheClean.AddMinutes(5) < DateTime.Now)
+            {
+                tLastCacheClean = DateTime.Now;
+                lock (bmpCache)
+                {
+                    foreach (var bmp in bmpCache.Values)
+                        try { bmp.Recycle(); } catch { }
+                    bmpCache.Clear();
+                }
+            }
         }
 
         public static bool ResetData = false;
@@ -168,7 +179,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
         {
             //the Color-Circle
             int iWidgetShortSide = Math.Min(wSize.X, wSize.Y);
-            var max = MainWidgetBase.GetMaxXY(wSize.X * sys.DisplayDensity, wSize.Y * sys.DisplayDensity);
+            var max = MainWidgetBase.GetMaxXY(wSize.X * sys.DisplayDensity, wSize.Y * sys.DisplayDensity, -1);
             int iImgCX = max.x / 2;
             int iImgCY = max.y / 2;
 
@@ -192,7 +203,7 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 }
                 else
                     rv.SetTextViewText(Resource.Id.widget_title, cfg.WidgetTitle);
-                rv.SetViewPadding(Resource.Id.circle_image, 0, 0, 0, 20 * sys.DisplayDensity);
+                rv.SetViewPadding(Resource.Id.circle_image, 0, 0, 0, (int)(20 * sys.DisplayDensity));
                 iIconSize -= 20;
                 rv.SetTextColor(Resource.Id.widget_title, cfg.ColorTitleText.ToAndroid());
             }
@@ -214,6 +225,9 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                 Bitmap bmp = GetIChronoEye(iImgShortSize, max.x, max.y, iImgCX, iImgCY, hour, iDay, iDayCount);
 
                 rv.SetImageViewBitmap(Resource.Id.circle_image, bmp);
+
+                //if (sys.Debugmode)
+                //    rv.SetTextViewText(Resource.Id.tv_debug, iWidgetShortSide + "\n" + iIconSize + "\n" + iImgShortSize + "\n" + max.x + "x" + max.y + "\nc: " + iImgCX + ", " + iImgCY);
             }
             else
             {
@@ -241,12 +255,27 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                     xLog.Error(ex, "SetImageViewBitmap: " + cfg.IconName);
                     rv.SetImageViewResource(Resource.Id.circle_image, iIconRes);
                     sys.DebugLogException(ex);
+                    try
+                    {
+                        lock (bmpCache)
+                        {
+                            foreach (var bmp in bmpCache.Values)
+                                try { bmp.Recycle(); } catch { }
+                            bmpCache.Clear();
+                        }
+                        GC.Collect();
+                    } catch { }
                 }
+                //if (sys.Debugmode)
+                    //rv.SetTextViewText(Resource.Id.tv_debug, iWidgetShortSide + "\n" + iIconSize);
             }
             appWidgetManager?.UpdateAppWidget(iWidgetId, rv);
 
             return rv;
         }
+
+        static DateTime tLastCacheClean = DateTime.MinValue;
+        static Dictionary<string, Bitmap> bmpCache = new Dictionary<string, Bitmap>();
 
         public static Bitmap GetIChronoEye(int iImgShortSize, int iImgX, int iImgY, int iImgCX, int iImgCY, float hour, int iDay, int iDayCount)
         {
@@ -256,111 +285,116 @@ namespace iChronoMe.Droid.Widgets.ActionButton
 
             float nCircleRadius = Math.Min(iImgCX, iImgCY);
 
-
-            Bitmap bmp = Bitmap.CreateBitmap(iImgX, iImgY, Bitmap.Config.Argb8888);
-            Canvas canvas = new Canvas(bmp);
-
-            int iBaseRotate = -180;
-
-            float nAngleStart = -(360.0F / iDayCount * .5F) + iBaseRotate;
-            float nAnglePart = 360.0F / iDayCount;
-            RectF box = new RectF(iImgCX - nOuterCircle, iImgCY - nOuterCircle, iImgCX + nOuterCircle, iImgCY + nOuterCircle);
-
-            //der Farbkuchen
-            Color clr = DynamicColors.RandomColor().ToAndroid();
-
-            var paint = new Paint();
-            paint.SetStyle(Paint.Style.Fill);
-            paint.AntiAlias = true;
-            for (int i = 0; i < iDayCount; i++)
+            string cID = string.Concat(iImgX, "_", iImgY);
+            lock (bmpCache)
             {
-                clr = DynamicColors.RandomColor().ToAndroid();
+                Bitmap bmp = bmpCache.ContainsKey(cID) ? bmpCache[cID] : Bitmap.CreateBitmap(iImgX, iImgY, Bitmap.Config.Argb8888);
+                bmpCache[cID] = bmp;
+                Canvas canvas = new Canvas(bmp);
 
-                paint.Color = clr;
-                canvas.DrawArc(box, nAngleStart, nAnglePart, true, paint);
-                nAngleStart += nAnglePart;
-            }
+                canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
+                int iBaseRotate = -180;
 
-            //the black Center
-            var pEarse = new Paint();
-            //pEarse.Color = Color.Transparent;
-            //pEarse.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
-            pEarse.SetStyle(Paint.Style.Fill);
-            for (float nRad = .43F; nRad >= .27F; nRad -= .03F)
-            {
-                pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * nRad, Color.Black, new Color(0, 0, 0, 10), Shader.TileMode.Mirror));
-                canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
-            }
+                float nAngleStart = -(360.0F / iDayCount * .5F) + iBaseRotate;
+                float nAnglePart = 360.0F / iDayCount;
+                RectF box = new RectF(iImgCX - nOuterCircle, iImgCY - nOuterCircle, iImgCX + nOuterCircle, iImgCY + nOuterCircle);
 
-            paint.Color = Color.Black;
-            //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle, paint);
+                //der Farbkuchen
+                Color clr = DynamicColors.RandomColor().ToAndroid();
 
-            //Rand auswischen
-            pEarse.SetStyle(Paint.Style.Stroke);
-            pEarse.StrokeWidth = nOuterCircle * .05F;
-            for (float nRad = 1.0F; nRad >= .92F; nRad -= .02F)
-            {
-                pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle, new Color(0, 0, 0, 10), new Color(0, 0, 0, 30), Shader.TileMode.Mirror));
-                canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
-            }
-
-            //ein Schimmer
-            pEarse.SetStyle(Paint.Style.Stroke);
-            pEarse.StrokeWidth = nOuterCircle * .2F;
-
-            for (float nRad = .4F; nRad <= .7F; nRad += 0.03F)
-            {
-                pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * nRad, new Color(255, 255, 255, 0), new Color(255, 255, 255, 10), Shader.TileMode.Mirror));
-                canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
-            }
-            for (float nRad = .6F; nRad <= .95F; nRad += 0.025F)
-            {
-                pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * 1.4F * nRad, new Color(255, 255, 255, 20), new Color(255, 255, 255, 7), Shader.TileMode.Mirror));
-                canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
-            }
-
-            for (float nRad = .75F; nRad <= 1.15F; nRad += 0.035F)
-            {
-                pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * 1.4F * nRad, new Color(255, 255, 255, 30), new Color(255, 255, 255, 10), Shader.TileMode.Mirror));
-                //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
-            }
-
-            //paint.Color = Color.Black;
-            //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle / 3, paint);
-
-
-            //die Stunde
-            float hourangle = 360.0F / 24 * hour + 90;
-            float hourX = (float)(iImgCX + nOuterCircle / 6 * Math.Cos((hourangle) * Math.PI / 180));
-            float hourY = (float)(iImgCY + nOuterCircle / 6 * Math.Sin((hourangle) * Math.PI / 180));
-
-            var pCenter = new Paint();
-            pCenter.SetStyle(Paint.Style.Fill);
-            pCenter.SetShader(new RadialGradient(hourX, hourY, nOuterCircle / 4.5F, new Color(255, 255, 255, 180), Color.Transparent, Shader.TileMode.Mirror));
-            canvas.DrawCircle(hourX, hourY, nOuterCircle / 4.5F, pCenter);
-
-            //Heute hervorheben
-            if (iDay >= 0)
-            {
-                float len = iImgShortSize * .68F;
-                box.Set(iImgCX - len, iImgCY - len, iImgCX + len, iImgCY + len);
-
-                int iNrToday = iDay;
-                nAngleStart = -(360.0F / iDayCount * .5F) + iBaseRotate;
-                nAngleStart += nAnglePart * iNrToday;
-                if (nAnglePart < 5)
+                var paint = new Paint();
+                paint.SetStyle(Paint.Style.Fill);
+                paint.AntiAlias = true;
+                for (int i = 0; i < iDayCount; i++)
                 {
-                    nAngleStart -= (5 - nAnglePart) / 2;
-                    nAnglePart = 5;
+                    clr = DynamicColors.RandomColor().ToAndroid();
+
+                    paint.Color = clr;
+                    canvas.DrawArc(box, nAngleStart, nAnglePart, true, paint);
+                    nAngleStart += nAnglePart;
                 }
 
-                clr = DynamicColors.RandomColor().ToAndroid();
+                //the black Center
+                var pEarse = new Paint();
+                //pEarse.Color = Color.Transparent;
+                //pEarse.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
+                pEarse.SetStyle(Paint.Style.Fill);
+                for (float nRad = .43F; nRad >= .27F; nRad -= .03F)
+                {
+                    pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * nRad, Color.Black, new Color(0, 0, 0, 10), Shader.TileMode.Mirror));
+                    canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
+                }
 
-                paint.Color = clr;
-                canvas.DrawArc(box, nAngleStart, nAnglePart, true, paint);
+                paint.Color = Color.Black;
+                //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle, paint);
+
+                //Rand auswischen
+                pEarse.SetStyle(Paint.Style.Stroke);
+                pEarse.StrokeWidth = nOuterCircle * .05F;
+                for (float nRad = 1.0F; nRad >= .92F; nRad -= .02F)
+                {
+                    pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle, new Color(0, 0, 0, 10), new Color(0, 0, 0, 30), Shader.TileMode.Mirror));
+                    canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
+                }
+
+                //ein Schimmer
+                pEarse.SetStyle(Paint.Style.Stroke);
+                pEarse.StrokeWidth = nOuterCircle * .2F;
+
+                for (float nRad = .4F; nRad <= .7F; nRad += 0.03F)
+                {
+                    pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * nRad, new Color(255, 255, 255, 0), new Color(255, 255, 255, 10), Shader.TileMode.Mirror));
+                    canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
+                }
+                for (float nRad = .6F; nRad <= .95F; nRad += 0.025F)
+                {
+                    pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * 1.4F * nRad, new Color(255, 255, 255, 20), new Color(255, 255, 255, 7), Shader.TileMode.Mirror));
+                    canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
+                }
+
+                for (float nRad = .75F; nRad <= 1.15F; nRad += 0.035F)
+                {
+                    pEarse.SetShader(new RadialGradient(iImgCX, iImgCY, nOuterCircle * 1.4F * nRad, new Color(255, 255, 255, 30), new Color(255, 255, 255, 10), Shader.TileMode.Mirror));
+                    //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle * nRad, pEarse);
+                }
+
+                //paint.Color = Color.Black;
+                //canvas.DrawCircle(iImgCX, iImgCY, nOuterCircle / 3, paint);
+
+
+                //die Stunde
+                float hourangle = 360.0F / 24 * hour + 90;
+                float hourX = (float)(iImgCX + nOuterCircle / 6 * Math.Cos((hourangle) * Math.PI / 180));
+                float hourY = (float)(iImgCY + nOuterCircle / 6 * Math.Sin((hourangle) * Math.PI / 180));
+
+                var pCenter = new Paint();
+                pCenter.SetStyle(Paint.Style.Fill);
+                pCenter.SetShader(new RadialGradient(hourX, hourY, nOuterCircle / 4.5F, new Color(255, 255, 255, 180), Color.Transparent, Shader.TileMode.Mirror));
+                canvas.DrawCircle(hourX, hourY, nOuterCircle / 4.5F, pCenter);
+
+                //Heute hervorheben
+                if (iDay >= 0)
+                {
+                    float len = iImgShortSize * .68F;
+                    box.Set(iImgCX - len, iImgCY - len, iImgCX + len, iImgCY + len);
+
+                    int iNrToday = iDay;
+                    nAngleStart = -(360.0F / iDayCount * .5F) + iBaseRotate;
+                    nAngleStart += nAnglePart * iNrToday;
+                    if (nAnglePart < 5)
+                    {
+                        nAngleStart -= (5 - nAnglePart) / 2;
+                        nAnglePart = 5;
+                    }
+
+                    clr = DynamicColors.RandomColor().ToAndroid();
+
+                    paint.Color = clr;
+                    canvas.DrawArc(box, nAngleStart, nAnglePart, true, paint);
+                }
+
+                return bmp;
             }
-
-            return bmp;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
@@ -8,12 +8,13 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-
+using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.DataBinding;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Widgets;
+
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.ViewModels
@@ -46,6 +47,7 @@ namespace iChronoMe.Droid.ViewModels
             binder.BindViewProperty(Resource.Id.sp_locationtype, nameof(Spinner.SelectedItemPosition), this, nameof(Locationtype_SpinnerPosition), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.btn_select_location, nameof(Button.Visibility), this, nameof(AllowSelectLocaion), BindMode.OneWay);
             binder.BindViewProperty(Resource.Id.sp_clickaction, nameof(Spinner.SelectedItemPosition), this, nameof(ClickAction_SpinnerPosition), BindMode.TwoWay);
+            binder.BindViewProperty(Resource.Id.sp_timetype, nameof(Spinner.SelectedItemPosition), this, nameof(this.TimeType_SpinnerPosition), BindMode.TwoWay);
 
             return binder;
         }
@@ -96,6 +98,39 @@ namespace iChronoMe.Droid.ViewModels
                     Locationtype = WidgetCfgPositionType.StaticPosition;
                 else
                     Locationtype = WidgetCfgPositionType.LivePosition;
+            }
+        }
+
+        public int TimeType_SpinnerPosition
+        {
+            get
+            {
+                var tt = sys.DefaultTimeType;
+                if (clock != null)
+                    tt = clock.CurrentTimeType;
+                switch (tt) { case TimeType.TimeZoneTime: return 2; case TimeType.MiddleSunTime: return 1; default: return 0; }
+            }
+            set
+            {
+                clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
+                clock.PositionType = WidgetCfgPositionType.LivePosition;
+                holder.SetWidgetCfg(clock);
+                switch (value)
+                {
+                    case 2:
+                        clock.WidgetTimeType = clock.CurrentTimeType = TimeType.TimeZoneTime;
+                        break;
+                    case 1:
+                        clock.WidgetTimeType = clock.CurrentTimeType = TimeType.MiddleSunTime;
+                        break;
+                    default:
+                        clock.WidgetTimeType = clock.CurrentTimeType = TimeType.RealSunTime;
+                        break;
+                }
+                holder.SetWidgetCfg(clock);
+
+                OnPropertyChanged("*");
+                BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
             }
         }
 
@@ -183,7 +218,7 @@ namespace iChronoMe.Droid.ViewModels
 
         public void SelectOpenOtherApp(Context context)
         {
-            Task.Factory.StartNew(async() =>
+            Task.Factory.StartNew(async () =>
             {
                 try
                 {
@@ -191,7 +226,7 @@ namespace iChronoMe.Droid.ViewModels
                     int iApp = await Tools.ShowSingleChoiseDlg(context, "select", appAdapter);
                     if (iApp < 0)
                         return;
-                    ApplicationInfo appInfo = appAdapter[iApp];                    
+                    ApplicationInfo appInfo = appAdapter[iApp];
 
                     clock = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(-101);
 

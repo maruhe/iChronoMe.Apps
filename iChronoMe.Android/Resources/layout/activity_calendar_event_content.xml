@@ -1,4 +1,3 @@
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,22 +10,8 @@
         android:id="@+id/rootView"        
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TableRow  
-            android:layout_marginTop="@dimen/table_padding"
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView 
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:text="Appointment Title"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
         <TableRow
+            android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
@@ -34,6 +19,7 @@
             android:layout_height="wrap_content">
             <AutoCompleteTextView
                 android:id="@+id/Subject"
+                android:hint="@string/label_AppointmentTitle"
                 android:inputType="none"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -57,10 +43,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </TableRow>
-
-
         <TableRow
+            android:id="@+id/row_timetype"            
             android:layout_marginTop="@dimen/table_padding"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:padding="@dimen/frame_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/spTimeType"
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+        <TableRow
             android:layout_marginHorizontal="@dimen/table_padding"            
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
@@ -69,7 +68,7 @@
             <TextView                 
                 android:layout_span="2"
                 android:layout_weight="1"
-                android:text="Begin"
+                android:text="@string/label_AppointmentBegin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </TableRow>
@@ -100,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView 
-                android:text="in timezone:"
+                android:text="@string/label_AppointmentInTimezone"
                 android:textAlignment="viewEnd"
                 android:layout_weight="60"
                 android:layout_width="match_parent"
@@ -121,7 +120,7 @@
             <TextView                 
                 android:layout_span="2"
                 android:layout_weight="1"
-                android:text="End"
+                android:text="@string/label_AppointmentEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </TableRow>
@@ -152,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView 
-                android:text="in timezone:"
+                android:text="@string/label_AppointmentInTimezone"
                 android:textAlignment="viewEnd"
                 android:layout_weight="60"
                 android:layout_width="match_parent"
@@ -171,6 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:orientation="horizontal "
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"
@@ -179,59 +179,45 @@
                     android:id="@+id/AllDay"
                     android:layout_width="48dp"
                     android:layout_height="48dp"/>
-                <TextView android:text="All Day"
+                <TextView android:text="@string/calendar_event_all_day"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </TableRow>
         <TableRow
-            android:id="@+id/row_timetype"            
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:padding="@dimen/frame_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Spinner
-                android:id="@+id/spTimeType"
-                android:layout_span="2"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-
-        <TableRow
             android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
-            
             android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView                 
+            <LinearLayout
                 android:layout_span="2"
                 android:layout_weight="1"
-                android:text="Location"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <AutoCompleteTextView
-                android:id="@+id/location"
-                android:inputType="none"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:layout_weight="1"
-                android:layout_span="2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:id="@+id/location"
+                    android:hint="@string/label_AppointmentLocation"                
+                    android:inputType="none"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_span="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageButton
+                    android:id="@id/btn_select_location"
+                    android:src="@drawable/icons8_map_marker"
+                    android:contentDescription="@string/Location"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+            </LinearLayout>
         </TableRow>
         <TableRow       
             android:id="@+id/row_location_helper"
@@ -278,6 +264,7 @@
                             android:layout_height="wrap_content"/>
                         <ImageView
                             android:src="@drawable/icons8_info_blue_clrd"
+                            android:contentDescription="info"
                             android:layout_marginStart="5dp"
                             android:layout_width="16dp"
                             android:layout_height="16dp"/>
@@ -297,14 +284,55 @@
             android:background="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView                 
+            <me.ichrono.droid.Controls.NonScrollingListView
+                android:id="@+id/lv_reminders"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_span="2"
                 android:layout_weight="1"
-                android:text="Description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </TableRow>
         <TableRow
+            android:id="@+id/row_reminder_add"
+            android:layout_marginHorizontal="@dimen/table_padding"
+            android:paddingHorizontal="@dimen/frame_padding"
+            android:background="?android:attr/windowBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_span="2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="41dp">
+                <Button
+                    android:id="@+id/btn_add_reminder"
+                    android:text="@string/action_AddReminder"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp">
+                        <ImageButton
+                            android:contentDescription="add reminder"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:scaleType="centerInside"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/icons8_add_reminder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+                    </LinearLayout>
+            </RelativeLayout>
+        </TableRow>
+        <TableRow
+            android:id="@+id/row_decsription"
+            android:layout_marginTop="@dimen/table_padding"
             android:layout_marginHorizontal="@dimen/table_padding"
             android:paddingHorizontal="@dimen/frame_padding"
             android:background="?android:attr/windowBackground"
@@ -312,24 +340,10 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/description"
+                android:hint="@string/Description"
                 android:inputType="textMultiLine"
                 android:minLines="2"
                 android:maxLines="10" 
-                android:layout_weight="1"
-                android:layout_span="2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </TableRow>
-        <TableRow
-            android:layout_marginTop="@dimen/table_padding"
-            android:layout_marginHorizontal="@dimen/table_padding"
-            android:paddingHorizontal="@dimen/frame_padding"
-            android:background="?android:attr/windowBackground"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/timezone"
-                android:text="timezone 25 .. becomes a spinner?"
                 android:layout_weight="1"
                 android:layout_span="2"
                 android:layout_width="match_parent"

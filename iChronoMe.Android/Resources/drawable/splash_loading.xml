@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+	<item>
+		<!-- color of spaces not covered by the image -->
+		<color android:color="@android:color/transparent" />
+	</item>
+
+	<item android:height="50dp" android:width="300dp" android:gravity="center">
+		<shape android:tint="#a0FFFFFF" android:shape="rectangle">
+			<corners android:radius="10dp" />
+			<stroke android:color="@color/smokyWhite" android:width="3dp" />
+		</shape>
+	</item>
+
+	<item android:height="31.946123dp" android:width="250dp" android:gravity="center" android:drawable="@drawable/text_justamoment" />
+
+</layer-list>

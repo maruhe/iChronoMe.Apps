@@ -1,11 +1,12 @@
 ﻿using Android.App;
 using Android.OS;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Calendar
 {
     [Activity(Label = "WidgetConfig", Theme = "@style/splashscreen")]
 
-    public class CalendarWidgetConfigActivityAdvanced : BaseWidgetActivity
+    public class CalendarWidgetConfigActivityAdvanced : BaseWidgetActivity<WidgetCfg_Calendar>
     {
         int appWidgetId;
 

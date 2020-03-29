@@ -57,18 +57,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <CheckBox
-            android:id="@+id/sb_include_settings"
-            android:text="include app-setting"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <CheckBox
             android:id="@+id/cb_include_deviceinfo"
             android:text="include device-info"
             android:checked="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <CheckBox
+			<CheckBox
+					android:id="@+id/sb_include_settings"
+					android:text="include app-setting"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"/>
+			<CheckBox
             android:id="@+id/cb_include_location"
             android:text="include your current location"
             android:layout_width="match_parent"

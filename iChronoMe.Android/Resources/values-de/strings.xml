@@ -2,10 +2,11 @@
 <resources>
   <string name="action_abort" synced="x" sync="1">"abbrechen"</string>
   <string name="action_accept" synced="x" sync="1">"akzeptieren"</string>
+  <string name="action_AddReminder" sync="1">"Erinnerung hinzufügen"</string>
   <string name="action_allow_send_errorlogs" synced="x" sync="1">"Fehlerberichte senden"</string>
   <string name="action_back" synced="x" sync="1">"zurück"</string>
   <string name="action_background" synced="x" sync="1">"Hintergrund"</string>
-  <string name="action_backgroundservice_showalways" synced="x" sync="1">"Uhr immer im Benachrichtigunsbereich anzeigen"</string>
+  <string name="action_backgroundservice_showalways" synced="x" sync="1">"Uhr immer im Benachrichtigungsbereich anzeigen"</string>
   <string name="action_block" synced="x" sync="1">"blockieren"</string>
   <string name="action_calendar_UsesDefaultTimeType" synced="x" sync="1">"Kalender verwendet den selben Zeit-Typ"</string>
   <string name="action_cancel" synced="x" sync="1">"abbrechen"</string>
@@ -17,7 +18,11 @@
   <string name="action_ContactUs" sync="1">"Kontakt / Feedback"</string>
   <string name="action_continue" synced="x" sync="1">"weiter"</string>
   <string name="action_decline" synced="x" sync="1">"ablehnen"</string>
+  <string name="action_delete" sync="1">"löschen"</string>
+  <string name="action_delete_event" sync="1">"Termin löschen"</string>
   <string name="action_deny_error_screentshot" synced="x" sync="1">"nur Fehlerberichten ohne Bilder"</string>
+  <string name="action_edit" sync="1">"bearbeiten"</string>
+  <string name="action_edit_event" sync="1">"Termin bearbeiten"</string>
   <string name="action_handcolors" synced="x" sync="1">"Zeiger Farben"</string>
   <string name="action_handtypes" synced="x" sync="1">"Zeiger Arten"</string>
   <string name="action_ignore" synced="x" sync="1">"ignorieren"</string>
@@ -31,8 +36,9 @@
   <string name="action_notification_show_always" synced="x" sync="1">"Uhr im Benachrichtigungsbereich immer anzeigen"</string>
   <string name="action_ok" synced="x" sync="1">"ok"</string>
   <string name="action_options" synced="x" sync="1">"Optionen"</string>
-  <string name="action_refresh_location" synced="x" sync="1">"Standord aktualisieren"</string>
-  <string name="action_refresh_location_continuous" synced="x" sync="1">"meine Position aktualisieren"</string>
+  <string name="action_privacy_notice" sync="1">"Informationen zu Nutzung und Datenschutz"</string>
+  <string name="action_refresh_location" synced="x" sync="1">"meinen Standort aktualisieren"</string>
+  <string name="action_refresh_location_continuous" synced="x" sync="1">"Standort laufend aktualisieren"</string>
   <string name="action_remove" synced="x" sync="1">"entfernen"</string>
   <string name="action_remove_all" synced="x" sync="1">"alle entfernen"</string>
   <string name="action_save" synced="x" sync="1">"speichern"</string>
@@ -42,7 +48,7 @@
   <string name="action_select" synced="x" sync="1">"wählen"</string>
   <string name="action_select_location" synced="x" sync="1">"Position wählen"</string>
   <string name="action_send_errorlog_once" synced="x" sync="1">"einmalig senden"</string>
-  <string name="action_send_testlog" synced="x" sync="1">"protokoll senden"</string>
+  <string name="action_send_testlog" synced="x" sync="1">"Protokoll senden"</string>
   <string name="action_settings" synced="x" sync="1">"Einstellungen"</string>
   <string name="action_SupportThisProject" sync="1">"dieses Projekt unterstützten"</string>
   <string name="action_tickmarks" synced="x" sync="1">"Zifferblatt"</string>
@@ -53,7 +59,7 @@
   <string name="ActionButtonStyle" synced="x" sync="1">"Stiel"</string>
   <string name="ActionButtonStyle_eye_animated" synced="x" sync="1">"iChronEye animiert
 (Doppelklick = Aktion)"</string>
-  <string name="ActionButtonStyle_eye_static" synced="x" sync="1">"iChronEye start"</string>
+  <string name="ActionButtonStyle_eye_static" synced="x" sync="1">"iChronEye starr"</string>
   <string name="alert_no_calendar_found" synced="x" sync="1">"keine Kalender gefunden!"</string>
   <string name="all_day" synced="x" sync="1">"ganztägig"</string>
   <string name="AnimationDuriation" synced="x" sync="1">"Animationsdauer"</string>
@@ -68,28 +74,29 @@
   <string name="AppTitle" synced="x" sync="1">"iChronoMe"</string>
   <string name="aRainbowPerMonth" synced="x" sync="1">"ein Regenbogen pro Monat"</string>
   <string name="aRainbowPerYear" synced="x" sync="1">"ein Regenbogen pro Jahr"</string>
-  <string name="assistant_permission_calendar" synced="x" sync="1">"um deine Termine in Sonnenzeit anzeigen zu können wird der Zugriff aud deinen Kalender benötigt"</string>
+  <string name="assistant_permission_calendar" synced="x" sync="1">"um deine Termine in Sonnenzeit anzeigen zu können wird der Zugriff auf deinen Kalender benötigt"</string>
   <string name="assistant_permission_location" synced="x" sync="1">"der Zugriff auf den Standort ist wichtig um die Sonnenzeit berechnen zu können"</string>
-  <string name="assistant_permission_storage" synced="x" sync="1">"und solltes du auch den Zugriff auf den Gerätespeicher zulassen kann die Voschau von Widges auch gleich mit deinem Hintergrundbild angezeigt werden"</string>
+  <string name="assistant_permission_storage" synced="x" sync="1">"und solltest du auch den Zugriff auf den Gerätespeicher zulassen kann die Vorschau von Widgets auch gleich mit deinem Hintergrundbild angezeigt werden"</string>
   <string name="assistant_permission_welcome" synced="x" sync="1">"ein paar Berechtigungen wünsche ich mir:"</string>
-  <string name="assistant_privacy_question" synced="x" sync="1">"hast du Interesse an unseren Informationen zu Dateschutz und Privatsphäre?"</string>
+  <string name="assistant_privacy_question" synced="x" sync="1">"hast du Interesse an unseren Informationen zu Datenschutz und Privatsphäre?"</string>
   <string name="Background" synced="x" sync="1">"Hintergrund"</string>
   <string name="BackgroundColor" synced="x" sync="1">"Hintergrundfarbe"</string>
   <string name="BackgroundImage" synced="x" sync="1">"Hintergrundbild"</string>
-  <string name="backgroundservice_info_explenation" synced="x" sync="1">"um ein Uhr-Widget mit benutzerdefinierter Zeit anzeigen zu können, muss ein Dienst im Hintergund laufen
+  <string name="backgroundservice_info_explenation" synced="x" sync="1">"um ein Uhr-Widget mit benutzerdefinierter Zeit anzeigen zu können, muss ein Dienst im Hintergrund laufen
 seit Android 7 ist es notwendig eine Benachrichtigung anzuzeigen solange im Hintergrund Aktionen ausgeführt werden
-du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellungen blockieren"</string>
-  <string name="backgroundservice_info_why" synced="x" sync="1">"warum sehe ich diese Uhr im Benachrichtigunsbereich?"</string>
+du kannst diese Benachrichtigung hier anpassen oder sie in den Systemeinstellungen blockieren"</string>
+  <string name="backgroundservice_info_why" synced="x" sync="1">"warum sehe ich diese Uhr im Benachrichtigungsbereich?"</string>
   <string name="Border" synced="x" sync="1">"Rahmen"</string>
   <string name="ButtonColor" synced="x" sync="1">"Knopffarben"</string>
   <string name="calendar_event_all_day" synced="x" sync="1">"ganztägig"</string>
-  <string name="calendar_event_multi_day" synced="x" sync="1">"mehtägig"</string>
+  <string name="calendar_event_multi_day" synced="x" sync="1">"mehrtägig"</string>
   <string name="calendar_event_position_is_determined" synced="x" sync="1">"Position wird ermittelt"</string>
   <string name="calendar_event_to" synced="x" sync="1">"bis"</string>
   <string name="calendar_event_unclear_position_time" synced="x" sync="1">"Position und Ortszeit unklar"</string>
   <string name="calendar_monthview_appointmentdisplaymode_max_title" synced="x" sync="1">"maximal:"</string>
   <string name="calendar_monthview_appointmentdisplaymode_title" synced="x" sync="1">"Anzeigemodus:"</string>
   <string name="calendar_monthview_appointmentviewtypes_title" synced="x" sync="1">"Termine anzeigen:"</string>
+  <string name="calendar_monthview_navigation_direction" sync="x">"Navigationsrichtung"</string>
   <string name="calendar_viewtype_DayView" synced="x" sync="1">"Tagesansicht"</string>
   <string name="calendar_viewtype_MonthView" synced="x" sync="1">"Monatsansicht"</string>
   <string name="calendar_viewtype_Timeline" synced="x" sync="1">"Zeitlinie"</string>
@@ -116,14 +123,14 @@ du kannst diese Banchrichtigung hier anpassen oder sie in den Systemeinstellunge
   <string name="colorcfgBlackCustom" synced="x" sync="1">"schwarz / benutzerdefiniert"</string>
   <string name="colorcfgBlackTransparent" synced="x" sync="1">"schwarz / transparent"</string>
   <string name="colorcfgBlackWhite" synced="x" sync="1">"schwarz / weiß"</string>
-  <string name="colorcfgMultiColor" synced="x" sync="1">"Mehrfärbig"</string>
-  <string name="colorcfgMultiColorFilled" synced="x" sync="1">"Mehrfärbig gefüllt"</string>
+  <string name="colorcfgMultiColor" synced="x" sync="1">"Mehrfarbig"</string>
+  <string name="colorcfgMultiColorFilled" synced="x" sync="1">"Mehrfarbig gefüllt"</string>
   <string name="colorcfgSingleColor" synced="x" sync="1">"einfärbig"</string>
   <string name="colorcfgSingleColorFilled" synced="x" sync="1">"einfärbig gefüllt"</string>
   <string name="colorcfgWhite" synced="x" sync="1">"weiß"</string>
   <string name="colorcfgWhiteBlack" synced="x" sync="1">"schwarz"</string>
   <string name="colorcfgWhiteCurstom" synced="x" sync="1">"weiß / benutzerdefiniert"</string>
-  <string name="colorcfgWhiteTransparent" synced="x" sync="1">"weiß / transparen"</string>
+  <string name="colorcfgWhiteTransparent" synced="x" sync="1">"weiß / transparent"</string>
   <string name="Colors" synced="x" sync="1">"Farben"</string>
   <string name="ContentAnColors" synced="x" sync="1">"Inhalt und Farben"</string>
   <string name="Contents" synced="x" sync="1">"Inhalte"</string>
@@ -142,22 +149,21 @@ wenn du genug Farben beisammen hast klick einfach außerhalb des Fensters oder a
   <string name="Default" synced="x" sync="1">"(Standard)"</string>
   <string name="DeletedWidgets" synced="x" sync="1">"gelöschte Widgets"</string>
   <string name="Description" synced="x" sync="1">"Beschreibung"</string>
-  <string name="description_BackgroundService" synced="x" sync="1">"damit die Widges laufen.."</string>
+  <string name="description_BackgroundService" synced="x" sync="1">"damit die Widgets laufen.."</string>
   <string name="dont_ask_again" synced="x" sync="1">"nicht mehr fragen"</string>
   <string name="error_location_is_needet" synced="x" sync="1">"diese App benötigt einen Standort um zu funktionieren"</string>
   <string name="error_message_paramers" synced="x" sync="1">"Parameter-Fehler, versuch\'s nochmal"</string>
-  <string name="error_no_location_demitered" synced="x" sync="1">"es konnte kein Standord ermittelt werden"</string>
+  <string name="error_no_location_demitered" synced="x" sync="1">"es konnte kein Standort ermittelt werden"</string>
   <string name="error_saving_event" synced="x" sync="1">"Fehler beim Speichern des Termins"</string>
   <string name="error_SloarTimeNeedLocation" synced="x" sync="1">"Sonnenzeit braucht einen Standort!"</string>
   <string name="ErrorsOrProblems" synced="x" sync="1">"Fehler oder Probleme"</string>
   <string name="ezmz_runningwidgets_more" synced="x" sync="1">"{0} Widgets aktiv"</string>
   <string name="ezmz_runningwidgets_one" synced="x" sync="1">"Ein Widget aktiv"</string>
-  <string name="ezmz_runningwidgets_zero" synced="x" sync="1">"keine aktiven Widges"</string>
+  <string name="ezmz_runningwidgets_zero" synced="x" sync="1">"keine aktiven Widgets"</string>
   <string name="Filling" synced="x" sync="1">"Füllung"</string>
   <string name="fiveColors" synced="x" sync="1">"fünf Farben"</string>
   <string name="Flow" synced="x" sync="1">"flow"</string>
   <string name="fourColors" synced="x" sync="1">"vier Farben"</string>
-  <string name="FunctionInTitle" synced="x" sync="1">"Funktionen im Titel"</string>
   <string name="HandColors" synced="x" sync="1">"Farben"</string>
   <string name="HandColorTypes" synced="x" sync="1">"Zeigerfarben"</string>
   <string name="HandTypes" synced="x" sync="1">"Zeigerarten"</string>
@@ -179,8 +185,13 @@ wenn du genug Farben beisammen hast klick einfach außerhalb des Fensters oder a
   <string name="ImageLoader_success_one_image" synced="x" sync="1">"ein Bild geladen..."</string>
   <string name="ImageLoader_success_one_package" synced="x" sync="1">"ein Paket geladen..."</string>
   <string name="info_no_widgets_found" synced="x" sync="1">"keine Widgets gefunden
-am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
+am Startbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="just_a_moment" synced="x" sync="1">"einen Moment bitte..."</string>
+  <string name="label_AppointmentBegin" sync="1">"Beginn"</string>
+  <string name="label_AppointmentEnd" sync="1">"Ende"</string>
+  <string name="label_AppointmentInTimezone" sync="1">"in Zeitzone:"</string>
+  <string name="label_AppointmentLocation" sync="1">"Ort"</string>
+  <string name="label_AppointmentTitle" sync="1">"Titel"</string>
   <string name="label_BackgroundService" synced="x" sync="1">"Widget Update-Dienst"</string>
   <string name="label_calendar_TimeType" synced="x" sync="1">"Kalender Zeit-Typ:"</string>
   <string name="label_cfg_calendar_core_time" synced="x" sync="1">"Kernzeiten"</string>
@@ -201,6 +212,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="Lines" synced="x" sync="1">"Zeilen"</string>
   <string name="loading" synced="x" sync="1">"lade..."</string>
   <string name="Location" synced="x" sync="1">"Standort"</string>
+  <string name="location_premission_denied" sync="1">"Zugriff auf Standort-Dieste verweigert"</string>
   <string name="location_provider_disabled_alert" synced="x" sync="1">"die Standort-Dienste scheinen deaktiviert zu sein"</string>
   <string name="location_provider_disabled_question" synced="x" sync="1">"möchtest du sie aktivieren?"</string>
   <string name="LocationType" synced="x" sync="1">"Standort-Typ"</string>
@@ -242,16 +254,18 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="progress_systemtest_action" synced="x" sync="1">"System-Test"</string>
   <string name="progress_systemtest_title" synced="x" sync="1">"System-Test"</string>
   <string name="ProgressUpdateBaseData" synced="x" sync="1">"Basisdaten werden aktualisiert"</string>
-  <string name="question_create_new_calendar" synced="x" sync="1">"soll ein neuer Calendar angelegt werden?"</string>
+  <string name="question_create_new_calendar" synced="x" sync="1">"soll ein neuer Kalender angelegt werden?"</string>
+  <string name="question_delete_event" sync="1">"Termin löschen?"</string>
   <string name="search_hint" synced="x" sync="1">"wenn dieser Text auftaucht bitte bescheid geben ;-)"</string>
   <string name="service_AboutIntro" sync="1">"Diese App wurde von mir, dem Schöpfer, erstellt. Ich nenne mich selbst 'I'."</string>
   <string name="shortcut_create_alarm" synced="x" sync="1">"Wecker stellen"</string>
   <string name="shortcut_create_alarm_disabled" synced="x" sync="1">"geht nit? warum nit?"</string>
   <string name="shortcut_create_alarm_long" synced="x" sync="1">"long description..."</string>
-  <string name="shortcut_create_calender_event" synced="x" sync="1">"Termin erstellen"</string>
+  <string name="shortcut_create_calender_event" synced="x" sync="1">"neuer Termin"</string>
   <string name="shortcut_create_calender_event_disabled" synced="x" sync="1">"geht nit? warum nit?"</string>
-  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"long description..."</string>
+  <string name="shortcut_create_calender_event_long" synced="x" sync="1">"neuen Termin anlegen"</string>
   <string name="stop_alarm" synced="x" sync="1">"danke"</string>
+  <string name="text_Icon" sync="1">"Symbol"</string>
   <string name="text_Offset" synced="x" sync="1">"Abweichung"</string>
   <string name="text_OnClick" synced="x" sync="1">"beim Klick"</string>
   <string name="text_oneMonth" synced="x" sync="1">"ein Monat"</string>
@@ -280,6 +294,7 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="text_threeWeeks" synced="x" sync="1">"drei Wochen"</string>
   <string name="text_TickMarks" synced="x" sync="1">"Skala"</string>
   <string name="text_TickMarksColor" synced="x" sync="1">"Skala-Farbe"</string>
+  <string name="text_Tint" sync="1">"Farbton"</string>
   <string name="text_TitleColor" synced="x" sync="1">"Titelfarbe"</string>
   <string name="text_Today" sync="1">"Heute"</string>
   <string name="text_TodayColor" synced="x" sync="1">"Farbe für heute"</string>
@@ -297,14 +312,14 @@ am Starbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="TimeScale" synced="x" sync="1">"Zeitraum"</string>
   <string name="TimeSpan" synced="x" sync="1">"Zeitraum"</string>
   <string name="TimeType" synced="x" sync="1">"Zeit-Typ"</string>
-  <string name="TimeType_MiddleSunTime" synced="x" sync="1">"mittlere Ortzzeit"</string>
+  <string name="TimeType_MiddleSunTime" synced="x" sync="1">"mittlere Ortszeit"</string>
   <string name="TimeType_MiddleSunTime_Desc" synced="x" sync="1">"die Uhrzeit basierend auf dem Längengrad deines Standortes und einer 'mittleren Sonnenposition'
 im Laufe eines Jahres kann die Abweichung zur 'wahren Ortszeit' bis zu 18 Minuten betragen
 jeder Tag ist exakt 24 Stunden lang und die Abweichung der Zeitzonen-Zeit bleibt konstant"</string>
   <string name="TimeType_RealSunTime" synced="x" sync="1">"wahre Ortszeit"</string>
   <string name="TimeType_RealSunTime_Desc" synced="x" sync="1">"die Uhrzeit gemessen an der echten Position der Sonne, wobei der Tageshöchststand der Sonne 12 Uhr bedeutet
-dadurch sind manche Tage etwas kürzer und manche Tage etwas länger als 24 Stunden, wie die Natur nunmal
-die Abweichtung der Zeitzonen-Zeit ändert sich konstant"</string>
+dadurch sind manche Tage etwas kürzer und manche Tage etwas länger als 24 Stunden, wie die Natur nun mal
+die Abweichung der Zeitzonen-Zeit ändert sich konstant"</string>
   <string name="TimeType_TimeZoneTime" synced="x" sync="1">"Zeitzonen Zeit"</string>
   <string name="TimeType_TimeZoneTime_Desc" synced="x" sync="1">"diese Zeit basiert unter anderem auf den vermeidlichen Ländergrenzen und Gesetzten des Landes, das du gerade genießt
 oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"</string>
@@ -314,7 +329,7 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"</string>
   <string name="title_location_picker" synced="x" sync="1">"wähle eine Position"</string>
   <string name="title_new_event" synced="x" sync="1">"Neuer Termin"</string>
   <string name="title_send_errorlog" synced="x" sync="1">"diese Informationen werden übertragen:"</string>
-  <string name="unknown_position" synced="x" sync="1">"unbekannte Position"</string>
+  <string name="TitleClickAction" sync="1">"Aktion beim Klick auf den Titel"</string>
   <string name="wallpaper_title_clock_analog" synced="x" sync="1">"analoge Sonnenuhr"</string>
   <string name="welcome_ichronomy" synced="x" sync="1">"willkommen bei iChronoMe!"</string>
   <string name="widget_error_location_is_requered" synced="x" sync="1">"Die Kalender-Widget\'s funktionieren nur mit Zugriff auf Kalender und Standort!"</string>
@@ -322,7 +337,7 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"</string>
 bitte hier klicken"</string>
   <string name="widget_error_permission_location" synced="x" sync="1">"Standort-Berechtigungen fehlen
 bitte hier klicken"</string>
-  <string name="widget_lifetime_loading" synced="x" sync="1">"ein "tropisches Jahr" dauert:\n365 d 5 h 48 min and 45,261 s"</string>
+  <string name="widget_lifetime_loading" synced="x" sync="1">"ein "tropisches Jahr" dauert:\n365 d 5 h 48 min und 45,261 s"</string>
   <string name="widget_loading" synced="x" sync="1">"Zeit ist nur Illusion\u2026"</string>
   <string name="widget_permission_error" synced="x" sync="1">"ich brauche mehr Berechtigungen
 bitte hier klicken"</string>

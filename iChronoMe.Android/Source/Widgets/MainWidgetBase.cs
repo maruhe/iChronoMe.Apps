@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 //using System.Drawing;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace iChronoMe.Droid.Widgets
 
                         int iArchivId = appWidgetId;
                         while (cfgHolderArc.WidgetExists(iArchivId))
-                            iArchivId++;
+                            iArchivId += 10000;
                         var cfg = cfgHolder.GetWidgetCfg<WidgetCfg>(appWidgetId);
                         cfg.WidgetId = iArchivId;
                         cfgHolderArc.SetWidgetCfg(cfg);
@@ -126,6 +127,53 @@ namespace iChronoMe.Droid.Widgets
             catch (Exception e)
             {
                 xLog.Error(e);
+            }
+        }
+
+        public override void OnRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds)
+        {
+            base.OnRestored(context, oldWidgetIds, newWidgetIds);
+
+#if DEBUG
+            sys.LogException(new Exception("Restore Widget's: " + oldWidgetIds.Length + " : " + newWidgetIds.Length));
+#endif
+
+            try
+            {
+                Tools.ShowToast(context, "try to restore " + oldWidgetIds.Length + " Widget's");
+                var newCfgS = new List<WidgetCfg>();
+                var holder = new WidgetConfigHolder();
+                var holderArc = new WidgetConfigHolder(true);
+                for (int i = 0; i < oldWidgetIds.Length; i++)
+                {
+                    try
+                    {
+                        int oldID = oldWidgetIds[i];
+                        int newID = newWidgetIds[i];
+                        var cfg = holder.GetWidgetCfg<WidgetCfg>(oldID, false);
+                        if (cfg == null)
+                            cfg = holderArc.GetWidgetCfg<WidgetCfg>(oldID + 10000, false);
+                        if (cfg == null)
+                            cfg = holderArc.GetWidgetCfg<WidgetCfg>(oldID, false);
+                        if (cfg != null)
+                        {
+                            cfg.WidgetId = newID;
+                            newCfgS.Add(cfg);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        sys.LogException(ex);
+                    }
+                }
+                foreach (var cfg in newCfgS)
+                    holder.SetWidgetCfg(cfg, false);
+                holder.SaveToFile();
+                Tools.ShowToast(context, "restored " + newCfgS.Count + " Widget's");
+            }
+            catch (Exception ex)
+            {
+                sys.LogException(ex);
             }
         }
 
@@ -280,8 +328,11 @@ namespace iChronoMe.Droid.Widgets
                 else if (manager != null)
                 {
                     AppWidgetProviderInfo inf = manager.GetAppWidgetInfo(iWidgetId);
-                    iWidth = (int)(inf.MinWidth);
-                    iHeigth = (int)(inf.MinHeight);
+                    if (inf != null)
+                    {
+                        iWidth = (int)(inf.MinWidth);
+                        iHeigth = (int)(inf.MinHeight);
+                    }
                 }
             }
             /*if (iWidth > sys.DisplayShortSiteDp)
@@ -344,7 +395,7 @@ namespace iChronoMe.Droid.Widgets
 #endif
 
                 case ClickActionType.OpenClock:
-                    itClick = new Intent(context, typeof(MainActivity)); 
+                    itClick = new Intent(context, typeof(MainActivity));
                     itClick.PutExtra("NavigationItem", Resource.Id.nav_clock);
                     itClick.SetFlags(ActivityFlags.ReorderToFront);
                     break;
@@ -385,13 +436,14 @@ namespace iChronoMe.Droid.Widgets
                             itClick.SetData(Android.Net.Uri.Parse("market://details?id=" + packageName));
                         }
                         itClick.AddFlags(ActivityFlags.NewTask);
-                    } catch
+                    }
+                    catch
                     {
                         return null;
                     }
                     break;
             }
-            
+
             return itClick;
         }
     }

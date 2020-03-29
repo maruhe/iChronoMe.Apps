@@ -13,13 +13,13 @@ namespace iChronoMe.Droid.Receivers
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            if (sys.currentError == null)
-                ;// Toast.MakeText(context, "exXX is null", ToastLength.Long).Show();
-            else
-                Toast.MakeText(context, "An error:\n"+sys.currentError.Message, ToastLength.Long).Show();
-
             try
             {
+                if (sys.currentError == null)
+                    ;// Toast.MakeText(context, "exXX is null", ToastLength.Long).Show();
+                else
+                    Toast.MakeText(context, sys.currentError.GetType().Name + ":\n" + sys.currentError.Message, ToastLength.Long).Show();
+
                 var v = sys.currentActivity.Window.DecorView.RootView;
                 v.ToString();
             }

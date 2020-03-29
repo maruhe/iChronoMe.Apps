@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;
 
@@ -15,33 +16,33 @@ namespace iChronoMe.Droid.Adapters
     {
         protected Activity mContext { get; }
         protected Dictionary<string, Calendar> Items = new Dictionary<string, Calendar>();
-        private bool _primaryOnly = true;
         public bool IsReady { get; private set; } = false;
-
-
-        public bool PrimaryOnly
-        {
-            get => _primaryOnly;
-            set
-            {
-                if (_primaryOnly != value)
-                {
-                    _primaryOnly = value;
-                    refresh();
-                }
-            }
-        }
 
         private int _secondaryCount = 0;
         public bool HasSecondary { get => _secondaryCount > 0; }
 
-        public CalendarListAdapter(Activity context)
+        private CalendarFilter _filter;
+        public CalendarFilter Filter
         {
-            mContext = context;
-            refresh();
+            get => _filter;
+            set
+            {
+                if (_filter != value)
+                {
+                    _filter = value;
+                    Refresh();
+                }
+            }
         }
 
-        private void refresh()
+        public CalendarListAdapter(Activity context, CalendarFilter initFilter = CalendarFilter.PrimaryOnly)
+        {
+            mContext = context;
+            _filter = initFilter;
+            Refresh();
+        }
+
+        public void Refresh()
         {
             Task.Factory.StartNew(async () =>
             {
@@ -53,19 +54,39 @@ namespace iChronoMe.Droid.Adapters
                     Items.Clear();
                     foreach (var cal in cals)
                     {
-                        if (!_primaryOnly || cal.IsPrimary)
+                        if (cal.IsPrimary)
                             Items.Add(cal.AccountName + "_" + cal.Name, cal);
-                        if (!cal.IsPrimary)
-                            _secondaryCount++;
                     }
-                }
-                IsReady = true;
-                mContext.RunOnUiThread(() =>
-                {
-                    this.NotifyDataSetChanged();
-                    ItemsLoadet?.Invoke(this, new EventArgs());
-                });
+                    if (Filter == CalendarFilter.AllEditable || Filter == CalendarFilter.AllCalendars)
+                    {
+                        foreach (var cal in cals)
+                        {
+                            if (cal.CanEditEvents && !Items.ContainsValue(cal))
+                            {
+                                Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                                _secondaryCount++;
+                            }
+                        }
+                    }
+                    if (Filter == CalendarFilter.AllCalendars)
+                    {
+                        foreach (var cal in cals)
+                        {
+                            if (!cal.IsPrimary && !Items.ContainsValue(cal))
+                            {
+                                Items.Add(cal.AccountName + "_" + cal.Name, cal);
+                                _secondaryCount++;
+                            }
+                        }
+                    }
 
+                    IsReady = true;
+                    mContext.RunOnUiThread(() =>
+                    {
+                        this.NotifyDataSetChanged();
+                        ItemsLoadet?.Invoke(this, new EventArgs());
+                    });
+                }
             });
         }
 
@@ -101,12 +122,19 @@ namespace iChronoMe.Droid.Adapters
             if (convertView == null)
             {
                 convertView = mContext.LayoutInflater.Inflate(Resource.Layout.listitem_title, null);
+                convertView.SetMinimumHeight(sys.DpPx(48));
             }
 
             convertView.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.circle_shape, xColor.FromHex(item.Color, xColor.MaterialBlue)));
             convertView.FindViewById<TextView>(Resource.Id.title).Text = item.Name;
 
             return convertView;
+        }
+        public enum CalendarFilter
+        {
+            PrimaryOnly,
+            AllEditable,
+            AllCalendars
         }
     }
 }

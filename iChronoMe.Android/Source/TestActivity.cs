@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android;
 using Android.App;
 using Android.Content.PM;
@@ -9,7 +10,6 @@ using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
-
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Controls;
@@ -17,6 +17,7 @@ using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
+
 using Path = System.IO.Path;
 
 namespace iChronoMe.Droid
@@ -28,13 +29,14 @@ namespace iChronoMe.Droid
         Dictionary<string, WidgetView_ClockAnalog> configS = new Dictionary<string, WidgetView_ClockAnalog>();
         List<SKCanvasView> skViewS = new List<SKCanvasView>();
 
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             var view = new LinearLayout(this);
             view.Orientation = Orientation.Vertical;
-
+            /*
             var btn = new Button(this);
             btn.Text = "Create iChronEys's";
             btn.Click += BtnEyes_Click;
@@ -47,9 +49,14 @@ namespace iChronoMe.Droid
             view.AddView(btn);
 
             /*
+             * 
+             * 
+             * dd  
+             */
             string cImageDir = ImageLoader.GetImagePathThumb(ImageLoader.filter_clockfaces);
             var cGroups = new List<string>(Directory.GetDirectories(cImageDir));
             cGroups.Sort();
+            int i = 0;
             foreach (string cGroup in cGroups)
             {
                 view.AddView(new TextView(this) { Text = Path.GetFileName(cGroup) });
@@ -90,12 +97,14 @@ namespace iChronoMe.Droid
                     skView.PaintSurface += SkView_PaintSurface;
 
                     skViewS.Add(skView);
-
+                    flow.AddView(new TextView(this) { Text = i++.ToString() });
                     flow.AddView(skView, 660, 660);
                 }
+                flow.RemoveViewAt(0);
+                flow.AddView(new TextView(this) { Text = i++.ToString() });
                 view.AddView(flow);
             }
-            */
+            /* */
             var scroll = new ScrollView(this);
             scroll.AddView(view, new ScrollView.LayoutParams(ScrollView.LayoutParams.MatchParent, ScrollView.LayoutParams.WrapContent));
 

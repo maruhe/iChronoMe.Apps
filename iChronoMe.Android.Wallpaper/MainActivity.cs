@@ -1,17 +1,22 @@
 ﻿using System;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V7.App;
 using Android.Views;
+using iChronoMe.Droid.Wallpaper.Controls;
+using iChronoMe.Droid.Wallpaper.LiveWallpapers;
+using static iChronoMe.Droid.Wallpaper.LiveWallpapers.WallpaperClockService;
 
 namespace iChronoMe.Droid.Wallpaper
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
+        WallpaperPreView preview;
+        WallpaperClockEngine engine;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -24,6 +29,32 @@ namespace iChronoMe.Droid.Wallpaper
 
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
+
+            preview = FindViewById<WallpaperPreView>(Resource.Id.preview);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(1500).Wait();
+                RunOnUiThread(() =>
+                {
+                    if (engine == null)
+                    {
+                        engine = new WallpaperClockEngine(this);
+                    }
+                    engine.OnSurfaceChanged(null, Android.Graphics.Format.Rgba8888, preview.Width, preview.Height);
+                    preview.WallpaperClockEngine = engine;
+                    preview.Invalidate();
+                });
+            });
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
