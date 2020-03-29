@@ -389,7 +389,7 @@ namespace iChronoMe.Droid
                 }*/
                 else if (id == Resource.Id.nav_about)
                 {
-#if DEBUG
+#if DExxBUG
                     fr = new DebugFragment();
 #else
                     fr = new AboutFragment();

@@ -166,7 +166,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 ViewTypeSpinner.Visibility = ViewStates.Visible;
             }
 
-            bPermissionCheckOk = Build.VERSION.SdkInt < BuildVersionCodes.M || (mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted);
+            if (!bPermissionCheckOk)
+                bPermissionCheckOk = Build.VERSION.SdkInt < BuildVersionCodes.M || (mContext.CheckSelfPermission(Android.Manifest.Permission.ReadCalendar) == Permission.Granted && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) == Permission.Granted);
             if (bPermissionCheckOk)
             {
                 if (lvCalendars.Adapter == null)

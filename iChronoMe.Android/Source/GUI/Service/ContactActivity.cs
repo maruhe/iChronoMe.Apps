@@ -4,12 +4,19 @@ using System.Net.Http;
 using System.Threading;
 
 using Android.App;
+using Android.Appwidget;
 using Android.Content;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
+using iChronoMe.Droid.Widgets;
+using iChronoMe.Droid.Widgets.ActionButton;
+using iChronoMe.Droid.Widgets.Calendar;
+using iChronoMe.Droid.Widgets.Clock;
+using iChronoMe.Droid.Widgets.Lifetime;
+using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.GUI.Service
 {
@@ -116,6 +123,56 @@ namespace iChronoMe.Droid.GUI.Service
 
                         if (cbIncludeSettings.Checked)
                         {
+                            try
+                            {
+                                cSendContent += "\n\n--------------------------------\n\nWidgets:";
+
+                                var manager = AppWidgetManager.GetInstance(this);
+                                int[] clockS = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+                                int[] calendars = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
+                                int[] buttons = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
+                                int[] chronos = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+
+                                if (clockS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
+                                {
+                                    cSendContent += "\nnothing found";
+                                }
+                                else
+                                {
+
+                                    var holder = new WidgetConfigHolder();
+
+                                    var samples = new System.Collections.Generic.List<WidgetCfgSample<WidgetCfg>>();
+                                    foreach (int i in clockS)
+                                    {
+                                        var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(i, false);
+                                        cSendContent += string.Concat("\nAnalogClockWidget ", i, " cfg: ", cfg, " size: ", MainWidgetBase.GetWidgetSize(i, cfg, manager));
+                                    }
+                                    foreach (int i in calendars)
+                                    {
+                                        var cfg = holder.GetWidgetCfg<WidgetCfg_Calendar>(i, false);
+                                        cSendContent += string.Concat("\nCalendarWidget ", i, " cfg: ", cfg, " size: ", MainWidgetBase.GetWidgetSize(i, cfg, manager));
+
+                                    }
+                                    foreach (int i in buttons)
+                                    {
+                                        var cfg = holder.GetWidgetCfg<WidgetCfg_ActionButton>(i, false);
+                                        cSendContent += string.Concat("\nActionButtonWidget ", i, " cfg: ", cfg, " size: ", MainWidgetBase.GetWidgetSize(i, cfg, manager));
+
+                                    }
+                                    foreach (int i in chronos)
+                                    {
+                                        var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(i, false);
+                                        cSendContent += string.Concat("\nLifetimeWidget ", i, " cfg: ", cfg, " size: ", MainWidgetBase.GetWidgetSize(i, cfg, manager));
+
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                cSendContent += "\n" + ex.GetType().Name + "\n" + ex.Message;
+                            }
+
                             foreach (string cfgFile in Directory.GetFiles(sys.PathConfig, "*.cfg"))
                             {
                                 try
@@ -143,8 +200,9 @@ namespace iChronoMe.Droid.GUI.Service
                         string result = await response.Content.ReadAsStringAsync();
 
                         dlg.SetProgressDone();
-                        Tools.ShowToast(this, result);
-                        FinishAndRemoveTask();
+                        Tools.ShowToast(this, result, !"done".Equals(result));
+                        if ("done".Equals(result))
+                            FinishAndRemoveTask();
                     }
                     catch (Exception ex)
                     {

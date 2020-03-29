@@ -335,41 +335,44 @@ namespace iChronoMe.Droid
 
         public static void RestartService(Context context, string cAction, int? iAppWidgetID = null)
         {
-            bool running = IsServiceRunning(context, typeof(BackgroundService));
-            if (running)
+            try
             {
-                try { running = updateHolder?.IsAlive ?? false; }
-                catch { running = false; }
-            }
-            if (!running)
-            {
-                int[] appWidgetIDs = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
-
-                if (appWidgetIDs.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
-                    return;
-
-                if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
-                    return;
-
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                bool running = IsServiceRunning(context, typeof(BackgroundService));
+                if (running)
                 {
-                    context.StartForegroundService(new Intent(context, typeof(BackgroundService)));
+                    try { running = updateHolder?.IsAlive ?? false; }
+                    catch { running = false; }
+                }
+                if (!running)
+                {
+                    int[] appWidgetIDs = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+
+                    if (appWidgetIDs.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                        return;
+
+                    if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                        return;
+
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                    {
+                        context.StartForegroundService(new Intent(context, typeof(BackgroundService)));
+                    }
+                    else
+                    {
+                        context.StartService(new Intent(context, typeof(BackgroundService)));
+                    }
                 }
                 else
                 {
-                    context.StartService(new Intent(context, typeof(BackgroundService)));
+                    Intent update_widget = new Intent();
+                    update_widget.SetAction(ClockUpdateBroadcastReceiver.intentFilter);
+                    update_widget.PutExtra(ClockUpdateBroadcastReceiver.command, ClockUpdateBroadcastReceiver.cmdRestartUpdates);
+                    update_widget.PutExtra(ClockUpdateBroadcastReceiver.baseaction, cAction);
+                    if (iAppWidgetID != null)
+                        update_widget.PutExtra(AppWidgetManager.ExtraAppwidgetId, iAppWidgetID.Value);
+                    context.SendBroadcast(update_widget);
                 }
-            }
-            else
-            {
-                Intent update_widget = new Intent();
-                update_widget.SetAction(ClockUpdateBroadcastReceiver.intentFilter);
-                update_widget.PutExtra(ClockUpdateBroadcastReceiver.command, ClockUpdateBroadcastReceiver.cmdRestartUpdates);
-                update_widget.PutExtra(ClockUpdateBroadcastReceiver.baseaction, cAction);
-                if (iAppWidgetID != null)
-                    update_widget.PutExtra(AppWidgetManager.ExtraAppwidgetId, iAppWidgetID.Value);
-                context.SendBroadcast(update_widget);
-            }
+            } catch { }
         }
 
         public static bool IsServiceRunning(Context context, System.Type ClassTypeof)
@@ -722,7 +725,7 @@ namespace iChronoMe.Droid
                                 }
                             }
                         }
-                        catch (ThreadAbortException) { return; } //all fine
+                        catch (ThreadAbortException) { } //all fine
                         catch (Exception e)
                         {
                             sys.LogException(e, "OnUpdateWidget " + iWidgetId, false);

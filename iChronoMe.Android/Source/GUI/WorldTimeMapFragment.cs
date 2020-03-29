@@ -150,7 +150,8 @@ namespace iChronoMe.Droid.GUI
                 var item = wtItems[e.Marker.Id];
                 if (item != null)
                 {
-                    item.lth.ChangePositionDelay(e.Marker.Position.Latitude, e.Marker.Position.Longitude);
+                    item.lth.ChangePositionOffline(e.Marker.Position.Latitude, e.Marker.Position.Longitude);
+                    item.Delayer.SetDelay(250);
                     item.Update();
                 }
             }
@@ -615,6 +616,19 @@ namespace iChronoMe.Droid.GUI
             ImageView imgFlag, imgTZ;
             public string ID { get; }
             static string blinkingID;
+
+            private Delayer _delayer;
+            public Delayer Delayer { get
+                {
+                    if (_delayer == null)
+                    {
+                        _delayer = new Delayer(
+                            () => lth?.StartRefreshLocationInfo()
+                            , 1250, 0);
+                    }
+                    return _delayer;
+                } 
+            }
 
             public WorldTimeItem(Marker marker)
             {
