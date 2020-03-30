@@ -257,7 +257,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             item.SetOnMenuItemClickListener(this);
 
             item = menu.Add(0, 100, 0, Resource.String.action_save);
-            item.SetIcon(DrawableHelper.GetIconDrawable(this, Resource.Drawable.icons8_save, Tools.GetThemeColor(Theme, Resource.Attribute.iconTitleTint).Value));
+            item.SetIcon(DrawableHelper.GetIconDrawable(this, Resource.Drawable.icons8_save, Tools.GetThemeColor(this, Resource.Attribute.iconTitleTint)));
             item.SetShowAsAction(ShowAsAction.Always);
             item.SetOnMenuItemClickListener(this);
 
@@ -302,10 +302,10 @@ namespace iChronoMe.Droid.GUI.Calendar
                 Task.Factory.StartNew(async () =>
                 {
                     var saved = await mModel.SaveEvent();
-                    if (!AppConfigHolder.MainConfig.CalendarReminderWarningDone && mModel.Reminders.Count > 0)
+                    if (!AppConfigHolder.CalendarViewConfig.CalendarReminderWarningDone && mModel.Reminders.Count > 0)
                     {
-                        AppConfigHolder.MainConfig.CalendarReminderWarningDone = true;
-                        AppConfigHolder.SaveMainConfig();
+                        AppConfigHolder.CalendarViewConfig.CalendarReminderWarningDone = true;
+                        AppConfigHolder.SaveCalendarViewConfig();
                         await Tools.ShowMessageAndWait(this, "warning", "iChronoMe currently does no support notifications on reminders\nso be sure another calendar-app notifies you!");
                     }
                     RunOnUiThread(() =>

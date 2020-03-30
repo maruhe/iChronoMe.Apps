@@ -565,6 +565,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                     await DeviceCalendar.DeviceCalendar.CreateDefaulCalendar();
                     bCalendarIsReady = true;
                     calListAdapter.Refresh();
+                    LoadEvents();
                 }
                 //AppConfigHolder.CalendarViewConfig.WelcomeScreenDone = 1;
                 //AppConfigHolder.SaveCalendarViewConfig();
@@ -593,12 +594,12 @@ namespace iChronoMe.Droid.GUI.Calendar
             try
             {
                 var item = menu.Add(0, menu_create_event, 0, Resources.GetString(Resource.String.shortcut_create_calender_event));
-                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_add, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_add, Tools.GetThemeColor(Activity, Resource.Attribute.iconTitleTint)));
                 item.SetShowAsAction(ShowAsAction.Always);
                 item.SetOnMenuItemClickListener(this);
 
                 item = menu.Add(0, menu_options, 1000, Resources.GetString(Resource.String.action_options));
-                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_services, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+                item.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_services, Tools.GetThemeColor(Activity, Resource.Attribute.iconTitleTint)));
                 item.SetShowAsAction(ShowAsAction.Always);
                 item.SetOnMenuItemClickListener(this);
 
@@ -629,7 +630,7 @@ namespace iChronoMe.Droid.GUI.Calendar
                 if (sys.DisplayOrientation == DisplayOrientation.Landscape)
                 {
                     var sub = menu.AddSubMenu(0, 0, 0, "Debug");
-                    sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity.Theme, Resource.Attribute.iconTitleTint).Value));
+                    sub.SetIcon(DrawableHelper.GetIconDrawable(Context, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(Activity, Resource.Attribute.iconTitleTint)));
                     sub.Item.SetShowAsAction(ShowAsAction.Always);
 
                     item = sub.Add(0, menu_debug_create_events, 0, "Create Events");
@@ -986,14 +987,13 @@ namespace iChronoMe.Droid.GUI.Calendar
 
             try
             {
-                var theme = Context.Theme;
-                //Tools.GetAllThemeColors(theme);
+                //Tools.GetAllThemeColors(mContext);
 
-                clTitleText = Tools.GetThemeColor(theme, Resource.Attribute.titleTextColor).Value;
-                clTitleBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimary).Value;//Color.ParseColor("#2c3e50");
-                clText = Tools.GetThemeColor(theme, Android.Resource.Attribute.TextColorPrimary).Value;
-                clBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorPrimaryDark).Value;
-                clTodayText = Tools.GetThemeColor(theme, Android.Resource.Attribute.ColorAccent).Value;
+                clTitleText = Tools.GetThemeColor(mContext, Resource.Attribute.titleTextColor);
+                clTitleBack = Tools.GetThemeColor(mContext, Android.Resource.Attribute.ColorPrimary);//Color.ParseColor("#2c3e50");
+                clText = Tools.GetThemeColor(mContext, Android.Resource.Attribute.TextColorPrimary);
+                clBack = Tools.GetThemeColor(mContext, Android.Resource.Attribute.ColorPrimaryDark);
+                clTodayText = Tools.GetThemeColor(mContext, Android.Resource.Attribute.ColorAccent);
 
                 Tools.ShowToast(mContext, clText.ToColor().HexString);
 
@@ -1007,8 +1007,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                 Color clAccent = Color.ParseColor("#1B3147");
                  */
 
-                clSlotBack = Tools.GetThemeColor(theme, Android.Resource.Attribute.WindowBackground).Value;
-                clSlotAccent = Tools.GetThemeColor(theme, Resource.Attribute.colorBackgroundAccent).Value;
+                clSlotBack = Tools.GetThemeColor(mContext, Android.Resource.Attribute.WindowBackground);
+                clSlotAccent = Tools.GetThemeColor(mContext, Resource.Attribute.colorBackgroundAccent);
 
                 schedule.HeaderStyle = new HeaderStyle { TextColor = clTitleText, BackgroundColor = clTitleBack };
 

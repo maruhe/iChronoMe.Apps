@@ -55,7 +55,7 @@ namespace iChronoMe.Droid
                 SetSupportActionBar(Toolbar);
 
                 Drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-                Drawer.SetScrimColor(base.Resources.GetColor(Resource.Color.navigationScrim, Theme));
+                Drawer.SetScrimColor(Tools.GetThemeColor(this, Resource.Color.navigationScrim));
                 DrawerToggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
                 Drawer.AddDrawerListener(DrawerToggle);                
 
@@ -319,7 +319,7 @@ namespace iChronoMe.Droid
             Drawer.SetDrawerLockMode(DrawerLayout.LockModeUnlocked, (int)GravityFlags.Start);
             if (bCloseIfOpen && Drawer.IsDrawerOpen((int)GravityFlags.Start))
                 Drawer.CloseDrawer((int)GravityFlags.Start);
-            Drawer.SetScrimColor(base.Resources.GetColor(Resource.Color.navigationScrim, Theme));
+            Drawer.SetScrimColor(Tools.GetThemeColor(this, Resource.Color.navigationScrim));
             DrawerToggle.DrawerIndicatorEnabled = true;
             vSpaceHolder.Visibility = ViewStates.Gone;
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);

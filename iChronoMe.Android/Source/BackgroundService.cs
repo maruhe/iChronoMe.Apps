@@ -724,6 +724,9 @@ namespace iChronoMe.Droid
                                     }
                                 }
                             }
+
+                            if (bRunning && bShowClockProgress)
+                                uBackgroundImage = GetWidgetBackgroundUri(ctx, clockView, cfg, iClockSize, ref bShowClockProgress);
                         }
                         catch (ThreadAbortException) { } //all fine
                         catch (Exception e)

@@ -530,13 +530,13 @@ namespace iChronoMe.Droid.GUI
             base.OnPrepareOptionsMenu(menu);
 
             var item = menu.Add(0, menu_options, 1, Resources.GetString(Resource.String.action_options));
-            item.SetIcon(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.icons8_services, Tools.GetThemeColor(mContext.Theme, Resource.Attribute.iconTitleTint).Value));
+            item.SetIcon(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.icons8_services, Tools.GetThemeColor(mContext, Resource.Attribute.iconTitleTint)));
             item.SetShowAsAction(ShowAsAction.IfRoom);
             item.SetOnMenuItemClickListener(this);
 
 #if DEBUG
             var sub = menu.AddSubMenu(0, 0, 0, "Debug");
-            sub.SetIcon(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(mContext.Theme, Resource.Attribute.iconTitleTint).Value));
+            sub.SetIcon(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.icons8_bug_clrd, Tools.GetThemeColor(mContext, Resource.Attribute.iconTitleTint)));
             sub.Item.SetShowAsAction(ShowAsAction.Always);
 
             item = sub.Add(0, menu_debug_hour_path, 0, "hour path");

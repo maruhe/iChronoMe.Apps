@@ -23,7 +23,7 @@ namespace iChronoMe.Droid.Adapters
             mContext = context;
             Title = title;
             Items = new List<string>(items);
-            clTitleText = Tools.GetThemeColor(mContext.Theme, Resource.Attribute.titleTextColor).Value.ToColor(); //Tools.GetThemeColor(mContext.Theme, Resource.Attribute.ActionMenuTextColor).Value.ToColor();
+            clTitleText = Tools.GetThemeColor(mContext, Resource.Attribute.titleTextColor).ToColor(); //Tools.GetThemeColor(mContext.Theme, Resource.Attribute.ActionMenuTextColor).Value.ToColor();
         }
 
         public void UpdateIcons(ICollection<int> icons)

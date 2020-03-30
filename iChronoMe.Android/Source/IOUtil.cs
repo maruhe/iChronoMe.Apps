@@ -1,4 +1,6 @@
-﻿using System;
+﻿//thx to the sample at https://github.com/jfversluis/FilePicker-Plugin-for-Xamarin-and-Windows
+
+using System;
 using System.Net;
 
 using Android.Content;
@@ -9,8 +11,6 @@ using Android.Webkit;
 
 namespace iChronoMe.Droid
 {
-    //thx to the sample at https://github.com/jfversluis/FilePicker-Plugin-for-Xamarin-and-Windows
-
     /// <summary>
     /// Android I/O utility functions
     /// </summary>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
+using Android.OS;
 using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Util;
@@ -356,7 +357,7 @@ namespace iChronoMe.Droid
                 return items[iRes];
         }
 
-        public static string GetAllThemeColors(Theme theme)
+        public static string GetAllThemeColors(ContextWrapper ctx)
         {
             string cRes = "";
 
@@ -366,11 +367,8 @@ namespace iChronoMe.Droid
                 {
                     if (prop.FieldType == typeof(int))
                     {
-                        var clr = GetThemeColor(theme, (int)prop.GetValue(null));
-                        if (clr != null)
-                        {
-                            cRes += prop.Name + "\t" + clr.Value.ToColor().HexString + "\n";
-                        }
+                        var clr = GetThemeColor(ctx, (int)prop.GetValue(null));
+                        cRes += prop.Name + "\t" + clr.ToColor().HexString + "\n";
                     }
                 }
             }
@@ -378,89 +376,56 @@ namespace iChronoMe.Droid
             return cRes;
         }
 
-        public static Color? GetThemeColor(Theme theme, int attrId)
-        {
-            try
-            {
-                TypedValue val = new TypedValue();
-                theme.ResolveAttribute(attrId, val, true);
-
-                if (val.Type >= DataType.FirstColorInt && val.Type <= DataType.LastColorInt)
-                {
-                    //simple colors
-                    return new Color((int)val.Data);
-                }
-                else
-                {
-                    var clrRes = val.ResourceId != 0 ? val.ResourceId : val.Data;
-
-
-                    if (clrRes != 0)
-                    {
-                        //val colorRes = resolvedAttr.run { if (resourceId != 0) resourceId else data }
-                        var clr = ContextCompat.GetColor(Android.App.Application.Context, clrRes);
-                        return new Color(clr);
-                    }
-
-                    //android colorSet
-                    TypedArray themeArray = theme.ObtainStyledAttributes(new int[] { (int)val.Data });
-                    try
-                    {
-                        int index = 0;
-                        int defaultColourValue = 0;
-                        int aColour = themeArray.GetColor(index, defaultColourValue);
-                        return new Color((int)aColour);
-                    }
-                    finally
-                    {
-                        // Calling recycle() is important. Especially if you use alot of TypedArrays
-                        // http://stackoverflow.com/a/13805641/8524
-                        themeArray.Recycle();
-                    }
-                }
-            }
-            catch { }
-            return xColor.MaterialPink.ToAndroid();
-        }
         public static Color GetThemeColor(ContextWrapper ctx, int attrId)
         {
             try
             {
                 TypedValue val = new TypedValue();
-                ctx.Theme.ResolveAttribute(attrId, val, true);
-
-                if (val.Type >= DataType.FirstColorInt && val.Type <= DataType.LastColorInt)
+                if (ctx.Theme.ResolveAttribute(attrId, val, true))
                 {
-                    //simple colors
-                    return new Color((int)val.Data);
-                }
+
+                    if (val.Type >= DataType.FirstColorInt && val.Type <= DataType.LastColorInt)
+                    {
+                        //simple colors
+                        return new Color((int)val.Data);
+                    }
+                    else
+                    {
+                        var clrRes = val.ResourceId != 0 ? val.ResourceId : val.Data;
+
+
+                        if (clrRes != 0)
+                        {
+                            //val colorRes = resolvedAttr.run { if (resourceId != 0) resourceId else data }
+                            var clr = ContextCompat.GetColor(ctx, clrRes);
+                            return new Color(clr);
+                        }
+
+                        //android colorSet
+                        TypedArray themeArray = ctx.Theme.ObtainStyledAttributes(new int[] { (int)val.Data });
+                        try
+                        {
+                            int index = 0;
+                            int defaultColourValue = 0;
+                            int aColour = themeArray.GetColor(index, defaultColourValue);
+                            return new Color((int)aColour);
+                        }
+                        finally
+                        {
+                            // Calling recycle() is important. Especially if you use alot of TypedArrays
+                            // http://stackoverflow.com/a/13805641/8524
+                            themeArray.Recycle();
+                        }
+                    }
+                } 
                 else
                 {
-                    var clrRes = val.ResourceId != 0 ? val.ResourceId : val.Data;
-
-
-                    if (clrRes != 0)
-                    {
-                        //val colorRes = resolvedAttr.run { if (resourceId != 0) resourceId else data }
-                        var clr = ContextCompat.GetColor(ctx, clrRes);
-                        return new Color(clr);
-                    }
-
-                    //android colorSet
-                    TypedArray themeArray = ctx.Theme.ObtainStyledAttributes(new int[] { (int)val.Data });
-                    try
-                    {
-                        int index = 0;
-                        int defaultColourValue = 0;
-                        int aColour = themeArray.GetColor(index, defaultColourValue);
-                        return new Color((int)aColour);
-                    }
-                    finally
-                    {
-                        // Calling recycle() is important. Especially if you use alot of TypedArrays
-                        // http://stackoverflow.com/a/13805641/8524
-                        themeArray.Recycle();
-                    }
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                        return ctx.Resources.GetColor(attrId, ctx.Theme);
+                    else
+#pragma warning disable CS0618 // Android 5 version
+                        return ctx.Resources.GetColor(attrId);
+#pragma warning restore CS0618 // Typ oder Element ist veraltet
                 }
             }
             catch { }
