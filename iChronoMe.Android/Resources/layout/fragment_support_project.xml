@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="software developpers etc. please join us on\nhttps://github.com/maruhe/iChronoMe.Base"
+            android:text="software developpers etc. please join us on\nhttps://github.com/maruhe/iChronoMe.Apps"
             android:autoLink="all"
             android:clickable="true"
             android:linksClickable="true"        
