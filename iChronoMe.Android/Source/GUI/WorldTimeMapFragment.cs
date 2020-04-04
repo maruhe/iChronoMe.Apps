@@ -807,6 +807,14 @@ namespace iChronoMe.Droid.GUI
                         }
                         imgTZ.SetImageResource(Tools.GetTimeTypeIconID(TimeType.TimeZoneTime, lth));
                         string cText = string.IsNullOrEmpty(lth.AreaName) ? sys.DezimalGradToGrad(lth.Latitude, lth.Longitude) : lth.AreaName;
+#if DEBUG
+                        if (!string.IsNullOrEmpty(lth.AreaInfo?.dataSource))
+                        {
+                            if ("osm".Equals(lth.AreaInfo.dataSource))
+                                cText = lth.AreaInfo.sourceServer.Substring(0, 1) + cText;
+                            cText = lth.AreaInfo.dataSource.Substring(0, 1) + cText;
+                        }
+#endif
                         tvArea.Text = cText;
                         Marker.Title = cText;
                         Marker.ShowInfoWindow();

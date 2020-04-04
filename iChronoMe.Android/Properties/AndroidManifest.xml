@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5236" android:versionName="0.5.2" package="me.ichrono.droid" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="5238" android:versionName="0.5.2" package="me.ichrono.droid" android:installLocation="auto">
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +20,7 @@
   <uses-feature android:name="android.hardware.telephony" android:required="false" />
   <supports-screens android:resizeable="true" android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
   <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme.iChronoMe.Dark" android:largeHeap="true">
-    <!-- Put your Google Maps V2 API Key here. This key will not work for you.-->
+    <!-- Put your Google Maps V2 API Key here. or better create a secrets.xml in you values folder and store this stuff there. In THIS project you also can create secrets_debug.xml and secrets_release.xml to use diffrent keys, check project-file-raw-content-->
     <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_geo_api_key" />
     <!-- FileProvider to share internal Files with other apps (Launcher) -->

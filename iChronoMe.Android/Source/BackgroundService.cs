@@ -312,7 +312,10 @@ namespace iChronoMe.Droid
         public void StopUpdate(bool bCheckStopAll = false)
         {
             if (updateHolder != null)
+            {
                 updateHolder.Stop();
+                updateHolder = null;
+            }
 
             if (bCheckStopAll)
             {
@@ -480,6 +483,19 @@ namespace iChronoMe.Droid
             foreach (int iWidgetId in appWidgetIDs)
             {
                 StartWidgetTask(iWidgetId);
+            }
+
+            if (!IsInteractive)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Task.Delay(1000).Wait();
+                    if (!IsInteractive)
+                    {
+                        BackgroundService.currentService.StopUpdate();
+                        BackgroundService.EffectedWidges.Clear();
+                    }
+                });
             }
         }
 
@@ -734,6 +750,8 @@ namespace iChronoMe.Droid
                             sys.LogException(e, "OnUpdateWidget " + iWidgetId, false);
                             Thread.Sleep(1000);
                         }
+                        if (!IsInteractive)
+                            break;
                     }
                 }
                 catch (ThreadAbortException) { } //all fine

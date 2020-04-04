@@ -25,6 +25,9 @@ namespace iChronoMe.Droid.GUI
         {
             base.OnResume();
 
+            if (Activity is BaseActivity)
+                mContext = Activity as BaseActivity;
+
             this.Activity?.InvalidateOptionsMenu();
         }
 

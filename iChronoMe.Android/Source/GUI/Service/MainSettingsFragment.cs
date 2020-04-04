@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
-
+using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
@@ -23,6 +24,7 @@ using iChronoMe.Droid.Widgets.Clock;
 using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 using iChronoMe.Widgets.Assistants;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.GUI.Service
 {
@@ -216,30 +218,56 @@ namespace iChronoMe.Droid.GUI.Service
                 .SetMessage(Resource.String.progress_clearcache_message)
                 .SetPositiveButton(Resource.String.action_continue, (s, e) =>
                 {
-                    ImageLoader.ClearCache(ImageLoader.filter_clockfaces);
-                    ClockHandConfig.ClearCache();
+                    var dlg = ProgressDlg.NewInstance("clearing...");
+                    dlg.Show(mContext.SupportFragmentManager, "");
 
-                    try 
+                    new Thread(() =>
                     {
-                        db.dbAreaCache.Close();
-                        Directory.Delete(sys.PathCache, true); 
-                    }
-                    catch (Exception ex)
-                    {
-                        Tools.ShowToast(Context, ex.Message);
-                        return;
-                    }
-                    try
-                    {
-                        var cfg = AppConfigHolder.LocationConfig;
-                        cfg.AreaName = string.Empty;
-                        cfg.CountryName = string.Empty;
-                        AppConfigHolder.SaveLocationConfig();
-                    } catch { }
+                        try
+                        {
 
-                    Activity.MoveTaskToBack(true);
-                    Process.KillProcess(Process.MyPid());
-                    Java.Lang.JavaSystem.Exit(0);
+                            ImageLoader.ClearCache(ImageLoader.filter_clockfaces);
+                            ClockHandConfig.ClearCache();
+
+                            try
+                            {
+                                db.dbAreaCache.Close();
+                                Directory.Delete(sys.PathCache, true);
+                            }
+                            catch (Exception ex)
+                            {
+                                dlg.Dismiss();
+                                Tools.ShowToast(Context, ex.Message);
+                                return;
+                            }
+                            try
+                            {
+                                var cfg = AppConfigHolder.LocationConfig;
+                                cfg.AreaName = string.Empty;
+                                cfg.CountryName = string.Empty;
+                                AppConfigHolder.SaveLocationConfig();
+                            }
+                            catch (Exception ex)
+                            {
+                                dlg.Dismiss();
+                                Tools.ShowToast(Context, ex.Message);
+                                return;
+                            }
+
+                            Thread.Sleep(1000);
+
+                            var alarmManager = (AlarmManager)mContext.GetSystemService(Context.AlarmService);
+                            alarmManager.SetExact(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + 1000, MainWidgetBase.GetClickActionPendingIntent(mContext, ClickActionType.OpenApp, 0));
+
+                            Activity.MoveTaskToBack(true);
+                            Process.KillProcess(Process.MyPid());
+                            Java.Lang.JavaSystem.Exit(0);
+                        }
+                        catch
+                        {
+                            dlg.Dismiss();
+                        }
+                    }).Start();
                 })
                 .SetNegativeButton(Resource.String.action_abort, (s, e) => { })
                 .Create().Show();

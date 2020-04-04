@@ -363,6 +363,13 @@ namespace iChronoMe.Droid.Widgets
                 return PendingIntent.GetActivity(context, iWidgetId, itClick, PendingIntentFlags.UpdateCurrent);
             return null;
         }
+        public static PendingIntent GetClickActionPendingIntent(Context context, ClickActionType actionType, int iRequestID)
+        {
+            var itClick = GetClickActionIntent(context, actionType);
+            if (itClick != null)
+                return PendingIntent.GetActivity(context, iRequestID, itClick, PendingIntentFlags.UpdateCurrent);
+            return null;
+        }
 
         public static Intent GetClickActionIntent(Context context, ClickAction action, int iWidgetId, string settingsUri)
         {
@@ -373,11 +380,6 @@ namespace iChronoMe.Droid.Widgets
                 case ClickActionType.None:
                     return null;
 
-                case ClickActionType.OpenApp:
-                    itClick = new Intent(context, typeof(MainActivity));
-                    itClick.AddCategory(Intent.CategoryLauncher);
-                    itClick.SetFlags(ActivityFlags.ReorderToFront);
-                    break;
 
                 case ClickActionType.OpenSettings:
                     if (string.IsNullOrEmpty(settingsUri))
@@ -385,6 +387,50 @@ namespace iChronoMe.Droid.Widgets
                     itClick = new Intent(Intent.ActionMain);
                     itClick.SetComponent(ComponentName.UnflattenFromString(settingsUri));
                     itClick.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
+                    break;
+
+                case ClickActionType.OpenOtherApp:
+                    if (action.Params == null || action.Params.Length == 0)
+                        return null;
+                    try
+                    {
+                        string packageName = action.Params[0].Split('=')[1];
+                        itClick = context.PackageManager.GetLaunchIntentForPackage(packageName);
+                        if (itClick == null)
+                        {
+                            // Bring user to the market or let them choose an app?
+                            itClick = new Intent(Intent.ActionView);
+                            itClick.SetData(Android.Net.Uri.Parse("market://details?id=" + packageName));
+                        }
+                        itClick.AddFlags(ActivityFlags.NewTask);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                    break;
+
+                default:
+
+                    return GetClickActionIntent(context, action.Type);
+            }
+
+            return itClick;
+        }
+
+        public static Intent GetClickActionIntent(Context context, ClickActionType actionType)
+        {
+            Intent itClick = null;
+
+            switch (actionType)
+            {
+                case ClickActionType.None:
+                    return null;
+
+                case ClickActionType.OpenApp:
+                    itClick = new Intent(context, typeof(MainActivity));
+                    itClick.AddCategory(Intent.CategoryLauncher);
+                    itClick.SetFlags(ActivityFlags.ReorderToFront);
                     break;
 
 #if DEBUG
@@ -421,27 +467,6 @@ namespace iChronoMe.Droid.Widgets
                     break;
                 //case ClickActionType.TimeToTimeDialog:
                 //  break;
-
-                case ClickActionType.OpenOtherApp:
-                    if (action.Params == null || action.Params.Length == 0)
-                        return null;
-                    try
-                    {
-                        string packageName = action.Params[0].Split('=')[1];
-                        itClick = context.PackageManager.GetLaunchIntentForPackage(packageName);
-                        if (itClick == null)
-                        {
-                            // Bring user to the market or let them choose an app?
-                            itClick = new Intent(Intent.ActionView);
-                            itClick.SetData(Android.Net.Uri.Parse("market://details?id=" + packageName));
-                        }
-                        itClick.AddFlags(ActivityFlags.NewTask);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                    break;
             }
 
             return itClick;

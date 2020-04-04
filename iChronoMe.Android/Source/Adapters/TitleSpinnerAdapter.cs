@@ -62,6 +62,7 @@ namespace iChronoMe.Droid.Adapters
             var view = (TextView)mContext.LayoutInflater.Inflate(Android.Resource.Layout.SimpleSpinnerDropDownItem, null);
             view.Text = Title;
             view.SetTextColor(clTitleText.ToAndroid());
+            view.Ellipsize = Android.Text.TextUtils.TruncateAt.Middle;
             return view;
         }
 
@@ -72,7 +73,6 @@ namespace iChronoMe.Droid.Adapters
             view.FindViewById<TextView>(Resource.Id.title).SetTextColor(clTitleText.ToAndroid());
             if (Icons.Count > position)
                 view.FindViewById<ImageView>(Resource.Id.icon).SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Icons[position], clTitleText));
-            //view.FindViewById<ImageView>(Resource.Id.icon).SetImageResource(Icons[position]);
 
             return view;
         }

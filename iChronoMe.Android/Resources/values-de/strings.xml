@@ -8,7 +8,7 @@
   <string name="action_background" synced="x" sync="1">"Hintergrund"</string>
   <string name="action_backgroundservice_showalways" synced="x" sync="1">"Uhr immer im Benachrichtigungsbereich anzeigen"</string>
   <string name="action_block" synced="x" sync="1">"blockieren"</string>
-  <string name="action_calendar_UsesDefaultTimeType" synced="x" sync="1">"Kalender verwendet den selben Zeit-Typ"</string>
+  <string name="action_calendar_UsesDefaultTimeType" synced="x" sync="1">"Kalender verwendet den standard Zeit-Typ"</string>
   <string name="action_cancel" synced="x" sync="1">"abbrechen"</string>
   <string name="action_cfg_calendar_show_allday" synced="x" sync="1">"ganztägige Termine anzeigen"</string>
   <string name="action_change_theme" synced="x" sync="1">"Thema ändern"</string>
@@ -96,7 +96,7 @@ du kannst diese Benachrichtigung hier anpassen oder sie in den Systemeinstellung
   <string name="calendar_monthview_appointmentdisplaymode_max_title" synced="x" sync="1">"maximal:"</string>
   <string name="calendar_monthview_appointmentdisplaymode_title" synced="x" sync="1">"Anzeigemodus:"</string>
   <string name="calendar_monthview_appointmentviewtypes_title" synced="x" sync="1">"Termine anzeigen:"</string>
-  <string name="calendar_monthview_navigation_direction" sync="x">"Navigationsrichtung"</string>
+  <string name="calendar_monthview_navigation_direction" sync="1">"Navigationsrichtung"</string>
   <string name="calendar_viewtype_DayView" synced="x" sync="1">"Tagesansicht"</string>
   <string name="calendar_viewtype_MonthView" synced="x" sync="1">"Monatsansicht"</string>
   <string name="calendar_viewtype_Timeline" synced="x" sync="1">"Zeitlinie"</string>
@@ -242,7 +242,7 @@ am Startbildschirm deines Geräts kannst du neue Widgets erstellen!"</string>
   <string name="Options" synced="x" sync="1">"Optionen"</string>
   <string name="OtherAdditional" synced="x" sync="1">"Weiteres"</string>
   <string name="progress_clearcache_action" synced="x" sync="1">"Zwischenspeicher löschen"</string>
-  <string name="progress_clearcache_message" synced="x" sync="1">"anschließend kannst du iChronoMe einfach wieder starten"</string>
+  <string name="progress_clearcache_message" synced="x" sync="1">"anschließend sollte sich iChronoMe erneut öffnen"</string>
   <string name="progress_clearcache_title" synced="x" sync="1">"Zwischenspeicher löschen?"</string>
   <string name="progress_deleteerrorlog_done" synced="x" sync="1">"alle Fehlerprotokolle wurden gelöscht"</string>
   <string name="progress_determineLocation" sync="1">"Standort wird bestimmt..."</string>

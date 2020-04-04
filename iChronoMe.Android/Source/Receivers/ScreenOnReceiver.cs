@@ -14,6 +14,7 @@ namespace iChronoMe.Droid.Receivers
     {
         public override void OnReceive(Context context, Intent intent)
         {
+            xLog.Debug(intent.Action);
             if (intent.Action.Equals(Intent.ActionScreenOn))
             {
                 ScreenStateReceived?.Invoke(true);

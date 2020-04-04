@@ -46,7 +46,6 @@ namespace iChronoMe.Droid.GUI.Calendar
         private CoordinatorLayout coordinator;
         private SfSchedule schedule;
         private Spinner ViewTypeSpinner;
-        private AppCompatActivity mContext = null;
         private EventCollection calEvents = null;
         private TitleSpinnerAdapter ViewTypeAdapter = null;
         private FloatingActionButton fabTimeType;
@@ -67,8 +66,6 @@ namespace iChronoMe.Droid.GUI.Calendar
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
-            mContext = (AppCompatActivity)container.Context;
-
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M && mContext.CheckSelfPermission(Android.Manifest.Permission.WriteCalendar) != Permission.Granted)
                 ActivityCompat.RequestPermissions(mContext, new string[] { Android.Manifest.Permission.ReadCalendar, Android.Manifest.Permission.WriteCalendar }, 1);
 
@@ -78,7 +75,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             Drawer.SetScrimColor(Color.Transparent);
             coordinator = RootView.FindViewById<CoordinatorLayout>(Resource.Id.coordinator_layout);
 
-            ViewTypeAdapter = new TitleSpinnerAdapter(mContext, "init..", Resources.GetStringArray(Resource.Array.calendar_viewtypes));
+            ViewTypeAdapter = new TitleSpinnerAdapter(mContext, mContext.Title, Resources.GetStringArray(Resource.Array.calendar_viewtypes));
             ViewTypeAdapter.UpdateIcons(new int[] { Resource.Drawable.icons8_date_to_1, Resource.Drawable.icons8_timeline, Resource.Drawable.icons8_day_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_week_view, Resource.Drawable.icons8_month_view });
             ViewTypeSpinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
             if (ViewTypeSpinner != null)
@@ -141,6 +138,12 @@ namespace iChronoMe.Droid.GUI.Calendar
                         var baseLayout = RootView.FindViewById<ViewGroup>(Resource.Id.coordinator_layout);
                         baseLayout.AddView(schedule);
                         OnResume();
+                        Task.Factory.StartNew(() =>
+                        {
+                            Task.Delay(10).Wait();
+                            mContext.RunOnUiThread(() => ResetTitleSpinner(tFirstVisible, tLastVisible));
+                        });
+
 
                         //SearchScheduleColors(schedule, new LinearLayout(mContext));
                         //cColorTree.ToString();
@@ -164,6 +167,7 @@ namespace iChronoMe.Droid.GUI.Calendar
             {
                 mContext.Title = "";
                 ViewTypeSpinner.Visibility = ViewStates.Visible;
+                ResetTitleSpinner(tFirstVisible, tLastVisible);
             }
 
             if (!bPermissionCheckOk)
@@ -475,10 +479,9 @@ namespace iChronoMe.Droid.GUI.Calendar
             base.OnPause();
             if (!bKeepTitleOnPause)
             {
-                var spinner = mContext?.FindViewById<Spinner>(Resource.Id.toolbar_spinner);
-                if (spinner != null)
+                if (ViewTypeSpinner != null)
                 {
-                    spinner.Visibility = ViewStates.Gone;
+                    ViewTypeSpinner.Visibility = ViewStates.Gone;
                     if (string.IsNullOrEmpty(mContext.Title))
                         mContext.Title = localize.menu_calendar;
                 }
@@ -541,8 +544,9 @@ namespace iChronoMe.Droid.GUI.Calendar
                     tLastVisible = tFirstVisible.AddDays(1);
             }
             await calEvents.DoLoadCalendarEventsListed(tFirstVisible.AddDays(-1), tLastVisible.AddDays(1));
-            mContext.RunOnUiThread(() => { 
-                schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates); });
+            mContext.RunOnUiThread(() => {
+                schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates);
+            });
 
             CheckCalendarWelcomeAssistant();
         }
@@ -839,6 +843,8 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void GotDate(DateTime date)
         {
+            if (schedule == null)
+                return;
             Java.Util.Calendar moveToSpecificDate = Java.Util.Calendar.Instance;
             moveToSpecificDate.Set(date.Year, date.Month - 1, date.Day);
             schedule.MoveToDate = moveToSpecificDate;
@@ -846,27 +852,28 @@ namespace iChronoMe.Droid.GUI.Calendar
 
         private void ResetTitleSpinner(DateTime tFirstVisible, DateTime tLastVisible)
         {
-            if (ViewTypeSpinner != null)
+            if (ViewTypeSpinner != null && ViewTypeSpinner.Visibility == ViewStates.Visible)
             {
                 DateTime tMiddle = tFirstVisible.AddDays((tLastVisible - tFirstVisible).TotalDays / 2);
-                string cTitle = tMiddle.ToString("MMM yyyy");
-                if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
+                string cTitle = tMiddle.ToString("MMMM yyyy");
+                if (schedule.ScheduleView == ScheduleView.Timeline || schedule.ScheduleView == ScheduleView.WeekView || schedule.ScheduleView == ScheduleView.WorkWeekView)
                 {
-                    switch (schedule.ScheduleView)
+                    if (tLastVisible.Month != tFirstVisible.Month)
                     {
-                        case ScheduleView.Timeline:
-                        case ScheduleView.DayView:
-                            cTitle = tLastVisible.ToString("MMMM yyyy");
-                            break;
-                        case ScheduleView.WeekView:
-                        case ScheduleView.WorkWeekView:
-                            cTitle = tFirstVisible.ToString("MMMM yyyy");
-                            if (tLastVisible.Month != tFirstVisible.Month)
-                                cTitle += " - " + tLastVisible.ToString("MMMM yyyy");
-                            break;
-                        case ScheduleView.MonthView:
-                            cTitle = tMiddle.ToString("MMMM yyyy");
-                            break;
+                        if (DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape)
+                        {
+                            if (tLastVisible.Year == tFirstVisible.Year)
+                                cTitle = tFirstVisible.ToString("MMMM") + " - " + tLastVisible.ToString("MMMM yyyy");
+                            else
+                                cTitle = tFirstVisible.ToString("MMMM yyyy") + " - " + tLastVisible.ToString("MMMM yyyy");
+                        }
+                        else
+                        {
+                            if (tLastVisible.Year == tFirstVisible.Year)
+                                cTitle = tFirstVisible.ToString("MMM") + " - " + tLastVisible.ToString("MMM yyyy");
+                            else
+                                cTitle = tFirstVisible.ToString("MMM yy") + " - " + tLastVisible.ToString("MMM yy");
+                        }
                     }
                 }
 
@@ -994,8 +1001,6 @@ namespace iChronoMe.Droid.GUI.Calendar
                 clText = Tools.GetThemeColor(mContext, Android.Resource.Attribute.TextColorPrimary);
                 clBack = Tools.GetThemeColor(mContext, Android.Resource.Attribute.ColorPrimaryDark);
                 clTodayText = Tools.GetThemeColor(mContext, Android.Resource.Attribute.ColorAccent);
-
-                Tools.ShowToast(mContext, clText.ToColor().HexString);
 
                 /*
 
