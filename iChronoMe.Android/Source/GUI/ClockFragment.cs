@@ -1013,6 +1013,8 @@ namespace iChronoMe.Droid.GUI
             popup.Show();
         }
 
+        static DateTime location_provider_disabled_alert_done = DateTime.MinValue;
+
         private void StartLocationUpdate(bool forceUpdate = false, string forceProvider = null)
         {
             if (tLastLocationUpdate.AddMinutes(5) > DateTime.Now && !forceUpdate)
@@ -1075,7 +1077,9 @@ namespace iChronoMe.Droid.GUI
                         tLastClockTime = DateTime.Now;
                         if (!forceUpdate)
                         {
-                            Tools.ShowToast(mContext, Resource.String.location_provider_disabled_alert);
+                            if (location_provider_disabled_alert_done.AddHours(1) < DateTime.Now)
+                                Tools.ShowToast(mContext, Resource.String.location_provider_disabled_alert);
+                            location_provider_disabled_alert_done = DateTime.Now;
                             return;
                         }
                         if (await Tools.ShowYesNoMessage(mContext, Resource.String.location_provider_disabled_alert, Resource.String.location_provider_disabled_question))
@@ -1101,8 +1105,11 @@ namespace iChronoMe.Droid.GUI
                     if (lastLocation == null)
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.PassiveProvider);
 
-                    if (lastLocation == null)
+                    if (location_provider_disabled_alert_done.AddHours(1) < DateTime.Now)
+                    {
+                        location_provider_disabled_alert_done = DateTime.Now;
                         Tools.ShowToast(mContext, Resource.String.location_provider_disabled_alert);
+                    }
 
                     //stop location-updates after some time
                     if (tStopLocationUpdates < DateTime.MaxValue)
