@@ -180,7 +180,7 @@ namespace iChronoMe.Droid.GUI.Service
                                     if (cfgFile.ToLower().Contains("locationconfig.cfg") && !cbIncludeLocation.Checked)
                                         continue;
                                     cSendContent += "\n\n--------------------------------\n\n" + Path.GetFileName(cfgFile) + "\n" + File.ReadAllText(cfgFile);
-                                } 
+                                }
                                 catch (Exception ex)
                                 {
                                     cSendContent += "\n\n--------------------------------\n\n" + Path.GetFileName(cfgFile) + "\n" + ex.GetType().Name + "\n" + ex.Message;

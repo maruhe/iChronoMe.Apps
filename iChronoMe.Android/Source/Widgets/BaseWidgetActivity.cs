@@ -111,7 +111,8 @@ namespace iChronoMe.Droid.Widgets
 
                             wallpaperDrawable = new BitmapDrawable(Resources, bitmapResized);
                         }
-                    } catch { }
+                    }
+                    catch { }
                 }
             }
         }

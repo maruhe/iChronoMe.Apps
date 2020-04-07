@@ -170,7 +170,7 @@ namespace iChronoMe.Droid
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-            
+
             ActiveFragment?.OnActivityResult(requestCode, (int)resultCode, data);
         }
 

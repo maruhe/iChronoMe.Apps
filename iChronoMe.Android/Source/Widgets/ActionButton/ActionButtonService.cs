@@ -264,10 +264,11 @@ namespace iChronoMe.Droid.Widgets.ActionButton
                             bmpCache.Clear();
                         }
                         GC.Collect();
-                    } catch { }
+                    }
+                    catch { }
                 }
                 //if (sys.Debugmode)
-                    //rv.SetTextViewText(Resource.Id.tv_debug, iWidgetShortSide + "\n" + iIconSize);
+                //rv.SetTextViewText(Resource.Id.tv_debug, iWidgetShortSide + "\n" + iIconSize);
             }
             appWidgetManager?.UpdateAppWidget(iWidgetId, rv);
 

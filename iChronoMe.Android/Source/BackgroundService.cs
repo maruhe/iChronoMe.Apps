@@ -375,7 +375,8 @@ namespace iChronoMe.Droid
                         update_widget.PutExtra(AppWidgetManager.ExtraAppwidgetId, iAppWidgetID.Value);
                     context.SendBroadcast(update_widget);
                 }
-            } catch { }
+            }
+            catch { }
         }
 
         public static bool IsServiceRunning(Context context, System.Type ClassTypeof)
@@ -503,7 +504,7 @@ namespace iChronoMe.Droid
         Dictionary<int, LocationTimeHolder> mLths = new Dictionary<int, LocationTimeHolder>();
         public bool IsWidgetThreadAlive(int iWidgetID)
             => mThreads.ContainsKey(iWidgetID);
-        
+
         public void StartWidgetTask(int iWidgetId)
         {
             lock (mThreads)

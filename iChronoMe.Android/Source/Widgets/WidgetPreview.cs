@@ -5,7 +5,6 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.OS;
 using Android.Views;
 using Android.Widget;
 
@@ -17,7 +16,6 @@ using iChronoMe.Droid.Widgets.Calendar;
 using iChronoMe.Widgets;
 
 using SkiaSharp.Views.Android;
-using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Widgets
 {
@@ -168,7 +166,7 @@ namespace iChronoMe.Droid.Widgets
         {
             if (position >= items.Count)
             {
-                var v = inflater.Inflate(Resource.Layout.listitem_loading, null); 
+                var v = inflater.Inflate(Resource.Layout.listitem_loading, null);
                 v.FindViewById<TextView>(Resource.Id.title).Text = PartialLoadHandler?.LoadingText ?? localize.loading;
                 return v;
             }

@@ -3,11 +3,11 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 
@@ -24,6 +24,7 @@ using iChronoMe.Droid.Widgets.Clock;
 using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 using iChronoMe.Widgets.Assistants;
+
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -60,7 +61,7 @@ namespace iChronoMe.Droid.GUI.Service
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Click += btnLiveWallpaper_Click;
             RootView.FindViewById<Button>(Resource.Id.btn_debug_clear_data).Visibility = ViewStates.Visible;
             RootView.FindViewById<Button>(Resource.Id.btn_debug_clear_data).Click += btnDebugClearData_Click;
-            
+
 #else
             RootView.FindViewById<Button>(Resource.Id.btn_livewallpaper_config).Visibility = ViewStates.Gone;
 #endif

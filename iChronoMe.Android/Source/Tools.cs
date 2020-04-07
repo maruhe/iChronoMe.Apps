@@ -19,8 +19,6 @@ using Java.Lang;
 
 using Xamarin.Essentials;
 
-using static Android.Content.Res.Resources;
-
 namespace iChronoMe.Droid
 {
     public static class Tools
@@ -417,7 +415,7 @@ namespace iChronoMe.Droid
                             themeArray.Recycle();
                         }
                     }
-                } 
+                }
                 else
                 {
                     if (Build.VERSION.SdkInt >= BuildVersionCodes.M)

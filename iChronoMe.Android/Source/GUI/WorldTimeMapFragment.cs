@@ -52,7 +52,7 @@ namespace iChronoMe.Droid.GUI
             MapsInitializer.Initialize(Context);
 
             mMapView = (MapView)view.FindViewById(Resource.Id.mapView);
-            mMapView.OnCreate(savedInstanceState);            
+            mMapView.OnCreate(savedInstanceState);
 
             return view;
         }
@@ -618,7 +618,9 @@ namespace iChronoMe.Droid.GUI
             static string blinkingID;
 
             private Delayer _delayer;
-            public Delayer Delayer { get
+            public Delayer Delayer
+            {
+                get
                 {
                     if (_delayer == null)
                     {
@@ -627,7 +629,7 @@ namespace iChronoMe.Droid.GUI
                             , 1250, 0);
                     }
                     return _delayer;
-                } 
+                }
             }
 
             public WorldTimeItem(Marker marker)

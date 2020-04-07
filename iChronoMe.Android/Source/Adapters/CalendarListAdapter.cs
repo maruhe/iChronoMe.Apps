@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Views;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.DeviceCalendar;

@@ -10,6 +10,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
+
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Controls;

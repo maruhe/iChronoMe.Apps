@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Android;
 using Android.Content;
 using Android.Content.PM;
@@ -16,7 +17,9 @@ using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+
 using AndroidX.Core.App;
+
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
@@ -1050,7 +1053,7 @@ namespace iChronoMe.Droid.GUI
                                             var uri = Android.Net.Uri.FromParts("package", mContext.PackageName, null);
                                             intent.SetData(uri);
                                             mContext.StartActivityForResult(intent, RQ_FORCE_LOCATION_UPDATE);
-                                        } 
+                                        }
                                         catch (Exception ex)
                                         {
                                             sys.LogException(ex);

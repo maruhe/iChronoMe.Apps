@@ -465,8 +465,8 @@ namespace iChronoMe.Droid.Widgets
                     itClick = new Intent(context, typeof(ShortCutActivity));
                     itClick.PutExtra("shortcut", "create_alarm");
                     break;
-                //case ClickActionType.TimeToTimeDialog:
-                //  break;
+                    //case ClickActionType.TimeToTimeDialog:
+                    //  break;
             }
 
             return itClick;

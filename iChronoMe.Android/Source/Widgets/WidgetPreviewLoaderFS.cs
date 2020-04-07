@@ -6,7 +6,7 @@ using System.Threading;
 using Android.Graphics;
 using Android.OS;
 using Android.Views;
-using iChronoMe.Core.Classes;
+
 using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets
@@ -116,7 +116,7 @@ namespace iChronoMe.Droid.Widgets
                 else
                     viewHolder.preview.SetImageResource(Resource.Drawable.icons8_error_clrd);
                 //if (sys.Debugmode)
-                  //  viewHolder.title.Text = cInfo + (int)(DateTime.Now - tStart).TotalMilliseconds + "all "; ;
+                //  viewHolder.title.Text = cInfo + (int)(DateTime.Now - tStart).TotalMilliseconds + "all "; ;
                 viewHolder.progress.Visibility = ViewStates.Gone;
             }
             catch (ThreadAbortException) { }

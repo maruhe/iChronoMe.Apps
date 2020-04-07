@@ -1,27 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-
-using Android.App;
-using Android.Appwidget;
-using Android.Content;
-using Android.Content.PM;
-using Android.Graphics;
-using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Views;
-using Android.Widget;
-
-using AndroidX.Core.App;
-using AndroidX.Core.Content;
-
-using iChronoMe.Core;
-using iChronoMe.Core.Classes;
-using iChronoMe.Core.Types;
-using iChronoMe.Widgets;
-
-namespace iChronoMe.Droid.Widgets.Clock
+﻿namespace iChronoMe.Droid.Widgets.Clock
 {
     /*
      * not working fine this stuff

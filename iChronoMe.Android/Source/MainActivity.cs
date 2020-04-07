@@ -21,10 +21,10 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Calendar;
-using iChronoMe.Droid.GUI.Debug;
 using iChronoMe.Droid.GUI.Dialogs;
 using iChronoMe.Droid.GUI.Service;
 using iChronoMe.Widgets;
+
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace iChronoMe.Droid
@@ -57,7 +57,7 @@ namespace iChronoMe.Droid
                 Drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
                 Drawer.SetScrimColor(Tools.GetThemeColor(this, Resource.Color.navigationScrim));
                 DrawerToggle = new ActionBarDrawerToggle(this, Drawer, Toolbar, Resource.String.navigation_drawer_open, Resource.String.navigation_drawer_close);
-                Drawer.AddDrawerListener(DrawerToggle);                
+                Drawer.AddDrawerListener(DrawerToggle);
 
                 NavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
                 NavigationView.SetNavigationItemSelectedListener(this);

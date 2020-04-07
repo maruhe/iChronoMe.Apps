@@ -1,6 +1,5 @@
-﻿
-using System.Runtime.Remoting.Contexts;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using Android.Content.PM;
 using Android.Runtime;
 using Android.Support.V4.App;

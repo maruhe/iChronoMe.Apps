@@ -544,7 +544,8 @@ namespace iChronoMe.Droid.GUI.Calendar
                     tLastVisible = tFirstVisible.AddDays(1);
             }
             await calEvents.DoLoadCalendarEventsListed(tFirstVisible.AddDays(-1), tLastVisible.AddDays(1));
-            mContext.RunOnUiThread(() => {
+            mContext.RunOnUiThread(() =>
+            {
                 schedule.ItemsSource = new List<CalendarEvent>(calEvents.ListedDates);
             });
 

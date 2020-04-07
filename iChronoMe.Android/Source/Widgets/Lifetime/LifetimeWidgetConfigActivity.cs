@@ -7,7 +7,6 @@ using Android.Appwidget;
 using Android.Content;
 using Android.Content.PM;
 using Android.Runtime;
-using Android.Views.InputMethods;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
