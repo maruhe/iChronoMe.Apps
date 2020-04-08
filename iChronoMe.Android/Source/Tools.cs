@@ -451,7 +451,7 @@ namespace iChronoMe.Droid
                 case TimeType.MiddleSunTime:
                     return "middle_sun_time";
                 case TimeType.TimeZoneTime:
-                    return "icons8_timezone_" + ((int)lth.TimeZoneOffset).ToString().Replace("-", "m");
+                    return "icons8_timezone_" + ((int)lth.TimeZoneOffsetGmt).ToString().Replace("-", "m");
                 case TimeType.UtcTime:
                     return "icons8_timezone_globe";
             }
