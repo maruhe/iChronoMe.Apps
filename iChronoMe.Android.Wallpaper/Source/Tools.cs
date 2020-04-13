@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// just the necessary part of iChronoMe.Droid.Tools
+
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 

@@ -1053,6 +1053,7 @@ namespace iChronoMe.Droid
 			global::iChronoMe.Widgets.Resource.String.abc_shareactionprovider_share_with = global::iChronoMe.Droid.Resource.String.abc_shareactionprovider_share_with;
 			global::iChronoMe.Widgets.Resource.String.abc_shareactionprovider_share_with_application = global::iChronoMe.Droid.Resource.String.abc_shareactionprovider_share_with_application;
 			global::iChronoMe.Widgets.Resource.String.abc_toolbar_collapse_description = global::iChronoMe.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::iChronoMe.Widgets.Resource.String.library_name = global::iChronoMe.Droid.Resource.String.library_name;
 			global::iChronoMe.Widgets.Resource.String.search_menu_title = global::iChronoMe.Droid.Resource.String.search_menu_title;
 			global::iChronoMe.Widgets.Resource.String.status_bar_notification_info_overflow = global::iChronoMe.Droid.Resource.String.status_bar_notification_info_overflow;
 			global::iChronoMe.Widgets.Resource.Style.AlertDialog_AppCompat = global::iChronoMe.Droid.Resource.Style.AlertDialog_AppCompat;

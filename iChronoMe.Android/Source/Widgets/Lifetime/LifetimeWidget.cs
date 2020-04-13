@@ -13,9 +13,11 @@ using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Lifetime
 {
-    //[BroadcastReceiver(Label = "@string/widget_title_lifetime", Name = "me.ichrono.droid.Lifetime.LifetimeWidget")]
-    //[IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
-    //[MetaData("android.appwidget.provider", Resource = "@xml/widget_lifetime")]
+#if DEBUG
+    [BroadcastReceiver(Label = "@string/widget_title_lifetime", Name = "me.ichrono.droid.Lifetime.LifetimeWidget")]
+    [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
+    [MetaData("android.appwidget.provider", Resource = "@xml/widget_lifetime")]
+#endif
     public class LifetimeWidget : MainWidgetBase
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)

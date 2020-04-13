@@ -1,4 +1,6 @@
-﻿using System;
+﻿// just the necessary part of iChronoMe.Droid.DrawableHelper
+
+using System;
 using System.Collections.Generic;
 
 using Android.Content;

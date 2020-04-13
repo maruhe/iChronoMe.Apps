@@ -9,7 +9,10 @@ using Android.Service.Wallpaper;
 using Android.Views;
 
 using iChronoMe.Core;
+using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
+using iChronoMe.Widgets;
+using iChronoMe.Widgets.AndroidHelpers;
 
 namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 {
@@ -29,6 +32,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             public Handler mHandler { get; } = new Handler();
             Context mContext;
 
+            private SKCanvasMapper mapper;
             private Paint paint = new Paint();
             private Point size = new Point();
             private PointF touch_point = new PointF(-1, -1);
@@ -43,7 +47,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             private bool bIsLockScreen = false;
 
             private LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
-            private WallpaperClockView clockView = new WallpaperClockView();
+            private WidgetView_ClockAnalog clockView = new WidgetView_ClockAnalog();
 
             public WallpaperClockEngine(Context wall) : base(wall as WallpaperClockService)
             {
@@ -72,7 +76,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 }
 
                 if (wallpaperDrawable == null)
-                    wallpaperDrawable = wall.Resources.GetDrawable(Resource.Drawable.dummy_wallpaper, null);
+                    wallpaperDrawable = wall.Resources.GetDrawable(Resource.Mipmap.dummy_wallpaper, null);
 
                 clockView.FlowMinuteHand = true;
                 clockView.FlowSecondHand = false;
@@ -86,7 +90,15 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 paint.StrokeCap = Paint.Cap.Round;
                 paint.SetStyle(Paint.Style.Stroke);
 
+                mapper = new SKCanvasMapper();
+                mapper.PaintSurface += Mapper_PaintSurface;
+
                 mDrawCube = delegate { DrawFrame(); };
+            }
+
+            internal void RefreshConfig(WallpaperConfig cfg)
+            {
+                DrawFrame();
             }
 
             public override void OnCreate(ISurfaceHolder surfaceHolder)
@@ -143,6 +155,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
                 is_visible = false;
                 mHandler.RemoveCallbacks(mDrawCube);
+                mapper.DetachedFromWindow();
             }
 
             public override void OnOffsetsChanged(float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset)
@@ -209,6 +222,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             // Draw a wireframe cube by drawing 12 3 dimensional lines between
             // adjacent corners of the cube
             Bitmap background = null;
+            DateTime tLastDraw = DateTime.MinValue;
             public void DrawWallpaper(Canvas c)
             {
                 try
@@ -248,6 +262,15 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                     c.DrawColor(Color.White);
                     if (wallpaperDrawable != null)
                         wallpaperDrawable.Draw(c);
+
+                    var cfg = WallpaperConfigHolder.GetConfig(bIsLockScreen ? WallpaperType.LockScreen : WallpaperType.HomeScreen, sys.DisplayOrientation);
+
+                    int x = cfg.Items[0].X;
+                    int y = cfg.Items[0].Y;
+                    int w = cfg.Items[0].Width;
+                    int h = cfg.Items[0].Heigth;
+
+                    /*
 
                     int x = 0;
                     int y = 0;
@@ -291,8 +314,18 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                         w = (int)nw;
                         h = (int)nh;
                     }
+                    */
 
-                    clockView.DrawClock(c, lth.RealSunTime, x, y, w, h);
+                    var tsInvervall = DateTime.Now - tLastDraw;
+                    tLastDraw = DateTime.Now;
+                    if (tsInvervall.TotalMinutes < 2 && sys.Debugmode)
+                    {
+                        c.DrawText((int)tsInvervall.TotalMilliseconds + " ms\n"+clockView.PerformanceInfo, 100, 100, new Paint { Color = Color.Red, TextSize = 45 });
+                    }
+
+                    mapper.UpdateCanvasSize(w, h);
+                    c.Translate(x, y);
+                    mapper.Draw(c);
                 }
                 catch (Exception ex)
                 {
@@ -307,6 +340,11 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                     tstAnimationStart = DateTime.MinValue;
                     tstAnimationEnd = DateTime.MinValue;
                 }
+            }
+
+            private void Mapper_PaintSurface(object sender, SkiaSharp.Views.Android.SKPaintSurfaceEventArgs e)
+            {
+                clockView.DrawCanvas(e.Surface.Canvas, lth.RealSunTime, (int)e.Info.Width, (int)e.Info.Height, false);
             }
         }
     }

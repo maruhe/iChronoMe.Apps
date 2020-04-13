@@ -457,10 +457,12 @@
     <ProjectReference Include="..\..\iChronoMe.Base\iChronoMe.Core\iChronoMe.Core.csproj">
       <Project>{9774f1d5-df85-461b-a11a-8be1b9c4fa8a}</Project>
       <Name>iChronoMe.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\iChronoMe.Base\iChronoMe.Widgets\iChronoMe.Widgets.csproj">
       <Project>{48f0efdd-038a-4d02-8f70-fd40272e4b59}</Project>
       <Name>iChronoMe.Widgets</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'=='Debug'">
