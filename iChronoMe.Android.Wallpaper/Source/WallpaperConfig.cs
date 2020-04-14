@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Xml.Serialization;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -10,7 +10,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using iChronoMe.Core.Classes;
+using iChronoMe.Droid.Wallpaper.Controls;
 using iChronoMe.Widgets;
+using iChronoMe.Widgets.AndroidHelpers;
 using Xamarin.Essentials;
 
 namespace iChronoMe.Droid.Wallpaper
@@ -45,10 +47,20 @@ namespace iChronoMe.Droid.Wallpaper
                 {
                     X = 50,
                     Y = 50,
-                    Width = sys.DisplayShortSite - 100,
-                    Heigth = sys.DisplayShortSite - 100,
+                    Width = sys.DisplayShortSite / 2,
+                    Heigth = sys.DisplayShortSite / 2,
                     ClockCfg = new WidgetCfg_ClockAnalog()
                 });
+
+                cfg.Items.Add(new WallpaperItem
+                {
+                    X = 150 + sys.DisplayShortSite / 2,
+                    Y = 50,
+                    Width = sys.DisplayShortSite / 2,
+                    Heigth = sys.DisplayShortSite / 2,
+                    ClockCfg = new WidgetCfg_ClockAnalog()
+                });
+                SetConfig(type, orientation.Value, cfg);
             }
 
             if (forceUnicObject)
@@ -94,7 +106,15 @@ namespace iChronoMe.Droid.Wallpaper
         public int Width { get; set; }
         public int Heigth { get; set; }
 
-        public WidgetCfg_ClockAnalog ClockCfg { get; set; }
+        
+        [XmlIgnore] public WidgetCfg_ClockAnalog ClockCfg { get; set; }
+        
+        [XmlIgnore] public WidgetView_ClockAnalog ClockView { get; set; }
+        [XmlIgnore] public SKCanvasMapper CanvasMapper { get; set; }
+
+        [XmlIgnore] public ConfigLayout ConfigLayout { get; set; }
+
+        [XmlIgnore] public Android.Graphics.Bitmap BackgroundCache { get; set; }
     }
 
     public enum WallpaperType

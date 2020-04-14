@@ -18,8 +18,8 @@ using Android.Widget;
 
 namespace iChronoMe.Droid.Wallpaper.Controls
 {
-    [Register("me.ichrono.droid.Wallpaper.Controls.UserLayout")]
-    public class UserLayout : View
+    [Register("me.ichrono.droid.Wallpaper.Controls.xxxLayout")]
+    public class xxxLayout : View
     {
         //contants strings
         private const string TAG = "UserLayout";
@@ -51,25 +51,25 @@ namespace iChronoMe.Droid.Wallpaper.Controls
         //context
         Context context;
 
-        public UserLayout(Context context) : base(context)
+        public xxxLayout(Context context) : base(context)
         {
             this.context = context;
             init(null);
         }
 
-        public UserLayout(Context context, IAttributeSet attrs) : base(context, attrs)
+        public xxxLayout(Context context, IAttributeSet attrs) : base(context, attrs)
         {
             this.context = context;
             init(attrs);
         }
 
-        public UserLayout(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
+        public xxxLayout(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
             this.context = context;
             init(attrs);
         }
 
-        public UserLayout(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
+        public xxxLayout(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
         {
             this.context = context;
             init(attrs);
@@ -334,3 +334,18 @@ namespace iChronoMe.Droid.Wallpaper.Controls
         public event EventHandler UserChanged;
     }
 }
+
+/*
+    <me.ichrono.droid.Wallpaper.Controls.xxxLayout
+        android:id="@+id/ulClockSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        app:minimumSide="40dp"
+        app:resizeCornerDrawable="@drawable/adjust_edge_circle"
+        app:moveCornerDrawable="@drawable/move_box_circle"
+        app:cornerColor="@color/linkblue"
+        app:edgeColor="@color/colorPrimary"
+        app:outsideCropColor="@color/transparent_50"
+        app:cornerSize="20dp"/> 
+ */

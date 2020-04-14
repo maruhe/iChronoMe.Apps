@@ -5,7 +5,6 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   <uses-permission android:name="android.permission.READ_CALENDAR" />
   <uses-permission android:name="android.permission.WRITE_CALENDAR" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -17,7 +16,6 @@
   <uses-feature android:name="android.hardware.location" android:required="false" />
   <uses-feature android:name="android.hardware.location.gps" android:required="false" />
   <uses-feature android:name="android.hardware.location.network" android:required="false" />
-  <uses-feature android:name="android.hardware.telephony" android:required="false" />
   <supports-screens android:resizeable="true" android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
   <application android:allowBackup="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/AppTheme.iChronoMe.Dark" android:largeHeap="true">
     <!-- Put your Google Maps V2 API Key here. or better create a secrets.xml in you values folder and store this stuff there. In THIS project you also can create secrets_debug.xml and secrets_release.xml to use diffrent keys, check project-file-raw-content-->

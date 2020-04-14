@@ -22,20 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <me.ichrono.droid.Wallpaper.Controls.UserLayout
-        android:id="@+id/ulClockSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent"
-        app:minimumSide="40dp"
-        app:resizeCornerDrawable="@drawable/adjust_edge_circle"
-        app:moveCornerDrawable="@drawable/move_box_circle"
-        app:cornerColor="@color/linkblue"
-        app:edgeColor="@color/colorPrimary"
-        app:outsideCropColor="@color/transparent_50"
-        app:cornerSize="20dp"/>
+	<android.support.design.widget.CoordinatorLayout
+			android:id="@+id/flConfig"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
 
-    <android.support.design.widget.FloatingActionButton
+	<android.support.design.widget.FloatingActionButton
         android:id="@+id/fabSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

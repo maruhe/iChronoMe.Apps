@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -19,21 +19,24 @@ namespace iChronoMe.Droid.Wallpaper.Controls
 
     public class WallpaperPreView : View
     {
+        Activity mContext;
+
         public WallpaperPreView(Context context) : base(context)
         {
-            init();
+            init(context);
         }
         public WallpaperPreView(Context context, IAttributeSet attrs) : base(context, attrs)
         {
-            init();
+            init(context);
         }
         public WallpaperPreView(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle)
         {
-            init();
+            init(context);
         }
 
-        private void init()
+        private void init(Context context)
         {
+            mContext = context as Activity;
             refresh = delegate { Invalidate(); };
         }
 
@@ -48,9 +51,32 @@ namespace iChronoMe.Droid.Wallpaper.Controls
             if (WallpaperClockEngine != null)
             {
                 WallpaperClockEngine.DrawWallpaper(canvas);
-
-                WallpaperClockEngine.mHandler.PostDelayed(refresh, 1000 / 60);
+                //WallpaperClockEngine.mHandler.PostDelayed(refresh, 1000);
             }
+        }
+
+        Thread tr;
+        bool bRunning = false;
+        public void Start(int delay = 110)
+        {
+            bRunning = true;
+            tr?.Abort();
+            tr = new Thread(() => {
+                try
+                {
+                    while (bRunning)
+                    {
+                        Thread.Sleep(delay);
+                        mContext.RunOnUiThread(() => Invalidate());
+                    }
+                } catch { }
+            });
+            tr.Start();
+        }
+
+        public void Stop()
+        {
+            bRunning = false;
         }
     }
 }
