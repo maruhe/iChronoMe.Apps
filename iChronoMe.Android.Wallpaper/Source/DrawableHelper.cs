@@ -1,6 +1,4 @@
-﻿// just the necessary part of iChronoMe.Droid.DrawableHelper
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using Android.Content;
@@ -8,6 +6,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Support.V4.Content;
 using Android.Support.V4.Graphics.Drawable;
+using Android.Support.V7.View;
 
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Types;
@@ -26,7 +25,7 @@ namespace iChronoMe.Droid.Wallpaper
                     List<int> list = new List<int>();
                     foreach (var prop in typeof(Resource.Drawable).GetFields())
                     {
-                        if (prop.Name.Contains("_clrd") || "real_sun_time".Equals(prop.Name))
+                        if (prop.Name.Contains("_clrd"))
                             list.Add((int)prop.GetValue(null));
                     }
                     _coloredIcons = list;
@@ -53,9 +52,17 @@ namespace iChronoMe.Droid.Wallpaper
         {
             try
             {
+                if (!(context is ContextWrapper))
+                {
+                    context = new ContextThemeWrapper(context, Resource.Style.AppTheme);
+                }
+                else
+                    context.Theme.ToString();
+
                 var mDrawable = ContextCompat.GetDrawable(context, drawableRes);
-                if (!(mDrawable is VectorDrawable) || ColoredIcons.Contains(drawableRes))
+                if ((!(mDrawable is VectorDrawable) && !(mDrawable is GradientDrawable) && !(mDrawable is RotateDrawable)) || ColoredIcons.Contains(drawableRes))
                     return mDrawable;
+
                 try
                 {
                     var mWrappedDrawable = mDrawable.Mutate();

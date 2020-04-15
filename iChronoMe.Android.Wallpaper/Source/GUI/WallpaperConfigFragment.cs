@@ -18,6 +18,7 @@ using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.Wallpaper.Controls;
+using iChronoMe.Droid.Wallpaper.Widgets;
 using iChronoMe.Widgets;
 using static iChronoMe.Droid.Wallpaper.LiveWallpapers.WallpaperClockService;
 
@@ -90,6 +91,7 @@ namespace iChronoMe.Droid.Wallpaper
         {
             base.OnPause();
             preview.Stop();
+            Tools.ShowToast(mContext, "pause");
         }
 
         public override void OnDestroy()
@@ -106,28 +108,28 @@ namespace iChronoMe.Droid.Wallpaper
                 var x = cl.GetSize();
 
                 int i = cl.ItemId;
-                var cfg = WallpaperConfigHolder.GetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, true);
-                cfg.Items[i].X = x.x;
-                cfg.Items[i].Y = x.y;
-                cfg.Items[i].Width = x.width;
-                cfg.Items[i].Heigth = x.height;
-                WallpaperConfigHolder.SetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, cfg);
-                //engine.RefreshConfig(cfg);
+                currentCfg.Items[i].X = x.x;
+                currentCfg.Items[i].Y = x.y;
+                currentCfg.Items[i].Width = x.width;
+                currentCfg.Items[i].Heigth = x.height;
+                WallpaperConfigHolder.SetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, currentCfg);
+                engine.RefreshConfig();
                 preview.Invalidate();
             }
         }
 
+        WallpaperConfig currentCfg = null;
         public void UpdateAllConfigLayouts()
         {
-            var cfg = WallpaperConfigHolder.GetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, true);
+            currentCfg = WallpaperConfigHolder.GetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, true);
             int i = 0;
             ConfigFrame.RemoveAllViews();
-            foreach (var item in cfg.Items)
+            foreach (var item in currentCfg.Items)
             {
                 var cl = new ConfigLayout(mContext);
                 ConfigFrame.AddView(cl, new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MatchParent, CoordinatorLayout.LayoutParams.MatchParent));
                 item.ConfigLayout = cl;
-                cl.WallpaperConfig = cfg;
+                cl.WallpaperConfig = currentCfg;
                 cl.ItemId = i;
                 cl.WallpaperItem = item;
                 i++;
@@ -146,38 +148,10 @@ namespace iChronoMe.Droid.Wallpaper
         const int menu_TimeType = 112;
         const int menu_Delete = 900;
 
-        /*
-                    Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.Background, null, cfg, typeof(WidgetCfgAssistant_ClockAnalog_Background), cfgPrev));
-                    if (ClockHandConfig.Count > 1)
-                        Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.HandTypes, null, cfg, typeof(WidgetCfgAssistant_ClockAnalog_HandType)));
-                    cfg = BaseSample.GetConfigClone();
-                    cfgPrev = BaseSample.GetConfigClone();
-                    cfgPrev.ColorHourHandStroke = cfgPrev.ColorMinuteHandFill = cfgPrev.ColorMinuteHandStroke = cfgPrev.ColorMinuteHandFill =
-                        cfgPrev.ColorSecondHandStroke = cfgPrev.ColorSecondHandFill = xColor.HotPink;
-                    Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.ClockHandColors, null, cfg, typeof(WidgetCfgAssistant_ClockAnalog_HandColorType), cfgPrev));
-                    //if (string.IsNullOrEmpty(cfg.BackgroundImage))
-                    {
-                        cfg = BaseSample.GetConfigClone();
-                        cfgPrev = BaseSample.GetConfigClone();
-                        cfgPrev.ColorTickMarks = xColor.HotPink;
-                        Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.ClockFace, null, cfg, typeof(WidgetCfgAssistant_ClockAnalog_TickMarks), cfgPrev));
-                    }
-                    Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.LocationType, null, BaseSample.GetConfigClone(), typeof(WidgetCfgAssistant_ClockAnalog_Start)));
-                    Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.TimeType, null, BaseSample.GetConfigClone(), typeof(WidgetCfgAssistant_ClockAnalog_WidgetTimeType)));
-
-                    Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.TextColor, null, BaseSample.GetConfigClone(), typeof(WidgetCfgAssistant_ClockAnalog_TextColor)));
-                    //Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.Theme, null, BaseSample.GetConfigClone(), typeof(WidgetCfgAssistant_ClockAnalog_Theme)));
-
-                    Samples.Add(new WidgetCfgSample<WidgetCfg_ClockAnalog>(localize.ClickAction, null, BaseSample.GetConfigClone(), typeof(WidgetCfgAssistant_Universal_ClickAction<WidgetCfg_ClockAnalog>)));
-
-        */
-
         View popView;
 
         private void Cl_OptionsClicked(object sender, EventArgs e)
         {
-            Tools.ShowToast(mContext, "pop");
-
             ConfigLayout cl = sender as ConfigLayout;
             if (popView == null)
             {
@@ -225,7 +199,9 @@ namespace iChronoMe.Droid.Wallpaper
                             }
 
                             cl.WallpaperItem.ClockCfg.WidgetTimeType = cl.WallpaperItem.ClockCfg.CurrentTimeType = tt;
-
+                            WallpaperConfigHolder.SetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, currentCfg);
+                            engine.RefreshConfig();
+                            preview.Invalidate();
                         })
                         .Create().Show();
                 }
@@ -233,9 +209,42 @@ namespace iChronoMe.Droid.Wallpaper
                 {
                     Type tAssistant = null;
 
+                    switch (e.Item.ItemId)
+                    {
+                        case menu_Background:
+                            tAssistant = typeof(WidgetCfgAssistant_ClockAnalog_Background);
+                            break;
+                        case menu_HandTypes:
+                            tAssistant = typeof(WidgetCfgAssistant_ClockAnalog_HandType);
+                            break;
+                        case menu_ClockHandColors:
+                            tAssistant = typeof(WidgetCfgAssistant_ClockAnalog_HandColors);
+                            break;
+                        case menu_ClockFace:
+                            tAssistant = typeof(WidgetCfgAssistant_ClockAnalog_TickMarks);
+                            break;
+                        case menu_LocationType:
+                            tAssistant = typeof(WidgetCfgAssistant_ClockAnalog_Start);
+                            break;
+                    }
+
                     if (tAssistant != null)
                     {
+                        var mgr = new WidgetConfigAssistantManager<WidgetCfg_ClockAnalog>(mContext, null);
 
+                        Task.Factory.StartNew(async () =>
+                        {
+                            cl.WallpaperItem.ClockCfg.WidgetId = -1;
+                            var cfg = await mgr.StartAt(tAssistant, cl.WallpaperItem.ClockCfg, new List<Type>(new Type[] { typeof(WidgetCfgAssistant_ClockAnalog_OptionsBase) }));
+                            if (cfg != null)
+                            {
+                                cl.WallpaperItem.ClockCfg = cfg.GetConfigClone();
+                                cl.WallpaperItem.ClockCfg.ApplyDefaultColors();
+                                WallpaperConfigHolder.SetConfig(WallpaperType.HomeScreen, sys.DisplayOrientation, currentCfg);
+                                engine.RefreshConfig();
+                                mContext.RunOnUiThread(() => preview.Invalidate());
+                            }
+                        });
                     }
                 }
             };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -17,7 +18,6 @@ using static Android.App.ActivityManager;
 
 namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 {
-#if DEBUG
     [Service(Label = "@string/wallpaper_title_clock_analog", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
     [IntentFilter(new string[] { "android.service.wallpaper.WallpaperService" })]
     [MetaData("android.service.wallpaper", Resource = "@xml/wallpaper_analogclock")]
@@ -34,6 +34,8 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             Context mContext;
 
             private Paint paint = new Paint();
+            private Paint backPaint = new Paint(); 
+            private Paint backTint = new Paint();
             private Point size = new Point();
             private PointF touch_point = new PointF(-1, -1);
             private float offset;
@@ -52,6 +54,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             {
                 mContext = wall;
                 start_time = SystemClock.ElapsedRealtime();
+                RefreshConfig();
                 try
                 {
                     WallpaperManager wpMgr = WallpaperManager.GetInstance(wall);
@@ -84,12 +87,99 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 paint.StrokeCap = Paint.Cap.Round;
                 paint.SetStyle(Paint.Style.Stroke);
 
+                backPaint.SetStyle(Paint.Style.Fill);
+
                 mDrawAction = delegate { DrawFrame(); };
             }
 
-            internal void RefreshConfig(WallpaperConfig cfg)
+            WallpaperConfig cfg;
+            Dictionary<string, ItemCache> cfgCache = new Dictionary<string, ItemCache>();
+            internal void RefreshConfig()
             {
-                DrawFrame();
+                cfg?.Dispose();
+                cfg = WallpaperConfigHolder.GetConfig(bIsLockScreen ? WallpaperType.LockScreen : WallpaperType.HomeScreen, sys.DisplayOrientation, true);
+                //mDrawAction?.Invoke();
+
+                lock (cfgCache)
+                {
+                    foreach (var item in cfg.Items)
+                    {
+                        ItemCache itemCache = null;
+                        if (cfgCache.ContainsKey(item.Guid))
+                            itemCache = cfgCache[item.Guid];
+                        else
+                        {
+                            itemCache = new ItemCache();
+                            cfgCache.Add(item.Guid, itemCache);
+                        }
+
+                        if (itemCache.CanvasMapper == null)
+                        {
+                            itemCache.CanvasMapper = new SKCanvasMapper();
+                            allMapper.Add(itemCache.CanvasMapper);
+                            itemCache.CanvasMapper.PaintSurface += Mapper_PaintSurface;
+                        }
+                        itemCache.CanvasMapper.ConfigTag = item;
+
+                        if (itemCache.ClockView == null)
+                        {
+                            itemCache.ClockView = new WidgetView_ClockAnalog();
+                            itemCache.CanvasMapper.ViewTag = itemCache.ClockView;
+                        }
+                        itemCache.ClockView.ReadConfig(item.ClockCfg);
+                        itemCache.ClockView.FlowMinuteHand = false;
+                        itemCache.ClockView.FlowSecondHand = false;
+                        itemCache.ClockView.ShowSecondHand = true;
+
+                        itemCache.CanvasMapper.ConfigTag = item;
+
+                        if (itemCache.ClockView.BackgroundImage != itemCache.BackgroundFile)
+                            itemCache.BackgroundFile = string.Empty;
+
+                        if (!string.IsNullOrEmpty(itemCache.ClockView.BackgroundImage))
+                        {
+                            int w = item.Width;
+                            int h = item.Heigth;
+                            var bitmap = itemCache.BackgroundCache;
+                            if (itemCache.ClockView.BackgroundImage != itemCache.BackgroundFile || bitmap == null || bitmap.Handle == IntPtr.Zero || bitmap.Width != w || bitmap.Height != h)
+                            {
+                                if (bitmap != null)
+                                {
+                                    if (bitmap.Handle != IntPtr.Zero && !bitmap.IsRecycled)
+                                        bitmap.Recycle();
+                                    bitmap.Dispose();
+                                }
+                                try
+                                {
+                                    using (var fullsize = BitmapFactory.DecodeFile(itemCache.ClockView.GetClockFacePng(itemCache.ClockView.BackgroundImage, sys.DisplayShortSite)))
+                                    {
+                                        itemCache.BackgroundCache = Bitmap.CreateScaledBitmap(fullsize, w, h, false);
+                                    }
+                                }
+                                catch
+                                {
+                                    var drw = new ScaleDrawable(mContext.GetDrawable(Resource.Drawable.icons8_error_clrd), GravityFlags.Center, w, h).Drawable;
+                                    Bitmap bmp = Bitmap.CreateBitmap(w, h, Bitmap.Config.Argb8888);
+                                    Canvas canvas = new Canvas(bmp);
+                                    drw.SetBounds(0, 0, w, h);
+                                    drw.Draw(canvas);
+                                    itemCache.BackgroundCache = bmp;
+                                }
+                            }
+                            itemCache.BackgroundFile = itemCache.ClockView.BackgroundImage;
+                        }
+                        else if (itemCache.BackgroundCache != null)
+                        {
+                            if (itemCache.BackgroundCache.Handle != IntPtr.Zero && !itemCache.BackgroundCache.IsRecycled)
+                                itemCache.BackgroundCache.Recycle();
+                            itemCache.BackgroundCache.Dispose();
+                            itemCache.BackgroundCache = null;
+                            itemCache.BackgroundFile = string.Empty;
+                        }
+                    }
+                }
+
+                GC.Collect();
             }
 
             public override void OnCreate(ISurfaceHolder surfaceHolder)
@@ -262,146 +352,118 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                     c.DrawColor(Color.White);
                     if (wallpaperDrawable != null)
                         wallpaperDrawable.Draw(c);
-                    
-                    var cfg = WallpaperConfigHolder.GetConfig(bIsLockScreen ? WallpaperType.LockScreen : WallpaperType.HomeScreen, sys.DisplayOrientation);
-
-                    foreach (var item in cfg.Items)
+                    lock (cfgCache)
                     {
-
-                        int x = item.X;
-                        int y = item.Y;
-                        int w = item.Width;
-                        int h = item.Heigth;
-
-                        if (item.ClockView == null)
+                        foreach (var item in cfg.Items)
                         {
-                            var newclock = new WidgetView_ClockAnalog();
-                            newclock.ReadConfig(item.ClockCfg);
-                            newclock.FlowMinuteHand = false;
-                            newclock.FlowSecondHand = false;
-                            newclock.ShowSecondHand = true;
-                            item.ClockView = newclock;
-                        }
 
-                        if (item.CanvasMapper == null)
-                        {
-                            item.CanvasMapper = new SKCanvasMapper();
-                            allMapper.Add(item.CanvasMapper);
-                            item.CanvasMapper.PaintSurface += Mapper_PaintSurface;
-                            item.CanvasMapper.ViewTag = item.ClockView;
-                            item.CanvasMapper.ConfigTag = item;
-                        }
+                            int x = item.X;
+                            int y = item.Y;
+                            int w = item.Width;
+                            int h = item.Heigth;
 
-                        /*
+                            ItemCache itemCache = cfgCache[item.Guid];
 
-                        int x = 0;
-                        int y = 0;
-                        int w = size.X;
-                        int h = size.Y;
+                            /*
 
-                        if (bIsLockScreen)
-                        {
-                            y = size.Y / 10;
-                            h -= y;
-                        }
-                        else
-                        {
-                            w -= size.X / 2;
-                            y = size.Y * 3 / 11;
-                            h -= size.Y / 2;
-                        }
+                            int x = 0;
+                            int y = 0;
+                            int w = size.X;
+                            int h = size.Y;
 
-                        if (tstAnimationEnd > DateTime.Now)
-                        {
-                            double nTotal = (tstAnimationEnd - tstAnimationStart).TotalMilliseconds;
-                            double nDone = (DateTime.Now - tstAnimationStart).TotalMilliseconds;
-
-                            double x1 = 0;
-                            double y1 = size.Y / 10;
-                            double w1 = size.X;
-                            double h1 = size.Y - y;
-
-                            double x2 = 0;
-                            double y2 = size.Y * 3 / 11;
-                            double w2 = size.X - size.X / 2;
-                            double h2 = size.Y - size.Y / 2;
-
-                            double nx = x1 + (x2 - x1) * nDone / nTotal;
-                            double ny = y1 + (y2 - y1) * nDone / nTotal;
-                            double nw = w1 + (w2 - w1) * nDone / nTotal;
-                            double nh = h1 + (h2 - h1) * nDone / nTotal;
-
-                            x = (int)nx;
-                            y = (int)ny;
-                            w = (int)nw;
-                            h = (int)nh;
-                        }
-                        */
-
-                        if (item.ClockView.BackgroundImage != null)
-                        {
-                            var bitmap = item.BackgroundCache;
-                            if (bitmap == null || bitmap.Handle == IntPtr.Zero || bitmap.Width != w || bitmap.Height != h)
+                            if (bIsLockScreen)
                             {
-                                if (bitmap != null)
+                                y = size.Y / 10;
+                                h -= y;
+                            }
+                            else
+                            {
+                                w -= size.X / 2;
+                                y = size.Y * 3 / 11;
+                                h -= size.Y / 2;
+                            }
+
+                            if (tstAnimationEnd > DateTime.Now)
+                            {
+                                double nTotal = (tstAnimationEnd - tstAnimationStart).TotalMilliseconds;
+                                double nDone = (DateTime.Now - tstAnimationStart).TotalMilliseconds;
+
+                                double x1 = 0;
+                                double y1 = size.Y / 10;
+                                double w1 = size.X;
+                                double h1 = size.Y - y;
+
+                                double x2 = 0;
+                                double y2 = size.Y * 3 / 11;
+                                double w2 = size.X - size.X / 2;
+                                double h2 = size.Y - size.Y / 2;
+
+                                double nx = x1 + (x2 - x1) * nDone / nTotal;
+                                double ny = y1 + (y2 - y1) * nDone / nTotal;
+                                double nw = w1 + (w2 - w1) * nDone / nTotal;
+                                double nh = h1 + (h2 - h1) * nDone / nTotal;
+
+                                x = (int)nx;
+                                y = (int)ny;
+                                w = (int)nw;
+                                h = (int)nh;
+                            }
+                            */
+
+                            itemCache.CanvasMapper.UpdateCanvasSize(w, h);
+                            c.Translate(x, y);
+
+                            if (item.ClockCfg.ColorBackground.A > 0)
+                            {
+                                backPaint.Color = item.ClockCfg.ColorBackground.ToAndroid();
+                                c.DrawCircle(w / 2, h / 2, w / 2, backPaint);
+                            }
+
+                            if (itemCache.BackgroundCache != null && itemCache.BackgroundCache.Handle != IntPtr.Zero && !itemCache.BackgroundCache.IsRecycled)
+                            {
+                                if (item.ClockCfg.BackgroundImageTint.A == 0)
+                                    c.DrawBitmap(itemCache.BackgroundCache, 0, 0, null);
+                                else
                                 {
-                                    if (bitmap.Handle != IntPtr.Zero && !bitmap.IsRecycled)
-                                        bitmap.Recycle();
-                                    bitmap.Dispose();
+                                    ColorFilter filter = new PorterDuffColorFilter(item.ClockCfg.BackgroundImageTint.ToAndroid(), PorterDuff.Mode.SrcIn);
+                                    backTint.SetColorFilter(filter);
+
+                                    c.DrawBitmap(itemCache.BackgroundCache, 0, 0, backTint);
                                 }
-                                try
-                                {
-                                    item.BackgroundCache = BitmapFactory.DecodeFile(item.ClockView.GetClockFacePng(item.ClockView.BackgroundImage, w));
-                                } 
-                                catch
-                                {
-                                    var drw = new ScaleDrawable(mContext.GetDrawable(Resource.Drawable.icons8_error_clrd), GravityFlags.Center, w, h).Drawable;
-                                    Bitmap bmp = Bitmap.CreateBitmap(w, h, Bitmap.Config.Argb8888);
-                                    Canvas canvas = new Canvas(bmp);
-                                    drw.SetBounds(0, 0, w, h);
-                                    drw.Draw(canvas);
-                                    item.BackgroundCache = bmp;
-                                }
-                            }                            
+                            }
+
+                            var tClock = sys.GetTimeWithoutMilliSeconds(lth.GetTime(item.ClockCfg.CurrentTimeType).AddSeconds(1));
+                            var tNext = DateTime.Now.AddMilliseconds(1000 - tClock.Millisecond);
+                            if (tNext < tRes)
+                                tRes = tNext;
+
+                            itemCache.CanvasMapper.Draw(c, tClock);
+
+                            if (sys.Debugmode)
+                                c.DrawText(itemCache.ClockView.PerformanceInfo, 15, -5, new Paint { Color = Color.Blue, TextSize = sys.DpPx(16) });
+                            c.Translate(-(x), -(y));
                         }
 
-                        item.CanvasMapper.UpdateCanvasSize(w, h);
-                        c.Translate(x, y);
-
-                        if (item.BackgroundCache != null)
-                            c.DrawBitmap(item.BackgroundCache, 0, 0, null);
-
-                        var tClock = sys.GetTimeWithoutMilliSeconds(lth.GetTime(item.ClockCfg.CurrentTimeType).AddSeconds(1));
-                        var tNext = DateTime.Now.AddMilliseconds(1000 - tClock.Millisecond);
-                        if (tNext < tRes)
-                            tRes = tNext;
-
-                        item.CanvasMapper.Draw(c, tClock);
-
-                        if (sys.Debugmode)
-                            c.DrawText(item.ClockView.PerformanceInfo, 15, -5, new Paint { Color = Color.Blue, TextSize = sys.DpPx(16) });
-                        c.Translate(-(x), -(y));
-                    }
-
-                    if (tLastGC.AddSeconds(10) < DateTime.Now)
-                    {
-                        GC.Collect();
-                        tLastGC = DateTime.Now;
-                        if (sys.Debugmode)
-                            c.DrawText("collected", c.Width - 300, 150, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
-                    }
-                    if (sys.Debugmode)
-                    {
-                        c.DrawText((DateTime.Now - swStart).TotalMilliseconds.ToString("#.00") + "ms", c.Width - 300, 100, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
-                        if (tLastMeminfo.AddSeconds(1) < DateTime.Now)
+                        if (tLastGC.AddSeconds(10) < DateTime.Now)
                         {
-                            if (activityManager == null)
-                                activityManager = (ActivityManager)mContext.GetSystemService(Context.ActivityService);
-                            var y = activityManager.GetProcessMemoryInfo(new int[] { Process.MyPid() })[0];
-                            kbMem = y.TotalPss;
-                            tLastMeminfo = DateTime.Now;
+                            GC.Collect();
+                            tLastGC = DateTime.Now;
+                            if (sys.Debugmode)
+                                c.DrawText("collected", c.Width - 300, 150, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
                         }
-                        c.DrawText((kbMem / 1024).ToString("#.00") + "mb", c.Width - 300, 50, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
+                        if (sys.Debugmode)
+                        {
+                            c.DrawText((DateTime.Now - swStart).TotalMilliseconds.ToString("#.00") + "ms", c.Width - 300, 100, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
+                            if (tLastMeminfo.AddSeconds(1) < DateTime.Now)
+                            {
+                                if (activityManager == null)
+                                    activityManager = (ActivityManager)mContext.GetSystemService(Context.ActivityService);
+                                var y = activityManager.GetProcessMemoryInfo(new int[] { Process.MyPid() })[0];
+                                kbMem = y.TotalPss;
+                                tLastMeminfo = DateTime.Now;
+                            }
+                            c.DrawText((kbMem / 1024).ToString("#.00") + "mb", c.Width - 300, 50, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -436,7 +498,14 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                     }
                 }              
             }
-        }
+        }        
     }
-#endif
+
+    public class ItemCache
+    {
+        public WidgetView_ClockAnalog ClockView { get; set; }
+        public SKCanvasMapper CanvasMapper { get; set; }
+        public Android.Graphics.Bitmap BackgroundCache { get; set; }
+        public string BackgroundFile { get; set; }
+    }
 }

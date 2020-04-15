@@ -24,7 +24,7 @@ namespace iChronoMe.Droid.Wallpaper
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            SetTheme(Resource.Style.AppTheme_NoActionBar);
+            SetTheme(Resource.Style.AppTheme);
             SetContentView(Resource.Layout.activity_fragment);
 
             ActiveFragment = new WallpaperConfigFragment();

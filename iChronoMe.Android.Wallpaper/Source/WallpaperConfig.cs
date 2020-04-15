@@ -74,47 +74,62 @@ namespace iChronoMe.Droid.Wallpaper
             if (type == WallpaperType.HomeScreen)
             {
                 if (orientation == DisplayOrientation.Landscape)
-                    cfgHomeLand = cfg;
+                    cfgHomeLand = cfg.Clone();
                 else
-                    cfgHomePort = cfg;
+                    cfgHomePort = cfg.Clone();
             }
             else
             {
                 if (orientation == DisplayOrientation.Landscape)
-                    cfgLockLand = cfg;
+                    cfgLockLand = cfg.Clone();
                 else
-                    cfgLockPort = cfg;
+                    cfgLockPort = cfg.Clone();
             }
         }
     }
 
-    public class WallpaperConfig
+    public class WallpaperConfig : IDisposable
     {
         public string BackgroundImage { get; set; }
         public List<WallpaperItem> Items { get; set; } = new List<WallpaperItem>();
 
         public WallpaperConfig Clone()
         {
-            return (WallpaperConfig)MemberwiseClone();
+            var clone = new WallpaperConfig();
+            clone.BackgroundImage = BackgroundImage;
+            foreach (var item in Items)
+            {
+                clone.Items.Add(item.Clone());
+            }
+            return clone;
+        }
+
+        public void Dispose()
+        {
+            foreach (var item in Items)
+            {
+                //item.CanvasMapper?.Dispose();
+                //item.BackgroundCache?.Recycle();
+            }
         }
     }
 
     public class WallpaperItem
     {
+        public string Guid { get; set; } = System.Guid.NewGuid().ToString();
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; }
         public int Heigth { get; set; }
-
-        
-        [XmlIgnore] public WidgetCfg_ClockAnalog ClockCfg { get; set; }
-        
-        [XmlIgnore] public WidgetView_ClockAnalog ClockView { get; set; }
-        [XmlIgnore] public SKCanvasMapper CanvasMapper { get; set; }
+                
+        public WidgetCfg_ClockAnalog ClockCfg { get; set; }
 
         [XmlIgnore] public ConfigLayout ConfigLayout { get; set; }
 
-        [XmlIgnore] public Android.Graphics.Bitmap BackgroundCache { get; set; }
+        internal WallpaperItem Clone()
+        {
+            return (WallpaperItem)MemberwiseClone();
+        }
     }
 
     public enum WallpaperType

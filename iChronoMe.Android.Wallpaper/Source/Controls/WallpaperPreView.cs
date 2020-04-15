@@ -69,7 +69,11 @@ namespace iChronoMe.Droid.Wallpaper.Controls
                         Thread.Sleep(delay);
                         mContext.RunOnUiThread(() => Invalidate());
                     }
-                } catch { }
+                } 
+                catch (Exception ex)
+                {
+                    Tools.ShowToast(mContext, ex.Message);
+                }
             });
             tr.Start();
         }

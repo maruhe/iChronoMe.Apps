@@ -150,7 +150,7 @@
     <Compile Include="Source\GUI\ClockFragment.cs" />
     <Compile Include="Source\GUI\Dialogs\ErrorLogDlg.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
-    <Compile Include="Source\GUI\ProgressDlg.cs" />
+    <Compile Include="Source\GUI\Dialogs\ProgressDlg.cs" />
     <Compile Include="Source\GUI\Service\AboutFragment.cs" />
     <Compile Include="Source\GUI\Service\FaqFragment.cs" />
     <Compile Include="Source\GUI\Service\MainSettingsFragment.cs" />
