@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-
 using Android;
 using Android.App;
 using Android.Content;
@@ -12,62 +13,32 @@ using Android.Content.Res;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.Design.Widget;
 using Android.Support.V4.App;
-using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Text.Method;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
-
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
 using iChronoMe.Core.Interfaces;
 using iChronoMe.Droid.Adapters;
 using iChronoMe.Droid.GUI;
 using iChronoMe.Droid.GUI.Dialogs;
-using iChronoMe.Droid.Receivers;
 using iChronoMe.Widgets;
-
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 
-namespace iChronoMe.Droid
+namespace iChronoMe.Droid.Wallpaper.GUI
 {
-    public abstract class BaseActivity : AppCompatActivity, IProgressChangedHandler, ILocationListener
+    [Android.App.Activity(Label = "InitScreenActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    public class InitScreenActivity : AppCompatActivity, IProgressChangedHandler, ILocationListener
     {
-        public Android.Support.V7.Widget.Toolbar Toolbar { get; protected set; } = null;
-        public DrawerLayout Drawer { get; protected set; } = null;
-        public Android.Support.V7.App.ActionBarDrawerToggle DrawerToggle { get; protected set; } = null;
-        public NavigationView NavigationView { get; protected set; } = null;
-        public ActivityFragment ActiveFragment { get; protected set; } = null;
-
-        private static ErrorReceiver errorReceiver;
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            try
-            {
-                if (errorReceiver == null)
-                {
-                    AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-                    TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
-
-                    errorReceiver = new ErrorReceiver();
-                    Android.Support.V4.Content.LocalBroadcastManager.GetInstance(this).RegisterReceiver(errorReceiver, new IntentFilter("com.xamarin.example.TEST"));
-
-                    Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-                    Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
-
-                    if (sys.MainUserIO == null || this is MainActivity)
-                        sys.MainUserIO = this;
-                }
-            }
-            catch (Exception ex)
-            {
-                sys.LogException(ex);
-            }
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            SetTheme(Resource.Style.AppTheme);
+            SetTheme(Resource.Style.TransparentTheme);
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -99,86 +70,23 @@ namespace iChronoMe.Droid
             bStartAssistantActive = false;
         }
 
-        string cThemeFile = Path.Combine(sys.PathConfig, "apptheme");
-        string currentTheme = string.Empty;
-        public void LoadAppTheme()
-        {
-            try
-            {
-                string cThemeName = File.Exists(cThemeFile) ? File.ReadAllText(cThemeFile) : null;
-                if (string.IsNullOrEmpty(cThemeName))
-                    cThemeName = nameof(Resource.Style.AppTheme_iChronoMe_Dark);
-                int iThemeId = (int)typeof(Resource.Style).GetField(cThemeName).GetValue(null);
-                SetTheme(iThemeId);
-                currentTheme = cThemeName;
-            }
-            catch (Exception ex)
-            {
-                File.WriteAllText(cThemeFile, string.Empty);
-                sys.LogException(ex);
-                SetTheme(Resource.Style.AppTheme_iChronoMe_Dark);
-            }
-        }
-
-        public async void ShowThemeSelector()
-        {
-            bKillOnClose = false;
-            var adapter = new ThemeAdapter(this);
-            string title = bStartAssistantActive ? base.Resources.GetString(Resource.String.welcome_ichronomy) + "\n" + base.Resources.GetString(Resource.String.label_choose_theme_firsttime) : Resources.GetString(Resource.String.action_change_theme);
-            var theme = await Tools.ShowSingleChoiseDlg(this, title, adapter, false);
-            if (theme >= 0)
-            {
-                if (currentTheme.Equals(adapter[theme].Text1))
-                    theme = -1;
-            }
-            if (bStartAssistantActive)
-            {
-                AppConfigHolder.MainConfig.InitScreenTheme = 1;
-                AppConfigHolder.SaveMainConfig();
-                if (theme < 0)
-                    SetAssistantDone();
-            }
-            if (theme >= 0)
-            {
-                File.WriteAllText(cThemeFile, adapter[theme].Text1);
-                RunOnUiThread(() =>
-                {
-                    Recreate();
-                });
-                return;
-            }
-        }
-
-        private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
-        {
-            var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
-            sys.LogException(newExc);
-        }
-
-        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
-        {
-            var newExc = new Exception("CurrentDomainOnUnhandledException", unhandledExceptionEventArgs.ExceptionObject as Exception);
-            sys.LogException(newExc);
-        }
-
         protected override void OnResume()
         {
             base.OnResume();
-            sys.currentActivity = this;
+            if (NeedsStartAssistant())
+                ShowStartAssistant();
+            else
+                FinishAndRemoveTask();
         }
 
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum]Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
-
-            ActiveFragment?.OnActivityResult(requestCode, (int)resultCode, data);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
-            ActiveFragment?.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             var res = true;
             foreach (var grand in grantResults)
@@ -186,47 +94,15 @@ namespace iChronoMe.Droid
             tcsRP?.TrySetResult(res);
         }
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
-        {
-            try
-            {
-                ActiveFragment?.OnCreateOptionsMenu(menu, MenuInflater);
-            }
-            catch (Exception ex) { sys.LogException(ex); }
-            return base.OnCreateOptionsMenu(menu);
-        }
-
-        public override bool OnPrepareOptionsMenu(IMenu menu)
-        {
-            try
-            {
-                if (ActiveFragment?.IsAdded == true && ActiveFragment?.IsDetached == false)
-                    ActiveFragment?.OnPrepareOptionsMenu(menu);
-            }
-            catch (Exception ex) { sys.LogException(ex); }
-            return base.OnPrepareOptionsMenu(menu);
-        }
-
-        public override void OnOptionsMenuClosed(IMenu menu)
-        {
-            base.OnOptionsMenuClosed(menu);
-            try
-            {
-                ActiveFragment?.OnOptionsMenuClosed(menu);
-            }
-            catch (Exception ex) { sys.LogException(ex); }
-        }
-
         const float nStartAssistantMaxStep = 1.4F;
-        public bool NeedsStartAssistant()
+        public static bool NeedsStartAssistant()
         {
             return
-               (AppConfigHolder.MainConfig.InitScreenTheme < 1 && (this is MainActivity)) ||
-                AppConfigHolder.MainConfig.InitScreenTimeType < 1 ||
+               (AppConfigHolder.MainConfig.InitScreenTimeType < 1 ||
                 AppConfigHolder.MainConfig.InitScreenPrivacy < 2 ||
                 AppConfigHolder.MainConfig.InitBaseDataDownload < 1 ||
                 AppConfigHolder.MainConfig.InitScreenPermission < 1 ||
-                AppConfigHolder.MainConfig.InitScreenUserLocation < 1;
+                AppConfigHolder.MainConfig.InitScreenUserLocation < 1);
         }
 
         static bool bStartAssistantActive = false;
@@ -240,9 +116,7 @@ namespace iChronoMe.Droid
             {
                 try
                 {
-                    if (AppConfigHolder.MainConfig.InitScreenTheme < 1)
-                        ShowThemeSelector();
-                    else if (AppConfigHolder.MainConfig.InitScreenTimeType < 1)
+                    if (AppConfigHolder.MainConfig.InitScreenTimeType < 1)
                         ShowInitScreen_TimeType();
                     else if (AppConfigHolder.MainConfig.InitScreenPrivacy < 1)
                         ShowInitScreen_PrivacyAssistant();
@@ -335,8 +209,8 @@ namespace iChronoMe.Droid
                 Looper.Prepare();
 
             bKillOnClose = true;
-            String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_calendar), Resources.GetString(Resource.String.assistant_permission_storage) };
-            bool[] checks = new bool[] { true, true, true };
+            String[] items = new string[] { Resources.GetString(Resource.String.assistant_permission_location), Resources.GetString(Resource.String.assistant_permission_storage) };
+            bool[] checks = new bool[] { true, true };
 
             dlgToClose = new AlertDialog.Builder(this)
                 .SetTitle(base.Resources.GetString(Resource.String.assistant_permission_welcome))
@@ -353,14 +227,6 @@ namespace iChronoMe.Droid
                     req.Add(Manifest.Permission.AccessFineLocation);
 
                     if (checks[1])
-                    {
-                        if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.WriteCalendar) != Permission.Granted || ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadCalendar) != Permission.Granted)
-                        {
-                            req.Add(Manifest.Permission.ReadCalendar);
-                            req.Add(Manifest.Permission.WriteCalendar);
-                        }
-                    }
-                    if (checks[2])
                     {
                         if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.ReadExternalStorage) != Permission.Granted)
                         {
@@ -450,28 +316,6 @@ namespace iChronoMe.Droid
                             AppConfigHolder.SaveMainConfig();
                             pDlg.SetProgressDone();
                             SetAssistantDone();
-
-                            if (!locationManager.IsProviderEnabled(LocationManager.NetworkProvider) && locationManager.IsProviderEnabled(LocationManager.GpsProvider))
-                            {
-                                //Inform User that GPS-Only is may bad for battery
-                                RunOnUiThread(() =>
-                                {
-                                    try
-                                    {
-                                        dlgToClose = new AlertDialog.Builder(this)
-                                         .SetTitle(Resource.String.title_JustATipp)
-                                         .SetMessage(Resource.String.hint_GpsOnlyIsActive)
-                                         .SetPositiveButton(Resource.String.action_settings, (s, e) =>
-                                         {
-                                             StartActivity(new Intent(Android.Provider.Settings.ActionLocationSourceSettings));
-                                         })
-                                         .SetNegativeButton(Resource.String.action_ignore, (s, e) => { })
-                                         .Create();
-                                        dlgToClose.Show();
-                                    }
-                                    catch { }
-                                });
-                            }
                             return;
                         }
                     }
@@ -850,7 +694,7 @@ namespace iChronoMe.Droid
 
         public void OnCancel(IDialogInterface dialog)
         {
-            BaseActivity.KillActivity(myActivity);
+            InitScreenActivity.KillActivity(myActivity);
         }
 
         protected override void Dispose(bool disposing)
@@ -873,7 +717,7 @@ namespace iChronoMe.Droid
             if (keyCode == Keycode.Back)
             {
                 dialog.Dismiss();
-                BaseActivity.KillActivity(myActivity);
+                InitScreenActivity.KillActivity(myActivity);
                 return true;
             }
             return false;

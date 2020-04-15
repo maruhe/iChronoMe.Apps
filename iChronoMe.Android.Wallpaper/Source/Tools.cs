@@ -1,5 +1,6 @@
 ﻿// just the necessary part of iChronoMe.Droid.Tools
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ using Android.Widget;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Types;
-
+using iChronoMe.Droid.Wallpaper.GUI;
 using Java.Lang;
 
 using Xamarin.Essentials;
@@ -408,6 +409,96 @@ namespace iChronoMe.Droid.Wallpaper
                     return "icons8_timezone_globe";
             }
             return "";
+        }
+
+        public static async Task<bool> ShowMessageAndWait(Context context, int title, int text)
+        {
+            if (context == null)
+                return false;
+
+            tcsYnMsg = new TaskCompletionSource<bool>();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    var dlg = new AlertDialog.Builder(context).
+                    SetTitle(title)
+                    .SetMessage(text)
+                    .SetPositiveButton(Resource.String.action_ok, (s, e) => { tcsYnMsg.TrySetResult(true); })
+                    .SetOnCancelListener(new AsyncDialogCancelListener<bool>(tcsYnMsg))
+                    .Create();
+
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsYnMsg.TrySetResult(false);
+                }
+            });
+            await tskYnMsg;
+            return tskYnMsg.Result;
+        }
+
+        public static async Task<bool> ShowMessageAndWait(Context context, string title, string text)
+        {
+            if (context == null)
+                return false;
+
+            tcsYnMsg = new TaskCompletionSource<bool>();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    var dlg = new AlertDialog.Builder(context).
+                    SetTitle(title)
+                    .SetMessage(text)
+                    .SetPositiveButton(Resource.String.action_ok, (s, e) => { tcsYnMsg.TrySetResult(true); })
+                    .SetOnCancelListener(new AsyncDialogCancelListener<bool>(tcsYnMsg))
+                    .Create();
+
+                    dlg.Show();
+                }
+                catch
+                {
+                    tcsYnMsg.TrySetResult(false);
+                }
+            });
+            await tskYnMsg;
+            return tskYnMsg.Result;
+        }
+    }
+
+    public class AsyncDialogCancelListener<T> : Java.Lang.Object, IDialogInterfaceOnCancelListener
+    {
+        TaskCompletionSource<T> Handler;
+
+        public AsyncDialogCancelListener(TaskCompletionSource<T> tcs)
+        {
+            Handler = tcs;
+        }
+
+        public void OnCancel(IDialogInterface dialog)
+        {
+            if (typeof(T) == typeof(bool))
+                (Handler as TaskCompletionSource<bool>).TrySetResult(false);
+            else if (typeof(T) == typeof(int))
+                (Handler as TaskCompletionSource<int>).TrySetResult(-1);
+            else if (typeof(string) == typeof(string))
+                (Handler as TaskCompletionSource<string>).TrySetResult(null);
+            else if (typeof(object) == typeof(object))
+                (Handler as TaskCompletionSource<object>).TrySetResult(null);
+            else
+                Handler.TrySetResult(default(T));
+
+            dialog?.Dismiss();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Handler = null;
+            base.Dispose(disposing);
         }
     }
 }

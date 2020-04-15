@@ -50,32 +50,18 @@ namespace iChronoMe.Droid.Wallpaper.Controls
 
             if (WallpaperClockEngine != null)
             {
-                WallpaperClockEngine.DrawWallpaper(canvas);
-                //WallpaperClockEngine.mHandler.PostDelayed(refresh, 1000);
+                var tNext = WallpaperClockEngine.DrawWallpaper(canvas);
+                WallpaperClockEngine.mHandler.RemoveCallbacks(refresh);
+                if (bRunning)
+                    WallpaperClockEngine.mHandler.PostDelayed(refresh, (int)(tNext-DateTime.Now).TotalMilliseconds);
             }
         }
 
-        Thread tr;
         bool bRunning = false;
-        public void Start(int delay = 110)
+        public void Start()
         {
             bRunning = true;
-            tr?.Abort();
-            tr = new Thread(() => {
-                try
-                {
-                    while (bRunning)
-                    {
-                        Thread.Sleep(delay);
-                        mContext.RunOnUiThread(() => Invalidate());
-                    }
-                } 
-                catch (Exception ex)
-                {
-                    Tools.ShowToast(mContext, ex.Message);
-                }
-            });
-            tr.Start();
+            Invalidate();
         }
 
         public void Stop()

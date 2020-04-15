@@ -91,7 +91,6 @@ namespace iChronoMe.Droid.Wallpaper
         {
             base.OnPause();
             preview.Stop();
-            Tools.ShowToast(mContext, "pause");
         }
 
         public override void OnDestroy()

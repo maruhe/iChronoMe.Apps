@@ -82,6 +82,7 @@
     <Compile Include="Source\DrawableHelper.cs" />
     <Compile Include="Source\GUI\Dialogs\LocationPickerDialog.cs" />
     <Compile Include="Source\GUI\Dialogs\ProgressDlg.cs" />
+    <Compile Include="Source\GUI\InitScreenActivity.cs" />
     <Compile Include="Source\LiveWallpaper\WallpaperConfigActivity.cs" />
     <Compile Include="Source\LiveWallpaper\WallpaperService.cs" />
     <Compile Include="Source\MainActivity.cs" />

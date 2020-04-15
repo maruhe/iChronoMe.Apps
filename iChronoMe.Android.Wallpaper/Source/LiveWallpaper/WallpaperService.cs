@@ -49,9 +49,13 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
             private bool bIsLockScreen = false;
 
             private LocationTimeHolder lth = LocationTimeHolder.LocalInstance;
+            static bool bShowDebugInfo = sys.Debugmode && true;
 
             public WallpaperClockEngine(Context wall) : base(wall as WallpaperClockService)
             {
+                if (GUI.InitScreenActivity.NeedsStartAssistant())
+                    wall.StartActivity(new Intent(wall, typeof(GUI.InitScreenActivity)));
+
                 mContext = wall;
                 start_time = SystemClock.ElapsedRealtime();
                 RefreshConfig();
@@ -124,6 +128,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                         if (itemCache.ClockView == null)
                         {
                             itemCache.ClockView = new WidgetView_ClockAnalog();
+                            itemCache.ClockView.ClockFaceLoaded += ClockView_ClockFaceLoaded;
                             itemCache.CanvasMapper.ViewTag = itemCache.ClockView;
                         }
                         itemCache.ClockView.ReadConfig(item.ClockCfg);
@@ -153,7 +158,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                                 {
                                     using (var fullsize = BitmapFactory.DecodeFile(itemCache.ClockView.GetClockFacePng(itemCache.ClockView.BackgroundImage, sys.DisplayShortSite)))
                                     {
-                                        itemCache.BackgroundCache = Bitmap.CreateScaledBitmap(fullsize, w, h, false);
+                                        itemCache.BackgroundCache = w == fullsize.Width ? fullsize.Copy(fullsize.GetConfig(), false) : Bitmap.CreateScaledBitmap(fullsize, w, h, false);
                                     }
                                 }
                                 catch
@@ -180,6 +185,20 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                 }
 
                 GC.Collect();
+                if (mHandler != null && mDrawAction != null)
+                    mHandler.PostDelayed(mDrawAction, 10);
+            }
+
+            private void ClockView_ClockFaceLoaded(object sender, EventArgs e)
+            {
+                lock (cfgCache)
+                {
+                    foreach (var cache in cfgCache.Values)
+                    {
+                        cache.BackgroundFile = "-";
+                    }
+                }
+                RefreshConfig();
             }
 
             public override void OnCreate(ISurfaceHolder surfaceHolder)
@@ -211,11 +230,13 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                         bIsLockScreen = true;
                         //Tools.ShowToast(mContext, "Start LockScreenMode");
                     }
-                }
-                //Tools.ShowToast(mContext, "IsVisible: " + visible + "\nIsDeviceLocked: " + myKM.IsDeviceLocked + "\nIsDeviceLocked: " + myKM.IsKeyguardLocked);
-
-                if (visible)
                     DrawFrame();
+                    Task.Factory.StartNew(() =>
+                    {
+                        Task.Delay(500).Wait();
+                        RefreshConfig();
+                    });
+                }
                 else
                     mHandler.RemoveCallbacks(mDrawAction);
             }
@@ -271,13 +292,14 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
                 Canvas c = null;
 
+                var tNext = DateTime.Now.AddSeconds(1);
                 try
                 {
                     c = holder.LockCanvas();
 
                     if (c != null)
                     {
-                        DrawWallpaper(c);
+                        tNext = DrawWallpaper(c);
                     }
                 }
                 finally
@@ -291,7 +313,7 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 
                 if (is_visible)
                 {
-                    mHandler.PostDelayed(mDrawAction, 1000 / 10);
+                    mHandler.PostDelayed(mDrawAction, (int)(tNext-DateTime.Now).TotalMilliseconds);
                     /*
                     if (clockView.FlowSecondHand)
                         mHandler.PostDelayed(mDrawCube, 1000 / 60);
@@ -432,14 +454,14 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                                 }
                             }
 
-                            var tClock = sys.GetTimeWithoutMilliSeconds(lth.GetTime(item.ClockCfg.CurrentTimeType).AddSeconds(1));
+                            var tClock = lth.GetTime(item.ClockCfg.CurrentTimeType);
                             var tNext = DateTime.Now.AddMilliseconds(1000 - tClock.Millisecond);
                             if (tNext < tRes)
                                 tRes = tNext;
 
                             itemCache.CanvasMapper.Draw(c, tClock);
 
-                            if (sys.Debugmode)
+                            if (bShowDebugInfo)
                                 c.DrawText(itemCache.ClockView.PerformanceInfo, 15, -5, new Paint { Color = Color.Blue, TextSize = sys.DpPx(16) });
                             c.Translate(-(x), -(y));
                         }
@@ -448,10 +470,10 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                         {
                             GC.Collect();
                             tLastGC = DateTime.Now;
-                            if (sys.Debugmode)
+                            if (bShowDebugInfo)
                                 c.DrawText("collected", c.Width - 300, 150, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
                         }
-                        if (sys.Debugmode)
+                        if (bShowDebugInfo)
                         {
                             c.DrawText((DateTime.Now - swStart).TotalMilliseconds.ToString("#.00") + "ms", c.Width - 300, 100, new Paint { Color = Color.Black, TextSize = sys.DpPx(16) });
                             if (tLastMeminfo.AddSeconds(1) < DateTime.Now)
@@ -480,6 +502,8 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                     tstAnimationStart = DateTime.MinValue;
                     tstAnimationEnd = DateTime.MinValue;
                 }
+
+                var ts = tRes - DateTime.Now;
 
                 return tRes;
             }
