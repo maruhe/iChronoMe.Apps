@@ -132,9 +132,9 @@ namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
                             itemCache.CanvasMapper.ViewTag = itemCache.ClockView;
                         }
                         itemCache.ClockView.ReadConfig(item.ClockCfg);
-                        itemCache.ClockView.FlowMinuteHand = false;
-                        itemCache.ClockView.FlowSecondHand = false;
-                        itemCache.ClockView.ShowSecondHand = true;
+                        itemCache.ClockView.FlowMinutes = false;
+                        itemCache.ClockView.FlowSeconds = false;
+                        itemCache.ClockView.ShowSeconds = true;
 
                         itemCache.CanvasMapper.ConfigTag = item;
 

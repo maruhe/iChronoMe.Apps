@@ -178,6 +178,8 @@
     <Compile Include="Source\Widgets\Calendar\CalendarWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\Calendar\CalendarWidgetConfigActivityAdvanced.cs" />
     <Compile Include="Source\Widgets\Calendar\CalendarWidgetService.cs" />
+    <Compile Include="Source\Widgets\Clock\DigitalClockWidgetConfigActivity.cs" />
+    <Compile Include="Source\Widgets\Clock\DigitalClockWidget.cs" />
     <Compile Include="Source\Widgets\Clock\AnalogClockWidget.cs" />
     <Compile Include="Source\Widgets\Clock\AnalogClockWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\Clock\ClockUpdateBroadcastReceiver.cs" />
@@ -528,7 +530,7 @@
     <AndroidResource Include="Resources\layout\widget_calendar_timetable_item.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\widget_clock.xml" />
+    <AndroidResource Include="Resources\layout\widget_clock_analog.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\widget_clock_init.xml" />
@@ -1603,6 +1605,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\shortcut_overtime.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\widget_digitalclock.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\widget_clock_digital.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

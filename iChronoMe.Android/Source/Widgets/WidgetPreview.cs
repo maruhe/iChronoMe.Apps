@@ -147,6 +147,12 @@ namespace iChronoMe.Droid.Widgets
                         view.ReadConfig(cfg as WidgetCfg_ClockAnalog);
                         view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
                     }
+                    else if (cfg is WidgetCfg_ClockDigital)
+                    {
+                        var view = new WidgetView_ClockDigital();
+                        view.ReadConfig(cfg as WidgetCfg_ClockDigital);
+                        view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
+                    }
                 }
                 catch { }
             }
@@ -290,6 +296,15 @@ namespace iChronoMe.Droid.Widgets
                             else
                                 viewHolder.backimage.SetColorFilter(clockCfg.BackgroundImageTint.ToAndroid());
                         }
+                        if (clockCfg.ColorBackground.A > 0)
+                        {
+                            viewHolder.backcolor.SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.circle_shape_max, clockCfg.ColorBackground.ToAndroid()));
+                        }
+                        viewHolder.progress.Visibility = ViewStates.Gone;
+                    }
+                    else if (cfg is WidgetCfg_ClockDigital)
+                    {
+                        var clockCfg = cfg as WidgetCfg_ClockDigital;
                         if (clockCfg.ColorBackground.A > 0)
                         {
                             viewHolder.backcolor.SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.circle_shape_max, clockCfg.ColorBackground.ToAndroid()));
@@ -685,12 +700,21 @@ namespace iChronoMe.Droid.Widgets
                 xLog.Debug("Generate new Widget Preview RVActionButton " + (int)((DateTime.Now - swStart).TotalMilliseconds) + "ms");
                 swStart = DateTime.Now;
             }
-            else if (cfg is WidgetCfg_Clock)
+            else if (cfg is WidgetCfg_ClockAnalog)
             {
                 if (cfg is WidgetCfg_ClockAnalog)
                 {
                     WidgetView_ClockAnalog wv = new WidgetView_ClockAnalog();
                     wv.ReadConfig((WidgetCfg_ClockAnalog)cfg);
+                    bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, true));
+                }
+            }
+            else if (cfg is WidgetCfg_Clock)
+            {
+                if (cfg is WidgetCfg_ClockDigital)
+                {
+                    WidgetView_ClockDigital wv = new WidgetView_ClockDigital();
+                    wv.ReadConfig((WidgetCfg_ClockDigital)cfg);
                     bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, true));
                 }
             }

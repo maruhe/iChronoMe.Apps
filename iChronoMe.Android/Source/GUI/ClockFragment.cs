@@ -162,8 +162,8 @@ namespace iChronoMe.Droid.GUI
                     mContext.RunOnUiThread(() =>
                     {
                         bNoClockUpdate = true;
-                        vClock.FlowMinuteHand = true;
-                        vClock.FlowSecondHand = true;
+                        vClock.FlowMinutes = true;
+                        vClock.FlowSeconds = true;
                         skiaView.Invalidate();
                     });
                 })
@@ -677,8 +677,8 @@ namespace iChronoMe.Droid.GUI
                             mContext.RunOnUiThread(() =>
                             {
                                 bNoClockUpdate = true;
-                                vClock.FlowMinuteHand = true;
-                                vClock.FlowSecondHand = true;
+                                vClock.FlowMinutes = true;
+                                vClock.FlowSeconds = true;
                                 skiaView.Invalidate();
                             });
                         })
@@ -874,8 +874,8 @@ namespace iChronoMe.Droid.GUI
                 mContext.RunOnUiThread(() =>
                 {
                     bNoClockUpdate = true;
-                    vClock.FlowMinuteHand = true;
-                    vClock.FlowSecondHand = true;
+                    vClock.FlowMinutes = true;
+                    vClock.FlowSeconds = true;
                     skiaView.Invalidate();
                 });
             })
@@ -962,8 +962,8 @@ namespace iChronoMe.Droid.GUI
                                     mContext.RunOnUiThread(() =>
                                     {
                                         bNoClockUpdate = true;
-                                        vClock.FlowMinuteHand = true;
-                                        vClock.FlowSecondHand = true;
+                                        vClock.FlowMinutes = true;
+                                        vClock.FlowSeconds = true;
                                         skiaView.Invalidate();
                                     });
                                 })
@@ -1178,8 +1178,8 @@ namespace iChronoMe.Droid.GUI
                                     mContext.RunOnUiThread(() =>
                                     {
                                         bNoClockUpdate = true;
-                                        vClock.FlowMinuteHand = true;
-                                        vClock.FlowSecondHand = true;
+                                        vClock.FlowMinutes = true;
+                                        vClock.FlowSeconds = true;
                                         skiaView.Invalidate();
                                     });
                                 })
@@ -1255,8 +1255,8 @@ namespace iChronoMe.Droid.GUI
                             mContext.RunOnUiThread(() =>
                             {
                                 bNoClockUpdate = true;
-                                vClock.FlowMinuteHand = true;
-                                vClock.FlowSecondHand = true;
+                                vClock.FlowMinutes = true;
+                                vClock.FlowSeconds = true;
                                 skiaView.Invalidate();
                             });
                         })

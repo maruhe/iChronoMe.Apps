@@ -29,7 +29,7 @@ namespace iChronoMe.Droid.Widgets.Clock
             foreach (int iWidgetId in appWidgetIds)
             {
                 var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ClockAnalog>(iWidgetId);
-                RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_clock);
+                RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_clock_analog);
 
                 Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
 

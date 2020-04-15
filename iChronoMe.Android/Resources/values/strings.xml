@@ -346,6 +346,7 @@ please click here"</string>
   <string name="widget_title_actionbutton" synced="x" sync="1">"action button"</string>
   <string name="widget_title_calendar" synced="x" sync="1">"solar time calendar widget"</string>
   <string name="widget_title_clock_analog" synced="x" sync="1">"analog solar time"</string>
+  <string name="widget_title_clock_digital" sync="x">"digital solar time"</string>
   <string name="widget_title_lifetime" synced="x" sync="1">"lifetime"</string>
   <string name="widget_unconfigured" synced="x" sync="1">"click here to configure the widget"</string>
   <string name="widget_warning_location_out_of_date" synced="x" sync="1">"current location out of date"</string>

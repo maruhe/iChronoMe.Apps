@@ -190,6 +190,8 @@ namespace iChronoMe.Droid.Widgets
         {
             if (typeof(T) == typeof(WidgetCfg_ClockAnalog))
                 return typeof(Clock.AnalogClockWidget);
+            if (typeof(T) == typeof(WidgetCfg_ClockDigital))
+                return typeof(Clock.DigitalClockWidget);
             if (typeof(T) == typeof(WidgetCfg_Calendar))
                 return typeof(Calendar.CalendarWidget);
             if (typeof(T) == typeof(WidgetCfg_ActionButton))
