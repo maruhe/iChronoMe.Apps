@@ -620,16 +620,6 @@ namespace iChronoMe.Droid
                 {
                     clockView = clockViewDigital = new WidgetView_ClockDigital();
                     clockViewDigital.ReadConfig((WidgetCfg_ClockDigital)cfg);
-                    if (cfg.ColorBackground.A > 0)
-                    {
-                        int iXR = 8;
-                        GradientDrawable back = new GradientDrawable();
-                        back.SetShape(ShapeType.Rectangle);
-                        back.SetCornerRadii(new float[] { iXR, iXR, iXR, iXR, iXR, iXR, iXR, iXR });
-                        back.SetColor(cfg.ColorBackground.ToAndroid());
-                        //back.SetStroke(1, Color.Black);
-                        bmpBackgroundColor = MainWidgetBase.GetDrawableBmp(back, wSize.X, wSize.Y);
-                    }
                 }
 
                 TimeSpan swInit = DateTime.Now - swStart;
@@ -708,7 +698,7 @@ namespace iChronoMe.Droid
                                 else if (cfg is WidgetCfg_ClockDigital)
                                 {
                                     bool bDoFullUpdate = tLastFullUpdate.AddSeconds(15) < DateTime.Now;
-                                    var rv = GetClockDigitalRemoteView(ctx, (WidgetCfg_ClockDigital)cfg, clockViewDigital, iClockSize, lth, lth.GetTime(tType), uBackgroundImage, bmpBackgroundColor, true);
+                                    var rv = GetClockDigitalRemoteView(ctx, (WidgetCfg_ClockDigital)cfg, clockViewDigital, sys.DpPx(wSize.X), sys.DpPx(wSize.Y), lth, lth.GetTime(tType), uBackgroundImage);
                                     manager.UpdateAppWidget(iWidgetId, rv);
                                 }
                             }
@@ -1010,8 +1000,14 @@ namespace iChronoMe.Droid
             updateViews.SetTextColor(Resource.Id.clock_time, cfg.ColorTitleText.ToAndroid());
 
             if (bUpdateAll)
-            {
-                updateViews.SetImageViewBitmap(Resource.Id.background_color, bmpBackgroundColor);
+            {                
+                if (cfg.ColorBackground.A > 0)
+                {
+                    updateViews.SetInt(Resource.Id.background_color, "setColorFilter", cfg.ColorBackground.ToAndroid());
+                    updateViews.SetViewVisibility(Resource.Id.background_color, ViewStates.Visible);
+                }
+                else
+                    updateViews.SetViewVisibility(Resource.Id.background_color, ViewStates.Gone);
                 updateViews.SetImageViewUri(Resource.Id.background_image, uBackgroundImage);
                 updateViews.SetInt(Resource.Id.background_image, "setColorFilter", cfg.BackgroundImageTint.ToAndroid());
 
@@ -1030,19 +1026,26 @@ namespace iChronoMe.Droid
             return updateViews;
         }
 
-        public static RemoteViews GetClockDigitalRemoteView(Context ctx, WidgetCfg_ClockDigital cfg, WidgetView_ClockDigital clockView, int iClockSize,
-            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, Bitmap bmpBackgroundColor, bool bUpdateAll)
+        public static RemoteViews GetClockDigitalRemoteView(Context ctx, WidgetCfg_ClockDigital cfg, WidgetView_ClockDigital clockView, int width, int height,
+            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage)
         {
             int iWidgetId = cfg.WidgetId;
             var tType = cfg.CurrentTimeType;
 
-            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, iClockSize, iClockSize, false));
+            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, width, height, cfg));
 
             RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_clock_digital);
 
             updateViews.SetImageViewBitmap(Resource.Id.digital_clock, bitmap);
 
-            updateViews.SetImageViewBitmap(Resource.Id.background_color, bmpBackgroundColor);
+            if (cfg.ColorBackground.A > 0)
+            {
+                updateViews.SetInt(Resource.Id.background_color, "setColorFilter", cfg.ColorBackground.ToAndroid());
+                updateViews.SetViewVisibility(Resource.Id.background_color, ViewStates.Visible);
+            }
+            else
+                updateViews.SetViewVisibility(Resource.Id.background_color, ViewStates.Gone);
+
             updateViews.SetImageViewUri(Resource.Id.background_image, uBackgroundImage);
 
             updateViews.SetImageViewBitmap(Resource.Id.time_switcher, Tools.GetTimeTypeIcon(ctx, tType, lth, 32, cfg.ColorTitleText.HexString));
@@ -1054,7 +1057,7 @@ namespace iChronoMe.Droid
             PendingIntent changeTypePendingIntent = PendingIntent.GetBroadcast(ctx, iWidgetId, changeTypeIntent, PendingIntentFlags.UpdateCurrent);
             updateViews.SetOnClickPendingIntent(Resource.Id.time_switcher, changeTypePendingIntent);
 
-            updateViews.SetOnClickPendingIntent(Resource.Id.ll_click, MainWidgetBase.GetClickActionPendingIntent(ctx, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.DigitalClockWidgetConfigActivity"));
+            updateViews.SetOnClickPendingIntent(Resource.Id.widget, MainWidgetBase.GetClickActionPendingIntent(ctx, cfg.ClickAction, iWidgetId, "me.ichrono.droid/me.ichrono.droid.Widgets.Clock.DigitalClockWidgetConfigActivity"));
 
             return updateViews;
         }

@@ -59,6 +59,8 @@ namespace iChronoMe.Droid.Widgets
         {
             if (typeof(T) == typeof(WidgetCfg_ActionButton))
                 wSize = new Point(100, 100);
+            if (typeof(T) == typeof(WidgetCfg_ClockDigital))
+                wSize = new Point(400, 100);
         }
 
         public async Task<WidgetCfgSample<T>> StartAt(Type widgetConfigAssistantType, T baseConfig, List<Type> stopAt = null)

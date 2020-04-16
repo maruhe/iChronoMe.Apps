@@ -390,6 +390,7 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.webp" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\inspired.webp" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_clock_digital.webp" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -1617,6 +1618,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\widget_clock_digital.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\widget_back_rect.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

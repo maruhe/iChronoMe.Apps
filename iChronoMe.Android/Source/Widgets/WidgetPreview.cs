@@ -29,7 +29,7 @@ namespace iChronoMe.Droid.Widgets
 
         public Activity mContext { get; private set; }
         static IWidgetConfigAssistant<T> mAssistant;
-        Point wSize;
+        static Point wSize;
         EventCollection myEventsMonth, myEventsList;
         DynamicCalendarModel CalendarModel;
         Drawable WallpaperDrawable;
@@ -151,10 +151,16 @@ namespace iChronoMe.Droid.Widgets
                     {
                         var view = new WidgetView_ClockDigital();
                         view.ReadConfig(cfg as WidgetCfg_ClockDigital);
-                        view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height);
+                        //int iWidthPx = (int)(wSize.X * sys.DisplayDensity);
+                        //int iHeightPx = (int)(wSize.Y * sys.DisplayDensity);
+                        //e.Surface.Canvas.Translate((e.Info.Width - iWidthPx) / 2, (e.Info.Height - iHeightPx) / 2);
+                        view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height, cfg as WidgetCfg_ClockDigital);
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    xLog.Error(ex);
+                }
             }
 
             protected override void Dispose(bool disposing)
@@ -304,10 +310,14 @@ namespace iChronoMe.Droid.Widgets
                     }
                     else if (cfg is WidgetCfg_ClockDigital)
                     {
+                        viewHolder.skia.LayoutParameters.Width = wSize.X;
+                        viewHolder.skia.LayoutParameters.Height = wSize.Y;
                         var clockCfg = cfg as WidgetCfg_ClockDigital;
                         if (clockCfg.ColorBackground.A > 0)
                         {
-                            viewHolder.backcolor.SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.circle_shape_max, clockCfg.ColorBackground.ToAndroid()));
+                            viewHolder.backcolor.SetImageDrawable(DrawableHelper.GetIconDrawable(mContext, Resource.Drawable.widget_back_rect, clockCfg.ColorBackground.ToAndroid()));
+                            viewHolder.backcolor.LayoutParameters.Width = wSize.X;
+                            viewHolder.backcolor.LayoutParameters.Height = wSize.Y;
                         }
                         viewHolder.progress.Visibility = ViewStates.Gone;
                     }
@@ -702,21 +712,15 @@ namespace iChronoMe.Droid.Widgets
             }
             else if (cfg is WidgetCfg_ClockAnalog)
             {
-                if (cfg is WidgetCfg_ClockAnalog)
-                {
-                    WidgetView_ClockAnalog wv = new WidgetView_ClockAnalog();
-                    wv.ReadConfig((WidgetCfg_ClockAnalog)cfg);
-                    bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, true));
-                }
+                WidgetView_ClockAnalog wv = new WidgetView_ClockAnalog();
+                wv.ReadConfig((WidgetCfg_ClockAnalog)cfg);
+                bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, true));
             }
-            else if (cfg is WidgetCfg_Clock)
+            else if (cfg is WidgetCfg_ClockDigital)
             {
-                if (cfg is WidgetCfg_ClockDigital)
-                {
-                    WidgetView_ClockDigital wv = new WidgetView_ClockDigital();
-                    wv.ReadConfig((WidgetCfg_ClockDigital)cfg);
-                    bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, true));
-                }
+                WidgetView_ClockDigital wv = new WidgetView_ClockDigital();
+                wv.ReadConfig((WidgetCfg_ClockDigital)cfg);
+                bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, (WidgetCfg_ClockDigital)cfg, true));
             }
             else if (cfg is WidgetCfg_Calendar)
             {

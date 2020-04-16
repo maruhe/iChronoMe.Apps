@@ -8994,7 +8994,10 @@ namespace iChronoMe.Droid
 			public const int transparent_shape = 2131231295;
 			
 			// aapt resource value: 0x7F080240
-			public const int widget_dummy_shape = 2131231296;
+			public const int widget_back_rect = 2131231296;
+			
+			// aapt resource value: 0x7F080241
+			public const int widget_dummy_shape = 2131231297;
 			
 			static Drawable()
 			{
@@ -11307,7 +11310,10 @@ namespace iChronoMe.Droid
 			public const int widgetprev_clock_analog = 2131623946;
 			
 			// aapt resource value: 0x7F0E000B
-			public const int widgetprev_lifetime = 2131623947;
+			public const int widgetprev_clock_digital = 2131623947;
+			
+			// aapt resource value: 0x7F0E000C
+			public const int widgetprev_lifetime = 2131623948;
 			
 			static Mipmap()
 			{

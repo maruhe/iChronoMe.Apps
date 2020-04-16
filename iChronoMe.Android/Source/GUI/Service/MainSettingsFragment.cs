@@ -94,12 +94,13 @@ namespace iChronoMe.Droid.GUI.Service
             Task.Factory.StartNew(() =>
             {
                 var manager = AppWidgetManager.GetInstance(Context);
-                int[] clockS = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+                int[] clockAnalogS = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
+                int[] clockDigitalS = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
                 int[] calendars = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
                 int[] buttons = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
                 int[] chronos = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
 
-                if (clockS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
+                if (clockAnalogS.Length + clockDigitalS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
                 {
                     Tools.ShowToast(Context, localize.info_no_widgets_found, true);
                     return;
@@ -108,9 +109,16 @@ namespace iChronoMe.Droid.GUI.Service
                 var holder = new WidgetConfigHolder();
 
                 var samples = new System.Collections.Generic.List<WidgetCfgSample<WidgetCfg>>();
-                foreach (int i in clockS)
+                foreach (int i in clockAnalogS)
                 {
                     var cfg = holder.GetWidgetCfg<WidgetCfg_ClockAnalog>(i, false);
+                    if (cfg == null)
+                        continue;
+                    samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));
+                }
+                foreach (int i in clockDigitalS)
+                {
+                    var cfg = holder.GetWidgetCfg<WidgetCfg_ClockDigital>(i, false);
                     if (cfg == null)
                         continue;
                     samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));

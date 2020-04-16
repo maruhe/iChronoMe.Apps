@@ -7,6 +7,7 @@
         android:id="@+id/background_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/circle_shape_max"
         android:scaleType="fitCenter" />
     <ImageView 
         android:id="@+id/background_image"
@@ -57,7 +58,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -66,21 +67,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="4">
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/ll_click"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="4"/>
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
         </LinearLayout>
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
