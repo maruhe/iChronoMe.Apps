@@ -11,14 +11,14 @@ using Android.Widget;
 using iChronoMe.Core.Classes;
 using iChronoMe.Widgets;
 
-namespace iChronoMe.Droid.Widgets.Lifetime
+namespace iChronoMe.Droid.Widgets.ChronoSpan
 {
 #if DEBUG
-    [BroadcastReceiver(Label = "@string/widget_title_lifetime", Name = "me.ichrono.droid.Lifetime.LifetimeWidget")]
+    [BroadcastReceiver(Label = "@string/widget_title_chronospan", Name = "me.ichrono.droid.ChronoSpan.ChronoSpanWidget")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
-    [MetaData("android.appwidget.provider", Resource = "@xml/widget_lifetime")]
+    [MetaData("android.appwidget.provider", Resource = "@xml/widget_chronospan")]
 #endif
-    public class LifetimeWidget : MainWidgetBase
+    public class ChronoSpanWidget : MainWidgetBase
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
@@ -28,8 +28,8 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 
             foreach (int iWidgetId in appWidgetIds)
             {
-                var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_Lifetime>(iWidgetId);
-                RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_lifetime);
+                var cfg = cfgHolder.GetWidgetCfg<WidgetCfg_ChronoSpan>(iWidgetId);
+                RemoteViews rv = new RemoteViews(context.PackageName, Resource.Layout.widget_chronospan);
 
                 Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, appWidgetManager);
 
@@ -56,7 +56,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                 c += iYears.ToString() + " sun's," + (mini ? "\n" : " ") + tsLifeTimeRest.Days.ToString() + "d, " + tsLifeTimeRest.Hours + "h";
 
                 rv.SetTextViewText(Resource.Id.widget_text, c);
-                rv.SetTextColor(Resource.Id.widget_text, cfg.ColorLifetimeText.ToAndroid());
+                rv.SetTextColor(Resource.Id.widget_text, cfg.ColorTimeText.ToAndroid());
 
                 rv.SetViewVisibility(Resource.Id.background_image, ViewStates.Gone);
                 if (cfg.ColorBackground.ToAndroid() != Color.Transparent)
@@ -71,23 +71,23 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                     rv.SetImageViewBitmap(Resource.Id.background_image, MainWidgetBase.GetDrawableBmp(back, wSize.X, wSize.Y));
                 }
 
-                if (cfg.ShowLifeTimeProgress || cfg.ShowLifeTimePercentage)
+                if (cfg.ShowTimeProgress || cfg.ShowTimePercentage)
                 {
                     rv.SetViewVisibility(Resource.Id.eof_layout, ViewStates.Visible);
                     TimeSpan tsFullLifeLength = cfg.EndOfLifeTime - cfg.LifeStartTime;
                     TimeSpan tsDoneLifeLength = DateTime.Now - cfg.LifeStartTime;
-                    if (cfg.ShowLifeTimeProgress)
+                    if (cfg.ShowTimeProgress)
                     {
                         rv.SetViewVisibility(Resource.Id.eof_progress_layout, ViewStates.Visible);
                         rv.SetProgressBar(Resource.Id.eof_progress, 1000, (int)(tsDoneLifeLength.TotalDays * 1000 / tsFullLifeLength.TotalDays), false);
                     }
                     else
                         rv.SetViewVisibility(Resource.Id.eof_progress_layout, ViewStates.Gone);
-                    if (cfg.ShowLifeTimePercentage)
+                    if (cfg.ShowTimePercentage)
                     {
                         rv.SetViewVisibility(Resource.Id.eof_percentage, ViewStates.Visible);
                         rv.SetTextViewText(Resource.Id.eof_percentage, (tsDoneLifeLength.TotalDays * 100 / tsFullLifeLength.TotalDays).ToString("0.##") + "% ");
-                        rv.SetTextColor(Resource.Id.eof_percentage, cfg.ColorLifeTimePercentage.ToAndroid());
+                        rv.SetTextColor(Resource.Id.eof_percentage, cfg.ColorTimePercentage.ToAndroid());
                     }
                     else
                         rv.SetViewVisibility(Resource.Id.eof_percentage, ViewStates.Gone);
@@ -97,7 +97,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
 
                 //Config Click
                 Intent cfgIntent = new Intent(Intent.ActionMain);
-                cfgIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity"));
+                cfgIntent.SetComponent(ComponentName.UnflattenFromString("me.ichrono.droid/me.ichrono.droid.Widgets.ChronoSpan.ChronoSpanWidgetConfigActivity"));
                 cfgIntent.SetFlags(ActivityFlags.NoHistory);
                 cfgIntent.PutExtra(AppWidgetManager.ExtraAppwidgetId, iWidgetId);
                 var cfgPendingIntent = PendingIntent.GetActivity(context, iWidgetId, cfgIntent, PendingIntentFlags.UpdateCurrent);

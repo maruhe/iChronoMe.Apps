@@ -24,8 +24,8 @@ using iChronoMe.Droid.Receivers;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
+using iChronoMe.Droid.Widgets.ChronoSpan;
 using iChronoMe.Droid.Widgets.Clock;
-using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid
@@ -78,7 +78,7 @@ namespace iChronoMe.Droid
                 int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
                 int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
                 int[] appWidgetID3s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
-                int[] appWidgetID4s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+                int[] appWidgetID4s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ChronoSpanWidget)).Name));
                 int[] appWidgetID5s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
                 List<int> iS = new List<int>();
                 iS.AddRange(appWidgetID1s);

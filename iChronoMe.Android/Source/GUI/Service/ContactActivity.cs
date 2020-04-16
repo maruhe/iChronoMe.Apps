@@ -14,8 +14,8 @@ using iChronoMe.Core.Classes;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
+using iChronoMe.Droid.Widgets.ChronoSpan;
 using iChronoMe.Droid.Widgets.Clock;
-using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.GUI.Service
@@ -131,7 +131,7 @@ namespace iChronoMe.Droid.GUI.Service
                                 int[] clockS = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
                                 int[] calendars = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
                                 int[] buttons = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
-                                int[] chronos = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+                                int[] chronos = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ChronoSpanWidget)).Name));
 
                                 if (clockS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
                                 {
@@ -162,8 +162,8 @@ namespace iChronoMe.Droid.GUI.Service
                                     }
                                     foreach (int i in chronos)
                                     {
-                                        var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(i, false);
-                                        cSendContent += string.Concat("\nLifetimeWidget ", i, " cfg: ", cfg, " size: ", MainWidgetBase.GetWidgetSize(i, cfg, manager));
+                                        var cfg = holder.GetWidgetCfg<WidgetCfg_ChronoSpan>(i, false);
+                                        cSendContent += string.Concat("\nChronoSpanWidget ", i, " cfg: ", cfg, " size: ", MainWidgetBase.GetWidgetSize(i, cfg, manager));
 
                                     }
                                 }

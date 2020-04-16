@@ -15,12 +15,12 @@ using iChronoMe.Widgets;
 
 using AlertDialog = Android.Support.V7.App.AlertDialog;
 
-namespace iChronoMe.Droid.Widgets.Lifetime
+namespace iChronoMe.Droid.Widgets.ChronoSpan
 {
-    [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.ChronoSpan.ChronoSpanWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
 
-    public class LifetimeWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_Lifetime>
+    public class ChronoSpanWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_ChronoSpan>
     {
         protected override void OnResume()
         {
@@ -33,7 +33,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
             else
             {
                 var holder = new WidgetConfigHolder();
-                var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(appWidgetId);
+                var cfg = holder.GetWidgetCfg<WidgetCfg_ChronoSpan>(appWidgetId);
 
                 //bearbeiten, wenn Widget bereits existiert
                 if (!string.IsNullOrEmpty(cfg.WidgetTitle))
@@ -96,7 +96,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
             //order Daten abfragen
             var holder = new WidgetConfigHolder();
             bool bIsNewWidget = !holder.WidgetExists(appWidgetId);
-            var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(appWidgetId);
+            var cfg = holder.GetWidgetCfg<WidgetCfg_ChronoSpan>(appWidgetId);
 
             var titleDialog = new AlertDialog.Builder(this);
             EditText titleInput = new EditText(this);
@@ -153,10 +153,10 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                                     resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
                                     SetResult(Result.Ok, resultValue);
 
-                                    Intent updateIntent = new Intent(this, typeof(LifetimeWidget));
+                                    Intent updateIntent = new Intent(this, typeof(ChronoSpanWidget));
                                     updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
                                     AppWidgetManager widgetManager = AppWidgetManager.GetInstance(this);
-                                    int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+                                    int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ChronoSpanWidget)).Name));
                                     updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
                                     SendBroadcast(updateIntent);
 
@@ -207,10 +207,10 @@ namespace iChronoMe.Droid.Widgets.Lifetime
                     resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, appWidgetId);
                     SetResult(Result.Ok, resultValue);
 
-                    Intent updateIntent = new Intent(this, typeof(LifetimeWidget));
+                    Intent updateIntent = new Intent(this, typeof(ChronoSpanWidget));
                     updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
                     AppWidgetManager widgetManager = AppWidgetManager.GetInstance(this);
-                    int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+                    int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(ChronoSpanWidget)).Name));
                     updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
                     SendBroadcast(updateIntent);
 
@@ -258,7 +258,7 @@ namespace iChronoMe.Droid.Widgets.Lifetime
             var beeing = myCreatures[which];
 
             var holder = new WidgetConfigHolder();
-            var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(myWidgetId);
+            var cfg = holder.GetWidgetCfg<WidgetCfg_ChronoSpan>(myWidgetId);
 
             cfg.WidgetTitle = beeing.Name;
             cfg.LifeStartTime = beeing.LifeStartTime;
@@ -271,10 +271,10 @@ namespace iChronoMe.Droid.Widgets.Lifetime
             resultValue.PutExtra(AppWidgetManager.ExtraAppwidgetId, myWidgetId);
             myActivity.SetResult(Result.Ok, resultValue);
 
-            Intent updateIntent = new Intent(myActivity, typeof(LifetimeWidget));
+            Intent updateIntent = new Intent(myActivity, typeof(ChronoSpanWidget));
             updateIntent.SetAction(AppWidgetManager.ActionAppwidgetUpdate);
             AppWidgetManager widgetManager = AppWidgetManager.GetInstance(myActivity);
-            int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(myActivity, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+            int[] ids = widgetManager.GetAppWidgetIds(new ComponentName(myActivity, Java.Lang.Class.FromType(typeof(ChronoSpanWidget)).Name));
             updateIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, ids);
             myActivity.SendBroadcast(updateIntent);
 

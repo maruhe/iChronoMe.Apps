@@ -20,8 +20,8 @@ using iChronoMe.Droid.ViewModels;
 using iChronoMe.Droid.Widgets;
 using iChronoMe.Droid.Widgets.ActionButton;
 using iChronoMe.Droid.Widgets.Calendar;
+using iChronoMe.Droid.Widgets.ChronoSpan;
 using iChronoMe.Droid.Widgets.Clock;
-using iChronoMe.Droid.Widgets.Lifetime;
 using iChronoMe.Widgets;
 using iChronoMe.Widgets.Assistants;
 
@@ -98,7 +98,7 @@ namespace iChronoMe.Droid.GUI.Service
                 int[] clockDigitalS = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
                 int[] calendars = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(CalendarWidget)).Name));
                 int[] buttons = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(ActionButtonWidget)).Name));
-                int[] chronos = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(LifetimeWidget)).Name));
+                int[] chronos = manager.GetAppWidgetIds(new ComponentName(Context, Java.Lang.Class.FromType(typeof(ChronoSpanWidget)).Name));
 
                 if (clockAnalogS.Length + clockDigitalS.Length + calendars.Length + buttons.Length + chronos.Length == 0)
                 {
@@ -139,7 +139,7 @@ namespace iChronoMe.Droid.GUI.Service
                 }
                 foreach (int i in chronos)
                 {
-                    var cfg = holder.GetWidgetCfg<WidgetCfg_Lifetime>(i, false);
+                    var cfg = holder.GetWidgetCfg<WidgetCfg_ChronoSpan>(i, false);
                     if (cfg == null)
                         continue;
                     samples.Add(new WidgetCfgSample<WidgetCfg>("widget " + i, cfg));
@@ -175,8 +175,8 @@ namespace iChronoMe.Droid.GUI.Service
                         settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.Calendar.CalendarWidgetConfigActivity";
                     else if (cfg.WidgetConfig is WidgetCfg_ActionButton)
                         settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.ActionButton.ActionButtonWidgetConfigActivity";
-                    else if (cfg.WidgetConfig is WidgetCfg_Lifetime)
-                        settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.Lifetime.LifetimeWidgetConfigActivity";
+                    else if (cfg.WidgetConfig is WidgetCfg_ChronoSpan)
+                        settingsUri = "me.ichrono.droid/me.ichrono.droid.Widgets.ChronoSpan.ChronoSpanWidgetConfigActivity";
 
                     if (string.IsNullOrEmpty(settingsUri))
                     {

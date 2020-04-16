@@ -184,8 +184,8 @@
     <Compile Include="Source\Widgets\Clock\AnalogClockWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\Clock\ClockUpdateBroadcastReceiver.cs" />
     <Compile Include="Source\Widgets\Clock\ClockWidgetService.cs" />
-    <Compile Include="Source\Widgets\Lifetime\LifetimeWidget.cs" />
-    <Compile Include="Source\Widgets\Lifetime\LifetimeWidgetConfigActivity.cs" />
+    <Compile Include="Source\Widgets\ChronoSpan\ChronoSpanWidget.cs" />
+    <Compile Include="Source\Widgets\ChronoSpan\ChronoSpanWidgetConfigActivity.cs" />
     <Compile Include="Source\Widgets\MainWidgetBase.cs" />
     <Compile Include="Source\Widgets\Moon\MoonWidget.cs" />
     <Compile Include="Source\Widgets\WidgetConfigAssistantManager.cs" />
@@ -378,7 +378,7 @@
     <AndroidResource Include="Resources\mipmap\moon1.webp" />
     <AndroidResource Include="Resources\mipmap\overlay_click.webp" />
     <AndroidResource Include="Resources\mipmap\widgetprev_clock_analog.webp" />
-    <AndroidResource Include="Resources\mipmap\widgetprev_lifetime.webp" />
+    <AndroidResource Include="Resources\mipmap\widgetprev_chronospan.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-ldpi\inspired.webp" />
@@ -511,7 +511,7 @@
     <AndroidResource Include="Resources\layout\widget_calendar_init.xml" />
     <AndroidResource Include="Resources\xml\widget_analogclock.xml" />
     <AndroidResource Include="Resources\xml\widget_calendar.xml" />
-    <AndroidResource Include="Resources\xml\widget_lifetime.xml" />
+    <AndroidResource Include="Resources\xml\widget_chronospan.xml" />
     <AndroidResource Include="Resources\xml\widget_moon.xml" />
     <AndroidResource Include="Resources\xml\widget_action_button.xml" />
   </ItemGroup>
@@ -537,7 +537,7 @@
     <AndroidResource Include="Resources\layout\widget_clock_init.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\widget_lifetime.xml" />
+    <AndroidResource Include="Resources\layout\widget_chronospan.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\widget_moon.xml" />

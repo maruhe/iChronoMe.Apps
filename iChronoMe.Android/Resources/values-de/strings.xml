@@ -332,20 +332,20 @@ oft ist diese Angabe weit entfernt von der wahren Zeit an diesem Ort"</string>
   <string name="TitleClickAction" sync="1">"Aktion beim Klick auf den Titel"</string>
   <string name="wallpaper_title_clock_analog" synced="x" sync="1">"analoge Sonnenuhr"</string>
   <string name="welcome_ichronomy" synced="x" sync="1">"willkommen bei iChronoMe!"</string>
+  <string name="widget_chronospan_loading" sync="x">"ein "tropisches Jahr" dauert:\n365 d 5 h 48 min und 45,261 s"</string>
   <string name="widget_error_location_is_requered" synced="x" sync="1">"Die Kalender-Widget\'s funktionieren nur mit Zugriff auf Kalender und Standort!"</string>
   <string name="widget_error_permission_calendar" synced="x" sync="1">"Kalender-Berechtigungen fehlen
 bitte hier klicken"</string>
   <string name="widget_error_permission_location" synced="x" sync="1">"Standort-Berechtigungen fehlen
 bitte hier klicken"</string>
-  <string name="widget_lifetime_loading" synced="x" sync="1">"ein "tropisches Jahr" dauert:\n365 d 5 h 48 min und 45,261 s"</string>
   <string name="widget_loading" synced="x" sync="1">"Zeit ist nur Illusion\u2026"</string>
   <string name="widget_permission_error" synced="x" sync="1">"ich brauche mehr Berechtigungen
 bitte hier klicken"</string>
   <string name="widget_title_actionbutton" synced="x" sync="1">"Aktions-Knopf"</string>
   <string name="widget_title_calendar" synced="x" sync="1">"Kalender Widget in Sonnenzeit"</string>
+  <string name="widget_title_chronospan" sync="x">"Zeitspanne"</string>
   <string name="widget_title_clock_analog" synced="x" sync="1">"analoge Sonnenzeit"</string>
-  <string name="widget_title_clock_digital" sync="x">"digitale Sonnenzeit"</string>
-  <string name="widget_title_lifetime" synced="x" sync="1">"Lebenszeit"</string>
+  <string name="widget_title_clock_digital" sync="1">"digitale Sonnenzeit"</string>
   <string name="widget_unconfigured" synced="x" sync="1">"hier klicken um das Widget zu konfigurieren"</string>
   <string name="widget_warning_location_out_of_date" synced="x" sync="1">"aktuelle Position veraltet"</string>
   <string name="widget_warning_location_unknown" synced="x" sync="1">"aktuelle Position unbekannt"</string>

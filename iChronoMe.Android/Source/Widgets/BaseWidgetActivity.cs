@@ -196,8 +196,8 @@ namespace iChronoMe.Droid.Widgets
                 return typeof(Calendar.CalendarWidget);
             if (typeof(T) == typeof(WidgetCfg_ActionButton))
                 return typeof(ActionButton.ActionButtonWidget);
-            if (typeof(T) == typeof(WidgetCfg_Lifetime))
-                return typeof(Lifetime.LifetimeWidget);
+            if (typeof(T) == typeof(WidgetCfg_ChronoSpan))
+                return typeof(ChronoSpan.ChronoSpanWidget);
 
             return null;
         }

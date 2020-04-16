@@ -11212,16 +11212,16 @@ namespace iChronoMe.Droid
 			public const int widget_calendar_universal = 2131493014;
 			
 			// aapt resource value: 0x7F0C0097
-			public const int widget_clock_analog = 2131493015;
+			public const int widget_chronospan = 2131493015;
 			
 			// aapt resource value: 0x7F0C0098
-			public const int widget_clock_digital = 2131493016;
+			public const int widget_clock_analog = 2131493016;
 			
 			// aapt resource value: 0x7F0C0099
-			public const int widget_clock_init = 2131493017;
+			public const int widget_clock_digital = 2131493017;
 			
 			// aapt resource value: 0x7F0C009A
-			public const int widget_lifetime = 2131493018;
+			public const int widget_clock_init = 2131493018;
 			
 			// aapt resource value: 0x7F0C009B
 			public const int widget_moon = 2131493019;
@@ -11307,13 +11307,13 @@ namespace iChronoMe.Droid
 			public const int widgetprev_calendar = 2131623945;
 			
 			// aapt resource value: 0x7F0E000A
-			public const int widgetprev_clock_analog = 2131623946;
+			public const int widgetprev_chronospan = 2131623946;
 			
 			// aapt resource value: 0x7F0E000B
-			public const int widgetprev_clock_digital = 2131623947;
+			public const int widgetprev_clock_analog = 2131623947;
 			
 			// aapt resource value: 0x7F0E000C
-			public const int widgetprev_lifetime = 2131623948;
+			public const int widgetprev_clock_digital = 2131623948;
 			
 			static Mipmap()
 			{
@@ -12626,16 +12626,16 @@ namespace iChronoMe.Droid
 			public const int WidgetTitleMonthView = 2131755115;
 			
 			// aapt resource value: 0x7F100198
-			public const int widget_error_location_is_requered = 2131755416;
+			public const int widget_chronospan_loading = 2131755416;
 			
 			// aapt resource value: 0x7F100199
-			public const int widget_error_permission_calendar = 2131755417;
+			public const int widget_error_location_is_requered = 2131755417;
 			
 			// aapt resource value: 0x7F10019A
-			public const int widget_error_permission_location = 2131755418;
+			public const int widget_error_permission_calendar = 2131755418;
 			
 			// aapt resource value: 0x7F10019B
-			public const int widget_lifetime_loading = 2131755419;
+			public const int widget_error_permission_location = 2131755419;
 			
 			// aapt resource value: 0x7F10019C
 			public const int widget_loading = 2131755420;
@@ -12650,13 +12650,13 @@ namespace iChronoMe.Droid
 			public const int widget_title_calendar = 2131755423;
 			
 			// aapt resource value: 0x7F1001A0
-			public const int widget_title_clock_analog = 2131755424;
+			public const int widget_title_chronospan = 2131755424;
 			
 			// aapt resource value: 0x7F1001A1
-			public const int widget_title_clock_digital = 2131755425;
+			public const int widget_title_clock_analog = 2131755425;
 			
 			// aapt resource value: 0x7F1001A2
-			public const int widget_title_lifetime = 2131755426;
+			public const int widget_title_clock_digital = 2131755426;
 			
 			// aapt resource value: 0x7F1001A3
 			public const int widget_unconfigured = 2131755427;
@@ -18208,10 +18208,10 @@ namespace iChronoMe.Droid
 			public const int widget_calendar = 2131951621;
 			
 			// aapt resource value: 0x7F130006
-			public const int widget_digitalclock = 2131951622;
+			public const int widget_chronospan = 2131951622;
 			
 			// aapt resource value: 0x7F130007
-			public const int widget_lifetime = 2131951623;
+			public const int widget_digitalclock = 2131951623;
 			
 			// aapt resource value: 0x7F130008
 			public const int widget_moon = 2131951624;
