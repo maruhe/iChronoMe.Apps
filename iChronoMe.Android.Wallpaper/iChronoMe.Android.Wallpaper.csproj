@@ -103,12 +103,8 @@
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\mipmap\dummy_wallpaper.webp" />
     <AndroidResource Include="Resources\mipmap\inspired.webp" />
-    <AndroidResource Include="Resources\mipmap\moon1.webp" />
-    <AndroidResource Include="Resources\mipmap\overlay_click.webp" />
     <AndroidResource Include="Resources\mipmap\splash.webp" />
-    <AndroidResource Include="Resources\mipmap\widgetprev_calendar.webp" />
     <AndroidResource Include="Resources\mipmap\widgetprev_clock_analog.webp" />
-    <AndroidResource Include="Resources\mipmap\widgetprev_lifetime.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher_foreground.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\inspired.webp" />
     <AndroidResource Include="Resources\mipmap-hdpi\splash.webp" />
@@ -193,7 +189,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\wallpaper_analogclock.xml">
+    <AndroidResource Include="Resources\xml\wallpaper_config.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -481,6 +477,18 @@
   </ItemGroup>
   <ItemGroup Condition=" '$(Configuration)'!='Debug'">
     <AndroidResource Include="Resources\values\secrets_release.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values-de\strings.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\strings_untranslatable.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

@@ -18,9 +18,9 @@ using static Android.App.ActivityManager;
 
 namespace iChronoMe.Droid.Wallpaper.LiveWallpapers
 {
-    [Service(Label = "@string/wallpaper_title_clock_analog", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
+    [Service(Label = "@string/wallpaper_title", Permission = "android.permission.BIND_WALLPAPER", Name = "me.ichrono.droid.LiveWallpapers.WallpaperClockService")]
     [IntentFilter(new string[] { "android.service.wallpaper.WallpaperService" })]
-    [MetaData("android.service.wallpaper", Resource = "@xml/wallpaper_analogclock")]
+    [MetaData("android.service.wallpaper", Resource = "@xml/wallpaper_config")]
     public class WallpaperClockService : WallpaperService
     {
         public override Engine OnCreateEngine()

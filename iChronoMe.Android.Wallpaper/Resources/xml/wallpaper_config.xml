@@ -22,5 +22,5 @@
 <wallpaper
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:thumbnail="@drawable/widgetprev_clock_analog"
-    android:description="@string/wallpaper_title_clock_analog"
+    android:description="@string/wallpaper_title"
     android:settingsActivity="me.ichrono.droid.Wallpaper.WallpaperConfigActivity"/>
