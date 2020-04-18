@@ -18,7 +18,9 @@ using Android.Widget;
 
 using iChronoMe.Core;
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.DataModels;
 using iChronoMe.Core.DynamicCalendar;
+using iChronoMe.Core.Tools;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Receivers;
 using iChronoMe.Droid.Widgets;
@@ -570,7 +572,8 @@ namespace iChronoMe.Droid
                     else
                     {
                         lth = lthLocal = LocationTimeHolder.LocalInstanceClone;
-                        lth.ChangePositionDelay(cfg.Latitude, cfg.Longitude);
+                        if (cfg.Latitude != 0 && cfg.Longitude != 0)
+                            lth.ChangePositionDelay(cfg.Latitude, cfg.Longitude);
                         lthLocal.AreaChanged += LthLocal_AreaChanged;
                     }
                 }
@@ -622,6 +625,9 @@ namespace iChronoMe.Droid
                     clockViewDigital.ReadConfig((WidgetCfg_ClockDigital)cfg);
                 }
 
+                int iWeatherErrors = 0;
+                var lastWeatherUpdate = DateTime.MinValue;
+                WeatherInfo wi = null;
                 TimeSpan swInit = DateTime.Now - swStart;
 
                 TimeType tType = cfg.CurrentTimeType;
@@ -667,6 +673,7 @@ namespace iChronoMe.Droid
                                 {
                                     cfg.WidgetTitle = lth.AreaName;
                                     BackgroundService.EffectedWidges.Clear();
+                                    lastWeatherUpdate = DateTime.MinValue;
                                     SaveWidgetConfig();
                                 }
                             }
@@ -674,12 +681,34 @@ namespace iChronoMe.Droid
                             {
                                 cfg.WidgetTitle = lth.AreaName;
                                 BackgroundService.EffectedWidges.Clear();
+                                lastWeatherUpdate = DateTime.MinValue;
                                 SaveWidgetConfig();
                             }
                             TimeSpan swPosCheck = DateTime.Now - swStart;
-
                             swStart = DateTime.Now;
-                            TimeSpan swUpdateClock = DateTime.Now - swStart;
+
+                            if (clockView.NeedsWeatherInfo && lth.Latitude != 0)
+                            {
+                                var gmtNow = lth.GetTime(TimeType.UtcTime);
+                                if (wi == null || wi.ObservationTime < gmtNow)
+                                {
+                                    wi = WeatherInfo.GetWeatherInfo(gmtNow, lth.Latitude, lth.Longitude);
+                                }
+                                if (wi == null || wi.ObservationTime < gmtNow && lastWeatherUpdate.AddSeconds(15) < DateTime.Now)
+                                {
+                                    lastWeatherUpdate = DateTime.Now;
+                                    Task.Factory.StartNew(() =>
+                                    {
+                                        Tools.ShowToastDebug(ctx, "update weather info", true);
+                                        if (WeatherApi.UpdateWeatherInfo(gmtNow, lth.Latitude, lth.Longitude))
+                                            BackgroundService.EffectedWidges.Remove(iWidgetId);
+                                        else
+                                            iWeatherErrors++;
+                                    });
+                                }
+                            }
+
+                            TimeSpan swWeatherCheck = DateTime.Now - swStart;
 
                             if (iWidgetId >= 0)
                             {
@@ -698,7 +727,7 @@ namespace iChronoMe.Droid
                                 else if (cfg is WidgetCfg_ClockDigital)
                                 {
                                     bool bDoFullUpdate = tLastFullUpdate.AddSeconds(15) < DateTime.Now;
-                                    var rv = GetClockDigitalRemoteView(ctx, (WidgetCfg_ClockDigital)cfg, clockViewDigital, sys.DpPx(wSize.X), sys.DpPx(wSize.Y), lth, lth.GetTime(tType), uBackgroundImage);
+                                    var rv = GetClockDigitalRemoteView(ctx, (WidgetCfg_ClockDigital)cfg, clockViewDigital, sys.DpPx(wSize.X), sys.DpPx(wSize.Y), lth, lth.GetTime(tType), uBackgroundImage, wi);
                                     manager.UpdateAppWidget(iWidgetId, rv);
                                 }
                             }
@@ -738,7 +767,6 @@ namespace iChronoMe.Droid
                             }
                             else
                             {
-
                                 if (clockView.ShowSeconds && clockView.FlowSeconds)
                                     Thread.Sleep(35);
                                 else
@@ -802,7 +830,7 @@ namespace iChronoMe.Droid
             }
             tsk.IsBackground = true;
             tsk.Start();
-        }        
+        }
 
         private void ClockView_ClockFaceLoaded(object sender, EventArgs e)
         {
@@ -1000,7 +1028,7 @@ namespace iChronoMe.Droid
             updateViews.SetTextColor(Resource.Id.clock_time, cfg.ColorTitleText.ToAndroid());
 
             if (bUpdateAll)
-            {                
+            {
                 if (cfg.ColorBackground.A > 0)
                 {
                     updateViews.SetInt(Resource.Id.background_color, "setColorFilter", cfg.ColorBackground.ToAndroid());
@@ -1027,12 +1055,12 @@ namespace iChronoMe.Droid
         }
 
         public static RemoteViews GetClockDigitalRemoteView(Context ctx, WidgetCfg_ClockDigital cfg, WidgetView_ClockDigital clockView, int width, int height,
-            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage)
+            LocationTimeHolder lth, DateTime tNow, Android.Net.Uri uBackgroundImage, WeatherInfo wi)
         {
             int iWidgetId = cfg.WidgetId;
             var tType = cfg.CurrentTimeType;
 
-            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, width, height, cfg));
+            Bitmap bitmap = BitmapFactory.DecodeStream(clockView.GetBitmap(tNow, width, height, cfg, wi));
 
             RemoteViews updateViews = new RemoteViews(ctx.PackageName, Resource.Layout.widget_clock_digital);
 

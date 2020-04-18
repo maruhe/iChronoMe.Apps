@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Widget;
 
 using iChronoMe.Core.Classes;
+using iChronoMe.Core.DataModels;
 using iChronoMe.Core.DynamicCalendar;
 using iChronoMe.Core.Types;
 using iChronoMe.Droid.Widgets.ActionButton;
@@ -154,7 +155,7 @@ namespace iChronoMe.Droid.Widgets
                         //int iWidthPx = (int)(wSize.X * sys.DisplayDensity);
                         //int iHeightPx = (int)(wSize.Y * sys.DisplayDensity);
                         //e.Surface.Canvas.Translate((e.Info.Width - iWidthPx) / 2, (e.Info.Height - iHeightPx) / 2);
-                        view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height, cfg as WidgetCfg_ClockDigital);
+                        view.DrawCanvas(e.Surface.Canvas, DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), e.Info.Width, e.Info.Height, cfg as WidgetCfg_ClockDigital, WeatherInfo.Dummy);
                     }
                 }
                 catch (Exception ex)
@@ -720,7 +721,7 @@ namespace iChronoMe.Droid.Widgets
             {
                 WidgetView_ClockDigital wv = new WidgetView_ClockDigital();
                 wv.ReadConfig((WidgetCfg_ClockDigital)cfg);
-                bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, (WidgetCfg_ClockDigital)cfg, true));
+                bmp = BitmapFactory.DecodeStream(wv.GetBitmap(DateTime.Today.AddHours(14).AddMinutes(53).AddSeconds(36), iWidthPx, iHeightPx, (WidgetCfg_ClockDigital)cfg, WeatherInfo.Dummy, true));
             }
             else if (cfg is WidgetCfg_Calendar)
             {
