@@ -68,7 +68,7 @@ namespace iChronoMe.Droid
             screenOnOffReceiver = new ScreenOnOffReceiver();
             screenOnOffReceiver.ScreenStateReceived += ScreenOnOffReceiver_ScreenStateReceived;
             this.RegisterReceiver(screenOnOffReceiver, intentFilter);
-
+            
             //RegisterForegroundService();
 
             //Tools.ShowToastDebug(this, "Service Created");
@@ -171,7 +171,10 @@ namespace iChronoMe.Droid
             else if (ClockUpdateBroadcastReceiver.cmdRestartUpdates.Equals(command))
             {
                 if (iAppWidgetID != null && iAppWidgetID.Value != 0 && updateHolder?.IsWidgetThreadAlive(iAppWidgetID.Value) == true)
+                {
+                    sys.RefreshCultureInfo(Java.Util.Locale.Default.ToLanguageTag());
                     updateHolder.UpdateSingleWidget(iAppWidgetID.Value);
+                }
                 else
                     RestartUpdateDelay();
             }
@@ -254,6 +257,7 @@ namespace iChronoMe.Droid
         {
             StopUpdate();
             EffectedWidges.Clear();
+            sys.RefreshCultureInfo(Java.Util.Locale.Default.ToLanguageTag());
 
             int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
@@ -535,7 +539,7 @@ namespace iChronoMe.Droid
 
             var tsk = new Thread(() =>
             {
-                //xLog.Debug("start new Thread for AnalogClock " + iWidgetId);
+                xLog.Debug("start new Clock-Widget Thread " + iWidgetId);
 
                 DateTime swStart = DateTime.Now;
                 WidgetCfg_Clock cfg = cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(iWidgetId, false);
@@ -699,7 +703,6 @@ namespace iChronoMe.Droid
                                     lastWeatherUpdate = DateTime.Now;
                                     Task.Factory.StartNew(() =>
                                     {
-                                        Tools.ShowToastDebug(ctx, "update weather info", true);
                                         if (WeatherApi.UpdateWeatherInfo(gmtNow, lth.Latitude, lth.Longitude))
                                             BackgroundService.EffectedWidges.Remove(iWidgetId);
                                         else
@@ -837,11 +840,11 @@ namespace iChronoMe.Droid
             BackgroundService.RestartService(ctx, AppWidgetManager.ActionAppwidgetUpdate);
         }
 
+        Dictionary<int, DateTime> lastUpdateCommands = new Dictionary<int, DateTime>();
         public void UpdateSingleWidget(int iWidgetId)
         {
             try
             {
-
                 var cfgOld = cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(iWidgetId, false);
                 cfgHolder = new WidgetConfigHolder();
                 var cfgNew = cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(iWidgetId, false);
@@ -852,7 +855,11 @@ namespace iChronoMe.Droid
                 TimeSpan tMaxLocationDelay = TimeSpan.FromMinutes(20);
                 if (cfgOld == null || cfgNew.CurrentTimeType == cfgOld.CurrentTimeType || !(cfgNew is WidgetCfg_ClockAnalog))
                 {
-                    StartWidgetTask(iWidgetId);// quick update
+                    if (lastUpdateCommands.ContainsKey(iWidgetId) && lastUpdateCommands[iWidgetId].AddMilliseconds(500) > DateTime.Now)
+                        BackgroundService.EffectedWidges.Remove(iWidgetId);
+                    else
+                        StartWidgetTask(iWidgetId);// quick update
+                    lastUpdateCommands[iWidgetId] = DateTime.Now;
                 }
                 else
                 {

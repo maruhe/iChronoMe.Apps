@@ -49,6 +49,8 @@ namespace iChronoMe.Droid
             base.OnCreate(savedInstanceState);
             try
             {
+                if (sys.MainUserIO == null || this is MainActivity)
+                    sys.MainUserIO = this;
                 if (errorReceiver == null)
                 {
                     AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
@@ -59,10 +61,8 @@ namespace iChronoMe.Droid
 
                     Xamarin.Essentials.Platform.Init(this, savedInstanceState);
                     Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
-
-                    if (sys.MainUserIO == null || this is MainActivity)
-                        sys.MainUserIO = this;
                 }
+                sys.RefreshCultureInfo(Java.Util.Locale.Default.ToLanguageTag());
             }
             catch (Exception ex)
             {
