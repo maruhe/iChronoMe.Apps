@@ -454,8 +454,12 @@ namespace iChronoMe.Droid
                     return "icons8_timezone_" + ((int)lth.TimeZoneOffsetGmt).ToString().Replace("-", "m");
                 case TimeType.UtcTime:
                     return "icons8_timezone_globe";
+
+                case TimeType.RealSunTimeOld:
+                    return "sunclock";
             }
-            return "";
+            Tools.ShowToastDebug(Android.App.Application.Context, string.Concat("strange TimeType: ", tType), true);
+            return "icons8_help";
         }
     }
 

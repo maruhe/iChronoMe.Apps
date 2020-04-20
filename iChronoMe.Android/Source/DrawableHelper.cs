@@ -36,7 +36,15 @@ namespace iChronoMe.Droid
 
         public static Drawable GetIconDrawable(Context context, string drawableName, xColor color)
         {
-            return GetIconDrawable(context, (int)typeof(Resource.Drawable).GetField(drawableName).GetValue(null), color);
+            try
+            {
+                return GetIconDrawable(context, (int)typeof(Resource.Drawable).GetField(drawableName).GetValue(null), color);
+            }
+            catch (Exception ex)
+            {
+                xLog.Error(ex, drawableName);
+                return context.GetDrawable(Resource.Drawable.icons8_error_clrd);
+            }
         }
         public static Drawable GetIconDrawable(Context context, string drawableName, Color color)
         {
