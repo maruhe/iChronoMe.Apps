@@ -126,7 +126,8 @@ namespace iChronoMe.Droid
             else
             {
                 StopUpdate();
-                EffectedWidges.Clear();
+                lock (EffectedWidges)
+                    EffectedWidges.Clear();
             }
         }
 
@@ -241,9 +242,13 @@ namespace iChronoMe.Droid
             return notification;
         }
 
+        string channelId = null;
+
         private string createNotificationChannel()
         {
-            var channelId = "widget_service";
+            if (!string.IsNullOrEmpty(channelId))
+                return channelId;
+            channelId = "widget_service";
             var channelName = this.Resources.GetString(Resource.String.label_BackgroundService);
             var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Min);
             chan.Description = this.Resources.GetString(Resource.String.description_BackgroundService);
@@ -258,7 +263,8 @@ namespace iChronoMe.Droid
         private void xxRestartUpdate()
         {
             StopUpdate();
-            EffectedWidges.Clear();
+            lock (BackgroundService.EffectedWidges) 
+                EffectedWidges.Clear();
             sys.RefreshCultureInfo(Java.Util.Locale.Default.ToLanguageTag());
 
             int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
@@ -466,9 +472,9 @@ namespace iChronoMe.Droid
             iS.AddRange(appWidgetID2s);
             if ((cfgHolder.AllIds<WidgetCfg_ClockAnalog>().Length + cfgHolder.AllIds<WidgetCfg_ClockDigital>().Length > 0 && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1) || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
             {
-                Notification notification = BackgroundService.currentService.GetForegroundNotification(ctx.Resources.GetString(Resource.String.label_BackgroundService), sys.EzMzText(iS.Count, ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_one), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_more), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_zero)), cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(-101).ClickAction);
-                NotificationManager mNotificationManager = (NotificationManager)ctx.GetSystemService(Context.NotificationService);
-                mNotificationManager.Notify(101, notification);
+                //Notification notification = BackgroundService.currentService.GetForegroundNotification(ctx.Resources.GetString(Resource.String.label_BackgroundService), sys.EzMzText(iS.Count, ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_one), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_more), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_zero)), cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(-101).ClickAction);
+                //NotificationManager mNotificationManager = (NotificationManager)ctx.GetSystemService(Context.NotificationService);
+                //mNotificationManager.Notify(101, notification);
 
                 if (AppConfigHolder.MainConfig.AlwaysShowForegroundNotification || iS.Count > 0)
                 {
@@ -509,7 +515,8 @@ namespace iChronoMe.Droid
                     if (!IsInteractive)
                     {
                         BackgroundService.currentService.StopUpdate();
-                        BackgroundService.EffectedWidges.Clear();
+                        lock (BackgroundService.EffectedWidges)
+                            BackgroundService.EffectedWidges.Clear();
                     }
                 });
             }
@@ -589,11 +596,7 @@ namespace iChronoMe.Droid
                     lth.AreaChanged += LthLocal_AreaChanged;
                 }
                 lock (mLths)
-                {
-                    if (mLths.ContainsKey(iWidgetId))
-                        mLths.Remove(iWidgetId);
-                    mLths.Add(iWidgetId, lth);
-                }
+                    mLths[iWidgetId] = lth;
 
                 Point wSize = MainWidgetBase.GetWidgetSize(iWidgetId, cfg, manager);
                 int iClockSizeDp = wSize.X;
@@ -650,8 +653,11 @@ namespace iChronoMe.Droid
                     {
                         try
                         {
-                            if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
-                                BackgroundService.EffectedWidges.Add(iWidgetId);
+                            lock (BackgroundService.EffectedWidges)
+                            {
+                                if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
+                                    BackgroundService.EffectedWidges.Add(iWidgetId);
+                            }
 
                             iRun++;
                             xLog.Verbose("AnalogClock " + iWidgetId + "\tRun " + iRun);
@@ -678,7 +684,8 @@ namespace iChronoMe.Droid
                                 if (!string.IsNullOrEmpty(lth.AreaName) && cfg.WidgetTitle != lth.AreaName)
                                 {
                                     cfg.WidgetTitle = lth.AreaName;
-                                    BackgroundService.EffectedWidges.Clear();
+                                    lock (BackgroundService.EffectedWidges)
+                                        BackgroundService.EffectedWidges.Clear();
                                     lastWeatherUpdate = DateTime.MinValue;
                                     SaveWidgetConfig();
                                 }
@@ -686,7 +693,8 @@ namespace iChronoMe.Droid
                             else if (string.IsNullOrEmpty(cfg.WidgetTitle) && !string.IsNullOrEmpty(lth.AreaName))
                             {
                                 cfg.WidgetTitle = lth.AreaName;
-                                BackgroundService.EffectedWidges.Clear();
+                                lock (BackgroundService.EffectedWidges)
+                                    BackgroundService.EffectedWidges.Clear();
                                 lastWeatherUpdate = DateTime.MinValue;
                                 SaveWidgetConfig();
                             }
@@ -705,10 +713,13 @@ namespace iChronoMe.Droid
                                     lastWeatherUpdate = DateTime.Now;
                                     Task.Factory.StartNew(() =>
                                     {
-                                        if (WeatherApi.UpdateWeatherInfo(gmtNow, lth.Latitude, lth.Longitude))
-                                            BackgroundService.EffectedWidges.Remove(iWidgetId);
-                                        else
-                                            iWeatherErrors++;
+                                        lock (BackgroundService.EffectedWidges)
+                                        {
+                                            if (WeatherApi.UpdateWeatherInfo(gmtNow, lth.Latitude, lth.Longitude) && BackgroundService.EffectedWidges.Contains(iWidgetId))
+                                                BackgroundService.EffectedWidges.Remove(iWidgetId);
+                                            else
+                                                iWeatherErrors++;
+                                        }
                                     });
                                 }
                             }
@@ -859,10 +870,13 @@ namespace iChronoMe.Droid
                 TimeSpan tMaxLocationDelay = TimeSpan.FromMinutes(20);
                 if (cfgOld == null || cfgNew.CurrentTimeType == cfgOld.CurrentTimeType || !(cfgNew is WidgetCfg_ClockAnalog))
                 {
-                    if (lastUpdateCommands.ContainsKey(iWidgetId) && lastUpdateCommands[iWidgetId].AddMilliseconds(500) > DateTime.Now)
-                        BackgroundService.EffectedWidges.Remove(iWidgetId);
-                    else
-                        StartWidgetTask(iWidgetId);// quick update
+                    lock (BackgroundService.EffectedWidges)
+                    {
+                        if (lastUpdateCommands.ContainsKey(iWidgetId) && lastUpdateCommands[iWidgetId].AddMilliseconds(500) > DateTime.Now && BackgroundService.EffectedWidges.Contains(iWidgetId))
+                            BackgroundService.EffectedWidges.Remove(iWidgetId);
+                        else
+                            StartWidgetTask(iWidgetId);// quick update
+                    }
                     lastUpdateCommands[iWidgetId] = DateTime.Now;
                 }
                 else
@@ -1133,7 +1147,8 @@ namespace iChronoMe.Droid
         private void LthLocal_AreaChanged(object sender, AreaChangedEventArgs e)
         {
             //Tools.ShowToastDebug(ctx, "Area Changed");
-            BackgroundService.EffectedWidges.Clear();
+            lock (BackgroundService.EffectedWidges)
+                BackgroundService.EffectedWidges.Clear();
         }
 
         Task cfgSaveTask = null;
@@ -1279,7 +1294,8 @@ namespace iChronoMe.Droid
                 //Tools.ShowToastDebug(ctx, "OnLocationChanged");
                 lastLocation = location;
                 lthLocal?.ChangePositionDelay(lastLocation.Latitude, lastLocation.Longitude);
-                BackgroundService.EffectedWidges.Clear();
+                lock (BackgroundService.EffectedWidges)
+                    BackgroundService.EffectedWidges.Clear();
                 xLog.Debug("GotLocation; " + location.Provider);
             }
             catch (Exception ex)

@@ -45,6 +45,7 @@ namespace iChronoMe.Droid.GUI
         private CoordinatorLayout coordinator;
         private TextView lTitle, lGeoPos, lTimeZoneInfo, lTime1, lTime2, lTime3, lTimeInfo1, lTimeInfo2, lTimeInfo3, lDeviceTimeInfo;
         private ImageView imgTZ, imgClockBack, imgClockBackClr, imgDeviceTime;
+        private ImageButton btnLocate;
         private ProgressBar pbClock;
         private SKCanvasView skiaView;
         private WidgetConfigHolder cfgHolder;
@@ -104,7 +105,8 @@ namespace iChronoMe.Droid.GUI
             lTimeInfo3 = RootView.FindViewById<TextView>(Resource.Id.time_offset_tzt);
             imgTZ = RootView.FindViewById<ImageView>(Resource.Id.img_timezone);
 
-            RootView.FindViewById<ImageButton>(Resource.Id.btn_locate).Click += btnLocate_Click;
+            btnLocate = RootView.FindViewById<ImageButton>(Resource.Id.btn_locate);
+            btnLocate.Click += btnLocate_Click;
             TooltipCompat.SetTooltipText(RootView.FindViewById<ImageButton>(Resource.Id.btn_locate), localize.LocationType);
 
             fabTimeType = RootView.FindViewById<FloatingActionButton>(Resource.Id.btn_time_type);
@@ -1039,6 +1041,8 @@ namespace iChronoMe.Droid.GUI
             if (tLastLocationUpdate.AddMinutes(5) > DateTime.Now && !forceUpdate)
                 return;
 
+            UpdateLocationState();
+
             Task.Factory.StartNew(async () =>
             {
                 try
@@ -1048,6 +1052,7 @@ namespace iChronoMe.Droid.GUI
 
                     if (Build.VERSION.SdkInt >= BuildVersionCodes.M && (ActivityCompat.CheckSelfPermission(mContext, Manifest.Permission.AccessCoarseLocation) != Permission.Granted || ActivityCompat.CheckSelfPermission(mContext, Manifest.Permission.AccessFineLocation) != Permission.Granted))
                     {
+                        UpdateLocationState(LocationState.MissingPermission);
                         if (forceUpdate)
                         {
                             if (await this.RequestPermissionsAsync(new string[] { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation }, 2))
@@ -1093,12 +1098,13 @@ namespace iChronoMe.Droid.GUI
 
                     if (!locationManager.IsProviderEnabled(LocationManager.NetworkProvider) && !locationManager.IsProviderEnabled(LocationManager.GpsProvider))
                     {
+                        UpdateLocationState(LocationState.ServicesDisabled);
                         tLastClockTime = DateTime.Now;
                         if (!forceUpdate)
                         {
-                            if (location_provider_disabled_alert_done.AddHours(1) < DateTime.Now)
-                                Tools.ShowToast(mContext, Resource.String.location_provider_disabled_alert);
-                            location_provider_disabled_alert_done = DateTime.Now;
+                            //if (location_provider_disabled_alert_done.AddHours(1) < DateTime.Now)
+                            //    Tools.ShowToast(mContext, Resource.String.location_provider_disabled_alert);
+                            //location_provider_disabled_alert_done = DateTime.Now;
                             return;
                         }
                         if (await Tools.ShowYesNoMessage(mContext, Resource.String.location_provider_disabled_alert, Resource.String.location_provider_disabled_question))
@@ -1124,11 +1130,11 @@ namespace iChronoMe.Droid.GUI
                     if (lastLocation == null)
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.PassiveProvider);
 
-                    if (location_provider_disabled_alert_done.AddHours(1) < DateTime.Now)
+                    /*if (location_provider_disabled_alert_done.AddHours(1) < DateTime.Now)
                     {
                         location_provider_disabled_alert_done = DateTime.Now;
                         Tools.ShowToast(mContext, Resource.String.location_provider_disabled_alert);
-                    }
+                    }*/
 
                     //stop location-updates after some time
                     if (tStopLocationUpdates < DateTime.MaxValue)
@@ -1162,6 +1168,8 @@ namespace iChronoMe.Droid.GUI
                     //update last known location in meanwhile
                     if (lastLocation == null)
                         lastLocation = locationManager.GetLastKnownLocation(LocationManager.GpsProvider);
+
+                    UpdateLocationState();
 
                     if (lastLocation != null)
                     {
@@ -1328,9 +1336,33 @@ namespace iChronoMe.Droid.GUI
         public void OnLocationChanged(Android.Locations.Location location)
         {
             lastReceivedLocation = location;
+            UpdateLocationState();
             Tools.ShowToastDebug(mContext, "got a location update");
 
             lth.ChangePositionDelay(location.Latitude, location.Longitude);
+        }
+
+        private void UpdateLocationState()
+        {
+            //btnLocate.SetColorFilter
+        }
+
+        private void UpdateLocationState(LocationState state)
+        {
+            Color clr = Color.Transparent;
+
+        }
+
+        enum LocationState
+        {
+            Init,
+            Neutral,
+            OutOfTime,
+            Refreshing,
+            UpToDate,
+            Manual,
+            MissingPermission,
+            ServicesDisabled
         }
 
         public void OnProviderDisabled(string provider)
