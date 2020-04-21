@@ -79,7 +79,6 @@ namespace iChronoMe.Droid.Widgets
         {
             base.Dispose(disposing);
             mContext = null;
-            wSize = null;
             CalendarModel = null;
             myEventsMonth = null;
             myEventsList = null;

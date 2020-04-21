@@ -111,7 +111,6 @@ namespace iChronoMe.Droid
                         TimeZoneMap.GetTimeZone(1, 1);
                     }
                     catch { }
-                    //sys.DebugLogException(new Exception("lalaaa"));
                 });
             }
             catch (Exception ex)

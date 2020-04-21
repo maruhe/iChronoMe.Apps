@@ -63,6 +63,7 @@ namespace iChronoMe.Droid
                     Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Secrets.SyncFusionLicenseKey);
                 }
                 sys.RefreshCultureInfo(Java.Util.Locale.Default.ToLanguageTag());
+                TimeHolder.Resync();
             }
             catch (Exception ex)
             {

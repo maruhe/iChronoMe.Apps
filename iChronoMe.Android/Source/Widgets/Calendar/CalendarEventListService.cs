@@ -464,10 +464,10 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                 myEvents.DoLoadCalendarEventsGrouped(DateTime.Now, DateTime.Today.AddDays(cfg.MaxFutureDays + 1)).Wait();
 
-                if (mLoc.Latitude == 0 && mLoc.Longitude == 0)
+                if (myEvents.ListedDates.Count > 0 && mLoc.Latitude == 0 && mLoc.Longitude == 0)
                     myEvents.AllDatesAndEvents.Insert(0, mContext.Resources.GetString(Resource.String.widget_warning_location_unknown));
-                else if (mLoc.Timestamp.AddHours(1) < DateTime.Now)
-                    myEvents.AllDatesAndEvents.Insert(0, mContext.Resources.GetString(Resource.String.widget_warning_location_out_of_date));
+                //else if (mLoc.Timestamp.AddHours(1) < DateTime.Now)
+                //    myEvents.AllDatesAndEvents.Insert(0, mContext.Resources.GetString(Resource.String.widget_warning_location_out_of_date));
 
                 iLastCount = Count;
 

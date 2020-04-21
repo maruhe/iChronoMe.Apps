@@ -94,8 +94,6 @@ namespace iChronoMe.Droid.GUI
 
             imgDeviceTime = RootView.FindViewById<ImageView>(Resource.Id.img_device_time);
             lDeviceTimeInfo = RootView.FindViewById<TextView>(Resource.Id.text_device_time_info);
-            //if (sys.Debugmode)
-            //  RootView.FindViewById(Resource.Id.ll_device_time).Visibility = ViewStates.Visible;
 
             RootView.FindViewById<TextView>(Resource.Id.title).Visibility = ViewStates.Gone;
             lTime1 = RootView.FindViewById<TextView>(Resource.Id.time_rdt);
@@ -114,6 +112,13 @@ namespace iChronoMe.Droid.GUI
 
             navigationView = RootView.FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
+
+#if DEBxxUG
+            RootView.FindViewById(Resource.Id.ll_device_time).Visibility = ViewStates.Visible;
+            var btn = RootView.FindViewById<ImageButton>(Resource.Id.btn_debug);
+            btn.Visibility = ViewStates.Visible;
+            btn.Click += btnDebug_Click;
+#endif
 
             return RootView;
         }
@@ -311,12 +316,23 @@ namespace iChronoMe.Droid.GUI
             }
         }
 
+        private void btnDebug_Click(object sender, EventArgs e)
+        {
+            Tools.ShowToast(mContext, TimeHolder.mLastNtpDiff.TotalSeconds + "." + TimeHolder.mLastNtpDiff.Milliseconds);
+
+            Task.Factory.StartNew(() =>
+            {
+                TimeHolder.Resync();
+                while (TimeHolder.State == Core.Classes.TimeHolder.TimeHolderState.Init)
+                    Task.Delay(25).Wait();
+                Tools.ShowToast(mContext, TimeHolder.mLastNtpDiff.TotalSeconds + "." + TimeHolder.mLastNtpDiff.Milliseconds);
+            });
+        }
 
         TimeHolder.TimeHolderState? lstTimeHolderStart = null;
         TimeSpan? lstNtpDiff = null;
         private void RefreshDeviceTimeInfo()
         {
-            return;
             if (!sys.Debugmode)
                 return;
             if (Equals(lstTimeHolderStart, TimeHolder.State) && Equals(lstNtpDiff, TimeHolder.mLastNtpDiff))

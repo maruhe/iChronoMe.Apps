@@ -68,10 +68,12 @@ namespace iChronoMe.Droid
             screenOnOffReceiver = new ScreenOnOffReceiver();
             screenOnOffReceiver.ScreenStateReceived += ScreenOnOffReceiver_ScreenStateReceived;
             this.RegisterReceiver(screenOnOffReceiver, intentFilter);
-            
+
             //RegisterForegroundService();
 
             //Tools.ShowToastDebug(this, "Service Created");
+
+            TimeHolder.Resync();
 
             Task.Factory.StartNew(() =>
             {
@@ -723,6 +725,8 @@ namespace iChronoMe.Droid
                                     rv.SetViewVisibility(Resource.Id.clock_progress, bShowClockProgress ? ViewStates.Visible : ViewStates.Gone);
                                     if (bShowClockProgress)
                                         rv.SetViewPadding(Resource.Id.clock_progress, iClockSize / 3, iClockSize / 3, iClockSize / 3, iClockSize / 3);
+                                    if (sys.Debugmode)
+                                        rv.SetTextViewText(Resource.Id.clock_time, sys.DpPx(wSize.X) + "x" + sys.DpPx(wSize.Y));
                                     manager.UpdateAppWidget(iWidgetId, rv);
                                     if (bDoFullUpdate && iRun > 3)
                                         tLastFullUpdate = DateTime.Now;

@@ -25,7 +25,8 @@ namespace iChronoMe.Droid.Receivers
 
             try
             {
-                TimeHolder.Resync();
+                TimeHolder.Reset(true);
+                TimeHolder.Resync(true);
             }
             catch (Exception ex)
             {
