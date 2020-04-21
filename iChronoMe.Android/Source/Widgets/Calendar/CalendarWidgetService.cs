@@ -245,6 +245,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                     catch (ThreadAbortException) { }
                                     catch (Exception ex)
                                     {
+                                        if (ex.InnerException is ThreadAbortException)
+                                            return;
                                         sys.LogException(ex);
                                         xLog.Error(ex, "Update Widget Error: " + iWidgetId);
                                         RemoteViews rv = new RemoteViews(PackageName, Resource.Layout.widget_unconfigured);
@@ -252,10 +254,13 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                         rv.SetTextColor(Resource.Id.message, Color.IndianRed);
                                         appWidgetManager.UpdateAppWidget(iWidgetId, rv);
                                     }
-                                    lock (RunningTaskS)
+                                    finally
                                     {
-                                        if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
-                                            RunningTaskS.Remove(iWidgetId);
+                                        lock (RunningTaskS)
+                                        {
+                                            if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
+                                                RunningTaskS.Remove(iWidgetId);
+                                        }
                                     }
                                 });
                                 tr.IsBackground = true;
