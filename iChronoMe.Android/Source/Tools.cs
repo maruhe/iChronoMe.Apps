@@ -442,8 +442,6 @@ namespace iChronoMe.Droid
 
         public static string GetTimeTypeIconName(TimeType tType, LocationTimeHolder lth = null)
         {
-            if (lth == null)
-                lth = LocationTimeHolder.LocalInstance;
             switch (tType)
             {
                 case TimeType.RealSunTime:
@@ -451,6 +449,8 @@ namespace iChronoMe.Droid
                 case TimeType.MiddleSunTime:
                     return "middle_sun_time";
                 case TimeType.TimeZoneTime:
+                    if (lth == null)
+                        lth = LocationTimeHolder.LocalInstance;
                     return "icons8_timezone_" + ((int)lth.TimeZoneOffsetGmt).ToString().Replace("-", "m");
                 case TimeType.UtcTime:
                     return "icons8_timezone_globe";

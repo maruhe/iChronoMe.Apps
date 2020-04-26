@@ -242,7 +242,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
 
                                         xLog.Debug("Update Widget done: " + iWidgetId);
                                     }
-                                    catch (ThreadAbortException) { }
+                                    catch (ThreadAbortException) { return; }
                                     catch (Exception ex)
                                     {
                                         if (ex.InnerException is ThreadAbortException)
@@ -254,13 +254,10 @@ namespace iChronoMe.Droid.Widgets.Calendar
                                         rv.SetTextColor(Resource.Id.message, Color.IndianRed);
                                         appWidgetManager.UpdateAppWidget(iWidgetId, rv);
                                     }
-                                    finally
+                                    lock (RunningTaskS)
                                     {
-                                        lock (RunningTaskS)
-                                        {
-                                            if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
-                                                RunningTaskS.Remove(iWidgetId);
-                                        }
+                                        if (RunningTaskS.ContainsKey(iWidgetId) && RunningTaskS[iWidgetId] == Thread.CurrentThread)
+                                            RunningTaskS.Remove(iWidgetId);
                                     }
                                 });
                                 tr.IsBackground = true;
@@ -862,6 +859,9 @@ namespace iChronoMe.Droid.Widgets.Calendar
             xLog.Debug("GenerateCircleWaveView: Start: " + wSize.X + "x" + wSize.Y);
             DateTime swStart = DateTime.Now;
 
+            bool bAnimate = ResetData;
+            ResetData = false;
+
             int iWidgetId = cfg.WidgetId;
             rv.SetViewVisibility(Resource.Id.circle_image, ViewStates.Visible);
 
@@ -1253,7 +1253,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
             TimeSpan tsInfo = DateTime.Now - swStart;
             swStart = DateTime.Now;
 
-            if (appWidgetManager != null)
+            if (appWidgetManager != null && bAnimate)
             {
                 var xv = rv.Clone();
                 xv.SetImageViewBitmap(Resource.Id.circle_image, bmp);
@@ -1271,9 +1271,8 @@ namespace iChronoMe.Droid.Widgets.Calendar
                 xLog.Debug("Loadet events: " + widgetEvents.AllEvents.Count);
             }
 
-            if (ResetData)
+            if (bAnimate)
             {
-                ResetData = false;
                 int iMs = (int)((DateTime.Now - swStart).TotalMilliseconds);
                 if (iMs < 500)
                     Task.Delay(500 - iMs).Wait();
@@ -1310,7 +1309,7 @@ namespace iChronoMe.Droid.Widgets.Calendar
                             canvas.DrawCircle(x, y, nBubbleSize * .8F, pPoint);
                         }
 
-                        if (iEventDay % ((int)nTextJumpSize) == 0 && appWidgetManager != null)
+                        if (iEventDay % ((int)nTextJumpSize) == 0 && appWidgetManager != null && bAnimate)
                         {
                             var xv = rv.Clone();
                             xv.SetImageViewBitmap(Resource.Id.circle_image, bmp);

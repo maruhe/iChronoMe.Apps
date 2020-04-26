@@ -10557,88 +10557,100 @@ namespace iChronoMe.Droid
 			public const int tv_debug = 2131296770;
 			
 			// aapt resource value: 0x7F090203
-			public const int tv_version = 2131296771;
+			public const int tv_location = 2131296771;
 			
 			// aapt resource value: 0x7F090204
-			public const int @unchecked = 2131296772;
+			public const int tv_text1 = 2131296772;
 			
 			// aapt resource value: 0x7F090205
-			public const int uniform = 2131296773;
+			public const int tv_text2 = 2131296773;
 			
 			// aapt resource value: 0x7F090206
-			public const int unlabeled = 2131296774;
+			public const int tv_time = 2131296774;
 			
 			// aapt resource value: 0x7F090207
-			public const int up = 2131296775;
+			public const int tv_version = 2131296775;
 			
 			// aapt resource value: 0x7F090208
-			public const int useLogo = 2131296776;
-			
-			// aapt resource value: 0x7F09020A
-			public const int view_DayView = 2131296778;
-			
-			// aapt resource value: 0x7F09020B
-			public const int view_MonthView = 2131296779;
-			
-			// aapt resource value: 0x7F09020F
-			public const int view_offset_helper = 2131296783;
-			
-			// aapt resource value: 0x7F09020C
-			public const int view_Timeline = 2131296780;
-			
-			// aapt resource value: 0x7F09020D
-			public const int view_WeekView = 2131296781;
-			
-			// aapt resource value: 0x7F09020E
-			public const int view_WorkWeekView = 2131296782;
-			
-			// aapt resource value: 0x7F090210
-			public const int visible = 2131296784;
+			public const int @unchecked = 2131296776;
 			
 			// aapt resource value: 0x7F090209
-			public const int v_placeholder = 2131296777;
+			public const int uniform = 2131296777;
 			
-			// aapt resource value: 0x7F090211
-			public const int wallpaper_image = 2131296785;
+			// aapt resource value: 0x7F09020A
+			public const int unlabeled = 2131296778;
 			
-			// aapt resource value: 0x7F090212
-			public const int webview = 2131296786;
+			// aapt resource value: 0x7F09020B
+			public const int up = 2131296779;
+			
+			// aapt resource value: 0x7F09020C
+			public const int useLogo = 2131296780;
+			
+			// aapt resource value: 0x7F09020E
+			public const int view_DayView = 2131296782;
+			
+			// aapt resource value: 0x7F09020F
+			public const int view_MonthView = 2131296783;
 			
 			// aapt resource value: 0x7F090213
-			public const int weekView = 2131296787;
+			public const int view_offset_helper = 2131296787;
+			
+			// aapt resource value: 0x7F090210
+			public const int view_Timeline = 2131296784;
+			
+			// aapt resource value: 0x7F090211
+			public const int view_WeekView = 2131296785;
+			
+			// aapt resource value: 0x7F090212
+			public const int view_WorkWeekView = 2131296786;
 			
 			// aapt resource value: 0x7F090214
-			public const int wide = 2131296788;
+			public const int visible = 2131296788;
+			
+			// aapt resource value: 0x7F09020D
+			public const int v_placeholder = 2131296781;
 			
 			// aapt resource value: 0x7F090215
-			public const int widget = 2131296789;
+			public const int wallpaper_image = 2131296789;
 			
 			// aapt resource value: 0x7F090216
-			public const int widget_text = 2131296790;
+			public const int webview = 2131296790;
 			
 			// aapt resource value: 0x7F090217
-			public const int widget_title = 2131296791;
+			public const int weekView = 2131296791;
 			
 			// aapt resource value: 0x7F090218
-			public const int widget_title_day = 2131296792;
+			public const int wide = 2131296792;
 			
 			// aapt resource value: 0x7F090219
-			public const int widget_title_dayname = 2131296793;
+			public const int widget = 2131296793;
 			
 			// aapt resource value: 0x7F09021A
-			public const int widget_title_month = 2131296794;
+			public const int widget_text = 2131296794;
 			
 			// aapt resource value: 0x7F09021B
-			public const int window = 2131296795;
+			public const int widget_title = 2131296795;
 			
 			// aapt resource value: 0x7F09021C
-			public const int withText = 2131296796;
+			public const int widget_title_day = 2131296796;
 			
 			// aapt resource value: 0x7F09021D
-			public const int workWeekView = 2131296797;
+			public const int widget_title_dayname = 2131296797;
 			
 			// aapt resource value: 0x7F09021E
-			public const int wrap_content = 2131296798;
+			public const int widget_title_month = 2131296798;
+			
+			// aapt resource value: 0x7F09021F
+			public const int window = 2131296799;
+			
+			// aapt resource value: 0x7F090220
+			public const int withText = 2131296800;
+			
+			// aapt resource value: 0x7F090221
+			public const int workWeekView = 2131296801;
+			
+			// aapt resource value: 0x7F090222
+			public const int wrap_content = 2131296802;
 			
 			static Id()
 			{
@@ -11028,55 +11040,55 @@ namespace iChronoMe.Droid
 			public const int item_error = 2131492952;
 			
 			// aapt resource value: 0x7F0C0059
-			public const int layout1 = 2131492953;
+			public const int line_horz = 2131492953;
 			
 			// aapt resource value: 0x7F0C005A
-			public const int line_horz = 2131492954;
+			public const int line_vert = 2131492954;
 			
 			// aapt resource value: 0x7F0C005B
-			public const int line_vert = 2131492955;
+			public const int listitem_calendar = 2131492955;
 			
 			// aapt resource value: 0x7F0C005C
-			public const int listitem_calendar = 2131492956;
+			public const int listitem_contributor = 2131492956;
 			
 			// aapt resource value: 0x7F0C005D
-			public const int listitem_contributor = 2131492957;
+			public const int listitem_event_reminder = 2131492957;
 			
 			// aapt resource value: 0x7F0C005E
-			public const int listitem_event_reminder = 2131492958;
+			public const int listitem_loading = 2131492958;
 			
 			// aapt resource value: 0x7F0C005F
-			public const int listitem_loading = 2131492959;
+			public const int listitem_location_times = 2131492959;
 			
 			// aapt resource value: 0x7F0C0060
-			public const int listitem_location_times = 2131492960;
+			public const int listitem_process = 2131492960;
 			
 			// aapt resource value: 0x7F0C0061
-			public const int listitem_process = 2131492961;
+			public const int listitem_themetemplate = 2131492961;
 			
 			// aapt resource value: 0x7F0C0062
-			public const int listitem_themetemplate = 2131492962;
-			
-			// aapt resource value: 0x7F0C0063
-			public const int listitem_title = 2131492963;
-			
-			// aapt resource value: 0x7F0C0065
-			public const int listitem_titlespinner = 2131492965;
+			public const int listitem_title = 2131492962;
 			
 			// aapt resource value: 0x7F0C0064
-			public const int listitem_title_detail = 2131492964;
+			public const int listitem_titlespinner = 2131492964;
+			
+			// aapt resource value: 0x7F0C0063
+			public const int listitem_title_detail = 2131492963;
+			
+			// aapt resource value: 0x7F0C0065
+			public const int mtrl_layout_snackbar = 2131492965;
 			
 			// aapt resource value: 0x7F0C0066
-			public const int mtrl_layout_snackbar = 2131492966;
+			public const int mtrl_layout_snackbar_include = 2131492966;
 			
 			// aapt resource value: 0x7F0C0067
-			public const int mtrl_layout_snackbar_include = 2131492967;
+			public const int notification_action = 2131492967;
 			
 			// aapt resource value: 0x7F0C0068
-			public const int notification_action = 2131492968;
+			public const int notification_action_tombstone = 2131492968;
 			
 			// aapt resource value: 0x7F0C0069
-			public const int notification_action_tombstone = 2131492969;
+			public const int notification_large = 2131492969;
 			
 			// aapt resource value: 0x7F0C006A
 			public const int notification_media_action = 2131492970;
@@ -11085,157 +11097,163 @@ namespace iChronoMe.Droid
 			public const int notification_media_cancel_action = 2131492971;
 			
 			// aapt resource value: 0x7F0C006C
-			public const int notification_template_big_media = 2131492972;
+			public const int notification_medium = 2131492972;
 			
 			// aapt resource value: 0x7F0C006D
-			public const int notification_template_big_media_custom = 2131492973;
+			public const int notification_small = 2131492973;
 			
 			// aapt resource value: 0x7F0C006E
-			public const int notification_template_big_media_narrow = 2131492974;
+			public const int notification_template_big_media = 2131492974;
 			
 			// aapt resource value: 0x7F0C006F
-			public const int notification_template_big_media_narrow_custom = 2131492975;
+			public const int notification_template_big_media_custom = 2131492975;
 			
 			// aapt resource value: 0x7F0C0070
-			public const int notification_template_custom_big = 2131492976;
+			public const int notification_template_big_media_narrow = 2131492976;
 			
 			// aapt resource value: 0x7F0C0071
-			public const int notification_template_icon_group = 2131492977;
+			public const int notification_template_big_media_narrow_custom = 2131492977;
 			
 			// aapt resource value: 0x7F0C0072
-			public const int notification_template_lines_media = 2131492978;
+			public const int notification_template_custom_big = 2131492978;
 			
 			// aapt resource value: 0x7F0C0073
-			public const int notification_template_media = 2131492979;
+			public const int notification_template_icon_group = 2131492979;
 			
 			// aapt resource value: 0x7F0C0074
-			public const int notification_template_media_custom = 2131492980;
+			public const int notification_template_lines_media = 2131492980;
 			
 			// aapt resource value: 0x7F0C0075
-			public const int notification_template_part_chronometer = 2131492981;
+			public const int notification_template_media = 2131492981;
 			
 			// aapt resource value: 0x7F0C0076
-			public const int notification_template_part_time = 2131492982;
+			public const int notification_template_media_custom = 2131492982;
 			
 			// aapt resource value: 0x7F0C0077
-			public const int place_autocomplete_fragment = 2131492983;
+			public const int notification_template_part_chronometer = 2131492983;
 			
 			// aapt resource value: 0x7F0C0078
-			public const int place_autocomplete_item_powered_by_google = 2131492984;
+			public const int notification_template_part_time = 2131492984;
 			
 			// aapt resource value: 0x7F0C0079
-			public const int place_autocomplete_item_prediction = 2131492985;
+			public const int place_autocomplete_fragment = 2131492985;
 			
 			// aapt resource value: 0x7F0C007A
-			public const int place_autocomplete_progress = 2131492986;
+			public const int place_autocomplete_item_powered_by_google = 2131492986;
 			
 			// aapt resource value: 0x7F0C007B
-			public const int preference = 2131492987;
+			public const int place_autocomplete_item_prediction = 2131492987;
 			
 			// aapt resource value: 0x7F0C007C
-			public const int preference_category = 2131492988;
+			public const int place_autocomplete_progress = 2131492988;
 			
 			// aapt resource value: 0x7F0C007D
-			public const int preference_category_material = 2131492989;
+			public const int preference = 2131492989;
 			
 			// aapt resource value: 0x7F0C007E
-			public const int preference_dialog_edittext = 2131492990;
+			public const int preference_category = 2131492990;
 			
 			// aapt resource value: 0x7F0C007F
-			public const int preference_dropdown = 2131492991;
+			public const int preference_category_material = 2131492991;
 			
 			// aapt resource value: 0x7F0C0080
-			public const int preference_dropdown_material = 2131492992;
+			public const int preference_dialog_edittext = 2131492992;
 			
 			// aapt resource value: 0x7F0C0081
-			public const int preference_information = 2131492993;
+			public const int preference_dropdown = 2131492993;
 			
 			// aapt resource value: 0x7F0C0082
-			public const int preference_information_material = 2131492994;
+			public const int preference_dropdown_material = 2131492994;
 			
 			// aapt resource value: 0x7F0C0083
-			public const int preference_list_fragment = 2131492995;
+			public const int preference_information = 2131492995;
 			
 			// aapt resource value: 0x7F0C0084
-			public const int preference_material = 2131492996;
+			public const int preference_information_material = 2131492996;
 			
 			// aapt resource value: 0x7F0C0085
-			public const int preference_recyclerview = 2131492997;
+			public const int preference_list_fragment = 2131492997;
 			
 			// aapt resource value: 0x7F0C0086
-			public const int preference_widget_checkbox = 2131492998;
+			public const int preference_material = 2131492998;
 			
 			// aapt resource value: 0x7F0C0087
-			public const int preference_widget_seekbar = 2131492999;
+			public const int preference_recyclerview = 2131492999;
 			
 			// aapt resource value: 0x7F0C0088
-			public const int preference_widget_seekbar_material = 2131493000;
+			public const int preference_widget_checkbox = 2131493000;
 			
 			// aapt resource value: 0x7F0C0089
-			public const int preference_widget_switch = 2131493001;
+			public const int preference_widget_seekbar = 2131493001;
 			
 			// aapt resource value: 0x7F0C008A
-			public const int preference_widget_switch_compat = 2131493002;
+			public const int preference_widget_seekbar_material = 2131493002;
 			
 			// aapt resource value: 0x7F0C008B
-			public const int select_dialog_item_material = 2131493003;
+			public const int preference_widget_switch = 2131493003;
 			
 			// aapt resource value: 0x7F0C008C
-			public const int select_dialog_multichoice_material = 2131493004;
+			public const int preference_widget_switch_compat = 2131493004;
 			
 			// aapt resource value: 0x7F0C008D
-			public const int select_dialog_singlechoice_material = 2131493005;
+			public const int select_dialog_item_material = 2131493005;
 			
 			// aapt resource value: 0x7F0C008E
-			public const int support_simple_spinner_dropdown_item = 2131493006;
+			public const int select_dialog_multichoice_material = 2131493006;
 			
 			// aapt resource value: 0x7F0C008F
-			public const int widget_action_button = 2131493007;
+			public const int select_dialog_singlechoice_material = 2131493007;
 			
 			// aapt resource value: 0x7F0C0090
-			public const int widget_calendar_init = 2131493008;
+			public const int support_simple_spinner_dropdown_item = 2131493008;
 			
 			// aapt resource value: 0x7F0C0091
-			public const int widget_calendar_monthview_day_item = 2131493009;
+			public const int widget_action_button = 2131493009;
 			
 			// aapt resource value: 0x7F0C0092
-			public const int widget_calendar_monthview_header_item = 2131493010;
+			public const int widget_calendar_init = 2131493010;
 			
 			// aapt resource value: 0x7F0C0093
-			public const int widget_calendar_monthview_week_row = 2131493011;
+			public const int widget_calendar_monthview_day_item = 2131493011;
 			
 			// aapt resource value: 0x7F0C0094
-			public const int widget_calendar_timetable_daysplitter = 2131493012;
+			public const int widget_calendar_monthview_header_item = 2131493012;
 			
 			// aapt resource value: 0x7F0C0095
-			public const int widget_calendar_timetable_item = 2131493013;
+			public const int widget_calendar_monthview_week_row = 2131493013;
 			
 			// aapt resource value: 0x7F0C0096
-			public const int widget_calendar_universal = 2131493014;
+			public const int widget_calendar_timetable_daysplitter = 2131493014;
 			
 			// aapt resource value: 0x7F0C0097
-			public const int widget_chronospan = 2131493015;
+			public const int widget_calendar_timetable_item = 2131493015;
 			
 			// aapt resource value: 0x7F0C0098
-			public const int widget_clock_analog = 2131493016;
+			public const int widget_calendar_universal = 2131493016;
 			
 			// aapt resource value: 0x7F0C0099
-			public const int widget_clock_digital = 2131493017;
+			public const int widget_chronospan = 2131493017;
 			
 			// aapt resource value: 0x7F0C009A
-			public const int widget_clock_init = 2131493018;
+			public const int widget_clock_analog = 2131493018;
 			
 			// aapt resource value: 0x7F0C009B
-			public const int widget_moon = 2131493019;
+			public const int widget_clock_digital = 2131493019;
 			
 			// aapt resource value: 0x7F0C009C
-			public const int widget_permission_error = 2131493020;
+			public const int widget_clock_init = 2131493020;
 			
 			// aapt resource value: 0x7F0C009D
-			public const int widget_preview_row_layout = 2131493021;
+			public const int widget_moon = 2131493021;
 			
 			// aapt resource value: 0x7F0C009E
-			public const int widget_unconfigured = 2131493022;
+			public const int widget_permission_error = 2131493022;
+			
+			// aapt resource value: 0x7F0C009F
+			public const int widget_preview_row_layout = 2131493023;
+			
+			// aapt resource value: 0x7F0C00A0
+			public const int widget_unconfigured = 2131493024;
 			
 			static Layout()
 			{

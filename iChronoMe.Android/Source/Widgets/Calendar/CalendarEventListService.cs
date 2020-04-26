@@ -274,9 +274,12 @@ namespace iChronoMe.Droid.Widgets.Calendar
                         rv.SetViewVisibility(Resource.Id.item_desclayout, ViewStates.Gone);
 
                     if (extEvent.UseTypedTime && (wSize.X >= 150))
+                    {
+                        rv.SetImageViewResource(Resource.Id.img_sun_controlled, Tools.GetTimeTypeIconID(extEvent.TimeType, null));
                         rv.SetViewVisibility(Resource.Id.img_sun_controlled, ViewStates.Visible);
+                    }
                     else
-                        rv.SetViewVisibility(Resource.Id.img_sun_controlled, ViewStates.Invisible);
+                        rv.SetViewVisibility(Resource.Id.img_sun_controlled, ViewStates.Gone);
 
                     rv.SetViewVisibility(Resource.Id.shape_overlay, ViewStates.Gone);
                     rv.SetTextViewText(Resource.Id.shape_overlay_text_allday, "");
