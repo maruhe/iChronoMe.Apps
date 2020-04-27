@@ -250,7 +250,13 @@ namespace iChronoMe.Droid
 
             //return GetForegroundNotification(cTitle, cLocationLong, clickAction, timeTypeIcon);
 
-            RemoteViews customView = new RemoteViews(PackageName, Resource.Layout.notification_small);
+            int iLayount = Resource.Layout.notification_time;
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+            {
+                //iLayount = Resource.Layout.notification_small;
+            }
+
+            RemoteViews customView = new RemoteViews(PackageName, iLayount);
             customView.SetTextViewText(Resource.Id.tv_time, tNow.ToString("HH:mm"));
             customView.SetTextViewText(Resource.Id.tv_text1, cLocationTitle);
             customView.SetTextViewText(Resource.Id.tv_text2, cLocationDetail);
@@ -287,7 +293,7 @@ namespace iChronoMe.Droid
                 return channelId;
             channelId = "widget_service";
             var channelName = this.Resources.GetString(Resource.String.label_BackgroundService);
-            var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Min);
+            var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Default);
             chan.Description = this.Resources.GetString(Resource.String.description_BackgroundService);
             chan.LightColor = Color.Blue;
             chan.LockscreenVisibility = NotificationVisibility.Public;

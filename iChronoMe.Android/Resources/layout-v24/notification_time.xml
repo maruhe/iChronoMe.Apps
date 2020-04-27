@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:paddingHorizontal="@dimen/frame_padding"
     android:layout_width="match_parent"
-    android:layout_height="36dp">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/icon"
@@ -13,23 +13,36 @@
         android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/tv_time"
+        android:textAppearance="@android:style/TextAppearance.Material.Notification"
         android:text="88:88"
         android:textSize="36dp"
         android:gravity="center_vertical"
         android:textStyle="bold"
+        android:paddingVertical="2dp"
         android:paddingStart="5dp"
-        android:layout_marginTop="-6dp"
+        android:layout_marginTop="-3dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
     <LinearLayout
         android:gravity="center_vertical"
         android:orientation="vertical"
+        android:paddingEnd="@dimen/frame_padding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <TextView
-            android:id="@+id/tv_location"
+            android:id="@+id/tv_text1"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification"
             android:text="Rome"
-            android:textSize="14dp"
+            android:textSize="18dp"
+            android:textAlignment="viewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_text2"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification"
+            android:text="42, 99"
+            android:textSize="12dp"
+            android:gravity="bottom"
             android:textAlignment="viewEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

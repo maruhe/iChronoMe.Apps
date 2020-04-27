@@ -1629,12 +1629,12 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\notification_small.xml">
+    <AndroidResource Include="Resources\layout-v24\notification_time.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\notification_medium.xml">
+    <AndroidResource Include="Resources\layout\notification_time.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
