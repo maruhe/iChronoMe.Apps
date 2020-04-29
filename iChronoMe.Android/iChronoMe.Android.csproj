@@ -1644,7 +1644,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\notification_time_big.xml">
+    <AndroidResource Include="Resources\layout-v28\notification_time_big.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -251,7 +251,7 @@ namespace iChronoMe.Droid
             //return GetForegroundNotification(cTitle, cLocationLong, clickAction, timeTypeIcon);
 
             int iLayount = Resource.Layout.notification_time;
-            if (AppConfigHolder.MainConfig.ShowBigTimeNotification)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P && AppConfigHolder.MainConfig.ShowBigTimeNotification)
                 iLayount = Resource.Layout.notification_time_big;
             //iLayount = Resource.Layout.notification_sizeinfo;
 
