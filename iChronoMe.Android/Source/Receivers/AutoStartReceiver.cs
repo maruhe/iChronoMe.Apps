@@ -21,7 +21,7 @@ namespace iChronoMe.Droid.Receivers
                     return;
                 bDone = true;
 
-                if (AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                if (AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
                 {
                     BackgroundService.RestartService(context, Intent.ActionBootCompleted);
                 }

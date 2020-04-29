@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:padding="1dp"
+    android:paddingHorizontal="@dimen/notification_padding"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="24dp">
 
     <ImageView
         android:id="@+id/icon"
         android:src="@drawable/real_sun_time_clrd"
         android:contentDescription="@string/TimeType"
-        android:layout_width="48dp"
+        android:layout_width="24dp"
         android:layout_height="match_parent"/>
     <TextView
         android:id="@+id/tv_time"
+        android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
         android:text="88:88"
-        android:textSize="48dp"
+        android:textSize="20dp"
         android:gravity="center_vertical"
         android:textStyle="bold"
-        android:layout_marginTop="-11dp"
+        android:includeFontPadding="false"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
     <LinearLayout
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="4dp"
+        android:paddingEnd="@dimen/notification_padding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <TextView
-            android:id="@+id/tv_location"
+            android:id="@+id/tv_text1"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification"
             android:text="Rome"
             android:textSize="18dp"
+            android:singleLine="true"
+            android:ellipsize="middle"
             android:textAlignment="viewEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

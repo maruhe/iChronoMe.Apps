@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingHorizontal="@dimen/frame_padding"
     android:layout_width="match_parent"
-    android:layout_height="64dp">
+    android:layout_height="44dp">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/frame_padding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_text1"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification"
+            android:text="Rome"
+            android:textSize="24dp"
+            android:textAlignment="viewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_text2"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification"
+            android:text="42, 99"
+            android:textSize="14dp"
+            android:gravity="bottom"
+            android:textAlignment="viewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>>
 
     <ImageView
         android:id="@+id/icon"
@@ -18,34 +42,10 @@
         android:textSize="48dp"
         android:gravity="center_vertical"
         android:textStyle="bold"
-        android:paddingVertical="2dp"
-        android:paddingStart="5dp"
-        android:layout_marginTop="-6dp"
+        android:includeFontPadding="false"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingEnd="@dimen/frame_padding"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/tv_text1"
-            android:textAppearance="@android:style/TextAppearance.Material.Notification"
-            android:text="Rome"
-            android:textSize="22dp"
-            android:textAlignment="viewEnd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_text2"
-            android:textAppearance="@android:style/TextAppearance.Material.Notification"
-            android:text="42, 99"
-            android:textSize="12dp"
-            android:gravity="bottom"
-            android:textAlignment="viewEnd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>>
+        android:layout_height="wrap_content"/>
 
-</LinearLayout>
+</RelativeLayout>

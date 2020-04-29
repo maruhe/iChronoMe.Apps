@@ -205,7 +205,7 @@ namespace iChronoMe.Droid
             if (bIsForeGround)
                 return;
             if (Build.VERSION.SdkInt >= BuildVersionCodes.NMr1
-                || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                || AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
             {
                 Notification notification = GetForegroundNotification(this.Resources.GetString(Resource.String.label_BackgroundService), this.Resources.GetString(Resource.String.description_BackgroundService), new ClickAction(ClickActionType.OpenSettings));
                 // Enlist this instance of the service as a foreground service
@@ -251,10 +251,9 @@ namespace iChronoMe.Droid
             //return GetForegroundNotification(cTitle, cLocationLong, clickAction, timeTypeIcon);
 
             int iLayount = Resource.Layout.notification_time;
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
-            {
-                //iLayount = Resource.Layout.notification_small;
-            }
+            if (AppConfigHolder.MainConfig.ShowBigTimeNotification)
+                iLayount = Resource.Layout.notification_time_big;
+            //iLayount = Resource.Layout.notification_sizeinfo;
 
             RemoteViews customView = new RemoteViews(PackageName, iLayount);
             customView.SetTextViewText(Resource.Id.tv_time, tNow.ToString("HH:mm"));
@@ -264,6 +263,7 @@ namespace iChronoMe.Droid
             var builder = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
                 .SetSmallIcon(Resource.Drawable.sunclock)
                 .SetContent(customView)
+                //.SetStyle(new Android.Support.V4.App.NotificationCompat.BigTextStyle().SetBigContentTitle("lalala"))
                 .SetContentIntent(MainWidgetBase.GetClickActionPendingIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
                 .SetOngoing(true);
 
@@ -293,7 +293,7 @@ namespace iChronoMe.Droid
                 return channelId;
             channelId = "widget_service";
             var channelName = this.Resources.GetString(Resource.String.label_BackgroundService);
-            var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Default);
+            var chan = new NotificationChannel(channelId, channelName, NotificationImportance.Low);
             chan.Description = this.Resources.GetString(Resource.String.description_BackgroundService);
             chan.LightColor = Color.Blue;
             chan.LockscreenVisibility = NotificationVisibility.Public;
@@ -313,7 +313,7 @@ namespace iChronoMe.Droid
             int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
             int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
 
-            if (!AppConfigHolder.MainConfig.AlwaysShowForegroundNotification &&
+            if (!AppConfigHolder.MainConfig.AlwaysShowTimeNotification &&
                 appWidgetID1s.Length == 0 && appWidgetID2s.Length == 0)
             {
                 //warum auf zu??
@@ -329,7 +329,7 @@ namespace iChronoMe.Droid
             }
 
             var holder = new WidgetConfigHolder();
-            if (holder.AllIds<WidgetCfg_ClockAnalog>().Length > 0 || holder.AllIds<WidgetCfg_ClockDigital>().Length > 0 || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+            if (holder.AllIds<WidgetCfg_ClockAnalog>().Length > 0 || holder.AllIds<WidgetCfg_ClockDigital>().Length > 0 || AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
             {
                 if (!bIsForeGround)
                 {
@@ -379,7 +379,7 @@ namespace iChronoMe.Droid
 
             if (bCheckStopAll)
             {
-                if (!AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                if (!AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
                 {
                     int[] appWidgetID1s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
                     int[] appWidgetID2s = manager.GetAppWidgetIds(new ComponentName(this, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
@@ -412,10 +412,10 @@ namespace iChronoMe.Droid
                     int[] appWidgetID1s = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(AnalogClockWidget)).Name));
                     int[] appWidgetID2s = AppWidgetManager.GetInstance(context).GetAppWidgetIds(new ComponentName(context, Java.Lang.Class.FromType(typeof(DigitalClockWidget)).Name));
 
-                    if (appWidgetID1s.Length == 0 && appWidgetID2s.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                    if (appWidgetID1s.Length == 0 && appWidgetID2s.Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
                         return;
 
-                    if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+                    if (new WidgetConfigHolder().AllIds<WidgetCfg_ClockAnalog>().Length == 0 && !AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
                         return;
 
                     if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
@@ -513,13 +513,13 @@ namespace iChronoMe.Droid
             List<int> iS = new List<int>();
             iS.AddRange(appWidgetID1s);
             iS.AddRange(appWidgetID2s);
-            if ((cfgHolder.AllIds<WidgetCfg_ClockAnalog>().Length + cfgHolder.AllIds<WidgetCfg_ClockDigital>().Length > 0 && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1) || AppConfigHolder.MainConfig.AlwaysShowForegroundNotification)
+            if ((cfgHolder.AllIds<WidgetCfg_ClockAnalog>().Length + cfgHolder.AllIds<WidgetCfg_ClockDigital>().Length > 0 && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1) || AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
             {
                 //Notification notification = BackgroundService.currentService.GetForegroundNotification(ctx.Resources.GetString(Resource.String.label_BackgroundService), sys.EzMzText(iS.Count, ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_one), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_more), ctx.Resources.GetString(Resource.String.ezmz_runningwidgets_zero)), cfgHolder.GetWidgetCfg<WidgetCfg_Clock>(-101).ClickAction);
                 //NotificationManager mNotificationManager = (NotificationManager)ctx.GetSystemService(Context.NotificationService);
                 //mNotificationManager.Notify(101, notification);
 
-                if (AppConfigHolder.MainConfig.AlwaysShowForegroundNotification || iS.Count > 0)
+                if (AppConfigHolder.MainConfig.AlwaysShowTimeNotification || iS.Count > 0)
                 {
                     iS.Add(-101); //Uhrzeit in Notification anzeigen
                     if (!cfgHolder.WidgetExists<WidgetCfg_ClockAnalog>(-101))

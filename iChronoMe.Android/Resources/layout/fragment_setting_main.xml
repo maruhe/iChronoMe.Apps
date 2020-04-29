@@ -44,6 +44,12 @@
             android:layout_height="wrap_content"/>
 
         <CheckBox
+            android:id="@+id/cb_notification_big"
+            android:text="big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
             android:id="@+id/cb_send_error_logs"
             android:text="@string/action_allow_send_errorlogs"
             android:layout_width="match_parent"

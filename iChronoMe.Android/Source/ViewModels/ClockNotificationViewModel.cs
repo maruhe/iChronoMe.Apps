@@ -58,10 +58,10 @@ namespace iChronoMe.Droid.ViewModels
 
         public bool AlwaysShowForegroundNotification
         {
-            get => main.AlwaysShowForegroundNotification;
+            get => main.AlwaysShowTimeNotification;
             set
             {
-                main.AlwaysShowForegroundNotification = value;
+                main.AlwaysShowTimeNotification = value;
                 saveMain();
                 OnPropertyChanged("*");
                 BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);

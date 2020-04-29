@@ -45,7 +45,14 @@ namespace iChronoMe.Droid.GUI.Service
             binder.BindViewProperty(Resource.Id.tv_calendar_timetype, nameof(Spinner.Visibility), cfg, nameof(MasterConfigViewModel.CalendarUseOwnTimeType), BindMode.OneWay);
             binder.BindViewProperty(Resource.Id.sp_calendar_timetype, nameof(Spinner.SelectedItemPosition), cfg, nameof(MasterConfigViewModel.CalendarTimeType_SpinnerPosition), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.sp_calendar_timetype, nameof(Spinner.Visibility), cfg, nameof(MasterConfigViewModel.CalendarUseOwnTimeType), BindMode.OneWay);
-            binder.BindViewProperty(Resource.Id.cb_notification_showalways, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.AlwaysShowForegroundNotification), BindMode.TwoWay);
+            binder.BindViewProperty(Resource.Id.cb_notification_showalways, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.AlwaysShowTimeNotification), BindMode.TwoWay);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
+            {
+                binder.BindViewProperty(Resource.Id.cb_notification_big, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.ShowBigTimeNotification), BindMode.TwoWay);
+                binder.BindViewProperty(Resource.Id.cb_notification_big, nameof(CheckBox.Visibility), cfg, nameof(MasterConfigViewModel.AlwaysShowTimeNotification), BindMode.OneWay);
+            }
+            else
+                RootView.FindViewById(Resource.Id.cb_notification_big).Visibility = ViewStates.Gone;
 
             binder.BindViewProperty(Resource.Id.cb_send_error_logs, nameof(CheckBox.Checked), cfg, nameof(MasterConfigViewModel.SendErrorLogs), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.cb_deny_error_screens, nameof(CheckBox.Visibility), cfg, nameof(MasterConfigViewModel.SendErrorLogs), BindMode.TwoWay);
@@ -284,7 +291,7 @@ namespace iChronoMe.Droid.GUI.Service
 
         private void Binder_UserChangedProperty(object sender, UserChangedPropertyEventArgs e)
         {
-            if (e.PropertyName == nameof(MainConfig.AlwaysShowForegroundNotification))
+            if (e.PropertyName == nameof(MainConfig.AlwaysShowTimeNotification))
                 BackgroundService.RestartService(Context, AppWidgetManager.ActionAppwidgetConfigure);
         }
 
