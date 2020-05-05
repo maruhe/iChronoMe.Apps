@@ -44,11 +44,18 @@ namespace iChronoMe.Droid.ViewModels
             var binder = new DataBinder(mContext, rootView);
 
             binder.BindViewProperty(Resource.Id.btn_show_info, nameof(Button.Visibility), this, nameof(AllowShowBackgroundServiceInfo), BindMode.OneWay);
-            binder.BindViewProperty(Resource.Id.cb_showalways, nameof(CheckBox.Checked), this, nameof(AlwaysShowForegroundNotification), BindMode.TwoWay);
+            binder.BindViewProperty(Resource.Id.cb_showalways, nameof(CheckBox.Checked), this, nameof(AlwaysShowTimeNotification), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.sp_locationtype, nameof(Spinner.SelectedItemPosition), this, nameof(Locationtype_SpinnerPosition), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.btn_select_location, nameof(Button.Visibility), this, nameof(AllowSelectLocaion), BindMode.OneWay);
             binder.BindViewProperty(Resource.Id.sp_clickaction, nameof(Spinner.SelectedItemPosition), this, nameof(ClickAction_SpinnerPosition), BindMode.TwoWay);
             binder.BindViewProperty(Resource.Id.sp_timetype, nameof(Spinner.SelectedItemPosition), this, nameof(this.TimeType_SpinnerPosition), BindMode.TwoWay);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
+            {
+                binder.BindViewProperty(Resource.Id.cb_notification_big, nameof(CheckBox.Checked), this, nameof(this.ShowBigTimeNotification), BindMode.TwoWay);
+                binder.BindViewProperty(Resource.Id.cb_notification_big, nameof(CheckBox.Visibility), this, nameof(this.AlwaysShowTimeNotification), BindMode.OneWay);
+            }
+            else
+                rootView.FindViewById(Resource.Id.cb_notification_big).Visibility = ViewStates.Gone;
 
             return binder;
         }
@@ -56,12 +63,24 @@ namespace iChronoMe.Droid.ViewModels
         private WidgetCfg_ClockAnalog clock = null;
         public bool AllowShowBackgroundServiceInfo { get => IsBackgroundServiceInfoActivity && Build.VERSION.SdkInt >= BuildVersionCodes.NMr1; }
 
-        public bool AlwaysShowForegroundNotification
+        public bool AlwaysShowTimeNotification
         {
             get => main.AlwaysShowTimeNotification;
             set
             {
                 main.AlwaysShowTimeNotification = value;
+                saveMain();
+                OnPropertyChanged("*");
+                BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);
+            }
+        }
+
+        public bool ShowBigTimeNotification
+        {
+            get => main.ShowBigTimeNotification;
+            set
+            {
+                main.ShowBigTimeNotification = value;
                 saveMain();
                 OnPropertyChanged("*");
                 BackgroundService.RestartService(mContext, AppWidgetManager.ActionAppwidgetOptionsChanged);

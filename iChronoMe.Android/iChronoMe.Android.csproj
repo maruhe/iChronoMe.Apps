@@ -487,7 +487,7 @@
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\transparent_shape.xml" />
+    <AndroidResource Include="Resources\drawable\splash_transparent.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\widget_dummy_shape.xml" />
@@ -1650,6 +1650,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout-v26\notification_time.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\transparent_shape.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

@@ -13,11 +13,9 @@ using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.ChronoSpan
 {
-#if DEBUG
     [BroadcastReceiver(Label = "@string/widget_title_chronospan", Name = "me.ichrono.droid.ChronoSpan.ChronoSpanWidget")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/widget_chronospan")]
-#endif
     public class ChronoSpanWidget : MainWidgetBase
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)

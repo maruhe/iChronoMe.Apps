@@ -12,7 +12,7 @@ using iChronoMe.Widgets;
 
 namespace iChronoMe.Droid.Widgets.Clock
 {
-    [Activity(Label = "DigitalClockWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Clock.DigitalClockWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    [Activity(Label = "DigitalClockWidgetConfigActivity", Name = "me.ichrono.droid.Widgets.Clock.DigitalClockWidgetConfigActivity", Theme = "@style/TransparentLoadingTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
     public class DigitalClockWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_ClockDigital>
     {

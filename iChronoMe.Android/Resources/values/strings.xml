@@ -67,7 +67,7 @@
   <string name="app_needs_location_description" sync="1">"only with a location-information it is possible to calculate correct solar times"</string>
   <string name="app_slogan" sync="1">"time is dynamic"</string>
   <string name="AppName" sync="1">"iChronoMe"</string>
-  <string name="AppNameWallpaper" sync="x">"iChronoMe Wallpaper"</string>
+  <string name="AppNameWallpaper" sync="1">"iChronoMe Wallpaper"</string>
   <string name="AppointmentName" sync="1">"event name"</string>
   <string name="Appointments" sync="1">"events"</string>
   <string name="AppointmentSymbols" sync="1">"event symbols"</string>
@@ -270,7 +270,9 @@ you can create new widgets on your launcher-screen!"</string>
   <string name="shortcut_create_calender_event_disabled" sync="1">"not working? why not?"</string>
   <string name="shortcut_create_calender_event_long" sync="1">"create new event"</string>
   <string name="stop_alarm" sync="1">"thanks"</string>
+  <string name="text_Big" sync="1">"big"</string>
   <string name="text_Icon" sync="1">"Icon"</string>
+  <string name="text_initialising" sync="x">"initialising..."</string>
   <string name="text_Offset" sync="1">"Offset"</string>
   <string name="text_OnClick" sync="1">"on click"</string>
   <string name="text_oneMonth" sync="1">"one Month"</string>
@@ -334,7 +336,7 @@ may this can be far far away from the real time on your location"</string>
   <string name="title_new_event" sync="1">"new event"</string>
   <string name="title_send_errorlog" sync="1">"these information will be send:"</string>
   <string name="TitleClickAction" sync="1">"action on title click"</string>
-  <string name="wallpaper_title" sync="x">"iChronoMe solar clock"</string>
+  <string name="wallpaper_title" sync="1">"iChronoMe solar clock"</string>
   <string name="welcome_ichronomy" sync="1">"welcome to iChronoMe!"</string>
   <string name="widget_chronospan_loading" sync="1">"one "tropical year" is:\n365 d 5 h 48 min and 45,261 s"</string>
   <string name="widget_error_location_is_requered" sync="1">"the calendar-widgets only work with access to your calendar and location!"</string>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -207,7 +208,7 @@ namespace iChronoMe.Droid
             if (Build.VERSION.SdkInt >= BuildVersionCodes.NMr1
                 || AppConfigHolder.MainConfig.AlwaysShowTimeNotification)
             {
-                Notification notification = GetForegroundNotification(this.Resources.GetString(Resource.String.label_BackgroundService), this.Resources.GetString(Resource.String.description_BackgroundService), new ClickAction(ClickActionType.OpenSettings));
+                Notification notification = GetForegroundNotification("??:??", this.Resources.GetString(Resource.String.text_initialising), new ClickAction(ClickActionType.OpenSettings));
                 // Enlist this instance of the service as a foreground service
                 StartForeground(101, notification);
                 bIsForeGround = true;
@@ -215,55 +216,52 @@ namespace iChronoMe.Droid
         }
 
         static Bitmap bmpNotify = Bitmap.CreateBitmap(sys.DpPx(48), sys.DpPx(48), Bitmap.Config.Argb8888);
-        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction, string timeTypeIcon = null)
+        public Notification GetForegroundNotification(string cTitle, string cText, ClickAction clickAction)
         {
             string channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? createNotificationChannel() : null;
 
+            RemoteViews customView = new RemoteViews(PackageName, GetTimeLayout());
+            customView.SetTextViewText(Resource.Id.tv_time, cTitle);
+            customView.SetTextViewText(Resource.Id.tv_text1, cText);
+            customView.SetTextViewText(Resource.Id.tv_text2, localize.label_BackgroundService);
+            customView.SetImageViewResource(Resource.Id.icon, Resource.Mipmap.ic_launcher);
+
             var builder = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
-                .SetContentTitle(cTitle)
-                .SetContentText(cText)
                 .SetSmallIcon(Resource.Drawable.sunclock)
+                .SetContent(customView)
                 .SetContentIntent(MainWidgetBase.GetClickActionPendingIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
                 .SetOngoing(true);
-            if (timeTypeIcon != null)
-            {
-                var bmp = DrawableHelper.GetIconBitmap(this, timeTypeIcon, 36, xColor.DimGray);
-                RectF targetRect = new RectF(sys.DpPx(6), sys.DpPx(6), sys.DpPx(42), sys.DpPx(42));
-                Canvas canvas = new Canvas(bmpNotify);
-                canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
-                canvas.DrawBitmap(bmp, null, targetRect, null);
-                bmp.Recycle();
-
-                builder.SetLargeIcon(bmpNotify);
-            }
 
             Notification notification = builder.Build();
 
             return notification;
         }
 
+        private int GetTimeLayout()
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P && AppConfigHolder.MainConfig.ShowBigTimeNotification)
+                return Resource.Layout.notification_time_big;
+            return Resource.Layout.notification_time;
+        }
+
         public Notification GetTimeNotification(DynamicDate dDay, DateTime tNow, string cLocationTitle, string cLocationDetail, ClickAction clickAction, string timeTypeIcon = null)
         {
             string channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? createNotificationChannel() : null;
 
-            string cTitle = dDay.ToString("ddd, ") + dDay.ToString("_mMd") + tNow.ToString(", HH:mm");
+            string timeFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern.Contains("HH") ? "HH:mm" : "h:mm";
+
+            string cTitle = dDay.ToString("ddd, ") + dDay.ToString("_mMd") + ", " + tNow.ToString(timeFormat);
 
             //return GetForegroundNotification(cTitle, cLocationLong, clickAction, timeTypeIcon);
 
-            int iLayount = Resource.Layout.notification_time;
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.P && AppConfigHolder.MainConfig.ShowBigTimeNotification)
-                iLayount = Resource.Layout.notification_time_big;
-            //iLayount = Resource.Layout.notification_sizeinfo;
-
-            RemoteViews customView = new RemoteViews(PackageName, iLayount);
-            customView.SetTextViewText(Resource.Id.tv_time, tNow.ToString("HH:mm"));
+            RemoteViews customView = new RemoteViews(PackageName, GetTimeLayout());
+            customView.SetTextViewText(Resource.Id.tv_time, tNow.ToString(timeFormat));
             customView.SetTextViewText(Resource.Id.tv_text1, cLocationTitle);
             customView.SetTextViewText(Resource.Id.tv_text2, cLocationDetail);
 
             var builder = new Android.Support.V4.App.NotificationCompat.Builder(this, channelId)
                 .SetSmallIcon(Resource.Drawable.sunclock)
                 .SetContent(customView)
-                //.SetStyle(new Android.Support.V4.App.NotificationCompat.BigTextStyle().SetBigContentTitle("lalala"))
                 .SetContentIntent(MainWidgetBase.GetClickActionPendingIntent(this, clickAction, -101, "me.ichrono.droid/me.ichrono.droid.BackgroundServiceInfoActivity"))
                 .SetOngoing(true);
 

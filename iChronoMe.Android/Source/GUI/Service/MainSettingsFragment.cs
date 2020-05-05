@@ -291,7 +291,7 @@ namespace iChronoMe.Droid.GUI.Service
 
         private void Binder_UserChangedProperty(object sender, UserChangedPropertyEventArgs e)
         {
-            if (e.PropertyName == nameof(MainConfig.AlwaysShowTimeNotification))
+            if (e.PropertyName == nameof(MainConfig.AlwaysShowTimeNotification) || e.PropertyName == nameof(MainConfig.ShowBigTimeNotification))
                 BackgroundService.RestartService(Context, AppWidgetManager.ActionAppwidgetConfigure);
         }
 

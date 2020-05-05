@@ -17,9 +17,8 @@ using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace iChronoMe.Droid.Widgets.ChronoSpan
 {
-    [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.ChronoSpan.ChronoSpanWidgetConfigActivity", Theme = "@style/TransparentTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
+    [Activity(Label = "WidgetConfig", Name = "me.ichrono.droid.Widgets.ChronoSpan.ChronoSpanWidgetConfigActivity", Theme = "@style/TransparentLoadingTheme", LaunchMode = LaunchMode.SingleTask, TaskAffinity = "", NoHistory = true)]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_CONFIGURE" })]
-
     public class ChronoSpanWidgetConfigActivity : BaseWidgetActivity<WidgetCfg_ChronoSpan>
     {
         protected override void OnResume()
