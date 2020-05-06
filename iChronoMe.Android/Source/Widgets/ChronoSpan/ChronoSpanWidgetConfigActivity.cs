@@ -62,7 +62,7 @@ namespace iChronoMe.Droid.Widgets.ChronoSpan
 
                         pDlg?.Dismiss();
                         //gespeicherte Wesen vorschlagen
-                        var cache = db.dbConfig.Query<Creature>("select * from Creature", new object[0]);
+                        var cache = db.dbConfig.Query<Core.DataModels.ChronoSpan>("select * from ChronoSpan", new object[0]);
                         if (cache.Count > 0)
                         {
                             var list = new List<string>();
@@ -160,7 +160,7 @@ namespace iChronoMe.Droid.Widgets.ChronoSpan
                                     SendBroadcast(updateIntent);
 
                                     if (bIsNewWidget)
-                                        db.dbConfig.Insert(new Creature() { Name = cTitle, LifeStartTime = cfg.LifeStartTime });
+                                        db.dbConfig.Insert(new Core.DataModels.ChronoSpan() { Name = cTitle, ChronoTime = cfg.LifeStartTime });
 
                                     Finish();
 
@@ -237,30 +237,30 @@ namespace iChronoMe.Droid.Widgets.ChronoSpan
     {
         Activity myActivity;
         int myWidgetId;
-        List<Creature> myCreatures;
+        List<iChronoMe.Core.DataModels.ChronoSpan> mySpans;
 
-        public MyDialogInterfaceOnClickListener(Activity activity, int iWidgetId, List<Creature> creatures)
+        public MyDialogInterfaceOnClickListener(Activity activity, int iWidgetId, List<iChronoMe.Core.DataModels.ChronoSpan> spans)
         {
             myActivity = activity;
             myWidgetId = iWidgetId;
-            myCreatures = creatures;
+            mySpans = spans;
         }
 
         public new void Dispose()
         {
             base.Dispose();
-            myCreatures.Clear();
+            mySpans.Clear();
         }
 
         public void OnClick(IDialogInterface dialog, int which)
         {
-            var beeing = myCreatures[which];
+            var beeing = mySpans[which];
 
             var holder = new WidgetConfigHolder();
             var cfg = holder.GetWidgetCfg<WidgetCfg_ChronoSpan>(myWidgetId);
 
             cfg.WidgetTitle = beeing.Name;
-            cfg.LifeStartTime = beeing.LifeStartTime;
+            cfg.LifeStartTime = beeing.ChronoTime;
             holder.SetWidgetCfg(cfg);
 
             Task.Delay(100).Wait();

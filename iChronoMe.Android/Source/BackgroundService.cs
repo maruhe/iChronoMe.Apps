@@ -735,12 +735,12 @@ namespace iChronoMe.Droid
 
                             if (clockView.NeedsWeatherInfo && lth.Latitude != 0)
                             {
-                                var gmtNow = lth.GetTime(TimeType.UtcTime);
+                                var gmtNow = TimeHolder.GMTTime;
                                 if (wi == null || wi.ObservationTime < gmtNow)
                                 {
                                     wi = WeatherInfo.GetWeatherInfo(gmtNow, lth.Latitude, lth.Longitude);
                                 }
-                                if (wi == null || wi.ObservationTime < gmtNow && lastWeatherUpdate.AddSeconds(15) < DateTime.Now)
+                                if ((wi == null || wi.ObservationTime < gmtNow) && lastWeatherUpdate.AddSeconds(15) < DateTime.Now)
                                 {
                                     lastWeatherUpdate = DateTime.Now;
                                     Task.Factory.StartNew(() =>
@@ -817,12 +817,16 @@ namespace iChronoMe.Droid
                                 else
                                 {
                                     Thread.Sleep(1000 - lth.GetTime(tType).Millisecond);
+                                    if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
+                                        break;
                                     if (!clockView.ShowSeconds)
                                     {
                                         if (lth.GetTime(tType).Second % 2 != 0)
                                             Thread.Sleep(1000 - lth.GetTime(tType).Millisecond);
                                         if (!clockView.ShowMinutes || !clockView.FlowMinutes)
                                         {
+                                            if (!BackgroundService.EffectedWidges.Contains(iWidgetId))
+                                                break;
                                             int iSleeSecondes = 58 - lth.GetTime(tType).Second - 1;
                                             for (int iSec = 0; iSec < iSleeSecondes / 5; iSec++)
                                             {
